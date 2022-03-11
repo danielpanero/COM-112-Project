@@ -3,7 +3,7 @@
 #include "algorithm"
 #include "math.h"
 
-#include "squarecell/error_squarecell.h"
+#include "error_squarecell.h"
 #include "squarecell.h"
 
 using namespace std;
@@ -26,6 +26,10 @@ unsigned int get_coordinate_x(Square &square)
     {
         return square.x - (square.side - 1) / 2;
     }
+    else
+    {
+        return square.x;
+    }
 }
 
 unsigned int get_coordinate_y(Square &square)
@@ -33,6 +37,10 @@ unsigned int get_coordinate_y(Square &square)
     if (square.centered)
     {
         return square.y - (square.side - 1) / 2;
+    }
+    else
+    {
+        return square.y;
     }
 }
 
@@ -105,6 +113,7 @@ bool test_if_superposed_grid(Square &square)
             return true;
         }
     }
+    
     return false;
 }
 
