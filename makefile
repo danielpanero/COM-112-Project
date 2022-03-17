@@ -1,5 +1,4 @@
 # Definitions de macros
-
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11
 CXXFILES = project.cc simulation.cc squarecell.cc squarecell/error_squarecell.cc simulation/anthill.cc simulation/ants.cc simulation/food.cc shared/message.cc
@@ -18,7 +17,7 @@ depend:
 
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
-	@/bin/rm -f *.o *.x *.cc~ *.h~ prog
+	@/bin/rm -rf *.o *.x *.cc~ *.h~ project
 
 #
 # -- Regles de dependances generees automatiquement
