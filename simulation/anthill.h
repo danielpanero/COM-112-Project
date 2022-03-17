@@ -11,10 +11,17 @@ private:
     unsigned int nbD;
     unsigned int nbP;
 
-    Generator* generator;
+    Generator *generator;
+    std::vector<Collector *> collectors;
+    std::vector<Defensor *> defendors;
+    std::vector<Predator *> predators;
 
 public:
     Anthill(std::istringstream &stream);
+
+    void set_collectors(std::vector<Collector *> &collectors);
+    void set_defensors(std::vector<Defensor *> &defensor);
+    void set_predators(std::vector<Predator *> &predators);
 
     int get_number_of_collectors();
     int get_number_of_defensors();

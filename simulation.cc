@@ -61,6 +61,7 @@ void Simulation::readFile(string path)
             collectors[j] = new Collector(line);
             j++;
         }
+        anthills[i]->set_collectors(collectors);
 
         // 3.2 Parsing the defendors
         unsigned int nbD = anthills[i]->get_number_of_defensors();
@@ -73,6 +74,7 @@ void Simulation::readFile(string path)
             defensors[j] = new Defensor(line);
             j++;
         }
+        anthills[i]->set_defensors(defensors);
 
         // 3.3 Parsing the predators
         unsigned int nbP = anthills[i]->get_number_of_predators();
@@ -85,6 +87,7 @@ void Simulation::readFile(string path)
             predators[i] = new Predator(line);
             j++;
         }
+        anthills[i]->set_predators(predators);
 
         i++;
     }
