@@ -1,10 +1,10 @@
 #include "sstream"
-#include "squarecell.h"
+#include "../squarecell.h"
 
 class Food : Square
 {
 public:
-    Food(istringstream &stream);
+    Food(std::istringstream &stream);
 
-    void addToGrid();
+    void add_to_grid();
 };

@@ -1,19 +1,11 @@
 #include "sstream"
 
-#include "squarecell.h"
-#include "message.h"
+#include "../squarecell.h"
+#include "../shared/message.h"
 
 #include "ants.h"
 
 using namespace std;
-
-class Collector : Square
-{
-public:
-    Collector(istringstream &stream);
-
-    void add_to_grid();
-};
 
 Collector::Collector(istringstream &stream)
 {
@@ -40,14 +32,6 @@ void Collector::add_to_grid()
     }
 }
 
-class Defensor : Square
-{
-public:
-    Defensor(istringstream &stream);
-
-    void add_to_grid();
-};
-
 Defensor::Defensor(istringstream &stream)
 {
     stream >> x;
@@ -72,14 +56,6 @@ void Defensor::add_to_grid()
         add_square(*this);
     }
 }
-
-class Predator : Square
-{
-public:
-    Predator(istringstream &stream);
-
-    void add_to_grid();
-};
 
 Predator::Predator(istringstream &stream)
 {

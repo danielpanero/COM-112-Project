@@ -4,29 +4,21 @@
 #include "algorithm"
 #include "vector"
 
-#include "food.h"
-#include "anthill.h"
-#include "message.h"
-#include "ants.h"
+#include "simulation/food.h"
+#include "simulation/anthill.h"
+#include "simulation/ants.h"
+#include "shared/message.h"
 
 #include "simulation.h"
 
 using namespace std;
 
-class Simulation
-{
-private:
-    unsigned int nbN;
-    unsigned int nbF;
-
-public:
-    void readFile(string path);
-};
+void get_next_line(ifstream &stream, istringstream &linestream);
 
 void Simulation::readFile(string path)
 {
 
-    string line;
+    istringstream line;
     ifstream file(path);
     if (file.fail())
     {
@@ -34,34 +26,39 @@ void Simulation::readFile(string path)
     }
 
     // 1. Parsing the foods
-    get_next_line(file) >> nbN;
+    get_next_line(file, line);
+    line >> nbN;
     vector<Food *> foods(nbN);
 
-    int i = 1;
+    unsigned int i = 1;
     while (i <= nbN)
     {
-        foods[i] = new Food(get_next_line(file));
+        get_next_line(file, line);
+        foods[i] = new Food(line);
         i++;
     }
 
     // 2. Parsing the anthills
-    get_next_line(file) >> nbF;
+    get_next_line(file, line);
+    line >> nbF;
     vector<Anthill *> anthills(nbF);
 
-    int i = 1;
+    i = 1;
     while (i <= nbF)
     {
-        anthills[i] = new Anthill(get_next_line(file));
+        get_next_line(file, line);
+        anthills[i] = new Anthill(line);
 
         // 3. Parsing the ants
         // 3.1 Parsing the collectors
         unsigned int nbC = anthills[i]->get_number_of_collectors();
         vector<Collector *> collectors(nbC);
 
-        int j = 1;
+        unsigned int j = 1;
         while (j <= nbC)
         {
-            collectors[j] = new Collector(get_next_line(file));
+            get_next_line(file, line);
+            collectors[j] = new Collector(line);
             j++;
         }
 
@@ -69,10 +66,11 @@ void Simulation::readFile(string path)
         unsigned int nbD = anthills[i]->get_number_of_defensors();
         vector<Defensor *> defensors(nbD);
 
-        int j = 1;
+        j = 1;
         while (j <= nbD)
         {
-            defensors[j] = new Defensor(get_next_line(file));
+            get_next_line(file, line);
+            defensors[j] = new Defensor(line);
             j++;
         }
 
@@ -80,10 +78,11 @@ void Simulation::readFile(string path)
         unsigned int nbP = anthills[i]->get_number_of_predators();
         vector<Predator *> predators(nbP);
 
-        int j = 1;
+        j = 1;
         while (j <= nbP)
         {
-            predators[i] = new Predator(get_next_line(file));
+            get_next_line(file, line);
+            predators[i] = new Predator(line);
             j++;
         }
 
@@ -91,12 +90,12 @@ void Simulation::readFile(string path)
     }
 
     // 4. Testing that the anthils don't overlap
-    bool lambda = [](Anthill *a1, Anthill *a2)
+    auto predicate = [](Anthill *a1, Anthill *a2) -> bool
     {
         return test_if_superposed_two_square(*a1, *a2);
     };
 
-    auto it = adjacent_find(anthills.begin(), anthills.end(), lambda);
+    auto it = search(anthills.begin(), anthills.end(), anthills.begin(), anthills.end(), predicate);
     if (it != anthills.end())
     {
         cout << message::homes_overlap((*it)->x, (*it)->y);
@@ -106,7 +105,7 @@ void Simulation::readFile(string path)
     file.close();
 }
 
-istringstream &get_next_line(ifstream &stream)
+void get_next_line(ifstream &stream, istringstream &linestream)
 {
     string line;
     while (getline(stream >> ws, line))
@@ -115,8 +114,8 @@ istringstream &get_next_line(ifstream &stream)
         {
             continue;
         }
-
-        istringstream linestream(line);
-        return linestream;
+        linestream.clear();
+        linestream.str(line);
+        return;
     }
 }

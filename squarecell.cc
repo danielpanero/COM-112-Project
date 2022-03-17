@@ -3,7 +3,7 @@
 #include "algorithm"
 #include "math.h"
 
-#include "error_squarecell.h"
+#include "squarecell/error_squarecell.h"
 #include "squarecell.h"
 
 using namespace std;
@@ -11,14 +11,6 @@ using namespace std;
 constexpr short unsigned g_dim(7);
 constexpr short unsigned g_max(pow(2, g_dim));
 static vector<vector<bool>> grid(g_max, vector<bool>(g_max));
-
-struct Square
-{
-    unsigned int x;
-    unsigned int y;
-    unsigned int side;
-    bool centered;
-};
 
 unsigned int get_coordinate_x(Square &square)
 {
@@ -44,7 +36,7 @@ unsigned int get_coordinate_y(Square &square)
     }
 }
 
-bool test_square(Square &square)
+void test_square(Square &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);

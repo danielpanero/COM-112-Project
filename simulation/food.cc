@@ -1,19 +1,11 @@
 #include "sstream"
 
-#include "squarecell.h"
-#include "message.h"
+#include "../squarecell.h"
+#include "../shared/message.h"
 
 #include "food.h"
 
 using namespace std;
-
-class Food : Square
-{
-public:
-    Food(istringstream &stream);
-
-    void add_to_grid();
-};
 
 Food::Food(istringstream &stream)
 {

@@ -1,7 +1,9 @@
-#include <string>
-
 class Simulation
 {
+private:
+    unsigned int nbN;
+    unsigned int nbF;
+
 public:
-    void readFile(string path);
+    void readFile(std::string path);
 };

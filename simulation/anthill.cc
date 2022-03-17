@@ -1,28 +1,10 @@
 #include "sstream"
 
-#include "squarecell.h"
+#include "../squarecell.h"
 
 #include "anthill.h"
 
 using namespace std;
-
-class Anthill : public Square
-{
-private:
-    unsigned int xg;
-    unsigned int yg;
-    unsigned int total_food;
-    unsigned int nbC;
-    unsigned int nbD;
-    unsigned int nbP;
-
-public:
-    Anthill(istringstream &stream);
-
-    int get_number_of_collectors() { return nbC; }
-    int get_number_of_defensors() { return nbD; }
-    int get_number_of_predators() { return nbP; }
-};
 
 Anthill::Anthill(istringstream &stream)
 {
@@ -39,3 +21,15 @@ Anthill::Anthill(istringstream &stream)
     stream >> nbD;
     stream >> nbP;
 }
+
+int Anthill::get_number_of_collectors(){
+    return nbC;
+};
+
+int Anthill::get_number_of_defensors(){
+    return nbD;
+};
+
+int Anthill::get_number_of_predators(){
+    return nbP;
+};

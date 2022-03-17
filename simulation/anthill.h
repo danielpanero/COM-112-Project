@@ -1,6 +1,6 @@
 #include "sstream"
 
-#include "squarecell.h"
+#include "../squarecell.h"
 
 class Anthill : public Square
 {
@@ -13,7 +13,7 @@ private:
     unsigned int nbP;
 
 public:
-    Anthill(istringstream &stream);
+    Anthill(std::istringstream &stream);
 
     int get_number_of_collectors();
     int get_number_of_defensors();

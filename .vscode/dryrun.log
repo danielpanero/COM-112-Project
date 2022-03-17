@@ -1,0 +1,5 @@
+make all --dry-run --keep-going --print-directory
+make: Entering directory '/workspaces/COM-112-Project'
+g++ project.o simulation.o squarecell.o squarecell/error_squarecell.o simulation/anthill.cc simulation/ants.o simulation/food.o shared/message.o -o project
+make: Leaving directory '/workspaces/COM-112-Project'
+ 
