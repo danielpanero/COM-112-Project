@@ -2,7 +2,7 @@
 
 #include "../squarecell.h"
 
-class Anthill : public Square
+class Anthill : Square
 {
 private:
     unsigned int xg;
@@ -18,4 +18,6 @@ public:
     int get_number_of_collectors();
     int get_number_of_defensors();
     int get_number_of_predators();
+
+    Square get_as_square();
 };

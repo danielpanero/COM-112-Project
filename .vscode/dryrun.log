@@ -1,5 +1,12 @@
-make all --dry-run --keep-going --print-directory
+make all --dry-run --always-make --keep-going --print-directory
 make: Entering directory '/workspaces/COM-112-Project'
+g++ -g -Wall -std=c++11   -c -o project.o project.cc
+g++ -g -Wall -std=c++11   -c -o simulation.o simulation.cc
+g++ -g -Wall -std=c++11   -c -o squarecell.o squarecell.cc
+g++ -g -Wall -std=c++11   -c -o squarecell/error_squarecell.o squarecell/error_squarecell.cc
+g++ -g -Wall -std=c++11   -c -o simulation/ants.o simulation/ants.cc
+g++ -g -Wall -std=c++11   -c -o simulation/food.o simulation/food.cc
+g++ -g -Wall -std=c++11   -c -o shared/message.o shared/message.cc
 g++ project.o simulation.o squarecell.o squarecell/error_squarecell.o simulation/anthill.cc simulation/ants.o simulation/food.o shared/message.o -o project
 make: Leaving directory '/workspaces/COM-112-Project'
  

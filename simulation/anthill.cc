@@ -33,3 +33,7 @@ int Anthill::get_number_of_defensors(){
 int Anthill::get_number_of_predators(){
     return nbP;
 };
+
+Square Anthill::get_as_square(){
+    return Square(*this);
+}

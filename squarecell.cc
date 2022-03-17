@@ -71,7 +71,7 @@ void add_square(Square &square)
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    for (auto it = grid.begin() + g_max - 1 - y; it != grid.end() + g_max - 1; ++it)
+    for (auto it = grid.begin() + g_max - 1 - y - square.side; it != grid.begin() + g_max - 1 - y; ++it)
     {
         auto &row = *it;
         fill(row.begin() + x, row.begin() + x + square.side, true);
@@ -83,7 +83,7 @@ void remove_square(Square &square)
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    for (auto it = grid.begin() + g_max - 1 - y; it != grid.end() + g_max - 1; ++it)
+    for (auto it = grid.begin() + g_max - 1 - y - square.side; it != grid.begin() + g_max - 1 - y; ++it)
     {
         auto &row = *it;
         fill(row.begin() + x, row.begin() + x + square.side, false);
@@ -95,7 +95,7 @@ bool test_if_superposed_grid(Square &square)
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    for (auto it = grid.begin() + g_max - 1 - y; it != grid.end() + g_max - 1; ++it)
+    for (auto it = grid.begin() + g_max - 1 - y - square.side; it != grid.begin() + g_max - 1 - y; ++it)
     {
         auto &row = *it;
         vector<bool>::iterator cell = find(row.begin() + x, row.begin() + x + square.side, true);

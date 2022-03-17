@@ -1,0 +1,14 @@
+{
+    "version": "2.0.0",
+    "inputs": [
+        {
+            "id": "selectTestFiles",
+            "type": "command",
+            "command": "extension.commandvariable.file.pickFile",
+            "args": {
+                "include": "**/*.{txt}",
+                "display": "fileName"
+            }
+        }
+    ]
+}

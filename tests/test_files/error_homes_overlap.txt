@@ -1,0 +1,40 @@
+# Homes overlap ; should result in the error message
+#
+# home 0 overlaps with home 1
+#
+
+# nb food
+4
+
+# food
+75 75
+75 78
+78 78
+80 90
+
+2 # nb anthill
+	100 100 16 103 103 99 3 2 1 # anthill #1
+	
+	# collectors:
+	50 50 3 true
+	35 35 10 false
+	16 16 1 false
+	
+	# defensors:
+	108 102 2
+	102 107 22
+	
+	# predators:
+	6 80 4
+
+	89 89 10 94 94 90 0 0 1 # anthill #2
+	
+	# collectors:
+	
+	# defensors:
+	
+	# predators:
+	22 24 10
+	
+
+

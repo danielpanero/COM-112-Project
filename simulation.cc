@@ -30,8 +30,8 @@ void Simulation::readFile(string path)
     line >> nbN;
     vector<Food *> foods(nbN);
 
-    unsigned int i = 1;
-    while (i <= nbN)
+    unsigned int i = 0;
+    while (i < nbN)
     {
         get_next_line(file, line);
         foods[i] = new Food(line);
@@ -43,8 +43,8 @@ void Simulation::readFile(string path)
     line >> nbF;
     vector<Anthill *> anthills(nbF);
 
-    i = 1;
-    while (i <= nbF)
+    i = 0;
+    while (i < nbF)
     {
         get_next_line(file, line);
         anthills[i] = new Anthill(line);
@@ -54,8 +54,8 @@ void Simulation::readFile(string path)
         unsigned int nbC = anthills[i]->get_number_of_collectors();
         vector<Collector *> collectors(nbC);
 
-        unsigned int j = 1;
-        while (j <= nbC)
+        unsigned int j = 0;
+        while (j < nbC)
         {
             get_next_line(file, line);
             collectors[j] = new Collector(line);
@@ -66,8 +66,8 @@ void Simulation::readFile(string path)
         unsigned int nbD = anthills[i]->get_number_of_defensors();
         vector<Defensor *> defensors(nbD);
 
-        j = 1;
-        while (j <= nbD)
+        j = 0;
+        while (j < nbD)
         {
             get_next_line(file, line);
             defensors[j] = new Defensor(line);
@@ -78,8 +78,8 @@ void Simulation::readFile(string path)
         unsigned int nbP = anthills[i]->get_number_of_predators();
         vector<Predator *> predators(nbP);
 
-        j = 1;
-        while (j <= nbP)
+        j = 0;
+        while (j < nbP)
         {
             get_next_line(file, line);
             predators[i] = new Predator(line);
@@ -92,13 +92,15 @@ void Simulation::readFile(string path)
     // 4. Testing that the anthils don't overlap
     auto predicate = [](Anthill *a1, Anthill *a2) -> bool
     {
-        return test_if_superposed_two_square(*a1, *a2);
+        Square square1(a1->get_as_square());
+        Square square2(a2->get_as_square());
+        return test_if_superposed_two_square(square1, square2);
     };
 
     auto it = search(anthills.begin(), anthills.end(), anthills.begin(), anthills.end(), predicate);
     if (it != anthills.end())
     {
-        cout << message::homes_overlap((*it)->x, (*it)->y);
+        cout << message::homes_overlap(5, 5);
         exit(EXIT_FAILURE);
     }
 

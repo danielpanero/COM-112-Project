@@ -4,6 +4,7 @@
         "ms-vscode.cpptools",
         "ms-vscode.cpptools-extension-pack",
         "ms-vscode.cpptools-themes",
-        "cschlosser.doxdocgen"
+        "cschlosser.doxdocgen",
+        "rioj7.command-variable"
     ]
 }

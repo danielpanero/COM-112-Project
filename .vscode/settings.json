@@ -2,4 +2,12 @@
     "files.associations": {
         "iosfwd": "cpp"
     },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/workspaces/COM-112-Project",
+            "binaryPath": "/workspaces/COM-112-Project/project",
+            "binaryArgs": ["${input:selectTestFiles}"]
+        }
+    ],
+    "makefile.buildBeforeLaunch": true
 }
