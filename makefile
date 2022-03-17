@@ -25,14 +25,13 @@ clean:
 # DO NOT DELETE THIS LINE
 project.o: project.cc simulation.h
 simulation.o: simulation.cc simulation/food.h simulation/../squarecell.h \
- simulation/anthill.h simulation/ants.h shared/message.h simulation.h
+ simulation/anthill.h simulation/ants.h simulation/ants.h \
+ shared/message.h simulation.h
 squarecell.o: squarecell.cc squarecell/error_squarecell.h squarecell.h
 error_squarecell.o: squarecell/error_squarecell.cc \
  squarecell/error_squarecell.h
 anthill.o: simulation/anthill.cc simulation/../squarecell.h \
- simulation/anthill.h
-ants.o: simulation/ants.cc simulation/../squarecell.h \
- simulation/../shared/message.h simulation/ants.h
+ simulation/anthill.h simulation/ants.h
 food.o: simulation/food.cc simulation/../squarecell.h \
  simulation/../shared/message.h simulation/food.h
 message.o: shared/message.cc shared/message.h

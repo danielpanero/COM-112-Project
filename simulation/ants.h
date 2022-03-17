@@ -1,3 +1,14 @@
+#ifndef ANTS_H
+#define ANTS_H
+
+class Generator : Square
+{
+public:
+    Generator(unsigned int x, unsigned int y);
+
+    void add_to_grid();
+};
+
 class Collector : Square
 {
 public:
@@ -21,3 +32,5 @@ public:
 
     void add_to_grid();
 };
+
+#endif

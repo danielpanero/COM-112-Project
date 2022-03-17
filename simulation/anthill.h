@@ -1,16 +1,17 @@
 #include "sstream"
 
 #include "../squarecell.h"
+#include "ants.h"
 
 class Anthill : Square
 {
 private:
-    unsigned int xg;
-    unsigned int yg;
     unsigned int total_food;
     unsigned int nbC;
     unsigned int nbD;
     unsigned int nbP;
+
+    Generator* generator;
 
 public:
     Anthill(std::istringstream &stream);
