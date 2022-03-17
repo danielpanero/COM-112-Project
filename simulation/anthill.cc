@@ -1,6 +1,9 @@
 #include "sstream"
+#include "vector"
+#include "iostream"
 
 #include "../squarecell.h"
+#include "../shared/message.h"
 
 #include "anthill.h"
 
@@ -26,8 +29,28 @@ Anthill::Anthill(istringstream &stream)
     stream >> nbP;
 }
 
+void Anthill::test_if_generator_defensors_perimeter()
+{
+    Square generator_square = generator->get_as_square();
+    if (!test_if_completely_confined(generator_square, *this))
+    {
+        cout << message::generator_not_within_home(generator_square.x, generator_square.y, 5);
+        exit(EXIT_FAILURE);
+    }
+
+    for (auto defensor : defensors)
+    {
+        Square defensor_square = defensor->get_as_square();
+        if (!test_if_completely_confined(defensor_square, *this))
+        {
+            cout << message::defensor_not_within_home(defensor_square.x, defensor_square.y, 5);
+            exit(EXIT_FAILURE);
+        }
+    }
+}
+
 void Anthill::set_collectors(vector<Collector *> &collectors) { this->collectors = collectors; }
-void Anthill::set_defensors(vector<Defensor *> &defensors) { this->defendors = defendors; }
+void Anthill::set_defensors(vector<Defensor *> &defensors) { this->defensors = defensors; }
 void Anthill::set_predators(vector<Predator *> &predators) { this->predators = predators; }
 
 int Anthill::get_number_of_collectors() { return nbC; };

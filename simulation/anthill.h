@@ -1,4 +1,5 @@
 #include "sstream"
+#include "vector"
 
 #include "../squarecell.h"
 #include "ants.h"
@@ -13,11 +14,13 @@ private:
 
     Generator *generator;
     std::vector<Collector *> collectors;
-    std::vector<Defensor *> defendors;
+    std::vector<Defensor *> defensors;
     std::vector<Predator *> predators;
 
 public:
     Anthill(std::istringstream &stream);
+
+    void test_if_generator_defensors_perimeter();
 
     void set_collectors(std::vector<Collector *> &collectors);
     void set_defensors(std::vector<Defensor *> &defensor);

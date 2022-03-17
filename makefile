@@ -32,6 +32,9 @@ error_squarecell.o: squarecell/error_squarecell.cc \
  squarecell/error_squarecell.h
 anthill.o: simulation/anthill.cc simulation/../squarecell.h \
  simulation/anthill.h simulation/ants.h
+ants.o: simulation/ants.cc simulation/../squarecell.h \
+ simulation/../shared/message.h simulation/../shared/constantes.h \
+ simulation/ants.h
 food.o: simulation/food.cc simulation/../squarecell.h \
  simulation/../shared/message.h simulation/food.h
 message.o: shared/message.cc shared/message.h

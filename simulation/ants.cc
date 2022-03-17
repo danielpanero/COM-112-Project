@@ -1,4 +1,5 @@
 #include "sstream"
+#include "iostream"
 
 #include "../squarecell.h"
 #include "../shared/message.h"
@@ -32,6 +33,8 @@ void Generator::add_to_grid()
         add_square(*this);
     }
 }
+
+Square Generator::get_as_square() { return Square(*this); }
 
 Collector::Collector(istringstream &stream)
 {
@@ -82,6 +85,8 @@ void Defensor::add_to_grid()
         add_square(*this);
     }
 }
+
+Square Defensor::get_as_square() { return Square(*this); }
 
 Predator::Predator(istringstream &stream)
 {

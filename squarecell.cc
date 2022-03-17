@@ -105,7 +105,7 @@ bool test_if_superposed_grid(Square &square)
             return true;
         }
     }
-    
+
     return false;
 }
 
@@ -153,4 +153,33 @@ bool test_if_superposed_two_square(Square &square1, Square &square2)
     }
 
     return false;
+}
+
+// square1: inside square and square2: outside container
+bool test_if_completely_confined(Square &square1, Square &square2)
+{
+    unsigned int x1 = get_coordinate_x(square1);
+    unsigned int y1 = get_coordinate_y(square1);
+
+    unsigned int x2 = get_coordinate_x(square2);
+    unsigned int y2 = get_coordinate_y(square2);
+
+    if (x1 < x2 || y1 < y2)
+    {
+        return false;
+    }
+    else
+    {
+        if (x1 + square1.side > x2 + square2.side)
+        {
+            return false;
+        }
+
+        if (y1 + square1.side > y2 + square2.side)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }

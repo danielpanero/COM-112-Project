@@ -107,6 +107,10 @@ void Simulation::readFile(string path)
         exit(EXIT_FAILURE);
     }
 
+    // 5. Testing that generator and defensor are contained in their anthill
+    for_each(anthills.begin(), anthills.end(), [](Anthill *a)
+             { a->test_if_generator_defensors_perimeter(); });
+
     file.close();
 }
 
