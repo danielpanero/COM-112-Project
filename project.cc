@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
     }
 
     Simulation simulation;
-    simulation.readFile(argv[1]);
+    simulation.read_file(argv[1]);
 
     exit(0);
 }

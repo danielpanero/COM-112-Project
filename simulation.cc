@@ -15,7 +15,7 @@ using namespace std;
 
 void get_next_line(ifstream &stream, istringstream &linestream);
 
-void Simulation::readFile(string path)
+void Simulation::read_file(string path)
 {
 
     istringstream line;

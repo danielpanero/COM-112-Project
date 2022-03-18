@@ -5,5 +5,5 @@ private:
     unsigned int nbF;
 
 public:
-    void readFile(std::string path);
+    void read_file(std::string path);
 };
