@@ -25,7 +25,7 @@ void Simulation::readFile(string path)
         exit(EXIT_FAILURE);
     }
 
-    // 1. Parsing the foods
+    // 1. Parsing the food
     get_next_line(file, line);
     line >> nbN;
     vector<Food *> foods(nbN);
