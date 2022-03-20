@@ -90,7 +90,7 @@ void remove_square(Square &square)
     }
 }
 
-bool test_if_superposed_grid(Square &square)
+bool test_if_superposed_grid(Square &square, unsigned int &superposed_x, unsigned int &superposed_y)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -102,11 +102,20 @@ bool test_if_superposed_grid(Square &square)
 
         if (cell != row.begin() + x + square.side)
         {
+            superposed_x = cell - row.begin();
+            superposed_y = g_max - 1 - (it - grid.begin() + 1);
             return true;
         }
     }
-
     return false;
+}
+
+bool test_if_superposed_grid(Square &square)
+{
+    unsigned int superposed_x;
+    unsigned int superposed_y;
+
+    return test_if_superposed_grid(square, superposed_x, superposed_y);
 }
 
 bool test_if_superposed_two_square(Square &square1, Square &square2)
@@ -155,7 +164,7 @@ bool test_if_superposed_two_square(Square &square1, Square &square2)
     return false;
 }
 
-// square1: inside square and square2: outside container2
+// square1: inside square and square2: outside square/container
 bool test_if_completely_confined(Square &square1, Square &square2)
 {
     unsigned int x1 = get_coordinate_x(square1);

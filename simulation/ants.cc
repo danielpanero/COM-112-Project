@@ -23,9 +23,11 @@ Generator::Generator(unsigned int x, unsigned int y)
 
 void Generator::add_to_grid()
 {
-    if (test_if_superposed_grid(*this))
+    unsigned int superposed_x;
+    unsigned int superposed_y;
+    if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
-        cout << message::generator_overlap(x, y, x, y);
+        cout << message::generator_overlap(x, y, superposed_x, superposed_y);
         exit(EXIT_FAILURE);
     }
     else
@@ -51,9 +53,11 @@ Collector::Collector(string &line)
 
 void Collector::add_to_grid()
 {
-    if (test_if_superposed_grid(*this))
+    unsigned int superposed_x;
+    unsigned int superposed_y;
+    if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
-        cout << message::collector_overlap(x, y, x, y);
+        cout << message::collector_overlap(x, y, superposed_x, superposed_y);
         exit(EXIT_FAILURE);
     }
     else
@@ -77,9 +81,11 @@ Defensor::Defensor(string &line)
 
 void Defensor::add_to_grid()
 {
-    if (test_if_superposed_grid(*this))
+    unsigned int superposed_x;
+    unsigned int superposed_y;
+    if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
-        cout << message::defensor_overlap(x, y, x, y);
+        cout << message::defensor_overlap(x, y, superposed_x, superposed_y);
         exit(EXIT_FAILURE);
     }
     else
