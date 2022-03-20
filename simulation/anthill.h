@@ -20,7 +20,7 @@ private:
 public:
     Anthill(std::string &line);
 
-    void test_if_generator_defensors_perimeter();
+    void test_if_generator_defensors_perimeter(unsigned int index);
 
     void set_collectors(std::vector<Collector *> &collectors);
     void set_defensors(std::vector<Defensor *> &defensor);

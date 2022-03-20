@@ -31,12 +31,12 @@ Anthill::Anthill(string &line)
     stream >> nbP;
 }
 
-void Anthill::test_if_generator_defensors_perimeter()
+void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
 {
     Square generator_square = generator->get_as_square();
     if (!test_if_completely_confined(generator_square, *this))
     {
-        cout << message::generator_not_within_home(generator_square.x, generator_square.y, 5);
+        cout << message::generator_not_within_home(generator_square.x, generator_square.y, index);
         exit(EXIT_FAILURE);
     }
 
@@ -45,7 +45,7 @@ void Anthill::test_if_generator_defensors_perimeter()
         Square defensor_square = defensor->get_as_square();
         if (!test_if_completely_confined(defensor_square, *this))
         {
-            cout << message::defensor_not_within_home(defensor_square.x, defensor_square.y, 5);
+            cout << message::defensor_not_within_home(defensor_square.x, defensor_square.y, index);
             exit(EXIT_FAILURE);
         }
     }

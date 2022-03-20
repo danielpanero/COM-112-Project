@@ -98,25 +98,30 @@ void Simulation::read_file(string path)
     }
 
     // 4. Testing that the anthils don't overlap
-    auto predicate = [](Anthill *a1, Anthill *a2) -> bool
+    for (size_t i = 0; i < anthills.size(); i++)
     {
-        Square square1(a1->get_as_square());
-        Square square2(a2->get_as_square());
-        return test_if_superposed_two_square(square1, square2);
-    };
-
-    auto it = search(anthills.begin(), anthills.end(), anthills.begin(), anthills.end(), predicate);
-    if (it != anthills.end())
-    {
-        cout << message::homes_overlap(5, 5);
-        exit(EXIT_FAILURE);
+        for (size_t j = 0; j < i; j++)
+        {
+            Square square1(anthills[i]->get_as_square());
+            Square square2(anthills[j]->get_as_square());
+            
+            if (test_if_superposed_two_square(square1, square2))
+            {
+                cout << message::homes_overlap(i, j);
+                exit(EXIT_FAILURE);
+            }
+        }
     }
 
     // 5. Testing that generator and defensor are contained in their anthill
-    for_each(anthills.begin(), anthills.end(), [](Anthill *a)
-             { a->test_if_generator_defensors_perimeter(); });
+    for (size_t i = 0; i != anthills.size(); ++i)
+    {
+        anthills[i]->test_if_generator_defensors_perimeter(i);
+    }
 
     file.close();
+
+    cout << message::success();
 }
 
 string get_next_line(ifstream &stream)
