@@ -9,6 +9,9 @@ struct Square
     bool centered;
 };
 
+unsigned int get_coordinate_x(Square &square);
+unsigned int get_coordinate_y(Square &square);
+
 void test_square(Square &square);
 
 void add_square(Square &square);
