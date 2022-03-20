@@ -8,8 +8,9 @@
 
 using namespace std;
 
-Food::Food(istringstream &stream)
+Food::Food(string &line)
 {
+    istringstream stream(line);
     stream >> x;
     stream >> y;
 

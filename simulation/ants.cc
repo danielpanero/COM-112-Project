@@ -36,8 +36,9 @@ void Generator::add_to_grid()
 
 Square Generator::get_as_square() { return Square(*this); }
 
-Collector::Collector(istringstream &stream)
+Collector::Collector(string &line)
 {
+    istringstream stream(line);
     stream >> x;
     stream >> y;
 
@@ -61,8 +62,9 @@ void Collector::add_to_grid()
     }
 }
 
-Defensor::Defensor(istringstream &stream)
+Defensor::Defensor(string &line)
 {
+    istringstream stream(line);
     stream >> x;
     stream >> y;
 
@@ -88,8 +90,9 @@ void Defensor::add_to_grid()
 
 Square Defensor::get_as_square() { return Square(*this); }
 
-Predator::Predator(istringstream &stream)
+Predator::Predator(string &line)
 {
+    istringstream stream(line);
     stream >> x;
     stream >> y;
 

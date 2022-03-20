@@ -9,8 +9,10 @@
 
 using namespace std;
 
-Anthill::Anthill(istringstream &stream)
+Anthill::Anthill(string &line)
 {
+    istringstream stream(line);
+
     stream >> x;
     stream >> y;
     stream >> side;

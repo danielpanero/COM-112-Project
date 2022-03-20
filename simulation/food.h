@@ -4,7 +4,7 @@
 class Food : Square
 {
 public:
-    Food(std::istringstream &stream);
+    Food(std::string &line);
 
     void add_to_grid();
 };

@@ -18,7 +18,7 @@ private:
     std::vector<Predator *> predators;
 
 public:
-    Anthill(std::istringstream &stream);
+    Anthill(std::string &line);
 
     void test_if_generator_defensors_perimeter();
 

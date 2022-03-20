@@ -14,7 +14,7 @@ public:
 class Collector : Square
 {
 public:
-    Collector(std::istringstream &stream);
+    Collector(std::string &line);
 
     void add_to_grid();
 };
@@ -22,7 +22,7 @@ public:
 class Defensor : Square
 {
 public:
-    Defensor(std::istringstream &stream);
+    Defensor(std::string &line);
 
     Square get_as_square();
 
@@ -32,7 +32,7 @@ public:
 class Predator : Square
 {
 public:
-    Predator(std::istringstream &stream);
+    Predator(std::string &line);
 
     void add_to_grid();
 };

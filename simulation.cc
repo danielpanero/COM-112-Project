@@ -13,12 +13,14 @@
 
 using namespace std;
 
-void get_next_line(ifstream &stream, istringstream &linestream);
+string get_next_line(ifstream &stream);
 
 void Simulation::read_file(string path)
 {
 
-    istringstream line;
+    string line;
+    istringstream streamed_line;
+
     ifstream file(path);
     if (file.fail())
     {
@@ -26,27 +28,30 @@ void Simulation::read_file(string path)
     }
 
     // 1. Parsing the food
-    get_next_line(file, line);
-    line >> nbN;
+    line = get_next_line(file);
+    streamed_line.str(line);
+    streamed_line >> nbN;
     vector<Food *> foods(nbN);
 
     unsigned int i = 0;
     while (i < nbN)
     {
-        get_next_line(file, line);
+        line = get_next_line(file);
         foods[i] = new Food(line);
         i++;
     }
 
     // 2. Parsing the anthills
-    get_next_line(file, line);
-    line >> nbF;
+    line = get_next_line(file);
+    streamed_line.str(line);
+
+    streamed_line >> nbF;
     vector<Anthill *> anthills(nbF);
 
     i = 0;
     while (i < nbF)
     {
-        get_next_line(file, line);
+        line = get_next_line(file);
         anthills[i] = new Anthill(line);
 
         // 3. Parsing the ants
@@ -57,7 +62,7 @@ void Simulation::read_file(string path)
         unsigned int j = 0;
         while (j < nbC)
         {
-            get_next_line(file, line);
+            line = get_next_line(file);
             collectors[j] = new Collector(line);
             j++;
         }
@@ -70,7 +75,7 @@ void Simulation::read_file(string path)
         j = 0;
         while (j < nbD)
         {
-            get_next_line(file, line);
+            line = get_next_line(file);
             defensors[j] = new Defensor(line);
             j++;
         }
@@ -83,7 +88,7 @@ void Simulation::read_file(string path)
         j = 0;
         while (j < nbP)
         {
-            get_next_line(file, line);
+            line = get_next_line(file);
             predators[i] = new Predator(line);
             j++;
         }
@@ -114,7 +119,7 @@ void Simulation::read_file(string path)
     file.close();
 }
 
-void get_next_line(ifstream &stream, istringstream &linestream)
+string get_next_line(ifstream &stream)
 {
     string line;
     while (getline(stream >> ws, line))
@@ -123,8 +128,6 @@ void get_next_line(ifstream &stream, istringstream &linestream)
         {
             continue;
         }
-        linestream.clear();
-        linestream.str(line);
-        return;
+        return line;
     }
 }
