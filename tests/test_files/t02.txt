@@ -1,0 +1,41 @@
+# Collector overlap => new public test resulting in error message:
+#
+# collector with coordinates 18 14 overlaps with another exclusive entity at least on 17 15
+#
+
+# nb food
+4
+
+# food
+75 75
+75 78
+78 78
+80 90
+
+2 # nb anthill
+	100 100 19 103 103 99 4 2 1 # anthill #1
+	
+	# collectors:
+	50 50 3 true
+	35 35 10 false
+	16 16 1 false
+	18 14 1 false
+	
+	# defensors:
+	108 102 2
+	102 107 22
+	
+	# predators:
+	6 80 4
+
+	0 0 12 3 3 100 0 0 1 # anthill #2
+	
+	# collectors:
+	
+	# defensors:
+	
+	# predators:
+	22 24 10
+	
+
+

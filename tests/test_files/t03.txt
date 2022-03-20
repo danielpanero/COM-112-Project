@@ -1,0 +1,42 @@
+# Defensor not within home => new public file resulting in error message:
+#
+# defensor with coordinates 101 117 is not fully within its home: 0
+#
+
+# nb food
+4
+
+# food
+75 75
+75 78
+78 78
+80 90
+
+2 # nb anthill
+	100 100 20 110 110 99 3 4 1 # anthill #1
+	
+	# collectors:
+	50 50 3 true
+	35 35 10 false
+	16 16 1 false
+	
+	# defensors:
+	101 117 2
+	117 102 22
+	117 117 2
+	102 102 22
+	
+	# predators:
+	6 80 4
+
+	0 0 12 3 3 100 0 0 1 # anthill #2
+	
+	# collectors:
+	
+	# defensors:
+	
+	# predators:
+	22 24 10
+	
+
+
