@@ -1,11 +1,11 @@
 # Definitions de macros
 CXX     = g++
-CXXFLAGS = -g -Wall -std=c++11
-CXXFILES = project.cc simulation.cc squarecell.cc squarecell/error_squarecell.cc simulation/anthill.cc simulation/ants.cc simulation/food.cc shared/message.cc
-OFILES = project.o simulation.o squarecell.o squarecell/error_squarecell.o simulation/anthill.cc simulation/ants.o simulation/food.o shared/message.o
+CXXFLAGS = -g -Wall -std=c++11 -I ./
+CXXFILES = project.cc simulation.cc squarecell.cc squarecell/error_squarecell.cc entities/anthill.cc entities/ants.cc entities/food.cc message.cc
+OFILES = project.o simulation.o squarecell.o squarecell/error_squarecell.o entities/anthill.cc entities/ants.o entities/food.o message.o
 
 all: $(OFILES)
-	$(CXX) $(OFILES) -o project
+	$(CXX) ${CXXFLAGS} $(OFILES) -o project
 
 depend:
 	@echo " *** MISE A JOUR DES DEPENDANCES ***"
@@ -24,17 +24,15 @@ clean:
 #
 # DO NOT DELETE THIS LINE
 project.o: project.cc simulation.h
-simulation.o: simulation.cc simulation/food.h simulation/../squarecell.h \
- simulation/anthill.h simulation/ants.h simulation/ants.h \
- shared/message.h simulation.h
+simulation.o: simulation.cc entities/food.h squarecell.h \
+ entities/anthill.h entities/ants.h entities/ants.h message.h \
+ simulation.h
 squarecell.o: squarecell.cc squarecell/error_squarecell.h squarecell.h
 error_squarecell.o: squarecell/error_squarecell.cc \
  squarecell/error_squarecell.h
-anthill.o: simulation/anthill.cc simulation/../squarecell.h \
- simulation/anthill.h simulation/ants.h
-ants.o: simulation/ants.cc simulation/../squarecell.h \
- simulation/../shared/message.h simulation/../shared/constantes.h \
- simulation/ants.h
-food.o: simulation/food.cc simulation/../squarecell.h \
- simulation/../shared/message.h simulation/food.h
-message.o: shared/message.cc shared/message.h
+anthill.o: entities/anthill.cc squarecell.h message.h entities/anthill.h \
+ entities/ants.h
+ants.o: entities/ants.cc squarecell.h message.h constantes.h \
+ entities/ants.h
+food.o: entities/food.cc squarecell.h message.h entities/food.h
+message.o: message.cc message.h

@@ -2,8 +2,8 @@
 #include "vector"
 #include "iostream"
 
-#include "../squarecell.h"
-#include "../shared/message.h"
+#include "squarecell.h"
+#include "message.h"
 
 #include "anthill.h"
 

@@ -1,7 +1,7 @@
 #include "sstream"
 #include "vector"
 
-#include "../squarecell.h"
+#include "squarecell.h"
 #include "ants.h"
 
 class Anthill : Square

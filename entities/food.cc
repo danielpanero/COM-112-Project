@@ -1,8 +1,8 @@
 #include "sstream"
 #include "iostream"
 
-#include "../squarecell.h"
-#include "../shared/message.h"
+#include "squarecell.h"
+#include "message.h"
 
 #include "food.h"
 

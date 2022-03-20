@@ -1,5 +1,5 @@
 #include "sstream"
-#include "../squarecell.h"
+#include "squarecell.h"
 
 class Food : Square
 {

@@ -4,10 +4,10 @@
 #include "algorithm"
 #include "vector"
 
-#include "simulation/food.h"
-#include "simulation/anthill.h"
-#include "simulation/ants.h"
-#include "shared/message.h"
+#include "entities/food.h"
+#include "entities/anthill.h"
+#include "entities/ants.h"
+#include "message.h"
 
 #include "simulation.h"
 

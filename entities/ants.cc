@@ -1,9 +1,9 @@
 #include "sstream"
 #include "iostream"
 
-#include "../squarecell.h"
-#include "../shared/message.h"
-#include "../shared/constantes.h"
+#include "squarecell.h"
+#include "message.h"
+#include "constantes.h"
 
 #include "ants.h"
 
