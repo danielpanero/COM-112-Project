@@ -18,6 +18,7 @@ depend:
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
 	@/bin/rm -rf *.o *.x *.cc~ *.h~ project
+	@/bin/find . -name '*.o' -delete
 
 #
 # -- Regles de dependances generees automatiquement
