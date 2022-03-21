@@ -1,4 +1,4 @@
-# Collector overlap => public test already provided
+# Collector overlap => collector with coordinates 14 18 overlaps with another exclusive entity at least on 15 17
 #
 
 # nb food
