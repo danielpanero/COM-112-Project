@@ -29,6 +29,7 @@ void Simulation::read_file(string path)
 
     // 1. Parsing the food
     line = get_next_line(file);
+    streamed_line.clear();
     streamed_line.str(line);
     streamed_line >> nbN;
     vector<Food *> foods(nbN);
@@ -43,6 +44,7 @@ void Simulation::read_file(string path)
 
     // 2. Parsing the anthills
     line = get_next_line(file);
+    streamed_line.clear();
     streamed_line.str(line);
 
     streamed_line >> nbF;
@@ -104,7 +106,7 @@ void Simulation::read_file(string path)
         {
             Square square1(anthills[i]->get_as_square());
             Square square2(anthills[j]->get_as_square());
-            
+
             if (test_if_superposed_two_square(square1, square2))
             {
                 cout << message::homes_overlap(i, j);
@@ -135,4 +137,5 @@ string get_next_line(ifstream &stream)
         }
         return line;
     }
+    return "";
 }

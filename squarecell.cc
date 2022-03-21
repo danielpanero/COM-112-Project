@@ -43,25 +43,25 @@ void test_square(Square &square)
 
     if ((x < 0 || x > g_max - 1))
     {
-        cout << error_squarecell::print_index(x, g_max);
+        cout << error_squarecell::print_index(square.x, g_max - 1);
         exit(EXIT_FAILURE);
     }
 
     if ((y < 0 || y > g_max - 1))
     {
-        cout << error_squarecell::print_index(y, g_max);
+        cout << error_squarecell::print_index(square.y, g_max - 1);
         exit(EXIT_FAILURE);
     }
 
     if ((x + square.side > g_max - 1))
     {
-        cout << error_squarecell::print_outside(y, square.side, g_max);
+        cout << error_squarecell::print_outside(square.x, square.side, g_max - 1);
         exit(EXIT_FAILURE);
     }
 
     if ((y + square.side > g_max - 1))
     {
-        cout << error_squarecell::print_outside(y, square.side, g_max);
+        cout << error_squarecell::print_outside(square.y, square.side, g_max - 1);
         exit(EXIT_FAILURE);
     }
 }
