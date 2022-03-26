@@ -1,5 +1,7 @@
-#ifndef ANTS_H
-#define ANTS_H
+#ifndef ENTITIES_ANTS_H
+#define ENTITIES_ANTS_H
+
+#include "squarecell.h"
 
 class Generator : Square
 {
@@ -14,7 +16,7 @@ public:
 class Collector : Square
 {
 public:
-    Collector(std::string &line);
+    explicit Collector(std::string &line);
 
     void add_to_grid();
 };
@@ -22,7 +24,7 @@ public:
 class Defensor : Square
 {
 public:
-    Defensor(std::string &line);
+    explicit Defensor(std::string &line);
 
     Square get_as_square();
 
@@ -32,7 +34,7 @@ public:
 class Predator : Square
 {
 public:
-    Predator(std::string &line);
+    explicit Predator(std::string &line);
 
     void add_to_grid();
 };

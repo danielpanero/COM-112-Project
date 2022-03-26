@@ -1,12 +1,14 @@
-#include "sstream"
 #include "iostream"
+#include "sstream"
 
-#include "squarecell.h"
 #include "message.h"
+#include "squarecell.h"
 
 #include "food.h"
 
-using namespace std;
+using std::string;
+using std::istringstream;
+using std::cout;
 
 Food::Food(string &line)
 {

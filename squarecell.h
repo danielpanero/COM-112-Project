@@ -1,5 +1,5 @@
-#ifndef SQUARE_H
-#define SQUARE_H
+#ifndef SQUARECELL_H
+#define SQUARECELL_H
 
 struct Square
 {

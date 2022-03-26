@@ -1,8 +1,10 @@
-#include "sstream"
+#ifndef ENTITIES_ANTHILL_H
+#define ENTITIES_ANTHILL_H
+
 #include "vector"
 
-#include "squarecell.h"
 #include "ants.h"
+#include "squarecell.h"
 
 class Anthill : Square
 {
@@ -18,7 +20,7 @@ private:
     std::vector<Predator *> predators;
 
 public:
-    Anthill(std::string &line);
+    explicit Anthill(std::string &line);
 
     void test_if_generator_defensors_perimeter(unsigned int index);
 
@@ -26,9 +28,11 @@ public:
     void set_defensors(std::vector<Defensor *> &defensor);
     void set_predators(std::vector<Predator *> &predators);
 
-    int get_number_of_collectors();
-    int get_number_of_defensors();
-    int get_number_of_predators();
+    unsigned int get_number_of_collectors() const;
+    unsigned int get_number_of_defensors() const;
+    unsigned int get_number_of_predators() const;
 
     Square get_as_square();
 };
+
+#endif

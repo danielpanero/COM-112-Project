@@ -1,13 +1,15 @@
-#include "sstream"
 #include "iostream"
+#include "sstream"
 
-#include "squarecell.h"
-#include "message.h"
 #include "constantes.h"
+#include "message.h"
+#include "squarecell.h"
 
 #include "ants.h"
 
-using namespace std;
+using std::string;
+using std::cout;
+using std::istringstream;
 
 Generator::Generator(unsigned int x, unsigned int y)
 {
@@ -23,8 +25,8 @@ Generator::Generator(unsigned int x, unsigned int y)
 
 void Generator::add_to_grid()
 {
-    unsigned int superposed_x;
-    unsigned int superposed_y;
+    unsigned int superposed_x(0);
+    unsigned int superposed_y(0);
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
         cout << message::generator_overlap(x, y, superposed_x, superposed_y);
@@ -53,8 +55,8 @@ Collector::Collector(string &line)
 
 void Collector::add_to_grid()
 {
-    unsigned int superposed_x;
-    unsigned int superposed_y;
+    unsigned int superposed_x(0);
+    unsigned int superposed_y(0);
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
         cout << message::collector_overlap(x, y, superposed_x, superposed_y);
@@ -81,8 +83,8 @@ Defensor::Defensor(string &line)
 
 void Defensor::add_to_grid()
 {
-    unsigned int superposed_x;
-    unsigned int superposed_y;
+    unsigned int superposed_x(0);
+    unsigned int superposed_y(0);
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
         cout << message::defensor_overlap(x, y, superposed_x, superposed_y);

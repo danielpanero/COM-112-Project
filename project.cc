@@ -2,7 +2,7 @@
 
 #include "simulation.h"
 
-using namespace std;
+using std::string;
 
 int main(int argc, char const *argv[])
 {
@@ -11,8 +11,10 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     }
 
+    string path(argv[1]); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+
     Simulation simulation;
-    simulation.read_file(argv[1]);
+    simulation.read_file(path);
 
     exit(0);
 }

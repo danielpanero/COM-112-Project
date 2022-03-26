@@ -1,16 +1,18 @@
-#include "vector"
-#include "iostream"
 #include "algorithm"
-#include "math.h"
+#include "cmath"
+#include "iostream"
+#include "vector"
 
-#include "squarecell/error_squarecell.h"
 #include "squarecell.h"
+#include "squarecell/error_squarecell.h"
 
-using namespace std;
+using std::cout;
+using std::vector;
 
-constexpr short unsigned g_dim(7);
-constexpr short unsigned g_max(pow(2, g_dim));
-static vector<vector<bool>> grid(g_max, vector<bool>(g_max));
+constexpr short unsigned g_dim(7);             // NOLINT
+constexpr short unsigned g_max(pow(2, g_dim)); // NOLINT
+
+static vector<vector<bool>> grid(g_max, vector<bool>(g_max)); // NOLINT
 
 unsigned int get_coordinate_x(Square &square)
 {
@@ -18,10 +20,7 @@ unsigned int get_coordinate_x(Square &square)
     {
         return square.x - (square.side - 1) / 2;
     }
-    else
-    {
-        return square.x;
-    }
+    return square.x;
 }
 
 unsigned int get_coordinate_y(Square &square)
@@ -30,10 +29,8 @@ unsigned int get_coordinate_y(Square &square)
     {
         return square.y - (square.side - 1) / 2;
     }
-    else
-    {
-        return square.y;
-    }
+
+    return square.y;
 }
 
 void test_square(Square &square)
@@ -71,7 +68,8 @@ void add_square(Square &square)
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    for (auto it = grid.begin() + g_max - 1 - y - square.side; it != grid.begin() + g_max - 1 - y; ++it)
+    for (auto it = grid.begin() + g_max - 1 - y - square.side;
+         it != grid.begin() + g_max - 1 - y; ++it)
     {
         auto &row = *it;
         fill(row.begin() + x, row.begin() + x + square.side, true);
@@ -83,22 +81,25 @@ void remove_square(Square &square)
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    for (auto it = grid.begin() + g_max - 1 - y - square.side; it != grid.begin() + g_max - 1 - y; ++it)
+    for (auto it = grid.begin() + g_max - 1 - y - square.side;
+         it != grid.begin() + g_max - 1 - y; ++it)
     {
         auto &row = *it;
         fill(row.begin() + x, row.begin() + x + square.side, false);
     }
 }
 
-bool test_if_superposed_grid(Square &square, unsigned int &superposed_x, unsigned int &superposed_y)
+bool test_if_superposed_grid(Square &square, unsigned int &superposed_x,
+                             unsigned int &superposed_y)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    for (auto it = grid.begin() + g_max - 1 - y - square.side; it != grid.begin() + g_max - 1 - y; ++it)
+    for (auto it = grid.begin() + g_max - 1 - y - square.side;
+         it != grid.begin() + g_max - 1 - y; ++it)
     {
         auto &row = *it;
-        vector<bool>::iterator cell = find(row.begin() + x, row.begin() + x + square.side, true);
+        auto cell = find(row.begin() + x, row.begin() + x + square.side, true);
 
         if (cell != row.begin() + x + square.side)
         {
@@ -112,8 +113,8 @@ bool test_if_superposed_grid(Square &square, unsigned int &superposed_x, unsigne
 
 bool test_if_superposed_grid(Square &square)
 {
-    unsigned int superposed_x;
-    unsigned int superposed_y;
+    unsigned int superposed_x(0);
+    unsigned int superposed_y(0);
 
     return test_if_superposed_grid(square, superposed_x, superposed_y);
 }
@@ -177,17 +178,15 @@ bool test_if_completely_confined(Square &square1, Square &square2)
     {
         return false;
     }
-    else
-    {
-        if (x1 + square1.side >= x2 + square2.side)
-        {
-            return false;
-        }
 
-        if (y1 + square1.side >= y2 + square2.side)
-        {
-            return false;
-        }
+    if (x1 + square1.side >= x2 + square2.side)
+    {
+        return false;
+    }
+
+    if (y1 + square1.side >= y2 + square2.side)
+    {
+        return false;
     }
 
     return true;

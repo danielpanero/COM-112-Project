@@ -1,21 +1,25 @@
-#include "iostream"
-#include "fstream"
-#include "sstream"
 #include "algorithm"
+#include "fstream"
+#include "iostream"
+#include "sstream"
 #include "vector"
 
-#include "entities/food.h"
 #include "entities/anthill.h"
 #include "entities/ants.h"
+#include "entities/food.h"
 #include "message.h"
 
 #include "simulation.h"
 
-using namespace std;
+using std::string;
+using std::vector;
+using std::cout;
+using std::ifstream;
+using std::istringstream;
 
 string get_next_line(ifstream &stream);
 
-void Simulation::read_file(string path)
+void Simulation::read_file(string &path)
 {
 
     string line;
@@ -129,7 +133,7 @@ void Simulation::read_file(string path)
 string get_next_line(ifstream &stream)
 {
     string line;
-    while (getline(stream >> ws, line))
+    while (getline(stream >> std::ws, line))
     {
         if (line[0] == '#')
         {

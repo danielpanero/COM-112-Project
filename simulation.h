@@ -1,3 +1,6 @@
+#ifndef SIMULATION_H
+#define SIMULATION_H
+
 class Simulation
 {
 private:
@@ -5,5 +8,7 @@ private:
     unsigned int nbF;
 
 public:
-    void read_file(std::string path);
+    void read_file(std::string &path);
 };
+
+#endif
