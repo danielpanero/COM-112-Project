@@ -9,5 +9,17 @@
             "binaryArgs": ["${input:selectTestFiles}"]
         }
     ],
-    "makefile.buildBeforeLaunch": true
+    "makefile.buildBeforeLaunch": true,
+    "C_Cpp.codeAnalysis.clangTidy.enabled": true,
+    "C_Cpp.codeAnalysis.runAutomatically": true,
+    "C_Cpp.codeAnalysis.exclude": {
+        "constantes.h": true,
+        "squarecell/**": true,
+        "tests/**/*": true,
+        "message.cc": true,
+        "message.h": true
+    },
+    "editor.rulers": [
+        87
+    ]
 }
