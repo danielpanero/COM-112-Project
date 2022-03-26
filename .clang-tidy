@@ -1,4 +1,4 @@
-Checks: '-*,bugprone-*,cert-*,cppcoreguidelines-*,google-*,hicpp-*,misc-*,modernize-*,-modernize-use-trailing-return-type,performance-*,readability-*, llvm-*'
+Checks: '-*,bugprone-*,cert-*,cppcoreguidelines-*, -cppcoreguidelines-owning-memory, google-*,hicpp-*,misc-*,modernize-*,-modernize-use-trailing-return-type,performance-*,readability-*, llvm-*, -llvm-header-guard'
 CheckOptions:
     - key: readability-identifier-naming.MacroDefinitionCase
       value: UPPER_CASE
