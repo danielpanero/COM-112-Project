@@ -10,17 +10,25 @@ using std::string;
 using std::istringstream;
 using std::cout;
 
-Food::Food(string &line)
+Food::Food (unsigned int &x, unsigned int &y)
 {
-    istringstream stream(line);
-    stream >> x;
-    stream >> y;
-
-    side = 1;
-    centered = true;
+    this -> x = x;
+    this -> y = y;
+    this -> side = 1;
+    this -> centered =true;
 
     test_square(*this);
     add_to_grid();
+}
+
+Food* Food:: parse_line (std::string &line)
+{
+    unsigned int x;
+    unsigned int y;
+    istringstream stream(line);
+    stream >> x;
+    stream >> y;
+    return new Food(x,y);
 }
 
 void Food::add_to_grid()

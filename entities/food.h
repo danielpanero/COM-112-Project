@@ -6,7 +6,10 @@
 class Food : Square
 {
 public:
-    explicit Food(std::string &line);
+    static Food* parse_line (std::string &line);
+
+    Food (unsigned int &x, unsigned int &y);
+
 
     void add_to_grid();
 };

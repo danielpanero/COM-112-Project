@@ -42,7 +42,7 @@ void Simulation::read_file(string &path)
     while (i < nbN)
     {
         line = get_next_line(file);
-        foods[i] = new Food(line);
+        foods[i] = Food:: parse_line(line);
         i++;
     }
 
@@ -58,7 +58,7 @@ void Simulation::read_file(string &path)
     while (i < nbF)
     {
         line = get_next_line(file);
-        anthills[i] = new Anthill(line);
+        anthills[i] =  Anthill::parse_line(line);
 
         // 3. Parsing the ants
         // 3.1 Parsing the collectors
@@ -69,7 +69,7 @@ void Simulation::read_file(string &path)
         while (j < nbC)
         {
             line = get_next_line(file);
-            collectors[j] = new Collector(line);
+            collectors[j] = Collector:: parse_line(line);
             j++;
         }
         anthills[i]->set_collectors(collectors);
@@ -82,7 +82,7 @@ void Simulation::read_file(string &path)
         while (j < nbD)
         {
             line = get_next_line(file);
-            defensors[j] = new Defensor(line);
+            defensors[j] = Defensor:: parse_line(line);
             j++;
         }
         anthills[i]->set_defensors(defensors);
@@ -95,7 +95,7 @@ void Simulation::read_file(string &path)
         while (j < nbP)
         {
             line = get_next_line(file);
-            predators[i] = new Predator(line);
+            predators[i] = Predator:: parse_line(line);
             j++;
         }
         anthills[i]->set_predators(predators);

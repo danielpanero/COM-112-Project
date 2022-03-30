@@ -12,27 +12,43 @@ using std::cout;
 using std::istringstream;
 using std::vector;
 
-Anthill::Anthill(string &line)
+Anthill::Anthill(unsigned int &x, unsigned int &y,unsigned int &side, bool &centered): Square({x,y,side,false})
 {
-    istringstream stream(line);
+    test_square(*this);
+}
 
+Anthill* Anthill:: parse_line(std::string &line)
+{
+    unsigned int x;
+    unsigned int y;
+    unsigned int side_;
+    bool centered;
+
+    istringstream stream(line);
     stream >> x;
     stream >> y;
-    stream >> side;
+
+    side = side_;
     centered = false;
-    test_square(*this);
 
     unsigned int xg(0);
     unsigned int yg(0);
     stream >> xg;
     stream >> yg;
-    generator = new Generator(xg, yg);
+    new Generator(xg, yg);
 
+    unsigned int total_food;
+    unsigned int nbC;
+    unsigned int nbD;
+    unsigned int nbP;
     stream >> total_food;
     stream >> nbC;
     stream >> nbD;
     stream >> nbP;
+
+    return new Anthill(x,y,side_,centered);
 }
+
 
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
 {

@@ -16,7 +16,9 @@ public:
 class Collector : Square
 {
 public:
-    explicit Collector(std::string &line);
+    Collector(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered);
+
+    static Collector* parse_line (std::string &line);
 
     void add_to_grid();
 };
@@ -24,7 +26,9 @@ public:
 class Defensor : Square
 {
 public:
-    explicit Defensor(std::string &line);
+    Defensor(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered);
+
+    static Defensor* parse_line (std::string &line);
 
     Square get_as_square();
 
@@ -34,7 +38,9 @@ public:
 class Predator : Square
 {
 public:
-    explicit Predator(std::string &line);
+    Predator(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered);
+
+    static Predator* parse_line (std::string &line);
 
     void add_to_grid();
 };
