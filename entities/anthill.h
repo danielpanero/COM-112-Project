@@ -20,9 +20,9 @@ private:
     std::vector<Predator *> predators;
 
 public:
-    Anthill(unsigned int &x, unsigned int &y,unsigned int &side, bool &centered);
+    Anthill(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered);
 
-    static Anthill* parse_line (std::string &line);
+    static Anthill *parse_line(std::string &line);
 
     void test_if_generator_defensors_perimeter(unsigned int index);
 

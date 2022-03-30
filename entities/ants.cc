@@ -7,11 +7,11 @@
 
 #include "ants.h"
 
-using std::string;
 using std::cout;
 using std::istringstream;
+using std::string;
 
-Generator::Generator(unsigned int x, unsigned int y): Square({x,y,sizeG,true})
+Generator::Generator(unsigned int x, unsigned int y) : Square({x, y, sizeG, true})
 {
     test_square(*this);
     add_to_grid();
@@ -34,13 +34,15 @@ void Generator::add_to_grid()
 
 Square Generator::get_as_square() { return Square(*this); }
 
-Collector :: Collector (unsigned int &x, unsigned int &y, unsigned int &side, bool &centered): Square({x,y,1,true})
+Collector ::Collector(unsigned int &x, unsigned int &y, unsigned int &side,
+                      bool &centered)
+    : Square({x, y, 1, true})
 {
     test_square(*this);
     add_to_grid();
 }
 
-Collector* Collector:: parse_line(std::string &line)
+Collector *Collector::parse_line(std::string &line)
 {
     unsigned int x;
     unsigned int y;
@@ -54,9 +56,8 @@ Collector* Collector:: parse_line(std::string &line)
     side = sizeC;
     centered = true;
 
-    return new Collector(x,y,side,centered);
+    return new Collector(x, y, side, centered);
 }
-
 
 void Collector::add_to_grid()
 {
@@ -73,13 +74,15 @@ void Collector::add_to_grid()
     }
 }
 
-Defensor::Defensor(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered): Square({x,y,1,true})
+Defensor::Defensor(unsigned int &x, unsigned int &y, unsigned int &side,
+                   bool &centered)
+    : Square({x, y, 1, true})
 {
     test_square(*this);
     add_to_grid();
 }
 
-Defensor* Defensor:: parse_line (std::string &line)
+Defensor *Defensor::parse_line(std::string &line)
 {
     unsigned int x;
     unsigned int y;
@@ -93,7 +96,7 @@ Defensor* Defensor:: parse_line (std::string &line)
     side = sizeD;
     centered = true;
 
-    return new Defensor(x,y,side,centered);
+    return new Defensor(x, y, side, centered);
 }
 
 void Defensor::add_to_grid()
@@ -113,13 +116,15 @@ void Defensor::add_to_grid()
 
 Square Defensor::get_as_square() { return Square(*this); }
 
-Predator::Predator(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered): Square({x,y,1,true})
+Predator::Predator(unsigned int &x, unsigned int &y, unsigned int &side,
+                   bool &centered)
+    : Square({x, y, 1, true})
 {
     test_square(*this);
     add_to_grid();
 }
 
-Predator* Predator :: parse_line (std:: string &line)
+Predator *Predator ::parse_line(std::string &line)
 {
     unsigned int x;
     unsigned int y;
@@ -133,7 +138,7 @@ Predator* Predator :: parse_line (std:: string &line)
     side = sizeP;
     centered = true;
 
-    return new Predator(x,y,side,centered);
+    return new Predator(x, y, side, centered);
 }
 
 void Predator::add_to_grid()

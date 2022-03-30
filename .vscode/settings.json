@@ -49,8 +49,8 @@
     },
     "makefile.launchConfigurations": [
         {
-            "cwd": "/workspaces/COM-112-Project",
-            "binaryPath": "/workspaces/COM-112-Project/project",
+            "cwd": "/Users/andrea/Desktop/PROJET BA2/COM-112-Project 2",
+            "binaryPath": "/Users/andrea/Desktop/PROJET BA2/COM-112-Project 2",
             "binaryArgs": ["${input:selectTestFiles}"]
         }
     ],

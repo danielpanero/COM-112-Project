@@ -7,17 +7,18 @@
 
 #include "anthill.h"
 
-using std::string;
 using std::cout;
 using std::istringstream;
+using std::string;
 using std::vector;
 
-Anthill::Anthill(unsigned int &x, unsigned int &y,unsigned int &side, bool &centered): Square({x,y,side,false})
+Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered)
+    : Square({x, y, side, false})
 {
     test_square(*this);
 }
 
-Anthill* Anthill:: parse_line(std::string &line)
+Anthill *Anthill::parse_line(std::string &line)
 {
     unsigned int x;
     unsigned int y;
@@ -46,9 +47,8 @@ Anthill* Anthill:: parse_line(std::string &line)
     stream >> nbD;
     stream >> nbP;
 
-    return new Anthill(x,y,side_,centered);
+    return new Anthill(x, y, side_, centered);
 }
-
 
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
 {
