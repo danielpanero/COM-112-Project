@@ -18,7 +18,8 @@ void add_square(Square &square);
 void remove_square(Square &square);
 
 bool test_if_superposed_grid(Square &square);
-bool test_if_superposed_grid(Square &square, unsigned int &superposed_x, unsigned int &superposed_y);
+bool test_if_superposed_grid(Square &square, unsigned int &superposed_x,
+                             unsigned int &superposed_y);
 bool test_if_superposed_two_square(Square &square1, Square &square2);
 bool test_if_completely_confined(Square &square1, Square &square2);
 
