@@ -1,3 +1,13 @@
+/**
+ * @file simulation.cc
+ * @author Daniel Panero, Layane Wazen, Andrea Diez Leboffe
+ * @version 0.1
+ * @date 2022-04-01
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "algorithm"
 #include "fstream"
 #include "iostream"
@@ -16,8 +26,6 @@ using std::ifstream;
 using std::istringstream;
 using std::string;
 using std::vector;
-
-string get_next_line(ifstream &file);
 
 void Simulation::read_file(string &path)
 {
@@ -152,7 +160,12 @@ void Simulation::check_generator_defensors_inside_anthills()
         anthills[i]->test_if_generator_defensors_perimeter(i);
     }
 }
-
+/**
+ * @brief Gets the next non-empty line
+ *
+ * @param file
+ * @return string
+ */
 string get_next_line(ifstream &file)
 {
     string line;
