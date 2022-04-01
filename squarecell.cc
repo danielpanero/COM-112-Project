@@ -164,7 +164,6 @@ bool test_if_superposed_two_square(Square &square1, Square &square2)
     return false;
 }
 
-// square1: inside square and square2: outside square/container
 bool test_if_completely_confined(Square &square1, Square &square2)
 {
     unsigned int x1 = get_coordinate_x(square1);
