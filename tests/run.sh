@@ -9,7 +9,7 @@ make
 echo Compiling tests files
 cd tests/test_files/
 
-g++ -std=c++11 -g t1.cc ../../squarecell.o  ../../squarecell/error_squarecell.o -o ../tmp/t1.out
+g++ -std=c++11 -g t1.cc ../../squarecell.o  ../../error_squarecell.o -o ../tmp/t1.out
 g++ -std=c++11 -g t0.cc -o ../tmp/t0.out
 
 

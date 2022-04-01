@@ -68,9 +68,11 @@ void Simulation::parse_anthills(ifstream &file)
         line = get_next_line(file);
         anthills[i] = Anthill::parse_line(line);
 
-        parse_predators(file, *(anthills[i]));
         parse_collectors(file, *(anthills[i]));
         parse_defensors(file, *(anthills[i]));
+        parse_predators(file, *(anthills[i]));
+
+        i++;
     }
 }
 
@@ -149,8 +151,6 @@ void Simulation::check_generator_defensors_inside_anthills()
     {
         anthills[i]->test_if_generator_defensors_perimeter(i);
     }
-
-    cout << message::success();
 }
 
 string get_next_line(ifstream &file)
