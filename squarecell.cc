@@ -3,8 +3,9 @@
 #include "iostream"
 #include "vector"
 
-#include "squarecell.h"
 #include "error_squarecell.h"
+
+#include "squarecell.h"
 
 using std::cout;
 using std::vector;
@@ -68,10 +69,12 @@ void add_square(Square &square)
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    for (auto it = grid.begin() + g_max - 1 - y - square.side;
-         it != grid.begin() + g_max - 1 - y; ++it)
+    size_t start(g_max - 1 - y);
+    size_t end(g_max - 1 - (y + square.side));
+
+    for (auto i(start); i <= end; i--)
     {
-        auto &row = *it;
+        auto &row = grid[i];
         fill(row.begin() + x, row.begin() + x + square.side, true);
     }
 }
@@ -81,10 +84,12 @@ void remove_square(Square &square)
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    for (auto it = grid.begin() + g_max - 1 - y - square.side;
-         it != grid.begin() + g_max - 1 - y; ++it)
+    size_t start(g_max - 1 - y);
+    size_t end(g_max - 1 - (y + square.side));
+
+    for (auto i(start); i <= end; i--)
     {
-        auto &row = *it;
+        auto &row = grid[i];
         fill(row.begin() + x, row.begin() + x + square.side, false);
     }
 }
@@ -95,16 +100,20 @@ bool test_if_superposed_grid(Square &square, unsigned int &superposed_x,
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    for (auto it = grid.begin() + g_max - 1 - y - square.side;
-         it != grid.begin() + g_max - 1 - y; ++it)
+    size_t start(g_max - 1 - y);
+    size_t end(g_max - 1 - (y + square.side));
+
+    for (auto i(start); i <= end; i--)
     {
-        auto &row = *it;
+        auto &row = grid[i];
         auto cell = find(row.begin() + x, row.begin() + x + square.side, true);
 
+        /* We are comparing the iterator (cell) with the last element of the loop,
+        since C++ returns the last element when it doesn't find any matching element */
         if (cell != row.begin() + x + square.side)
         {
             superposed_x = cell - row.begin();
-            superposed_y = g_max - 1 - (it - grid.begin() + 1);
+            superposed_y = g_max - 1 - (i + 1);
             return true;
         }
     }
