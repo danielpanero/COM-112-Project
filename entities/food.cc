@@ -6,21 +6,26 @@
 
 #include "food.h"
 
-using std::string;
-using std::istringstream;
 using std::cout;
+using std::istringstream;
+using std::string;
 
-Food::Food(string &line)
+Food::Food(unsigned int &x, unsigned int &y) : Square({x, y, 1, true})
 {
+    test_square(*this);
+    add_to_grid();
+}
+
+Food *Food::parse_line(string &line)
+{
+    unsigned int x(0);
+    unsigned int y(0);
+
     istringstream stream(line);
     stream >> x;
     stream >> y;
 
-    side = 1;
-    centered = true;
-
-    test_square(*this);
-    add_to_grid();
+    return new Food(x, y);
 }
 
 void Food::add_to_grid()

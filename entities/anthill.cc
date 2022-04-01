@@ -7,31 +7,48 @@
 
 #include "anthill.h"
 
-using std::string;
 using std::cout;
 using std::istringstream;
+using std::string;
 using std::vector;
 
-Anthill::Anthill(string &line)
+Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side,
+                 unsigned int &xg, unsigned int &yg, unsigned int total_food,
+                 unsigned int &n_collectors, unsigned int &n_defensors,
+                 unsigned int &n_predators)
+    : Square({x, y, side}), total_food(total_food), n_collectors(n_collectors),
+      n_defensors(n_defensors), n_predators(n_predators),
+      generator(new Generator(xg, yg))
 {
+    test_square(*this);
+}
+
+Anthill *Anthill::parse_line(string &line)
+{
+    unsigned int x(0);
+    unsigned int y(0);
+    unsigned int side(0);
+    unsigned int xg(0);
+    unsigned int yg(0);
+    unsigned int total_food(0);
+    unsigned int n_collectors(0);
+    unsigned int n_defensors(0);
+    unsigned int n_predators(0);
+
     istringstream stream(line);
 
     stream >> x;
     stream >> y;
     stream >> side;
-    centered = false;
-    test_square(*this);
-
-    unsigned int xg(0);
-    unsigned int yg(0);
     stream >> xg;
     stream >> yg;
-    generator = new Generator(xg, yg);
-
     stream >> total_food;
-    stream >> nbC;
-    stream >> nbD;
-    stream >> nbP;
+    stream >> n_collectors;
+    stream >> n_defensors;
+    stream >> n_predators;
+
+    return new Anthill(x, y, side, xg, yg, total_food, n_collectors, n_defensors,
+                       n_predators);
 }
 
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
@@ -69,8 +86,8 @@ void Anthill::set_predators(vector<Predator *> &predators)
     this->predators = predators;
 }
 
-unsigned int Anthill::get_number_of_collectors() const { return nbC; };
-unsigned int Anthill::get_number_of_defensors() const { return nbD; };
-unsigned int Anthill::get_number_of_predators() const { return nbP; };
+unsigned int Anthill::get_number_of_collectors() const { return n_collectors; };
+unsigned int Anthill::get_number_of_defensors() const { return n_defensors; };
+unsigned int Anthill::get_number_of_predators() const { return n_predators; };
 
-Square Anthill::get_as_square() { return Square(*this); }
+const Square Anthill::get_as_square() { return {*this}; }

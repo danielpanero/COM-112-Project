@@ -7,18 +7,12 @@
 
 #include "ants.h"
 
-using std::string;
 using std::cout;
 using std::istringstream;
+using std::string;
 
-Generator::Generator(unsigned int x, unsigned int y)
+Generator::Generator(unsigned int &x, unsigned int &y) : Square({x, y, sizeG, true})
 {
-    this->x = x;
-    this->y = y;
-
-    side = sizeG;
-    centered = true;
-
     test_square(*this);
     add_to_grid();
 }
@@ -38,19 +32,24 @@ void Generator::add_to_grid()
     }
 }
 
-Square Generator::get_as_square() { return Square(*this); }
+const Square Generator::get_as_square() { return {*this}; }
 
-Collector::Collector(string &line)
+Collector::Collector(unsigned int &x, unsigned int &y) : Square({x, y, sizeC, true})
 {
+    test_square(*this);
+    add_to_grid();
+}
+
+Collector *Collector::parse_line(string &line)
+{
+    unsigned int x(0);
+    unsigned int y(0);
+
     istringstream stream(line);
     stream >> x;
     stream >> y;
 
-    side = sizeC;
-    centered = true;
-
-    test_square(*this);
-    add_to_grid();
+    return new Collector(x, y);
 }
 
 void Collector::add_to_grid()
@@ -68,17 +67,22 @@ void Collector::add_to_grid()
     }
 }
 
-Defensor::Defensor(string &line)
+Defensor::Defensor(unsigned int &x, unsigned int &y) : Square({x, y, sizeD, true})
 {
+    test_square(*this);
+    add_to_grid();
+}
+
+Defensor *Defensor::parse_line(string &line)
+{
+    unsigned int x(0);
+    unsigned int y(0);
+
     istringstream stream(line);
     stream >> x;
     stream >> y;
 
-    side = sizeD;
-    centered = true;
-
-    test_square(*this);
-    add_to_grid();
+    return new Defensor(x, y);
 }
 
 void Defensor::add_to_grid()
@@ -96,19 +100,24 @@ void Defensor::add_to_grid()
     }
 }
 
-Square Defensor::get_as_square() { return Square(*this); }
+const Square Defensor::get_as_square() { return {*this}; }
 
-Predator::Predator(string &line)
+Predator::Predator(unsigned int &x, unsigned int &y) : Square({x, y, sizeP, true})
 {
+    test_square(*this);
+    add_to_grid();
+}
+
+Predator *Predator ::parse_line(string &line)
+{
+    unsigned int x(0);
+    unsigned int y(0);
+
     istringstream stream(line);
     stream >> x;
     stream >> y;
 
-    side = sizeP;
-    centered = true;
-
-    test_square(*this);
-    add_to_grid();
+    return new Predator(x, y);
 }
 
 void Predator::add_to_grid()
