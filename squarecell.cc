@@ -4,7 +4,7 @@
 #include "vector"
 
 #include "squarecell.h"
-#include "squarecell/error_squarecell.h"
+#include "error_squarecell.h"
 
 using std::cout;
 using std::vector;

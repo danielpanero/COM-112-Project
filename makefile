@@ -1,8 +1,8 @@
 # Definitions de macros
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11 -I ./
-CXXFILES = project.cc simulation.cc squarecell.cc squarecell/error_squarecell.cc entities/anthill.cc entities/ants.cc entities/food.cc message.cc
-OFILES = project.o simulation.o squarecell.o squarecell/error_squarecell.o entities/anthill.o entities/ants.o entities/food.o message.o
+CXXFILES = project.cc simulation.cc squarecell.cc error_squarecell.cc entities/anthill.cc entities/ants.cc entities/food.cc message.cc
+OFILES = project.o simulation.o squarecell.o error_squarecell.o entities/anthill.o entities/ants.o entities/food.o message.o
 
 all: $(OFILES)
 	$(CXX) ${CXXFLAGS} $(OFILES) -o project
@@ -12,8 +12,8 @@ depend:
 	@(sed '/^# DO NOT DELETE THIS LINE/q' makefile && \
 	  $(CXX) -MM $(CXXFLAGS) $(CXXFILES) | \
 	  egrep -v "/usr/include" \
-	 ) >makefile.new
-	@mv makefile.new makefile
+	 ) >Makefile.new
+	@mv Makefile.new Makefile
 
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
@@ -25,15 +25,13 @@ clean:
 #
 # DO NOT DELETE THIS LINE
 project.o: project.cc simulation.h
-simulation.o: simulation.cc entities/food.h squarecell.h \
- entities/anthill.h entities/ants.h entities/ants.h message.h \
- simulation.h
-squarecell.o: squarecell.cc squarecell/error_squarecell.h squarecell.h
-error_squarecell.o: squarecell/error_squarecell.cc \
- squarecell/error_squarecell.h
-anthill.o: entities/anthill.cc squarecell.h message.h entities/anthill.h \
- entities/ants.h
-ants.o: entities/ants.cc squarecell.h message.h constantes.h \
- entities/ants.h
-food.o: entities/food.cc squarecell.h message.h entities/food.h
+simulation.o: simulation.cc entities/anthill.h entities/ants.h \
+  constantes.h squarecell.h entities/food.h message.h simulation.h
+squarecell.o: squarecell.cc squarecell.h error_squarecell.h
+error_squarecell.o: error_squarecell.cc error_squarecell.h
+anthill.o: entities/anthill.cc message.h squarecell.h entities/anthill.h \
+  entities/ants.h constantes.h
+ants.o: entities/ants.cc constantes.h message.h squarecell.h \
+  entities/ants.h
+food.o: entities/food.cc message.h squarecell.h entities/food.h
 message.o: message.cc message.h
