@@ -48,11 +48,11 @@ make
 for i in "${!files[@]}"; do
     echo -e "\e[1;37m""$i": "${files[$i]}""$(tput sgr0)"
 
-    output=$(./project "${folder}""${files[$i]}")
+    output=$(./projet "${folder}""${files[$i]}")
     total=$((total + 1))
 
   if ! [[ "${output}" == *"${expected[$i]}"* ]]; then
-        echo "./project ${folder}${files[$i]}"
+        echo "./projet ${folder}${files[$i]}"
 
         echo -e "\e[1;37m""Expected":
         echo -e "\e[1;31m""${expected[$i]}""\e[0;m"

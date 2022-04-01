@@ -1,11 +1,11 @@
 # Definitions de macros
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11 -I ./
-CXXFILES = project.cc simulation.cc squarecell.cc error_squarecell.cc anthill.cc ants.cc food.cc message.cc
-OFILES = project.o simulation.o squarecell.o error_squarecell.o anthill.o ants.o food.o message.o
+CXXFILES = projet.cc simulation.cc squarecell.cc error_squarecell.cc anthill.cc ants.cc food.cc message.cc
+OFILES = projet.o simulation.o squarecell.o error_squarecell.o anthill.o ants.o food.o message.o
 
 all: $(OFILES)
-	$(CXX) ${CXXFLAGS} $(OFILES) -o project
+	$(CXX) ${CXXFLAGS} $(OFILES) -o projet
 
 depend:
 	@echo " *** MISE A JOUR DES DEPENDANCES ***"
@@ -24,7 +24,7 @@ clean:
 # -- Regles de dependances generees automatiquement
 #
 # DO NOT DELETE THIS LINE
-project.o: project.cc simulation.h anthill.h ants.h constantes.h \
+projet.o: projet.cc simulation.h anthill.h ants.h constantes.h \
  squarecell.h food.h
 simulation.o: simulation.cc anthill.h ants.h constantes.h squarecell.h \
  food.h message.h simulation.h
