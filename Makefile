@@ -9,7 +9,7 @@ all: $(OFILES)
 
 depend:
 	@echo " *** MISE A JOUR DES DEPENDANCES ***"
-	@(sed '/^# DO NOT DELETE THIS LINE/q' makefile && \
+	@(sed '/^# DO NOT DELETE THIS LINE/q' Makefile && \
 	  $(CXX) -MM $(CXXFLAGS) $(CXXFILES) | \
 	  egrep -v "/usr/include" \
 	 ) >Makefile.new

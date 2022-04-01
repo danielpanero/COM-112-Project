@@ -1,4 +1,5 @@
 project
+*.zip
 .vscode/*.log
 
 # Prerequisites
