@@ -4,9 +4,9 @@
 #include "sstream"
 #include "vector"
 
-#include "entities/anthill.h"
-#include "entities/ants.h"
-#include "entities/food.h"
+#include "anthill.h"
+#include "ants.h"
+#include "food.h"
 #include "message.h"
 
 #include "simulation.h"

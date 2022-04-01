@@ -1,8 +1,8 @@
 # Definitions de macros
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11 -I ./
-CXXFILES = project.cc simulation.cc squarecell.cc error_squarecell.cc entities/anthill.cc entities/ants.cc entities/food.cc message.cc
-OFILES = project.o simulation.o squarecell.o error_squarecell.o entities/anthill.o entities/ants.o entities/food.o message.o
+CXXFILES = project.cc simulation.cc squarecell.cc error_squarecell.cc anthill.cc ants.cc food.cc message.cc
+OFILES = project.o simulation.o squarecell.o error_squarecell.o anthill.o ants.o food.o message.o
 
 all: $(OFILES)
 	$(CXX) ${CXXFLAGS} $(OFILES) -o project
@@ -24,16 +24,14 @@ clean:
 # -- Regles de dependances generees automatiquement
 #
 # DO NOT DELETE THIS LINE
-project.o: project.cc simulation.h entities/anthill.h entities/ants.h \
- constantes.h squarecell.h entities/food.h
-simulation.o: simulation.cc entities/anthill.h entities/ants.h \
- constantes.h squarecell.h entities/ants.h entities/food.h message.h \
- simulation.h
+project.o: project.cc simulation.h anthill.h ants.h constantes.h \
+ squarecell.h food.h
+simulation.o: simulation.cc anthill.h ants.h constantes.h squarecell.h \
+ food.h message.h simulation.h
 squarecell.o: squarecell.cc error_squarecell.h squarecell.h
 error_squarecell.o: error_squarecell.cc error_squarecell.h
-anthill.o: entities/anthill.cc message.h squarecell.h entities/anthill.h \
- entities/ants.h constantes.h
-ants.o: entities/ants.cc constantes.h message.h squarecell.h \
- entities/ants.h
-food.o: entities/food.cc message.h squarecell.h entities/food.h
+anthill.o: anthill.cc message.h squarecell.h anthill.h ants.h \
+ constantes.h
+ants.o: ants.cc constantes.h message.h squarecell.h ants.h
+food.o: food.cc message.h squarecell.h food.h
 message.o: message.cc message.h
