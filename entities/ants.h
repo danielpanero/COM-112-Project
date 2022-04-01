@@ -1,5 +1,6 @@
 #ifndef ENTITIES_ANTS_H
 #define ENTITIES_ANTS_H
+
 #include "constantes.h"
 
 #include "squarecell.h"
@@ -9,7 +10,7 @@ class Generator : Square
 public:
     Generator(unsigned int &x, unsigned int &y);
 
-    Square get_as_square();
+    const Square get_as_square();
 
     void add_to_grid();
 };
@@ -31,7 +32,7 @@ public:
 
     static Defensor *parse_line(std::string &line);
 
-    Square get_as_square();
+    const Square get_as_square();
 
     void add_to_grid();
 };

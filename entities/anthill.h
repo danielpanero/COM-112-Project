@@ -36,7 +36,7 @@ public:
     unsigned int get_number_of_defensors() const;
     unsigned int get_number_of_predators() const;
 
-    Square get_as_square();
+    const Square get_as_square();
 };
 
 #endif

@@ -39,6 +39,7 @@ Anthill *Anthill::parse_line(string &line)
 
     stream >> x;
     stream >> y;
+    stream >> side;
     stream >> xg;
     stream >> yg;
     stream >> total_food;
@@ -89,4 +90,4 @@ unsigned int Anthill::get_number_of_collectors() const { return n_collectors; };
 unsigned int Anthill::get_number_of_defensors() const { return n_defensors; };
 unsigned int Anthill::get_number_of_predators() const { return n_predators; };
 
-Square Anthill::get_as_square() { return Square(*this); }
+const Square Anthill::get_as_square() { return {*this}; }

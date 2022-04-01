@@ -32,7 +32,7 @@ void Generator::add_to_grid()
     }
 }
 
-Square Generator::get_as_square() { return Square(*this); }
+const Square Generator::get_as_square() { return {*this}; }
 
 Collector::Collector(unsigned int &x, unsigned int &y) : Square({x, y, sizeC, true})
 {
@@ -100,7 +100,7 @@ void Defensor::add_to_grid()
     }
 }
 
-Square Defensor::get_as_square() { return Square(*this); }
+const Square Defensor::get_as_square() { return {*this}; }
 
 Predator::Predator(unsigned int &x, unsigned int &y) : Square({x, y, sizeP, true})
 {
