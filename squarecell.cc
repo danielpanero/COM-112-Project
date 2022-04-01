@@ -132,34 +132,24 @@ bool test_if_superposed_two_square(Square &square1, Square &square2)
         return true;
     }
 
-    if (x1 < x2)
+    if (x1 < x2 && x1 + square1.side >= x2)
     {
-        if (x1 + square1.side >= x2)
-        {
-            return true;
-        }
-    }
-    else
-    {
-        if (x2 + square2.side >= x1)
-        {
-            return true;
-        }
+        return true;
     }
 
-    if (y1 < y2)
+    if (x1 > x2 && x2 + square2.side >= x1)
     {
-        if (y1 + square1.side >= y2)
-        {
-            return true;
-        }
+        return true;
     }
-    else
+
+    if (y1 < y2 && y1 + square1.side >= y2)
     {
-        if (y2 + square2.side >= y1)
-        {
-            return true;
-        }
+        return true;
+    }
+
+    if (y1 > y2 && y2 + square2.side >= y1)
+    {
+        return true;
     }
 
     return false;

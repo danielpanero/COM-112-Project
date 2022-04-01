@@ -10,7 +10,7 @@ class Generator : Square
 public:
     Generator(unsigned int &x, unsigned int &y);
 
-    const Square get_as_square();
+    Square get_as_square();
 
     void add_to_grid();
 };
@@ -32,7 +32,7 @@ public:
 
     static Defensor *parse_line(std::string &line);
 
-    const Square get_as_square();
+    Square get_as_square();
 
     void add_to_grid();
 };

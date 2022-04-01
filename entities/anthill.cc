@@ -90,4 +90,4 @@ unsigned int Anthill::get_number_of_collectors() const { return n_collectors; };
 unsigned int Anthill::get_number_of_defensors() const { return n_defensors; };
 unsigned int Anthill::get_number_of_predators() const { return n_predators; };
 
-const Square Anthill::get_as_square() { return {*this}; }
+Square Anthill::get_as_square() { return {*this}; }
