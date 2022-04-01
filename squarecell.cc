@@ -9,10 +9,8 @@
 using std::cout;
 using std::vector;
 
-// constexpr short unsigned g_dim(7);             // NOLINT
-// constexpr short unsigned g_max(pow(2, g_dim)); // NOLINT
-
-short unsigned g_max(128);
+constexpr short unsigned g_dim(7);             // NOLINT
+constexpr short unsigned g_max(pow(2, g_dim)); // NOLINT
 
 static vector<vector<bool>> grid(g_max, vector<bool>(g_max)); // NOLINT
 
