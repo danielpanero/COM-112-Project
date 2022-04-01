@@ -90,15 +90,16 @@ void Simulation::parse_collectors(ifstream &file, Anthill &anthill)
     }
     anthill.set_collectors(collectors);
 }
+
 void Simulation::parse_defensors(ifstream &file, Anthill &anthill)
 {
     string line(get_next_line(file));
     istringstream stream(line);
 
-    unsigned int n_defensors = anthill.get_number_of_defensors();
+    auto n_defensors = anthill.get_number_of_defensors();
     vector<Defensor *> defensors(n_defensors);
 
-    unsigned int j = 0;
+    unsigned int j(0);
     while (j < n_defensors)
     {
         line = get_next_line(file);
@@ -112,9 +113,8 @@ void Simulation::parse_predators(ifstream &file, Anthill &anthill)
 {
     string line(get_next_line(file));
     istringstream stream(line);
-    line = get_next_line(file);
 
-    unsigned int n_predators = anthill.get_number_of_predators();
+    auto n_predators = anthill.get_number_of_predators();
     vector<Predator *> predators(n_predators);
 
     unsigned int j(0);
@@ -144,6 +144,7 @@ void Simulation::check_overlapping_anthills()
         }
     }
 }
+
 void Simulation::check_generator_defensors_inside_anthills()
 {
     for (size_t i = 0; i != anthills.size(); ++i)
