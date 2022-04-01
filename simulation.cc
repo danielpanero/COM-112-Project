@@ -33,6 +33,7 @@ void Simulation::read_file(string &path)
     check_overlapping_anthills();
     check_generator_defensors_inside_anthills();
 
+    cout << message::success();
     file.close();
 }
 
@@ -75,8 +76,7 @@ void Simulation::parse_anthills(ifstream &file)
 
 void Simulation::parse_collectors(ifstream &file, Anthill &anthill)
 {
-    string line(get_next_line(file));
-    istringstream stream(line);
+    string line;
 
     auto n_collectors = anthill.get_number_of_collectors();
     vector<Collector *> collectors(n_collectors);
@@ -93,8 +93,7 @@ void Simulation::parse_collectors(ifstream &file, Anthill &anthill)
 
 void Simulation::parse_defensors(ifstream &file, Anthill &anthill)
 {
-    string line(get_next_line(file));
-    istringstream stream(line);
+    string line;
 
     auto n_defensors = anthill.get_number_of_defensors();
     vector<Defensor *> defensors(n_defensors);
@@ -111,8 +110,7 @@ void Simulation::parse_defensors(ifstream &file, Anthill &anthill)
 
 void Simulation::parse_predators(ifstream &file, Anthill &anthill)
 {
-    string line(get_next_line(file));
-    istringstream stream(line);
+    string line;
 
     auto n_predators = anthill.get_number_of_predators();
     vector<Predator *> predators(n_predators);
