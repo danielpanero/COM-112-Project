@@ -17,7 +17,23 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
-string get_next_line(ifstream &fstream);
+string get_next_line(ifstream &file);
+
+void Simulation::read_file(string &path)
+{
+    ifstream file(path);
+    if (file.fail())
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    parse_foods(file);
+    parse_anthills(file);
+
+    check_overlapping_anthills();
+    generator_defensor(file);
+    file.close();
+}
 
 void Simulation::parse_foods(ifstream &file)
 {
@@ -25,9 +41,9 @@ void Simulation::parse_foods(ifstream &file)
     istringstream stream(line);
 
     stream >> n_foods;
-    vector<Food *> foods(n_foods);
+    foods.resize(n_foods);
 
-    unsigned int i = 0;
+    unsigned int i(0);
     while (i < n_foods)
     {
         line = get_next_line(file);
@@ -40,7 +56,6 @@ void Simulation::parse_anthills(ifstream &file)
 {
     string line(get_next_line(file));
     istringstream stream(line);
-    line = get_next_line(file);
 
     stream >> n_anthills;
     anthills.resize(n_anthills);
@@ -82,7 +97,7 @@ void Simulation::parse_defensors(ifstream &file, Anthill &anthill)
     unsigned int n_defensors = anthill.get_number_of_defensors();
     vector<Defensor *> defensors(n_defensors);
 
-    unsigned int j(0);
+    unsigned int j = 0;
     while (j < n_defensors)
     {
         line = get_next_line(file);
@@ -111,7 +126,7 @@ void Simulation::parse_predators(ifstream &file, Anthill &anthill)
     anthill.set_predators(predators);
 }
 
-void Simulation::test_overlaping()
+void Simulation::check_overlapping_anthills()
 {
     for (size_t i = 0; i < anthills.size(); i++)
     {
@@ -135,23 +150,7 @@ void Simulation::generator_defensor(ifstream &file)
         anthills[i]->test_if_generator_defensors_perimeter(i);
     }
 
-    file.close();
-
     cout << message::success();
-}
-
-void Simulation::read_file(string &path)
-{
-    ifstream file(path);
-    if (file.fail())
-    {
-        exit(EXIT_FAILURE);
-    }
-
-    parse_foods(file);
-    parse_anthills(file);
-    test_overlaping();
-    generator_defensor(file);
 }
 
 string get_next_line(ifstream &stream)

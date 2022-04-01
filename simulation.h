@@ -15,7 +15,7 @@ private:
 
     void parse_foods(std::ifstream &file);
     void parse_anthills(std::ifstream &file);
-    void test_overlaping();
+    void check_overlapping_anthills();
     void parse_collectors(std::ifstream &file, Anthill &anthill);
     void parse_defensors(std::ifstream &file, Anthill &anthill);
     void parse_predators(std::ifstream &file, Anthill &anthill);
