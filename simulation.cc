@@ -11,11 +11,11 @@
 
 #include "simulation.h"
 
-using std::string;
-using std::vector;
 using std::cout;
 using std::ifstream;
 using std::istringstream;
+using std::string;
+using std::vector;
 
 string get_next_line(ifstream &stream);
 
@@ -42,7 +42,7 @@ void Simulation::read_file(string &path)
     while (i < nbN)
     {
         line = get_next_line(file);
-        foods[i] = Food:: parse_line(line);
+        foods[i] = Food::parse_line(line);
         i++;
     }
 
@@ -58,44 +58,44 @@ void Simulation::read_file(string &path)
     while (i < nbF)
     {
         line = get_next_line(file);
-        anthills[i] =  Anthill::parse_line(line);
+        anthills[i] = Anthill::parse_line(line);
 
         // 3. Parsing the ants
         // 3.1 Parsing the collectors
-        unsigned int nbC = anthills[i]->get_number_of_collectors();
-        vector<Collector *> collectors(nbC);
+        unsigned int n_collectors = anthills[i]->get_number_of_collectors();
+        vector<Collector *> collectors(n_collectors);
 
         unsigned int j = 0;
-        while (j < nbC)
+        while (j < n_collectors)
         {
             line = get_next_line(file);
-            collectors[j] = Collector:: parse_line(line);
+            collectors[j] = Collector::parse_line(line);
             j++;
         }
         anthills[i]->set_collectors(collectors);
 
         // 3.2 Parsing the defendors
-        unsigned int nbD = anthills[i]->get_number_of_defensors();
-        vector<Defensor *> defensors(nbD);
+        unsigned int n_defensors = anthills[i]->get_number_of_defensors();
+        vector<Defensor *> defensors(n_defensors);
 
         j = 0;
-        while (j < nbD)
+        while (j < n_defensors)
         {
             line = get_next_line(file);
-            defensors[j] = Defensor:: parse_line(line);
+            defensors[j] = Defensor::parse_line(line);
             j++;
         }
         anthills[i]->set_defensors(defensors);
 
         // 3.3 Parsing the predators
-        unsigned int nbP = anthills[i]->get_number_of_predators();
-        vector<Predator *> predators(nbP);
+        unsigned int n_predators = anthills[i]->get_number_of_predators();
+        vector<Predator *> predators(n_predators);
 
         j = 0;
-        while (j < nbP)
+        while (j < n_predators)
         {
             line = get_next_line(file);
-            predators[i] = Predator:: parse_line(line);
+            predators[i] = Predator::parse_line(line);
             j++;
         }
         anthills[i]->set_predators(predators);

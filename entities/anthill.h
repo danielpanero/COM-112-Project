@@ -10,9 +10,9 @@ class Anthill : Square
 {
 private:
     unsigned int total_food;
-    unsigned int nbC;
-    unsigned int nbD;
-    unsigned int nbP;
+    unsigned int n_collectors;
+    unsigned int n_defensors;
+    unsigned int n_predators;
 
     Generator *generator;
     std::vector<Collector *> collectors;
@@ -21,8 +21,8 @@ private:
 
 public:
     Anthill(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &xg,
-            unsigned int &yg, unsigned int total_food, unsigned int &nbC,
-            unsigned int &nbD, unsigned int &nbP);
+            unsigned int &yg, unsigned int total_food, unsigned int &n_collectors,
+            unsigned int &n_defensors, unsigned int &n_predators);
 
     static Anthill *parse_line(std::string &line);
 
