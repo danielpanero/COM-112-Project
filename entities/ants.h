@@ -1,12 +1,13 @@
 #ifndef ENTITIES_ANTS_H
 #define ENTITIES_ANTS_H
+#include "constantes.h"
 
 #include "squarecell.h"
 
 class Generator : Square
 {
 public:
-    Generator(unsigned int x, unsigned int y);
+    Generator(unsigned int &x, unsigned int &y);
 
     Square get_as_square();
 
@@ -16,7 +17,7 @@ public:
 class Collector : Square
 {
 public:
-    Collector(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered);
+    Collector(unsigned int &x, unsigned int &y);
 
     static Collector *parse_line(std::string &line);
 
@@ -26,7 +27,7 @@ public:
 class Defensor : Square
 {
 public:
-    Defensor(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered);
+    Defensor(unsigned int &x, unsigned int &y);
 
     static Defensor *parse_line(std::string &line);
 
@@ -38,7 +39,7 @@ public:
 class Predator : Square
 {
 public:
-    Predator(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered);
+    Predator(unsigned int &x, unsigned int &y);
 
     static Predator *parse_line(std::string &line);
 

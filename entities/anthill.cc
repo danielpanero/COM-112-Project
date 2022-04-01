@@ -12,42 +12,39 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
-Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side, bool &centered)
-    : Square({x, y, side, false})
+Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side,
+                 unsigned int &xg, unsigned int &yg, unsigned int total_food,
+                 unsigned int &nbC, unsigned int &nbD, unsigned int &nbP)
+    : Square({x, y, side}), total_food(total_food), nbC(nbC), nbD(nbD), nbP(nbP),
+      generator(new Generator(xg, yg))
 {
     test_square(*this);
 }
 
-Anthill *Anthill::parse_line(std::string &line)
+Anthill *Anthill::parse_line(string &line)
 {
-    unsigned int x;
-    unsigned int y;
-    unsigned int side_;
-    bool centered;
-
-    istringstream stream(line);
-    stream >> x;
-    stream >> y;
-
-    side = side_;
-    centered = false;
-
+    unsigned int x(0);
+    unsigned int y(0);
+    unsigned int side(0);
     unsigned int xg(0);
     unsigned int yg(0);
+    unsigned int total_food(0);
+    unsigned int nbC(0);
+    unsigned int nbD(0);
+    unsigned int nbP(0);
+
+    istringstream stream(line);
+
+    stream >> x;
+    stream >> y;
     stream >> xg;
     stream >> yg;
-    new Generator(xg, yg);
-
-    unsigned int total_food;
-    unsigned int nbC;
-    unsigned int nbD;
-    unsigned int nbP;
     stream >> total_food;
     stream >> nbC;
     stream >> nbD;
     stream >> nbP;
 
-    return new Anthill(x, y, side_, centered);
+    return new Anthill(x, y, side, xg, yg, total_food, nbC, nbD, nbP);
 }
 
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
