@@ -16,7 +16,7 @@
 #include "ants.h"
 #include "squarecell.h"
 
-class Anthill : Square
+class Anthill : protected Square
 {
 private:
     unsigned int total_food;

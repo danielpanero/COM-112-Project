@@ -13,7 +13,7 @@
 
 #include "squarecell.h"
 
-class Food : Square
+class Food : protected Square
 {
 public:
     /**

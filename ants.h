@@ -15,7 +15,7 @@
 
 #include "squarecell.h"
 
-class Generator : Square
+class Generator : protected Square
 {
 public:
     /**
@@ -31,7 +31,7 @@ public:
     void add_to_grid();
 };
 
-class Collector : Square
+class Collector : protected Square
 {
 public:
     /**
@@ -65,7 +65,7 @@ public:
     void add_to_grid();
 };
 
-class Predator : Square
+class Predator : protected Square
 {
 public:
     /**
