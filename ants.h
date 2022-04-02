@@ -26,9 +26,9 @@ public:
      */
     Generator(unsigned int &x, unsigned int &y);
 
-    Square get_as_square();
-
     void add_to_grid();
+    
+    Square get_as_square();
 };
 
 class Collector : protected Square
@@ -60,9 +60,9 @@ public:
 
     static Defensor *parse_line(std::string &line);
 
-    Square get_as_square();
-
     void add_to_grid();
+
+    Square get_as_square();
 };
 
 class Predator : protected Square
