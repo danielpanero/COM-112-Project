@@ -11,7 +11,7 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     }
 
-    string path(argv[1]); // NOLINT(cppcoreguidelines-pro-bounds-pointer-arithmetic)
+    string path(argv[1]);
 
     Simulation simulation;
     simulation.read_file(path);

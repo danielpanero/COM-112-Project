@@ -3,9 +3,9 @@
  * @author Daniel Panero, Layane Wazen, Andrea Diez Leboffe
  * @version 0.1
  * @date 2022-04-01
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #include "iostream"
@@ -31,15 +31,14 @@ void Generator::add_to_grid()
 {
     unsigned int superposed_x(0);
     unsigned int superposed_y(0);
+
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
         cout << message::generator_overlap(x, y, superposed_x, superposed_y);
         exit(EXIT_FAILURE);
     }
-    else
-    {
-        add_square(*this);
-    }
+
+    add_square(*this);
 }
 
 Square Generator::get_as_square() { return {*this}; }
@@ -66,15 +65,14 @@ void Collector::add_to_grid()
 {
     unsigned int superposed_x(0);
     unsigned int superposed_y(0);
+
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
         cout << message::collector_overlap(x, y, superposed_x, superposed_y);
         exit(EXIT_FAILURE);
     }
-    else
-    {
-        add_square(*this);
-    }
+
+    add_square(*this);
 }
 
 Defensor::Defensor(unsigned int &x, unsigned int &y) : Square({x, y, sizeD, true})
@@ -99,16 +97,14 @@ void Defensor::add_to_grid()
 {
     unsigned int superposed_x(0);
     unsigned int superposed_y(0);
-    
+
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
         cout << message::defensor_overlap(x, y, superposed_x, superposed_y);
         exit(EXIT_FAILURE);
     }
-    else
-    {
-        add_square(*this);
-    }
+
+    add_square(*this);
 }
 
 Square Defensor::get_as_square() { return {*this}; }
@@ -138,8 +134,6 @@ void Predator::add_to_grid()
         cout << message::predator_overlap(x, y);
         exit(EXIT_FAILURE);
     }
-    else
-    {
-        add_square(*this);
-    }
+
+    add_square(*this);
 }

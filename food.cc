@@ -3,9 +3,9 @@
  * @author Daniel Panero, Layane Wazen, Andrea Diez Leboffe
  * @version 0.1
  * @date 2022-04-01
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #include "iostream"
@@ -45,8 +45,6 @@ void Food::add_to_grid()
         cout << message::food_overlap(x, y);
         exit(EXIT_FAILURE);
     }
-    else
-    {
-        add_square(*this);
-    }
+
+    add_square(*this);
 }
