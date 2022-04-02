@@ -99,6 +99,7 @@ void Defensor::add_to_grid()
 {
     unsigned int superposed_x(0);
     unsigned int superposed_y(0);
+    
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
         cout << message::defensor_overlap(x, y, superposed_x, superposed_y);

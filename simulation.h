@@ -3,9 +3,9 @@
  * @author Daniel Panero, Layane Wazen, Andrea Diez Leboffe
  * @version 0.1
  * @date 2022-04-01
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
 #ifndef SIMULATION_H
@@ -26,9 +26,9 @@ private:
     void parse_foods(std::ifstream &file);
     void parse_anthills(std::ifstream &file);
 
-    void parse_collectors(std::ifstream &file, Anthill &anthill);
-    void parse_defensors(std::ifstream &file, Anthill &anthill);
-    void parse_predators(std::ifstream &file, Anthill &anthill);
+    void parse_collectors(std::ifstream &file, Anthill *anthill);
+    void parse_defensors(std::ifstream &file, Anthill *anthill);
+    void parse_predators(std::ifstream &file, Anthill *anthill);
 
     void check_overlapping_anthills();
     void check_generator_defensors_inside_anthills();
@@ -36,5 +36,13 @@ private:
 public:
     void read_file(std::string &path);
 };
+
+/**
+ * @brief Gets the next non-empty line
+ *
+ * @param file
+ * @return string
+ */
+std::string get_next_line(std::ifstream &file);
 
 #endif
