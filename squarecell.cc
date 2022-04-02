@@ -72,7 +72,7 @@ void add_square(Square &square)
     size_t start(g_max - 1 - y);
     size_t end(g_max - 1 - (y + square.side));
 
-    for (auto i(start); i > end; i--)
+    for (size_t i(start); i > end; i--)
     {
         auto &row = grid[i];
         fill(row.begin() + x, row.begin() + x + square.side, true);
@@ -87,7 +87,7 @@ void remove_square(Square &square)
     size_t start(g_max - 1 - y);
     size_t end(g_max - 1 - (y + square.side));
 
-    for (auto i(start); i > end; i--)
+    for (size_t i(start); i > end; i--)
     {
         auto &row = grid[i];
         fill(row.begin() + x, row.begin() + x + square.side, false);
@@ -103,7 +103,7 @@ bool test_if_superposed_grid(Square &square, unsigned int &superposed_x,
     size_t start(g_max - 1 - y);
     size_t end(g_max - 1 - (y + square.side));
 
-    for (auto i(start); i > end; i--)
+    for (size_t i(start); i > end; i--)
     {
         auto &row = grid[i];
         auto cell = find(row.begin() + x, row.begin() + x + square.side, true);

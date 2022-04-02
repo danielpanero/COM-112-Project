@@ -88,7 +88,7 @@ void Simulation::parse_collectors(ifstream &file, Anthill *anthill)
 {
     string line;
 
-    auto n_collectors = anthill->get_number_of_collectors();
+    unsigned int n_collectors = anthill->get_number_of_collectors();
     vector<Collector *> collectors(n_collectors);
 
     unsigned int j(0);
@@ -105,7 +105,7 @@ void Simulation::parse_defensors(ifstream &file, Anthill *anthill)
 {
     string line;
 
-    auto n_defensors = anthill->get_number_of_defensors();
+    unsigned int n_defensors = anthill->get_number_of_defensors();
     vector<Defensor *> defensors(n_defensors);
 
     unsigned int j(0);
@@ -122,7 +122,7 @@ void Simulation::parse_predators(ifstream &file, Anthill *anthill)
 {
     string line;
 
-    auto n_predators = anthill->get_number_of_predators();
+    unsigned int n_predators = anthill->get_number_of_predators();
     vector<Predator *> predators(n_predators);
 
     unsigned int j(0);
