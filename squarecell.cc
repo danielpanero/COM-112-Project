@@ -1,3 +1,13 @@
+/**
+ * @file squarecell.cc
+ * @author Daniel Panero [+261/-71], Layane Wazen [+0/-0], Andrea Diez Leboffe [+35/-35]
+ * @version 0.1
+ * @date 2022-04-01
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "algorithm"
 #include "cmath"
 #include "iostream"

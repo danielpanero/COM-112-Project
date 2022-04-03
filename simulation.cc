@@ -1,6 +1,6 @@
 /**
  * @file simulation.cc
- * @author Daniel Panero, Layane Wazen, Andrea Diez Leboffe
+ * @author Daniel Panero [+261/-125], Layane Wazen [+133/-96], Andrea Diez Leboffe [+21/-21]
  * @version 0.1
  * @date 2022-04-01
  *

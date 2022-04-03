@@ -19,7 +19,7 @@ depend:
 
 clean:
 	@echo " *** EFFACE MODULES OBJET ET EXECUTABLE ***"
-	@/bin/rm -rf *.o *.x *.cc~ *.h~ project
+	@/bin/rm -rf *.o *.x *.cc~ *.h~ projet
 	@/bin/find . -name '*.o' -delete
 
 #
