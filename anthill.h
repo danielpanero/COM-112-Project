@@ -1,6 +1,6 @@
 /**
  * @file anthill.h
- * @author Daniel Panero [+43/-1], Layane Wazen [+29/-0], Andrea Diez Leboffe
+ * @author Daniel Panero [+44/-6], Layane Wazen [+29/-0], Andrea Diez [+12/-10]
  * @version 0.1
  * @date 2022-04-01
  *

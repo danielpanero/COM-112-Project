@@ -1,6 +1,6 @@
 /**
  * @file squarecell.h
- * @author Daniel Panero [+34/-9], Layane Wazen [+0/-0], Andrea Diez Leboffe [+65/-1]
+ * @author Daniel Panero [+34/-9], Layane Wazen [+0/-0], Andrea Diez [+65/-1]
  * @version 0.1
  * @date 2022-04-01
  *
