@@ -1,13 +1,14 @@
 # Definitions de macros
 CXX     = g++
-CXXFLAGS = -g -Wall -std=c++11 -I ./
+GTKMM = `pkg-config gtkmm-3.0 --cflags --libs`
+CXXFLAGS = -g -Wall -std=c++11 -I ./ $(GTKMM)
 CXXFILES = projet.cc simulation.cc squarecell.cc error_squarecell.cc anthill.cc \
 ants.cc food.cc message.cc
 OFILES = projet.o simulation.o squarecell.o error_squarecell.o anthill.o ants.o \
 food.o message.o
 
 all: $(OFILES)
-	$(CXX) ${CXXFLAGS} $(OFILES) -o projet
+	$(CXX) $(CXXFLAGS) $(OFILES) -o projet $(GTKMM)
 
 depend:
 	@echo " *** MISE A JOUR DES DEPENDANCES ***"
