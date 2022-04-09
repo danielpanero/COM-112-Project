@@ -1,16 +1,20 @@
 #include "iostream"
 
+#include "gtkmm/aspectframe.h"
 #include "gtkmm/buttonbox.h"
+#include "gtkmm/drawingarea.h"
 #include "gtkmm/filechooserdialog.h"
 #include "gtkmm/frame.h"
 #include "gtkmm/grid.h"
 
 #include "gui.h"
 
-constexpr unsigned int XS_MARGIN = 3;
-constexpr unsigned int SM_MARGIN = 5;
-constexpr unsigned int MD_MARGIN = 10;
-constexpr unsigned int LG_MARGIN = 10;
+constexpr unsigned int xs_margin = 3;
+constexpr unsigned int sm_margin = 5;
+constexpr unsigned int md_margin = 10;
+constexpr unsigned int lg_margin = 10;
+
+constexpr unsigned drawing_area_size = 500;
 
 using std::string;
 
@@ -22,15 +26,24 @@ MainWindow::MainWindow()
 {
     this->set_title("Main");
 
-    grid.set_margin_top(MD_MARGIN);
-    grid.set_margin_left(MD_MARGIN);
-    grid.set_margin_bottom(MD_MARGIN);
-    grid.set_margin_right(MD_MARGIN);
+    grid.set_margin_top(md_margin);
+    grid.set_margin_left(md_margin);
+    grid.set_margin_bottom(md_margin);
+    grid.set_margin_right(md_margin);
 
-    grid.set_row_spacing(LG_MARGIN);
+    grid.set_column_spacing(lg_margin);
+    grid.set_row_spacing(lg_margin);
 
     this->build_layout_general_box();
-    this->build_layout_food_anthill_box();
+    this->build_layout_anthill_box();
+    this->build_layout_graphic();
+
+    // This frame is invisible and expandable, so the others controlls don't resize
+    auto *resizable_frame = make_managed<Gtk::Frame>();
+    resizable_frame->set_vexpand();
+    resizable_frame->set_shadow_type(Gtk::SHADOW_NONE);
+
+    grid.attach(*resizable_frame, 0, 3);
 
     this->add(grid);
     this->show_all_children();
@@ -40,10 +53,10 @@ void MainWindow::build_layout_general_box()
 {
     // Layout
     auto *general_button_box = make_managed<Gtk::ButtonBox>(Gtk::ORIENTATION_VERTICAL);
-    general_button_box->set_spacing(XS_MARGIN);
-    general_button_box->set_margin_left(SM_MARGIN);
-    general_button_box->set_margin_right(SM_MARGIN);
-    general_button_box->set_margin_bottom(SM_MARGIN);
+    general_button_box->set_spacing(xs_margin);
+    general_button_box->set_margin_left(sm_margin);
+    general_button_box->set_margin_right(sm_margin);
+    general_button_box->set_margin_bottom(sm_margin);
 
     general_button_box->pack_end(open_button);
     general_button_box->pack_end(save_button);
@@ -63,19 +76,24 @@ void MainWindow::build_layout_general_box()
         sigc::mem_fun(*this, &MainWindow::on_save_button_click));
 }
 
-void MainWindow::build_layout_food_anthill_box()
+void MainWindow::build_layout_food_box()
 {
     auto *food_frame = make_managed<Gtk::Frame>();
     food_frame->set_label("Food count:");
-
     food_count_label.set_markup("<b>0</b>");
+
     food_frame->add(food_count_label);
 
+    grid.attach(*food_frame, 0, 1);
+}
+
+void MainWindow::build_layout_anthill_box()
+{
     auto *anthill_box = make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL);
-    anthill_box->set_spacing(XS_MARGIN);
-    anthill_box->set_margin_left(SM_MARGIN);
-    anthill_box->set_margin_right(SM_MARGIN);
-    anthill_box->set_margin_bottom(SM_MARGIN);
+    anthill_box->set_spacing(xs_margin);
+    anthill_box->set_margin_left(sm_margin);
+    anthill_box->set_margin_right(sm_margin);
+    anthill_box->set_margin_bottom(sm_margin);
 
     anthill_info_label.set_markup("<b>No selection</b>");
 
@@ -87,8 +105,27 @@ void MainWindow::build_layout_food_anthill_box()
     anthill_frame->set_label("Anthill report:");
     anthill_frame->add(*anthill_box);
 
-    grid.attach(*food_frame, 0, 1);
     grid.attach(*anthill_frame, 0, 2);
+}
+
+void MainWindow::build_layout_graphic()
+{
+    auto *aspect_frame = make_managed<Gtk::AspectFrame>();
+    aspect_frame->set(Gtk::ALIGN_START, Gtk::ALIGN_START, 1, false);
+    aspect_frame->set_hexpand();
+    aspect_frame->set_vexpand();
+
+    aspect_frame->unset_label();
+    aspect_frame->set_shadow_type(Gtk::SHADOW_NONE);
+
+    auto *drawing_area = make_managed<Gtk::DrawingArea>();
+    drawing_area->set_size_request(drawing_area_size, drawing_area_size);
+    aspect_frame->add(*drawing_area);
+
+    drawing_area->signal_draw().connect(
+        sigc::mem_fun(*this, &MainWindow::on_custom_draw));
+
+    grid.attach(*aspect_frame, 1, 0, 1, 4);
 }
 
 void MainWindow::on_open_button_click()
@@ -124,4 +161,12 @@ void MainWindow::on_save_button_click()
     {
         string filename = dialog.get_filename();
     }
+}
+
+bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr)
+{
+    cr->set_source_rgb(0, 0, 0);
+    cr->paint();
+
+    return true;
 }

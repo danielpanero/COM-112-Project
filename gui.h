@@ -15,11 +15,14 @@ public:
 
 private:
     void build_layout_general_box();
-    void build_layout_food_anthill_box();
+    void build_layout_food_box();
+    void build_layout_anthill_box();
+    void build_layout_graphic();
 
 
     void on_open_button_click();
     void on_save_button_click();
+    bool on_custom_draw(const Cairo::RefPtr<Cairo::Context>&);
 
     Gtk::Grid grid;
 
