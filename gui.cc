@@ -20,9 +20,10 @@ using std::string;
 
 using Gtk::make_managed;
 
-MainWindow::MainWindow()
-    : open_button("Open"), save_button("Save"), start_stop_button("Start"),
-      step_button("Step"), next_anthill_button("Next"), prev_anthill_button("Prev")
+MainWindow::MainWindow(Simulation *simulation)
+    : simulation(simulation), open_button("Open"), save_button("Save"),
+      start_stop_button("Start"), step_button("Step"), next_anthill_button("Next"),
+      prev_anthill_button("Prev")
 {
     this->set_title("Main");
 
@@ -145,6 +146,9 @@ void MainWindow::on_open_button_click()
     if (result == Gtk::RESPONSE_OK)
     {
         string filename = dialog.get_filename();
+
+        simulation->reset();
+        simulation->read_file(filename);
     }
 }
 
@@ -160,6 +164,7 @@ void MainWindow::on_save_button_click()
     if (result == Gtk::RESPONSE_OK)
     {
         string filename = dialog.get_filename();
+        simulation->save_file(filename);
     }
 }
 

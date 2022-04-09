@@ -6,14 +6,18 @@
 #include "gtkmm/window.h"
 #include "gtkmm/grid.h"
 
+#include "simulation.h"
+
 class MainWindow : public Gtk::Window
 {
 
 public:
-    MainWindow();
+    MainWindow(Simulation *simulation);
     ~MainWindow() = default;
 
 private:
+    Simulation* simulation; 
+
     void build_layout_general_box();
     void build_layout_food_box();
     void build_layout_anthill_box();

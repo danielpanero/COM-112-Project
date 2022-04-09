@@ -35,6 +35,9 @@ private:
 
 public:
     void read_file(std::string &path);
+    void save_file(std::string &path) {};
+    
+    void reset(){};
 };
 
 /**
