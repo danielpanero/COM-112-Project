@@ -40,10 +40,19 @@ public:
 
     unsigned int get_n_foods() { return 3; };
 
-    bool get_info_next_anthill(unsigned int &n_collectors, unsigned int &n_predators,
-                               unsigned int &n_defensors){};
-    bool get_info_prev_anthill(unsigned int &n_collectors, unsigned int &n_predators,
-                               unsigned int &n_defensors){};
+    bool get_info_next_anthill(unsigned int &n_collectors, unsigned int &n_defensors,
+                               unsigned int &n_predators)
+    {
+        n_collectors = 4;
+        n_predators = 7;
+        n_defensors = 6;
+        return true;
+    };
+    bool get_info_prev_anthill(unsigned int &n_collectors, unsigned int &n_defensors,
+                               unsigned int &n_predators)
+    {
+        return false;
+    };
 };
 
 /**

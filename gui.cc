@@ -20,6 +20,10 @@ using std::string;
 
 using Gtk::make_managed;
 
+string format_anthill_info_markup(unsigned int &n_collectors,
+                                  unsigned int &n_defensors,
+                                  unsigned int &n_predators);
+
 MainWindow::MainWindow(Simulation *simulation)
     : simulation(simulation), exit_button("Exit"), open_button("Open"),
       save_button("Save"), start_stop_button("Start"), step_button("Step"),
@@ -85,11 +89,15 @@ void MainWindow::build_layout_general_box()
         sigc::mem_fun(*this, &MainWindow::on_save_button_click));
     start_stop_button.signal_clicked().connect(
         sigc::mem_fun(*this, &MainWindow::on_start_stop_button_click));
+    prev_anthill_button.signal_clicked().connect(
+        sigc::mem_fun(*this, &MainWindow::on_prev_button_click));
+    next_anthill_button.signal_clicked().connect(
+        sigc::mem_fun(*this, &MainWindow::on_next_button_click));
 }
 
 void MainWindow::build_layout_food_box()
 {
-    food_count_label.set_markup("<b>0</b>");
+    food_count_label.set_markup("<small><b>No simulation</b></small>");
 
     food_frame.set_label("Food count:");
     food_frame.set_sensitive(false); // We disable the frame at start
@@ -107,7 +115,7 @@ void MainWindow::build_layout_anthill_box()
     anthill_box->set_margin_right(sm_margin);
     anthill_box->set_margin_bottom(sm_margin);
 
-    anthill_info_label.set_markup("<b>No selection</b>");
+    anthill_info_label.set_markup("<small><b>No simulation</b></small>");
 
     anthill_box->pack_end(anthill_info_label);
     anthill_box->pack_end(prev_anthill_button);
@@ -154,8 +162,8 @@ void MainWindow::reset_layout()
 
     start_stop_button.set_label("Start");
 
-    food_count_label.set_markup("<b>0</b>");
-    anthill_info_label.set_markup("<b>No selection</b>");
+    food_count_label.set_markup("<small><b>No simulation</b></small>");
+    anthill_info_label.set_markup("<small><b>No simulation</b></small>");
 }
 
 void MainWindow::on_open_button_click()
@@ -190,7 +198,7 @@ void MainWindow::on_open_button_click()
 
             food_count_label.set_markup(
                 "<b>" + std::to_string(simulation->get_n_foods()) + "</b>");
-            anthill_info_label.set_markup("<b>No selection</b>");
+            anthill_info_label.set_markup("<small><b>No selection</b></small>");
             return;
         }
     }
@@ -242,10 +250,55 @@ void MainWindow::on_start_stop_button_click()
     }
 }
 
+void MainWindow::on_prev_button_click()
+{
+    unsigned int n_collectors(0), n_defensors(0), n_predators(0);
+
+    if (simulation->get_info_prev_anthill(n_collectors, n_defensors, n_predators))
+    {
+        anthill_info_label.set_markup(
+            format_anthill_info_markup(n_collectors, n_defensors, n_predators));
+    }
+    else
+    {
+        anthill_frame.set_sensitive(false);
+        anthill_info_label.set_markup("<small><b>No anthill left</b></small>");
+    }
+}
+
+void MainWindow::on_next_button_click()
+{
+    unsigned int n_collectors(0), n_defensors(0), n_predators(0);
+
+    if (simulation->get_info_next_anthill(n_collectors, n_defensors, n_predators))
+    {
+        anthill_info_label.set_markup(
+            format_anthill_info_markup(n_collectors, n_defensors, n_predators));
+    }
+    else
+    {
+        anthill_frame.set_sensitive(false);
+        anthill_info_label.set_markup("<small><b>No anthill left</b></small>");
+    }
+}
+
 bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
     cr->set_source_rgb(0, 0, 0);
     cr->paint();
 
     return true;
+}
+
+string format_anthill_info_markup(unsigned int &n_collectors,
+                                  unsigned int &n_defensors, unsigned int &n_predators)
+{
+    string tmp;
+
+    tmp = "<small><b>No. Cols:   </b> <tt>" + std::to_string(n_collectors) +
+          "</tt>\r" + "<b>No. Defs:   </b> <tt>" + std::to_string(n_defensors) +
+          "</tt>\r" + "<b>No. Preds:</b> <tt>" + std::to_string(n_predators) +
+          "</tt></small>";
+
+    return tmp;
 }
