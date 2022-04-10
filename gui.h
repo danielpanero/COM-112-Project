@@ -31,7 +31,10 @@ private:
     void on_prev_button_click();
     void on_next_button_click();
 
+    bool on_key_release(GdkEventKey* event);
     bool on_custom_draw(const Cairo::RefPtr<Cairo::Context> & cr);
+
+    sigc::connection key_bindings;
 
     Gtk::Grid grid;
 

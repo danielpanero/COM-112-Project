@@ -29,6 +29,7 @@ MainWindow::MainWindow(Simulation *simulation)
       save_button("Save"), start_stop_button("Start"), step_button("Step"),
       next_anthill_button("Next"), prev_anthill_button("Prev")
 {
+    // Layout
     this->set_title("Main");
 
     grid.set_margin_top(md_margin);
@@ -152,6 +153,10 @@ void MainWindow::build_layout_graphic()
 
 void MainWindow::reset_layout()
 {
+    if(key_bindings.connected()){
+        key_bindings.disconnect(); // We disable the key shortcuts
+    }
+
     // TODO(@danielpanero false) --> connect to ondraw (black)
     save_button.set_sensitive(false);
     start_stop_button.set_sensitive(false);
@@ -199,6 +204,11 @@ void MainWindow::on_open_button_click()
             food_count_label.set_markup(
                 "<b>" + std::to_string(simulation->get_n_foods()) + "</b>");
             anthill_info_label.set_markup("<small><b>No selection</b></small>");
+
+            // We connect the keyshorcuts only when the simulation is ready
+            key_bindings = this->signal_key_release_event().connect(
+                sigc::mem_fun(*this, &MainWindow::on_key_release));
+
             return;
         }
     }
@@ -235,6 +245,8 @@ void MainWindow::on_start_stop_button_click()
         save_button.set_sensitive(true);
         step_button.set_sensitive(true);
 
+        
+        anthill_info_label.set_markup("<small><b>No selection</b></small>");
         start_stop_button.set_label("Start");
     }
     else
@@ -246,6 +258,8 @@ void MainWindow::on_start_stop_button_click()
         save_button.set_sensitive(false);
         step_button.set_sensitive(false);
 
+
+        anthill_info_label.set_markup("<small><b>Running...</b></small>");
         start_stop_button.set_label("Stop");
     }
 }
@@ -282,6 +296,35 @@ void MainWindow::on_next_button_click()
         anthill_frame.set_sensitive(false);
         anthill_info_label.set_markup("<small><b>No anthill left</b></small>");
     }
+}
+
+bool MainWindow::on_key_release(GdkEventKey *event)
+{
+    if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_s)
+    {
+        this->on_start_stop_button_click();
+        return true;
+    }
+
+    if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_1)
+    {
+        // TODO(@danielpanero) implement step
+        return true;
+    }
+
+    if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_p)
+    {
+        this->on_prev_button_click();
+        return true;
+    }
+
+    if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_n)
+    {
+        this->on_next_button_click();
+        return true;
+    }
+
+    return false;
 }
 
 bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr)
