@@ -20,9 +20,9 @@ using std::string;
 
 using Gtk::make_managed;
 
-string format_anthill_info_markup(unsigned int &n_collectors,
-                                  unsigned int &n_defensors,
-                                  unsigned int &n_predators);
+string format_anthill_info_markup(unsigned int &index, unsigned int &n_collectors,
+                                  unsigned int &n_defensors, unsigned int &n_predators,
+                                  unsigned int &n_foods);
 
 MainWindow::MainWindow(Simulation *simulation)
     : simulation(simulation), exit_button("Exit"), open_button("Open"),
@@ -252,12 +252,13 @@ void MainWindow::on_start_stop_button_click()
 
 void MainWindow::on_prev_button_click()
 {
-    unsigned int n_collectors(0), n_defensors(0), n_predators(0);
+    unsigned int index(0), n_collectors(0), n_defensors(0), n_predators(0), n_foods(0);
 
-    if (simulation->get_info_prev_anthill(n_collectors, n_defensors, n_predators))
+    if (simulation->get_info_prev_anthill(index, n_collectors, n_defensors,
+                                          n_predators, n_foods))
     {
-        anthill_info_label.set_markup(
-            format_anthill_info_markup(n_collectors, n_defensors, n_predators));
+        anthill_info_label.set_markup(format_anthill_info_markup(
+            index, n_collectors, n_defensors, n_predators, n_foods));
     }
     else
     {
@@ -268,12 +269,13 @@ void MainWindow::on_prev_button_click()
 
 void MainWindow::on_next_button_click()
 {
-    unsigned int n_collectors(0), n_defensors(0), n_predators(0);
+    unsigned int index(0), n_collectors(0), n_defensors(0), n_predators(0), n_foods(0);
 
-    if (simulation->get_info_next_anthill(n_collectors, n_defensors, n_predators))
+    if (simulation->get_info_next_anthill(index, n_collectors, n_defensors,
+                                          n_predators, n_foods))
     {
-        anthill_info_label.set_markup(
-            format_anthill_info_markup(n_collectors, n_defensors, n_predators));
+        anthill_info_label.set_markup(format_anthill_info_markup(
+            index, n_collectors, n_defensors, n_predators, n_foods));
     }
     else
     {
@@ -290,15 +292,17 @@ bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr)
     return true;
 }
 
-string format_anthill_info_markup(unsigned int &n_collectors,
-                                  unsigned int &n_defensors, unsigned int &n_predators)
+string format_anthill_info_markup(unsigned int &index, unsigned int &n_collectors,
+                                  unsigned int &n_defensors, unsigned int &n_predators,
+                                  unsigned int &n_foods)
 {
     string tmp;
 
-    tmp = "<small><b>No. Cols:   </b> <tt>" + std::to_string(n_collectors) +
-          "</tt>\r" + "<b>No. Defs:   </b> <tt>" + std::to_string(n_defensors) +
-          "</tt>\r" + "<b>No. Preds:</b> <tt>" + std::to_string(n_predators) +
-          "</tt></small>";
+    tmp = "<small><b>No. ID:</b>  <tt>" + std::to_string(index) + "</tt>\r\r" +
+          "<b>No. food:   </b>  <tt>" + std::to_string(n_foods) + "</tt>\r" +
+          "<b>No. cols:   </b>  <tt>" + std::to_string(n_collectors) + "</tt>\r" +
+          "<b>No. defs:   </b>  <tt>" + std::to_string(n_defensors) + "</tt>\r" +
+          "<b>No. preds:</b> <tt>" + std::to_string(n_predators) + "</tt></small>";
 
     return tmp;
 }
