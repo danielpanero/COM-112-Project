@@ -83,6 +83,8 @@ void MainWindow::build_layout_general_box()
         sigc::mem_fun(*this, &MainWindow::on_open_button_click));
     save_button.signal_clicked().connect(
         sigc::mem_fun(*this, &MainWindow::on_save_button_click));
+    start_stop_button.signal_clicked().connect(
+        sigc::mem_fun(*this, &MainWindow::on_start_stop_button_click));
 }
 
 void MainWindow::build_layout_food_box()
@@ -150,6 +152,8 @@ void MainWindow::reset_layout()
     food_frame.set_sensitive(false);
     anthill_frame.set_sensitive(false);
 
+    start_stop_button.set_label("Start");
+
     food_count_label.set_markup("<b>0</b>");
     anthill_info_label.set_markup("<b>No selection</b>");
 }
@@ -168,7 +172,7 @@ void MainWindow::on_open_button_click()
     dialog.add_filter(filter_text);
 
     int result = dialog.run();
-    
+
     // TODO(@danielpanero) check what do when no files was choosen
     this->reset_layout();
 
@@ -206,6 +210,35 @@ void MainWindow::on_save_button_click()
         string filename = dialog.get_filename();
         // TODO(@danielpanero): after saving what we do disable? Clean simulation?...
         simulation->save_file(filename);
+    }
+}
+
+void MainWindow::on_start_stop_button_click()
+{
+    static bool running(false);
+
+    if (running)
+    {
+        running = false;
+
+        // TODO(@danielpanero) check if we want really to disable open file
+        anthill_frame.set_sensitive(true);
+        open_button.set_sensitive(true);
+        save_button.set_sensitive(true);
+        step_button.set_sensitive(true);
+
+        start_stop_button.set_label("Start");
+    }
+    else
+    {
+        running = true;
+
+        anthill_frame.set_sensitive(false);
+        open_button.set_sensitive(false);
+        save_button.set_sensitive(false);
+        step_button.set_sensitive(false);
+
+        start_stop_button.set_label("Stop");
     }
 }
 

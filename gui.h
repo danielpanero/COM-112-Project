@@ -27,6 +27,8 @@ private:
 
     void on_open_button_click();
     void on_save_button_click();
+    void on_start_stop_button_click();
+
     bool on_custom_draw(const Cairo::RefPtr<Cairo::Context> & cr);
 
     Gtk::Grid grid;
