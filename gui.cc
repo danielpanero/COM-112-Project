@@ -21,9 +21,9 @@ using std::string;
 using Gtk::make_managed;
 
 MainWindow::MainWindow(Simulation *simulation)
-    : simulation(simulation), open_button("Open"), save_button("Save"),
-      start_stop_button("Start"), step_button("Step"), next_anthill_button("Next"),
-      prev_anthill_button("Prev")
+    : simulation(simulation), exit_button("Exit"), open_button("Open"),
+      save_button("Save"), start_stop_button("Start"), step_button("Step"),
+      next_anthill_button("Next"), prev_anthill_button("Prev")
 {
     this->set_title("Main");
 
@@ -61,6 +61,7 @@ void MainWindow::build_layout_general_box()
     general_button_box->set_margin_right(sm_margin);
     general_button_box->set_margin_bottom(sm_margin);
 
+    general_button_box->pack_end(exit_button);
     general_button_box->pack_end(open_button);
     general_button_box->pack_end(save_button);
     general_button_box->pack_end(start_stop_button);
@@ -77,6 +78,7 @@ void MainWindow::build_layout_general_box()
     step_button.set_sensitive(false);
 
     // Signals Binding
+    exit_button.signal_clicked().connect([]() { std::exit(0); });
     open_button.signal_clicked().connect(
         sigc::mem_fun(*this, &MainWindow::on_open_button_click));
     save_button.signal_clicked().connect(
@@ -88,7 +90,7 @@ void MainWindow::build_layout_food_box()
     food_count_label.set_markup("<b>0</b>");
 
     food_frame.set_label("Food count:");
-    food_frame.set_sensitive(false);
+    food_frame.set_sensitive(false); // We disable the frame at start
 
     food_frame.add(food_count_label);
 
@@ -111,7 +113,7 @@ void MainWindow::build_layout_anthill_box()
 
     anthill_frame.set_label("Anthill report:");
     anthill_frame.add(*anthill_box);
-    anthill_frame.set_sensitive(false);
+    anthill_frame.set_sensitive(false); // We disable the frame at start
 
     grid.attach(anthill_frame, 0, 2);
 }
@@ -189,6 +191,7 @@ void MainWindow::on_save_button_click()
     if (result == Gtk::RESPONSE_OK)
     {
         string filename = dialog.get_filename();
+        // TODO @danielpanero: after saving what we do disable? Clean simulation?...
         simulation->save_file(filename);
     }
 }

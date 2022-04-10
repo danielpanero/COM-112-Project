@@ -32,7 +32,7 @@ private:
 
     Gtk::Frame general_button_frame, food_frame, anthill_frame;
 
-    Gtk::Button open_button, save_button, start_stop_button, step_button;
+    Gtk::Button exit_button, open_button, save_button, start_stop_button, step_button;
     Gtk::Button next_anthill_button, prev_anthill_button;
 
     Gtk::Label food_count_label, anthill_info_label;
