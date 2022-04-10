@@ -36,6 +36,7 @@ MainWindow::MainWindow(Simulation *simulation)
     grid.set_row_spacing(lg_margin);
 
     this->build_layout_general_box();
+    this->build_layout_food_box();
     this->build_layout_anthill_box();
     this->build_layout_graphic();
 
@@ -43,6 +44,7 @@ MainWindow::MainWindow(Simulation *simulation)
     auto *resizable_frame = make_managed<Gtk::Frame>();
     resizable_frame->set_vexpand();
     resizable_frame->set_shadow_type(Gtk::SHADOW_NONE);
+    resizable_frame->unset_label();
 
     grid.attach(*resizable_frame, 0, 3);
 
@@ -64,11 +66,15 @@ void MainWindow::build_layout_general_box()
     general_button_box->pack_end(start_stop_button);
     general_button_box->pack_end(step_button);
 
-    auto *general_button_frame = make_managed<Gtk::Frame>();
-    general_button_frame->set_label("General:");
-    general_button_frame->add(*general_button_box);
+    general_button_frame.set_label("General:");
+    general_button_frame.add(*general_button_box);
 
-    grid.attach(*general_button_frame, 0, 0);
+    grid.attach(general_button_frame, 0, 0);
+
+    // Disabling buttons at start
+    save_button.set_sensitive(false);
+    start_stop_button.set_sensitive(false);
+    step_button.set_sensitive(false);
 
     // Signals Binding
     open_button.signal_clicked().connect(
@@ -79,13 +85,14 @@ void MainWindow::build_layout_general_box()
 
 void MainWindow::build_layout_food_box()
 {
-    auto *food_frame = make_managed<Gtk::Frame>();
-    food_frame->set_label("Food count:");
     food_count_label.set_markup("<b>0</b>");
 
-    food_frame->add(food_count_label);
+    food_frame.set_label("Food count:");
+    food_frame.set_sensitive(false);
 
-    grid.attach(*food_frame, 0, 1);
+    food_frame.add(food_count_label);
+
+    grid.attach(food_frame, 0, 1);
 }
 
 void MainWindow::build_layout_anthill_box()
@@ -102,15 +109,16 @@ void MainWindow::build_layout_anthill_box()
     anthill_box->pack_end(prev_anthill_button);
     anthill_box->pack_end(next_anthill_button);
 
-    auto *anthill_frame = make_managed<Gtk::Frame>();
-    anthill_frame->set_label("Anthill report:");
-    anthill_frame->add(*anthill_box);
+    anthill_frame.set_label("Anthill report:");
+    anthill_frame.add(*anthill_box);
+    anthill_frame.set_sensitive(false);
 
-    grid.attach(*anthill_frame, 0, 2);
+    grid.attach(anthill_frame, 0, 2);
 }
 
 void MainWindow::build_layout_graphic()
 {
+    // Layout
     auto *aspect_frame = make_managed<Gtk::AspectFrame>();
     aspect_frame->set(Gtk::ALIGN_START, Gtk::ALIGN_START, 1, false);
     aspect_frame->set_hexpand();
@@ -123,10 +131,11 @@ void MainWindow::build_layout_graphic()
     drawing_area->set_size_request(drawing_area_size, drawing_area_size);
     aspect_frame->add(*drawing_area);
 
+    grid.attach(*aspect_frame, 1, 0, 1, 4);
+
+    // Signals Binding
     drawing_area->signal_draw().connect(
         sigc::mem_fun(*this, &MainWindow::on_custom_draw));
-
-    grid.attach(*aspect_frame, 1, 0, 1, 4);
 }
 
 void MainWindow::on_open_button_click()
@@ -146,9 +155,25 @@ void MainWindow::on_open_button_click()
     if (result == Gtk::RESPONSE_OK)
     {
         string filename = dialog.get_filename();
+        // TODO @danielpanero check if T/F, false --> connect to ondraw (black)
+        if (simulation->read_file(filename))
+        {
+            save_button.set_sensitive(true);
+            start_stop_button.set_sensitive(true);
+            step_button.set_sensitive(true);
 
-        simulation->reset();
-        simulation->read_file(filename);
+            food_frame.set_sensitive(true);
+            anthill_frame.set_sensitive(true);
+        }
+        else
+        {
+            save_button.set_sensitive(false);
+            start_stop_button.set_sensitive(false);
+            step_button.set_sensitive(false);
+
+            food_frame.set_sensitive(false);
+            anthill_frame.set_sensitive(false);
+        }
     }
 }
 

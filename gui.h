@@ -2,9 +2,10 @@
 #define GUI_H
 
 #include "gtkmm/button.h"
+#include "gtkmm/frame.h"
+#include "gtkmm/grid.h"
 #include "gtkmm/label.h"
 #include "gtkmm/window.h"
-#include "gtkmm/grid.h"
 
 #include "simulation.h"
 
@@ -16,19 +17,20 @@ public:
     ~MainWindow() = default;
 
 private:
-    Simulation* simulation; 
+    Simulation *simulation;
 
     void build_layout_general_box();
     void build_layout_food_box();
     void build_layout_anthill_box();
     void build_layout_graphic();
 
-
     void on_open_button_click();
     void on_save_button_click();
-    bool on_custom_draw(const Cairo::RefPtr<Cairo::Context>&);
+    bool on_custom_draw(const Cairo::RefPtr<Cairo::Context> & cr);
 
     Gtk::Grid grid;
+
+    Gtk::Frame general_button_frame, food_frame, anthill_frame;
 
     Gtk::Button open_button, save_button, start_stop_button, step_button;
     Gtk::Button next_anthill_button, prev_anthill_button;

@@ -34,10 +34,12 @@ private:
     void check_generator_defensors_inside_anthills();
 
 public:
-    void read_file(std::string &path);
-    void save_file(std::string &path) {};
-    
+    bool read_file(std::string &path);
+    void save_file(std::string &path){};
+
     void reset(){};
+
+    unsigned int get_n_foods() { return 3; };
 };
 
 /**

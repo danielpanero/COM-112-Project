@@ -27,8 +27,9 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
-void Simulation::read_file(string &path)
+bool Simulation::read_file(string &path)
 {
+    return true;
     ifstream file(path);
     if (file.fail())
     {
