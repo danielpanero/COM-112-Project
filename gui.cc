@@ -140,6 +140,20 @@ void MainWindow::build_layout_graphic()
         sigc::mem_fun(*this, &MainWindow::on_custom_draw));
 }
 
+void MainWindow::reset_layout()
+{
+    // TODO(@danielpanero false) --> connect to ondraw (black)
+    save_button.set_sensitive(false);
+    start_stop_button.set_sensitive(false);
+    step_button.set_sensitive(false);
+
+    food_frame.set_sensitive(false);
+    anthill_frame.set_sensitive(false);
+
+    food_count_label.set_markup("<b>0</b>");
+    anthill_info_label.set_markup("<b>No selection</b>");
+}
+
 void MainWindow::on_open_button_click()
 {
     Gtk::FileChooserDialog dialog("Choose a file", Gtk::FILE_CHOOSER_ACTION_OPEN);
@@ -154,10 +168,13 @@ void MainWindow::on_open_button_click()
     dialog.add_filter(filter_text);
 
     int result = dialog.run();
+    
+    // TODO(@danielpanero) check what do when no files was choosen
+    this->reset_layout();
+
     if (result == Gtk::RESPONSE_OK)
     {
         string filename = dialog.get_filename();
-        // TODO @danielpanero check if T/F, false --> connect to ondraw (black)
         if (simulation->read_file(filename))
         {
             save_button.set_sensitive(true);
@@ -166,15 +183,11 @@ void MainWindow::on_open_button_click()
 
             food_frame.set_sensitive(true);
             anthill_frame.set_sensitive(true);
-        }
-        else
-        {
-            save_button.set_sensitive(false);
-            start_stop_button.set_sensitive(false);
-            step_button.set_sensitive(false);
 
-            food_frame.set_sensitive(false);
-            anthill_frame.set_sensitive(false);
+            food_count_label.set_markup(
+                "<b>" + std::to_string(simulation->get_n_foods()) + "</b>");
+            anthill_info_label.set_markup("<b>No selection</b>");
+            return;
         }
     }
 }
@@ -191,7 +204,7 @@ void MainWindow::on_save_button_click()
     if (result == Gtk::RESPONSE_OK)
     {
         string filename = dialog.get_filename();
-        // TODO @danielpanero: after saving what we do disable? Clean simulation?...
+        // TODO(@danielpanero): after saving what we do disable? Clean simulation?...
         simulation->save_file(filename);
     }
 }

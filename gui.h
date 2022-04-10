@@ -23,6 +23,7 @@ private:
     void build_layout_food_box();
     void build_layout_anthill_box();
     void build_layout_graphic();
+    void reset_layout();
 
     void on_open_button_click();
     void on_save_button_click();
