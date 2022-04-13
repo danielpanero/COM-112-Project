@@ -10,32 +10,21 @@
 
 #include "iostream"
 
-#include "gtkmm/application.h"
-#include "gtkmm/window.h"
-
 #include "simulation.h"
 
 using std::string;
 
-int main(int argc, char *argv[])
+int main(int argc, char const *argv[])
 {
-    auto app = Gtk::Application::create(argc, argv, "org.com112.project");
+    if (argc == 1)
+    {
+        exit(EXIT_FAILURE);
+    }
 
-    Gtk::Window window;
-    window.set_default_size(200, 200);
-    window.set_title("Main");
+    string path(argv[1]);
 
-    return app->run(window);
-    
-    // if (argc == 1)
-    // {
-    //     exit(EXIT_FAILURE);
-    // }
+    Simulation simulation;
+    simulation.read_file(path);
 
-    // string path(argv[1]);
-
-    // Simulation simulation;
-    // simulation.read_file(path);
-
-    // exit(0);
+    exit(0);
 }

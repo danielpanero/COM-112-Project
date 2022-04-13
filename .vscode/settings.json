@@ -47,6 +47,13 @@
         "streambuf": "cpp",
         "typeinfo": "cpp"
     },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/Users/andrea/Desktop/PROJET BA2/COM-112-Project 2",
+            "binaryPath": "/Users/andrea/Desktop/PROJET BA2/COM-112-Project 2",
+            "binaryArgs": ["${input:selectTestFiles}"]
+        }
+    ],
     "makefile.buildBeforeLaunch": true,
     "C_Cpp.codeAnalysis.clangTidy.enabled": true,
     "C_Cpp.codeAnalysis.runAutomatically": true,
@@ -58,7 +65,6 @@
         "message.h": true
     },
     "C_Cpp.codeAnalysis.clangTidy.args": ["std=c++11"],
-    "C_Cpp.loggingLevel":"Debug",
     "editor.rulers": [
         87
     ]
