@@ -2,10 +2,13 @@
 #define GUI_H
 
 #include "gtkmm/button.h"
+#include "gtkmm/drawingarea.h"
 #include "gtkmm/frame.h"
 #include "gtkmm/grid.h"
 #include "gtkmm/label.h"
 #include "gtkmm/window.h"
+
+#include "gdkmm-3.0/gdkmm/pixbuf.h"
 
 #include "simulation.h"
 
@@ -25,20 +28,26 @@ private:
     void build_layout_graphic();
     void reset_layout();
 
+
     void on_open_button_click();
     void on_save_button_click();
     void on_start_stop_button_click();
     void on_prev_button_click();
     void on_next_button_click();
+    bool on_key_release(GdkEventKey *event);
+    bool on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr);
 
-    bool on_key_release(GdkEventKey* event);
-    bool on_custom_draw(const Cairo::RefPtr<Cairo::Context> & cr);
+    void initialize_buffers();
+    Glib::RefPtr<Gdk::Pixbuf> background_grid_buffer;
+    Glib::RefPtr<Gdk::Pixbuf> drawing_area_buffer;
 
     sigc::connection key_bindings;
 
     Gtk::Grid grid;
 
     Gtk::Frame general_button_frame, food_frame, anthill_frame;
+
+    Gtk::DrawingArea drawing_area;
 
     Gtk::Button exit_button, open_button, save_button, start_stop_button, step_button;
     Gtk::Button next_anthill_button, prev_anthill_button;

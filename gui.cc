@@ -1,11 +1,20 @@
 #include "iostream"
 
+#include "gdkmm-3.0/gdkmm.h"
+#include "gdkmm-3.0/gdkmm/pixbuf.h"
+
 #include "gtkmm/aspectframe.h"
 #include "gtkmm/buttonbox.h"
 #include "gtkmm/drawingarea.h"
 #include "gtkmm/filechooserdialog.h"
 #include "gtkmm/frame.h"
 #include "gtkmm/grid.h"
+
+#include "cairo/cairo.h"
+#include "cairomm/context.h"
+#include "cairomm/surface.h"
+
+#include "graphic.h"
 
 #include "gui.h"
 
@@ -14,7 +23,11 @@ constexpr unsigned int sm_margin = 5;
 constexpr unsigned int md_margin = 10;
 constexpr unsigned int lg_margin = 10;
 
-constexpr unsigned drawing_area_size = 500;
+// TODO(@danielpanero) check if is better add g_max in constant file
+constexpr double g_max(128);
+
+constexpr unsigned int drawing_area_size = 500;
+constexpr unsigned int scale_factor = 5;
 
 using std::string;
 
@@ -55,6 +68,9 @@ MainWindow::MainWindow(Simulation *simulation)
 
     this->add(grid);
     this->show_all_children();
+
+    // We initialize the buffers for DrawingImage
+    this->initialize_buffers();
 }
 
 void MainWindow::build_layout_general_box()
@@ -140,20 +156,20 @@ void MainWindow::build_layout_graphic()
     aspect_frame->unset_label();
     aspect_frame->set_shadow_type(Gtk::SHADOW_NONE);
 
-    auto *drawing_area = make_managed<Gtk::DrawingArea>();
-    drawing_area->set_size_request(drawing_area_size, drawing_area_size);
-    aspect_frame->add(*drawing_area);
+    drawing_area.set_size_request(drawing_area_size, drawing_area_size);
+    aspect_frame->add(drawing_area);
 
     grid.attach(*aspect_frame, 1, 0, 1, 4);
 
     // Signals Binding
-    drawing_area->signal_draw().connect(
+    drawing_area.signal_draw().connect(
         sigc::mem_fun(*this, &MainWindow::on_custom_draw));
 }
 
 void MainWindow::reset_layout()
 {
-    if(key_bindings.connected()){
+    if (key_bindings.connected())
+    {
         key_bindings.disconnect(); // We disable the key shortcuts
     }
 
@@ -245,7 +261,6 @@ void MainWindow::on_start_stop_button_click()
         save_button.set_sensitive(true);
         step_button.set_sensitive(true);
 
-        
         anthill_info_label.set_markup("<small><b>No selection</b></small>");
         start_stop_button.set_label("Start");
     }
@@ -257,7 +272,6 @@ void MainWindow::on_start_stop_button_click()
         open_button.set_sensitive(false);
         save_button.set_sensitive(false);
         step_button.set_sensitive(false);
-
 
         anthill_info_label.set_markup("<small><b>Running...</b></small>");
         start_stop_button.set_label("Stop");
@@ -327,10 +341,38 @@ bool MainWindow::on_key_release(GdkEventKey *event)
     return false;
 }
 
+void MainWindow::initialize_buffers()
+{
+    auto background_surface = Cairo::ImageSurface::create(
+        Cairo::FORMAT_ARGB32, g_max * scale_factor, g_max * scale_factor);
+
+    auto cr = Cairo::Context::create(background_surface);
+
+    inject_cairo_context(cr);
+
+    cr->scale(scale_factor, scale_factor);
+    cr->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+
+    draw_empty_grid();
+
+    background_grid_buffer = Gdk::Pixbuf::create(
+        cr->get_target(), 0, 0, g_max * scale_factor, g_max * scale_factor);
+    drawing_area_buffer = background_grid_buffer->copy();
+}
+
 bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 {
-    cr->set_source_rgb(0, 0, 0);
-    cr->paint();
+    Gtk::Allocation allocation = drawing_area.get_allocation();
+    const int width = allocation.get_width();
+    const int height = allocation.get_height();
+
+    if (drawing_area_buffer)
+    {
+        auto scaled_buffer = drawing_area_buffer->scale_simple(
+            width, height, Gdk::InterpType::INTERP_BILINEAR);
+        Gdk::Cairo::set_source_pixbuf(cr, scaled_buffer);
+        cr->paint();
+    }
 
     return true;
 }
