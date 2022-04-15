@@ -19,10 +19,15 @@ void inject_cairo_context(const Cairo::RefPtr<Cairo::Context> &cairo_context)
 
 void draw_empty_grid()
 {
-    cc->set_source_rgb(0.0, 0.0, 0.0);
-    cc->paint();
 
     cc->set_source_rgb(1.0, 1.0, 1.0);
+    cc->paint();
+
+    cc -> set_source_rgb(0.0, 0.0, 0.0);
+    cc->rectangle(1, 1, g_max - 2, g_max - 2);
+    cc->fill();
+
+    cc->set_source_rgb(0.85, 0.85, 0.85);
     cc->set_line_width(0.2);
     for (int i(0); i < g_max; i++)
     {
@@ -37,8 +42,7 @@ void draw_empty_grid()
         cc->stroke();
     }
 
-    cc ->move_to(0.0, 0.0);
-    cc ->line_to(g_max, g_max);
-    cc -> stroke();
-
+    cc->move_to(0.0, 0.0);
+    cc->line_to(g_max, g_max);
+    cc->stroke();
 }
