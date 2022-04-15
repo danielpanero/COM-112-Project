@@ -8,8 +8,6 @@
 #include "gtkmm/label.h"
 #include "gtkmm/window.h"
 
-#include "gdkmm-3.0/gdkmm/pixbuf.h"
-
 #include "simulation.h"
 
 class MainWindow : public Gtk::Window
@@ -28,7 +26,6 @@ private:
     void build_layout_graphic();
     void reset_layout();
 
-
     void on_open_button_click();
     void on_save_button_click();
     void on_start_stop_button_click();
@@ -37,9 +34,9 @@ private:
     bool on_key_release(GdkEventKey *event);
     bool on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr);
 
-    void initialize_buffers();
-    Glib::RefPtr<Gdk::Pixbuf> background_grid_buffer;
-    Glib::RefPtr<Gdk::Pixbuf> drawing_area_buffer;
+    void initialize_surfaces();
+    Cairo::RefPtr<Cairo::ImageSurface> background_grid_surface;
+    Cairo::RefPtr<Cairo::ImageSurface> model_surface;
 
     sigc::connection key_bindings;
 

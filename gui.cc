@@ -1,14 +1,13 @@
 #include "iostream"
 
-#include "gdkmm-3.0/gdkmm.h"
-#include "gdkmm-3.0/gdkmm/pixbuf.h"
-
 #include "gtkmm/aspectframe.h"
 #include "gtkmm/buttonbox.h"
 #include "gtkmm/drawingarea.h"
 #include "gtkmm/filechooserdialog.h"
 #include "gtkmm/frame.h"
 #include "gtkmm/grid.h"
+
+#include "gdkmm-3.0/gdkmm.h"
 
 #include "cairo/cairo.h"
 #include "cairomm/context.h"
@@ -70,7 +69,7 @@ MainWindow::MainWindow(Simulation *simulation)
     this->show_all_children();
 
     // We initialize the buffers for DrawingImage
-    this->initialize_buffers();
+    this->initialize_surfaces();
 }
 
 void MainWindow::build_layout_general_box()
@@ -341,12 +340,12 @@ bool MainWindow::on_key_release(GdkEventKey *event)
     return false;
 }
 
-void MainWindow::initialize_buffers()
+void MainWindow::initialize_surfaces()
 {
-    auto background_surface = Cairo::ImageSurface::create(
+    background_grid_surface = Cairo::ImageSurface::create(
         Cairo::FORMAT_ARGB32, g_max * scale_factor, g_max * scale_factor);
 
-    auto cr = Cairo::Context::create(background_surface);
+    auto cr = Cairo::Context::create(background_grid_surface);
 
     inject_cairo_context(cr);
 
@@ -354,10 +353,7 @@ void MainWindow::initialize_buffers()
     cr->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
 
     draw_empty_grid();
-
-    background_grid_buffer = Gdk::Pixbuf::create(
-        cr->get_target(), 0, 0, g_max * scale_factor, g_max * scale_factor);
-    drawing_area_buffer = background_grid_buffer->copy();
+    background_grid_surface->flush();
 }
 
 bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr)
@@ -366,11 +362,10 @@ bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr)
     const int width = allocation.get_width();
     const int height = allocation.get_height();
 
-    if (drawing_area_buffer)
+    if (background_grid_surface)
     {
-        auto scaled_buffer = drawing_area_buffer->scale_simple(
-            width, height, Gdk::InterpType::INTERP_BILINEAR);
-        Gdk::Cairo::set_source_pixbuf(cr, scaled_buffer);
+        cr->scale(width / (g_max * scale_factor), height / (g_max * scale_factor));
+        cr->set_source(background_grid_surface, 0, 0);
         cr->paint();
     }
 
