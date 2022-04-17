@@ -6,6 +6,7 @@
 #include "gdkmm/rgba.h"
 
 #include "graphic-private.h"
+#include "graphic.h"
 
 // TODO(@danielpanero) check if is better add g_max in constant file
 constexpr double g_max(128);
