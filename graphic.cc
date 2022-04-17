@@ -34,7 +34,7 @@ void draw_empty_grid()
 
     // Grid lines
     Gdk::Cairo::set_source_rgba(cc, grid_lines_color);
-    cc->set_line_width(0.2);
+    cc->set_line_width(grid_linewidth);
     for (int i(0); i < g_max; i++)
     {
         // Horinzontal lines
@@ -47,4 +47,14 @@ void draw_empty_grid()
         cc->line_to(i, g_max);
         cc->stroke();
     }
+}
+
+void draw_diamond(unsigned int &x, unsigned int &y)
+{
+    cc->set_source_rgb(1.0, 1.0, 1.0);
+    cc->move_to(x + 0.5, y);
+    cc->line_to(x + 1, y + 0.5);
+    cc->line_to(x + 0.5, y + 1);
+    cc->line_to(x, y + 0.5);
+    cc -> fill();
 }

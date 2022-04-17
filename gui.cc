@@ -26,7 +26,7 @@ constexpr unsigned int lg_margin = 10;
 constexpr double g_max(128);
 
 constexpr unsigned int drawing_area_size = 500;
-constexpr unsigned int scale_factor = 5;
+constexpr unsigned int scale_factor = 10;
 
 using std::string;
 
