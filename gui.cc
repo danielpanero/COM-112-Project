@@ -7,13 +7,7 @@
 #include "gtkmm/frame.h"
 #include "gtkmm/grid.h"
 
-#include "gdkmm-3.0/gdkmm.h"
-
-#include "cairo/cairo.h"
-#include "cairomm/context.h"
-#include "cairomm/surface.h"
-
-#include "graphic.h"
+#include "graphic-private.h"
 
 #include "gui.h"
 
@@ -22,11 +16,7 @@ constexpr unsigned int sm_margin = 5;
 constexpr unsigned int md_margin = 10;
 constexpr unsigned int lg_margin = 10;
 
-// TODO(@danielpanero) check if is better add g_max in constant file
-constexpr double g_max(128);
-
 constexpr unsigned int drawing_area_size = 500;
-constexpr unsigned int scale_factor = 10;
 
 using std::string;
 
@@ -68,8 +58,8 @@ MainWindow::MainWindow(Simulation *simulation)
     this->add(grid);
     this->show_all_children();
 
-    // We initialize the buffers for DrawingImage
-    this->initialize_surfaces();
+    // We initialize the surface for DrawingImage
+    background_grid_surface = create_background_grid_surface();
 }
 
 void MainWindow::build_layout_general_box()
@@ -340,23 +330,7 @@ bool MainWindow::on_key_release(GdkEventKey *event)
     return false;
 }
 
-void MainWindow::initialize_surfaces()
-{
-    background_grid_surface = Cairo::ImageSurface::create(
-        Cairo::FORMAT_ARGB32, g_max * scale_factor, g_max * scale_factor);
-
-    auto cr = Cairo::Context::create(background_grid_surface);
-
-    inject_cairo_context(cr);
-
-    cr->scale(scale_factor, scale_factor);
-    cr->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
-
-    draw_empty_grid();
-    background_grid_surface->flush();
-}
-
-bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr)
+bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cc)
 {
     Gtk::Allocation allocation = drawing_area.get_allocation();
     const int width = allocation.get_width();
@@ -364,9 +338,9 @@ bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr)
 
     if (background_grid_surface)
     {
-        cr->scale(width / (g_max * scale_factor), height / (g_max * scale_factor));
-        cr->set_source(background_grid_surface, 0, 0);
-        cr->paint();
+        cc->set_matrix(get_background_grid_matrix(cc -> get_matrix(), width, height));
+        cc->set_source(background_grid_surface, 0, 0);
+        cc->paint();
     }
 
     return true;

@@ -34,7 +34,6 @@ private:
     bool on_key_release(GdkEventKey *event);
     bool on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr);
 
-    void initialize_surfaces();
     Cairo::RefPtr<Cairo::ImageSurface> background_grid_surface;
     Cairo::RefPtr<Cairo::ImageSurface> model_surface;
 

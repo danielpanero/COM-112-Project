@@ -15,23 +15,27 @@ const Gdk::RGBA grid_lines_color("grey");
 
 // TODO(@danielpanero): these variables depends only on the scale_factor we
 // could also inject it together with cairo context
+constexpr unsigned int scale_factor = 10;
 const double grid_linewidth(0.2);
 const double thick_border_linewidth(0.3);
 
 // TODO(@danielpanero): refptr vs pointer on a refptr
 static Cairo::RefPtr<Cairo::Context> cc(nullptr);
-void inject_cairo_context(const Cairo::RefPtr<Cairo::Context> &cairo_context)
-{
-    cc = cairo_context;
-}
 
 Gdk::RGBA get_color(unsigned int &color_index)
 {
     return colors[color_index % colors.size()];
 }
 
-void draw_empty_grid()
+Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 {
+    auto surface = Cairo::ImageSurface::create(
+        Cairo::FORMAT_ARGB32, g_max * scale_factor, g_max * scale_factor);
+    auto cc = Cairo::Context::create(surface);
+
+    cc->scale(scale_factor, scale_factor);
+    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+
     // White background
     cc->set_source_rgb(1.0, 1.0, 1.0);
     cc->paint();
@@ -56,6 +60,15 @@ void draw_empty_grid()
         cc->line_to(i, g_max);
         cc->stroke();
     }
+
+    surface->flush();
+    return surface;
+}
+
+Cairo::Matrix get_background_grid_matrix(Cairo::Matrix ctm, int width, int height)
+{
+    ctm.scale(width / (g_max * scale_factor), height / (g_max * scale_factor));
+    return ctm;
 }
 
 void draw_diamond(unsigned int &x, unsigned int &y)
