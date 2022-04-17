@@ -8,7 +8,7 @@
 constexpr double g_max(128);
 
 const std::vector<typename Gdk::RGBA>
-    colors({Gdk::RGBA("red"), Gdk::RGBA("green"), Gdk::RGBA("blu"),
+    colors({Gdk::RGBA("red"), Gdk::RGBA("green"), Gdk::RGBA("blue"),
             Gdk::RGBA("yellow"), Gdk::RGBA("magenta"), Gdk::RGBA("cyan")});
 
 const Gdk::RGBA grid_lines_color("grey");
@@ -29,6 +29,8 @@ Gdk::RGBA get_color(unsigned int &color_index)
 {
     return colors[color_index % colors.size()];
 }
+void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
+                        unsigned int &color_index);
 void draw_empty_grid()
 {
     // White background
@@ -59,7 +61,8 @@ void draw_empty_grid()
 
 void draw_diamond(unsigned int &x, unsigned int &y)
 {
-    // TODO(@danielpanero) replace color with rgba
+    // TODO(@danielpanero) replace color with rgba and rectangle plus rotation is a
+    // better solution
     cc->set_source_rgb(1.0, 1.0, 1.0);
     cc->move_to(x + 0.5, y);
     cc->line_to(x + 1, y + 0.5);
@@ -68,12 +71,21 @@ void draw_diamond(unsigned int &x, unsigned int &y)
     cc->fill();
 }
 
-void draw_thick_border(unsigned int &x, unsigned int &y, unsigned int &side,
-                       unsigned int &color_index)
+void draw_thick_border_square(unsigned int &x, unsigned int &y, unsigned int &side,
+                              unsigned int &color_index)
 {
     Gdk::Cairo::set_source_rgba(cc, get_color(color_index));
     cc->set_line_width(thick_border_linewidth);
 
     cc->rectangle(x + 0.5, y + 0.5, side - 1, side - 1);
     cc->stroke();
+}
+
+void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
+                        unsigned int &color_index)
+{
+    Gdk::Cairo::set_source_rgba(cc, get_color(color_index));
+
+    cc->rectangle(x, y, side, side);
+    cc->fill();
 }
