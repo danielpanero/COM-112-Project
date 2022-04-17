@@ -46,8 +46,8 @@ private:
 
     Gtk::DrawingArea drawing_area;
 
-    Gtk::Button exit_button, open_button, save_button, start_stop_button, step_button;
-    Gtk::Button next_anthill_button, prev_anthill_button;
+    Gtk::Button exit_button, open_button, save_button, start_stop_button, step_button,
+        next_anthill_button, prev_anthill_button;
 
     Gtk::Label food_count_label, anthill_info_label;
 };

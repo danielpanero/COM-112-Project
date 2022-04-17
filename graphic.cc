@@ -29,8 +29,7 @@ Gdk::RGBA get_color(unsigned int &color_index)
 {
     return colors[color_index % colors.size()];
 }
-void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
-                        unsigned int &color_index);
+
 void draw_empty_grid()
 {
     // White background
@@ -87,5 +86,80 @@ void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
     Gdk::Cairo::set_source_rgba(cc, get_color(color_index));
 
     cc->rectangle(x, y, side, side);
+    cc->fill();
+}
+
+Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color_index)
+{
+    Gdk::RGBA color1(get_color(color_index));
+    Gdk::RGBA color2(get_color(color_index));
+
+    color2.set_alpha(0.5);
+
+    auto surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, 2, 2);
+    auto cc = Cairo::Context::create(surface);
+
+    cc->set_source_rgb(1.0, 1.0, 1.0);
+    cc->paint();
+
+    Gdk::Cairo::set_source_rgba(cc, color1);
+    cc->rectangle(0, 0, 1, 1);
+    cc->rectangle(1, 1, 1, 1);
+    cc->fill();
+
+    Gdk::Cairo::set_source_rgba(cc, color2);
+    cc->rectangle(1, 0, 1, 1);
+    cc->rectangle(0, 1, 1, 1);
+    cc->fill();
+
+    surface->flush();
+
+    auto pattern = Cairo::SurfacePattern::create(surface);
+    pattern->set_filter(Cairo::Filter::FILTER_NEAREST);
+    pattern->set_extend(Cairo::Extend::EXTEND_REPEAT);
+
+    return pattern;
+}
+
+void draw_diagonal_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
+                           unsigned int &color_index)
+{
+    auto diagonal_pattern = create_diagonal_pattern(color_index);
+
+    cc->set_source(diagonal_pattern);
+    cc->rectangle(x, y, side, side);
+    cc->fill();
+}
+
+void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
+                       unsigned int &color_index)
+{
+    Gdk::RGBA color1(get_color(color_index));
+    Gdk::RGBA color2(get_color(color_index));
+
+    color2.set_alpha(0.5);
+
+    cc->set_source_rgb(1.0, 1.0, 1.0);
+    cc->rectangle(x, y, side, side);
+    cc->fill();
+
+    Gdk::Cairo::set_source_rgba(cc, color2);
+    cc->rectangle(x, y, side, side);
+    cc->fill();
+
+    double x1(0), y1(0);
+    if ((side % 2) == 0)
+    {
+        x1 = x + static_cast<double>(side) / 2 - 0.5;
+        y1 = y + static_cast<double>(side) / 2 - 0.5;
+    }
+    else
+    {
+        x1 = x + (side - 1) / 2;
+        y1 = y + (side - 1) / 2;
+    }
+    Gdk::Cairo::set_source_rgba(cc, color1);
+    cc->rectangle(x1, y, 1, side);
+    cc->rectangle(x, y1, side, 1);
     cc->fill();
 }
