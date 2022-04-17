@@ -348,7 +348,7 @@ bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cc)
 
     if (model_surface)
     {
-        cc->set_source(model_surface, 0, 0);
+        cc->set_source(model_surface, 1, 1);
         cc->paint();
     }
 

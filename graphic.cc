@@ -9,6 +9,7 @@
 
 // TODO(@danielpanero) check if is better add g_max in constant file
 constexpr double g_max(128);
+constexpr double surface_size(g_max + 2);
 
 const std::vector<typename Gdk::RGBA>
     colors({Gdk::RGBA("red"), Gdk::RGBA("green"), Gdk::RGBA("blue"),
@@ -27,8 +28,9 @@ static Cairo::RefPtr<Cairo::Context> cc(nullptr);
 
 Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 {
-    auto surface = Cairo::ImageSurface::create(
-        Cairo::FORMAT_ARGB32, g_max * scale_factor, g_max * scale_factor);
+    auto surface =
+        Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, surface_size * scale_factor,
+                                    surface_size * scale_factor);
     auto cc = Cairo::Context::create(surface);
 
     cc->scale(scale_factor, scale_factor);
@@ -38,24 +40,24 @@ Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
     cc->set_source_rgb(1.0, 1.0, 1.0);
     cc->paint();
 
-    // Black rectangle (1,1) - (g_max - 1, g_max -1)
+    // Black rectangle
     cc->set_source_rgb(0.0, 0.0, 0.0);
-    cc->rectangle(1, 1, g_max - 2, g_max - 2);
+    cc->rectangle(1, 1, g_max, g_max);
     cc->fill();
 
     // Grid lines
     Gdk::Cairo::set_source_rgba(cc, grid_lines_color);
     cc->set_line_width(grid_linewidth);
-    for (int i(0); i < g_max; i++)
+    for (int i(0); i <= surface_size; i++)
     {
         // Horinzontal lines
         cc->move_to(0.0, i);
-        cc->line_to(g_max, i);
+        cc->line_to(surface_size, i);
         cc->stroke();
 
         // Vertical lines
         cc->move_to(i, 0.0);
-        cc->line_to(i, g_max);
+        cc->line_to(i, surface_size);
         cc->stroke();
     }
 
@@ -75,7 +77,8 @@ Cairo::RefPtr<Cairo::ImageSurface> create_model_surface()
 
 Cairo::Matrix get_scaling_matrix(Cairo::Matrix ctm, int width, int height)
 {
-    ctm.scale(width / (g_max * scale_factor), height / (g_max * scale_factor));
+    ctm.scale(width / ((g_max + 2) * scale_factor),
+              height / ((g_max + 2) * scale_factor));
     return ctm;
 }
 
