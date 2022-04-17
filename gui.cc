@@ -20,8 +20,6 @@ constexpr unsigned int drawing_area_size = 500;
 
 using std::string;
 
-using Gtk::make_managed;
-
 string format_anthill_info_markup(unsigned int &index, unsigned int &n_collectors,
                                   unsigned int &n_defensors, unsigned int &n_predators,
                                   unsigned int &n_foods);
@@ -48,7 +46,7 @@ MainWindow::MainWindow(Simulation *simulation)
     this->build_layout_graphic();
 
     // This frame is invisible and expandable, so the others controlls don't resize
-    auto *resizable_frame = make_managed<Gtk::Frame>();
+    auto *resizable_frame = Gtk::make_managed<Gtk::Frame>();
     resizable_frame->set_vexpand();
     resizable_frame->set_shadow_type(Gtk::SHADOW_NONE);
     resizable_frame->unset_label();
@@ -66,7 +64,8 @@ MainWindow::MainWindow(Simulation *simulation)
 void MainWindow::build_layout_general_box()
 {
     // Layout
-    auto *general_button_box = make_managed<Gtk::ButtonBox>(Gtk::ORIENTATION_VERTICAL);
+    auto *general_button_box =
+        Gtk::make_managed<Gtk::ButtonBox>(Gtk::ORIENTATION_VERTICAL);
     general_button_box->set_spacing(xs_margin);
     general_button_box->set_margin_left(sm_margin);
     general_button_box->set_margin_right(sm_margin);
@@ -116,7 +115,7 @@ void MainWindow::build_layout_food_box()
 
 void MainWindow::build_layout_anthill_box()
 {
-    auto *anthill_box = make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL);
+    auto *anthill_box = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL);
     anthill_box->set_spacing(xs_margin);
     anthill_box->set_margin_left(sm_margin);
     anthill_box->set_margin_right(sm_margin);
@@ -138,7 +137,7 @@ void MainWindow::build_layout_anthill_box()
 void MainWindow::build_layout_graphic()
 {
     // Layout
-    auto *aspect_frame = make_managed<Gtk::AspectFrame>();
+    auto *aspect_frame = Gtk::make_managed<Gtk::AspectFrame>();
     aspect_frame->set(Gtk::ALIGN_START, Gtk::ALIGN_START, 1, false);
     aspect_frame->set_hexpand();
     aspect_frame->set_vexpand();
@@ -270,7 +269,11 @@ void MainWindow::on_start_stop_button_click()
 
 void MainWindow::on_prev_button_click()
 {
-    unsigned int index(0), n_collectors(0), n_defensors(0), n_predators(0), n_foods(0);
+    unsigned int index(0);
+    unsigned int n_collectors(0);
+    unsigned int n_defensors(0);
+    unsigned int n_predators(0);
+    unsigned int n_foods(0);
 
     if (simulation->get_info_prev_anthill(index, n_collectors, n_defensors,
                                           n_predators, n_foods))
@@ -287,7 +290,11 @@ void MainWindow::on_prev_button_click()
 
 void MainWindow::on_next_button_click()
 {
-    unsigned int index(0), n_collectors(0), n_defensors(0), n_predators(0), n_foods(0);
+    unsigned int index(0);
+    unsigned int n_collectors(0);
+    unsigned int n_defensors(0);
+    unsigned int n_predators(0);
+    unsigned int n_foods(0);
 
     if (simulation->get_info_next_anthill(index, n_collectors, n_defensors,
                                           n_predators, n_foods))
@@ -312,7 +319,6 @@ bool MainWindow::on_key_release(GdkEventKey *event)
 
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_1)
     {
-        // TODO(@danielpanero) implement step
         return true;
     }
 
@@ -359,13 +365,11 @@ string format_anthill_info_markup(unsigned int &index, unsigned int &n_collector
                                   unsigned int &n_defensors, unsigned int &n_predators,
                                   unsigned int &n_foods)
 {
-    string tmp;
+    using std::to_string;
 
-    tmp = "<small><b>No. ID:</b>  <tt>" + std::to_string(index) + "</tt>\r\r" +
-          "<b>No. food:   </b>  <tt>" + std::to_string(n_foods) + "</tt>\r" +
-          "<b>No. cols:   </b>  <tt>" + std::to_string(n_collectors) + "</tt>\r" +
-          "<b>No. defs:   </b>  <tt>" + std::to_string(n_defensors) + "</tt>\r" +
-          "<b>No. preds:</b> <tt>" + std::to_string(n_predators) + "</tt></small>";
-
-    return tmp;
+    return "<small><b>No. ID:</b>  <tt>" + to_string(index) + "</tt>\r\r" +
+           "<b>No. food:   </b>  <tt>" + to_string(n_foods) + "</tt>\r" +
+           "<b>No. cols:   </b>  <tt>" + to_string(n_collectors) + "</tt>\r" +
+           "<b>No. defs:   </b>  <tt>" + to_string(n_defensors) + "</tt>\r" +
+           "<b>No. preds:</b> <tt>" + to_string(n_predators) + "</tt></small>";
 }

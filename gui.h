@@ -40,14 +40,10 @@ private:
     sigc::connection key_bindings;
 
     Gtk::Grid grid;
-
     Gtk::Frame general_button_frame, food_frame, anthill_frame;
-
     Gtk::DrawingArea drawing_area;
-
     Gtk::Button exit_button, open_button, save_button, start_stop_button, step_button,
         next_anthill_button, prev_anthill_button;
-
     Gtk::Label food_count_label, anthill_info_label;
 };
 
