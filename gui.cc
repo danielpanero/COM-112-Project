@@ -60,6 +60,7 @@ MainWindow::MainWindow(Simulation *simulation)
 
     // We initialize the surface for DrawingImage
     background_grid_surface = create_background_grid_surface();
+    model_surface = create_model_surface();
 }
 
 void MainWindow::build_layout_general_box()
@@ -336,10 +337,18 @@ bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cc)
     const int width = allocation.get_width();
     const int height = allocation.get_height();
 
+    Cairo::Matrix ctm = cc->get_matrix();
+    cc->set_matrix(get_scaling_matrix(ctm, width, height));
+
     if (background_grid_surface)
     {
-        cc->set_matrix(get_background_grid_matrix(cc -> get_matrix(), width, height));
         cc->set_source(background_grid_surface, 0, 0);
+        cc->paint();
+    }
+
+    if (model_surface)
+    {
+        cc->set_source(model_surface, 0, 0);
         cc->paint();
     }
 

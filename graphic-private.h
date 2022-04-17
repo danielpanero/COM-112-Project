@@ -5,6 +5,8 @@
 #include "cairomm/surface.h"
 
 Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface();
-Cairo::Matrix get_background_grid_matrix(Cairo::Matrix ctm, int width, int height);
+Cairo::RefPtr<Cairo::ImageSurface> create_model_surface();
+
+Cairo::Matrix get_scaling_matrix(Cairo::Matrix ctm, int width, int height);
 
 #endif

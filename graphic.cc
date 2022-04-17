@@ -1,8 +1,11 @@
 #include "vector"
 
+#include "cairomm/matrix.h"
+#include "cairomm/surface.h"
 #include "gdkmm/general.h"
 #include "gdkmm/rgba.h"
-#include "gtkmm/drawingarea.h"
+
+#include "graphic-private.h"
 
 // TODO(@danielpanero) check if is better add g_max in constant file
 constexpr double g_max(128);
@@ -21,11 +24,6 @@ const double thick_border_linewidth(0.3);
 
 // TODO(@danielpanero): refptr vs pointer on a refptr
 static Cairo::RefPtr<Cairo::Context> cc(nullptr);
-
-Gdk::RGBA get_color(unsigned int &color_index)
-{
-    return colors[color_index % colors.size()];
-}
 
 Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 {
@@ -65,10 +63,25 @@ Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
     return surface;
 }
 
-Cairo::Matrix get_background_grid_matrix(Cairo::Matrix ctm, int width, int height)
+Cairo::RefPtr<Cairo::ImageSurface> create_model_surface()
+{
+    auto surface = Cairo::ImageSurface::create(
+        Cairo::FORMAT_ARGB32, g_max * scale_factor, g_max * scale_factor);
+    cc = Cairo::Context::create(surface);
+
+    surface->flush();
+    return surface;
+}
+
+Cairo::Matrix get_scaling_matrix(Cairo::Matrix ctm, int width, int height)
 {
     ctm.scale(width / (g_max * scale_factor), height / (g_max * scale_factor));
     return ctm;
+}
+
+Gdk::RGBA get_color(unsigned int &color_index)
+{
+    return colors[color_index % colors.size()];
 }
 
 void draw_diamond(unsigned int &x, unsigned int &y)

@@ -32,7 +32,7 @@ private:
     void on_prev_button_click();
     void on_next_button_click();
     bool on_key_release(GdkEventKey *event);
-    bool on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cr);
+    bool on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cc);
 
     Cairo::RefPtr<Cairo::ImageSurface> background_grid_surface;
     Cairo::RefPtr<Cairo::ImageSurface> model_surface;
