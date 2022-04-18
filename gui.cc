@@ -157,10 +157,8 @@ void MainWindow::build_layout_graphic()
 
 void MainWindow::reset_layout()
 {
-    if (keyboard_shortcuts.connected())
-    {
-        keyboard_shortcuts.disconnect(); // We disable the key shortcuts
-    }
+    keyboard_shortcuts_complete.disconnect();
+    keyboard_shortcuts_reduced.disconnect();
 
     save_button.set_sensitive(false);
     start_stop_button.set_sensitive(false);
@@ -212,8 +210,10 @@ void MainWindow::on_open_button_click()
             anthill_info_label.set_markup("<small><b>No selection</b></small>");
 
             // We connect the keyshorcuts only when the simulation is ready
-            keyboard_shortcuts = this->signal_key_release_event().connect(
-                sigc::mem_fun(*this, &MainWindow::on_key_release));
+            keyboard_shortcuts_complete = this->signal_key_release_event().connect(
+                sigc::mem_fun(*this, &MainWindow::on_key_release_complete));
+            keyboard_shortcuts_reduced = this->signal_key_release_event().connect(
+                sigc::mem_fun(*this, &MainWindow::on_key_release_reduced));
 
             return;
         }
@@ -245,7 +245,6 @@ void MainWindow::on_start_stop()
     {
         running = false;
 
-        // TODO(@danielpanero) check if we want really to disable open file
         anthill_frame.set_sensitive(true);
         open_button.set_sensitive(true);
         save_button.set_sensitive(true);
@@ -253,11 +252,15 @@ void MainWindow::on_start_stop()
 
         anthill_info_label.set_markup("<small><b>No selection</b></small>");
         start_stop_button.set_label("Start");
+
+        keyboard_shortcuts_complete.unblock();
+        keyboard_shortcuts_reduced.block();
     }
     else
     {
         running = true;
 
+        // TODO(@danielpanero) check if we want really to disable open file
         anthill_frame.set_sensitive(false);
         open_button.set_sensitive(false);
         save_button.set_sensitive(false);
@@ -265,6 +268,9 @@ void MainWindow::on_start_stop()
 
         anthill_info_label.set_markup("<small><b>Running...</b></small>");
         start_stop_button.set_label("Stop");
+
+        keyboard_shortcuts_complete.block();
+        keyboard_shortcuts_reduced.unblock();
     }
 }
 
@@ -310,7 +316,19 @@ void MainWindow::on_next()
     }
 }
 
-bool MainWindow::on_key_release(GdkEventKey *event)
+bool MainWindow::on_key_release_reduced(GdkEventKey *event)
+{
+    // TODO(@danielpanero): check if we want only to allow start and stop
+    if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_s)
+    {
+        this->on_start_stop();
+        return true;
+    }
+
+    return false;
+}
+
+bool MainWindow::on_key_release_complete(GdkEventKey *event)
 {
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_s)
     {

@@ -32,14 +32,17 @@ private:
     void on_start_stop();
     void on_prev();
     void on_next();
-    bool on_key_release(GdkEventKey *event);
-    
+
+    bool on_key_release_reduced(GdkEventKey *event);
+    bool on_key_release_complete(GdkEventKey *event);
+
     bool on_draw_request(const Cairo::RefPtr<Cairo::Context> &cc);
 
     Cairo::RefPtr<Cairo::ImageSurface> background_grid_surface;
     Cairo::RefPtr<Cairo::ImageSurface> model_surface;
 
-    sigc::connection keyboard_shortcuts;
+    sigc::connection keyboard_shortcuts_reduced;
+    sigc::connection keyboard_shortcuts_complete;
 
     Gtk::Grid grid;
     Gtk::Frame general_button_frame, food_frame, anthill_frame;
