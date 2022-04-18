@@ -152,14 +152,14 @@ void MainWindow::build_layout_graphic()
 
     // Signals Binding
     drawing_area.signal_draw().connect(
-        sigc::mem_fun(*this, &MainWindow::on_custom_draw));
+        sigc::mem_fun(*this, &MainWindow::on_draw_request));
 }
 
 void MainWindow::reset_layout()
 {
-    if (key_bindings.connected())
+    if (keyboard_shortcuts.connected())
     {
-        key_bindings.disconnect(); // We disable the key shortcuts
+        keyboard_shortcuts.disconnect(); // We disable the key shortcuts
     }
 
     save_button.set_sensitive(false);
@@ -212,7 +212,7 @@ void MainWindow::on_open_button_click()
             anthill_info_label.set_markup("<small><b>No selection</b></small>");
 
             // We connect the keyshorcuts only when the simulation is ready
-            key_bindings = this->signal_key_release_event().connect(
+            keyboard_shortcuts = this->signal_key_release_event().connect(
                 sigc::mem_fun(*this, &MainWindow::on_key_release));
 
             return;
@@ -338,7 +338,7 @@ bool MainWindow::on_key_release(GdkEventKey *event)
     return false;
 }
 
-bool MainWindow::on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cc)
+bool MainWindow::on_draw_request(const Cairo::RefPtr<Cairo::Context> &cc)
 {
     Gtk::Allocation allocation = drawing_area.get_allocation();
     const int width = allocation.get_width();

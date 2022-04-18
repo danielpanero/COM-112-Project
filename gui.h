@@ -14,7 +14,7 @@ class MainWindow : public Gtk::Window
 {
 
 public:
-    MainWindow(Simulation *simulation);
+    explicit MainWindow(Simulation *simulation);
     ~MainWindow() = default;
 
 private:
@@ -32,12 +32,12 @@ private:
     void on_prev_button_click();
     void on_next_button_click();
     bool on_key_release(GdkEventKey *event);
-    bool on_custom_draw(const Cairo::RefPtr<Cairo::Context> &cc);
+    bool on_draw_request(const Cairo::RefPtr<Cairo::Context> &cc);
 
     Cairo::RefPtr<Cairo::ImageSurface> background_grid_surface;
     Cairo::RefPtr<Cairo::ImageSurface> model_surface;
 
-    sigc::connection key_bindings;
+    sigc::connection keyboard_shortcuts;
 
     Gtk::Grid grid;
     Gtk::Frame general_button_frame, food_frame, anthill_frame;
