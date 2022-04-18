@@ -8,23 +8,23 @@
 #include "graphic-private.h"
 #include "graphic.h"
 
+using Gdk::RGBA;
+using Gdk::Cairo::set_source_rgba;
+
 // TODO(@danielpanero) check if is better add g_max in constant file
 constexpr double g_max(128);
 constexpr double surface_size(g_max + 2);
+constexpr unsigned int scale_factor(10);
+constexpr double grid_linewidth(0.2);
+constexpr double thick_border_linewidth(0.3);
 
 const std::vector<typename Gdk::RGBA>
-    colors({Gdk::RGBA("red"), Gdk::RGBA("green"), Gdk::RGBA("blue"),
-            Gdk::RGBA("yellow"), Gdk::RGBA("magenta"), Gdk::RGBA("cyan")});
+    colors({RGBA("red"), RGBA("green"), RGBA("blue"),
+            RGBA("yellow"), RGBA("magenta"), RGBA("cyan")});
 
-const Gdk::RGBA grid_lines_color("grey");
+const RGBA grid_lines_color("grey");
+const RGBA background_color("black");
 
-// TODO(@danielpanero): these variables depends only on the scale_factor we
-// could also inject it together with cairo context
-constexpr unsigned int scale_factor = 10;
-const double grid_linewidth(0.2);
-const double thick_border_linewidth(0.3);
-
-// TODO(@danielpanero): refptr vs pointer on a refptr
 static Cairo::RefPtr<Cairo::Context> cc(nullptr);
 
 Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
@@ -47,7 +47,7 @@ Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
     cc->fill();
 
     // Grid lines
-    Gdk::Cairo::set_source_rgba(cc, grid_lines_color);
+    set_source_rgba(cc, grid_lines_color);
     cc->set_line_width(grid_linewidth);
     for (int i(0); i <= surface_size; i++)
     {
@@ -83,7 +83,7 @@ Cairo::Matrix get_scaling_matrix(Cairo::Matrix ctm, int width, int height)
     return ctm;
 }
 
-Gdk::RGBA get_color(unsigned int &color_index)
+RGBA get_color(unsigned int &color_index)
 {
     return colors[color_index % colors.size()];
 }
@@ -112,7 +112,7 @@ void draw_diamond(unsigned int &x, unsigned int &y)
 void draw_thick_border_square(unsigned int &x, unsigned int &y, unsigned int &side,
                               unsigned int &color_index)
 {
-    Gdk::Cairo::set_source_rgba(cc, get_color(color_index));
+    set_source_rgba(cc, get_color(color_index));
     cc->set_line_width(thick_border_linewidth);
 
     cc->rectangle(x + 0.5, y + 0.5, side - 1, side - 1);
@@ -122,7 +122,7 @@ void draw_thick_border_square(unsigned int &x, unsigned int &y, unsigned int &si
 void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
                         unsigned int &color_index)
 {
-    Gdk::Cairo::set_source_rgba(cc, get_color(color_index));
+    set_source_rgba(cc, get_color(color_index));
 
     cc->rectangle(x, y, side, side);
     cc->fill();
@@ -130,8 +130,8 @@ void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
 
 Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color_index)
 {
-    Gdk::RGBA color1(get_color(color_index));
-    Gdk::RGBA color2(get_color(color_index));
+    RGBA color1(get_color(color_index));
+    RGBA color2(get_color(color_index));
 
     color2.set_alpha(0.5);
 
@@ -141,12 +141,12 @@ Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color
     cc->set_source_rgb(1.0, 1.0, 1.0);
     cc->paint();
 
-    Gdk::Cairo::set_source_rgba(cc, color1);
+    set_source_rgba(cc, color1);
     cc->rectangle(0, 0, 1, 1);
     cc->rectangle(1, 1, 1, 1);
     cc->fill();
 
-    Gdk::Cairo::set_source_rgba(cc, color2);
+    set_source_rgba(cc, color2);
     cc->rectangle(1, 0, 1, 1);
     cc->rectangle(0, 1, 1, 1);
     cc->fill();
@@ -173,8 +173,8 @@ void draw_diagonal_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
 void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
                        unsigned int &color_index)
 {
-    Gdk::RGBA color1(get_color(color_index));
-    Gdk::RGBA color2(get_color(color_index));
+    RGBA color1(get_color(color_index));
+    RGBA color2(get_color(color_index));
 
     color2.set_alpha(0.5);
 
@@ -182,7 +182,7 @@ void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
     cc->rectangle(x, y, side, side);
     cc->fill();
 
-    Gdk::Cairo::set_source_rgba(cc, color2);
+    set_source_rgba(cc, color2);
     cc->rectangle(x, y, side, side);
     cc->fill();
 
@@ -197,7 +197,7 @@ void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
         x1 = x + (side - 1) / 2;
         y1 = y + (side - 1) / 2;
     }
-    Gdk::Cairo::set_source_rgba(cc, color1);
+    set_source_rgba(cc, color1);
     cc->rectangle(x1, y, 1, side);
     cc->rectangle(x, y1, side, 1);
     cc->fill();
