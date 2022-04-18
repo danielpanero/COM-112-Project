@@ -28,10 +28,12 @@ private:
 
     void on_open_button_click();
     void on_save_button_click();
-    void on_start_stop_button_click();
-    void on_prev_button_click();
-    void on_next_button_click();
+
+    void on_start_stop();
+    void on_prev();
+    void on_next();
     bool on_key_release(GdkEventKey *event);
+    
     bool on_draw_request(const Cairo::RefPtr<Cairo::Context> &cc);
 
     Cairo::RefPtr<Cairo::ImageSurface> background_grid_surface;

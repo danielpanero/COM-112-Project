@@ -94,11 +94,11 @@ void MainWindow::build_layout_general_box()
     save_button.signal_clicked().connect(
         sigc::mem_fun(*this, &MainWindow::on_save_button_click));
     start_stop_button.signal_clicked().connect(
-        sigc::mem_fun(*this, &MainWindow::on_start_stop_button_click));
+        sigc::mem_fun(*this, &MainWindow::on_start_stop));
     prev_anthill_button.signal_clicked().connect(
-        sigc::mem_fun(*this, &MainWindow::on_prev_button_click));
+        sigc::mem_fun(*this, &MainWindow::on_prev));
     next_anthill_button.signal_clicked().connect(
-        sigc::mem_fun(*this, &MainWindow::on_next_button_click));
+        sigc::mem_fun(*this, &MainWindow::on_next));
 }
 
 void MainWindow::build_layout_food_box()
@@ -237,7 +237,7 @@ void MainWindow::on_save_button_click()
     }
 }
 
-void MainWindow::on_start_stop_button_click()
+void MainWindow::on_start_stop()
 {
     static bool running(false);
 
@@ -268,7 +268,7 @@ void MainWindow::on_start_stop_button_click()
     }
 }
 
-void MainWindow::on_prev_button_click()
+void MainWindow::on_prev()
 {
     unsigned int index(0);
     unsigned int n_collectors(0);
@@ -289,7 +289,7 @@ void MainWindow::on_prev_button_click()
     }
 }
 
-void MainWindow::on_next_button_click()
+void MainWindow::on_next()
 {
     unsigned int index(0);
     unsigned int n_collectors(0);
@@ -314,7 +314,7 @@ bool MainWindow::on_key_release(GdkEventKey *event)
 {
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_s)
     {
-        this->on_start_stop_button_click();
+        this->on_start_stop();
         return true;
     }
 
@@ -325,13 +325,13 @@ bool MainWindow::on_key_release(GdkEventKey *event)
 
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_p)
     {
-        this->on_prev_button_click();
+        this->on_prev();
         return true;
     }
 
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_n)
     {
-        this->on_next_button_click();
+        this->on_next();
         return true;
     }
 
