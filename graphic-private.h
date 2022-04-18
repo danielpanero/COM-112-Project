@@ -9,4 +9,6 @@ Cairo::RefPtr<Cairo::ImageSurface> create_model_surface();
 
 Cairo::Matrix get_scaling_matrix(Cairo::Matrix ctm, int width, int height);
 
+void clear_model_surface();
+
 #endif

@@ -88,6 +88,15 @@ Gdk::RGBA get_color(unsigned int &color_index)
     return colors[color_index % colors.size()];
 }
 
+void clear_model_surface()
+{
+    cc->save();
+    cc->set_source_rgba(0, 0, 0, 0);
+    cc->set_operator(Cairo::Operator::OPERATOR_CLEAR);
+    cc->paint();
+    cc->restore();
+}
+
 void draw_diamond(unsigned int &x, unsigned int &y)
 {
     // TODO(@danielpanero) replace color with rgba and rectangle plus rotation is a

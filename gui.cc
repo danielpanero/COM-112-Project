@@ -162,7 +162,6 @@ void MainWindow::reset_layout()
         key_bindings.disconnect(); // We disable the key shortcuts
     }
 
-    // TODO(@danielpanero false) --> connect to ondraw (black)
     save_button.set_sensitive(false);
     start_stop_button.set_sensitive(false);
     step_button.set_sensitive(false);
@@ -174,6 +173,8 @@ void MainWindow::reset_layout()
 
     food_count_label.set_markup("<small><b>No simulation</b></small>");
     anthill_info_label.set_markup("<small><b>No simulation</b></small>");
+
+    clear_model_surface();
 }
 
 void MainWindow::on_open_button_click()
