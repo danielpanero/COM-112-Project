@@ -11,12 +11,12 @@
 
 #include "gui.h"
 
-constexpr unsigned int xs_margin = 3;
-constexpr unsigned int sm_margin = 5;
-constexpr unsigned int md_margin = 10;
-constexpr unsigned int lg_margin = 10;
+constexpr unsigned int xs_margin(3);
+constexpr unsigned int sm_margin(5);
+constexpr unsigned int md_margin(10);
+constexpr unsigned int lg_margin(10);
 
-constexpr unsigned int drawing_area_size = 500;
+constexpr unsigned int drawing_area_size(500);
 
 using std::string;
 
