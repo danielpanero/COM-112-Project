@@ -23,16 +23,20 @@ const RGBA grid_lines_color("grey");
 const RGBA background_color("white");
 const RGBA background_grid_color("black");
 const RGBA diamond_color("white");
-const std::vector<typename Gdk::RGBA> colors({RGBA("red"), RGBA("green"), RGBA("blue"),
-                                              RGBA("yellow"), RGBA("magenta"),
-                                              RGBA("cyan")});
+
+const std::vector<typename Gdk::RGBA> dark_colors({RGBA("red"), RGBA("green"),
+                                                   RGBA("blue"), RGBA("yellow"),
+                                                   RGBA("magenta"), RGBA("cyan")});
+const std::vector<typename Gdk::RGBA>
+    light_colors({RGBA("tomato"), RGBA("sea green"), RGBA("SkyBlue"),
+                  RGBA("LightYellow"), RGBA("plum"), RGBA("LightCyan")});
 
 // TODO(@danielpanero) create here or in the function below
 const auto model_surface = Cairo::ImageSurface::create(
     Cairo::FORMAT_ARGB32, g_max *scale_factor, g_max *scale_factor);
 
 Cairo::RefPtr<Cairo::Context>
-create_default_cc(Cairo::RefPtr<Cairo::ImageSurface> surface)
+create_default_cc(const Cairo::RefPtr<Cairo::ImageSurface> &surface)
 {
     auto cc = Cairo::Context::create(surface);
     cc->scale(scale_factor, scale_factor);
@@ -91,9 +95,13 @@ Cairo::Matrix shift_from_border(Cairo::Matrix ctm)
     return ctm;
 }
 
-RGBA get_color(unsigned int &color_index)
+RGBA get_color(unsigned int &color_index, bool light = false)
 {
-    return colors[color_index % colors.size()];
+    if (light)
+    {
+        return light_colors[color_index % dark_colors.size()];
+    }
+    return dark_colors[color_index % dark_colors.size()];
 }
 
 void clear_model_surface()
@@ -154,23 +162,18 @@ void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
 
 Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color_index)
 {
-    RGBA color1(get_color(color_index));
-    RGBA color2(get_color(color_index));
-
-    color2.set_alpha(0.5);
+    RGBA dark_color(get_color(color_index));
+    RGBA light_color(get_color(color_index, true));
 
     auto surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, 2, 2);
     auto cc = Cairo::Context::create(surface);
 
-    cc->set_source_rgb(1.0, 1.0, 1.0);
-    cc->paint();
-
-    set_source_rgba(cc, color1);
+    set_source_rgba(cc, dark_color);
     cc->rectangle(0, 0, cell_size, cell_size);
     cc->rectangle(cell_size, cell_size, cell_size, cell_size);
     cc->fill();
 
-    set_source_rgba(cc, color2);
+    set_source_rgba(cc, light_color);
     cc->rectangle(cell_size, 0, cell_size, cell_size);
     cc->rectangle(0, cell_size, cell_size, cell_size);
     cc->fill();
@@ -203,16 +206,10 @@ void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
 {
     auto cc = create_default_cc(model_surface);
 
-    RGBA color1(get_color(color_index));
-    RGBA color2(get_color(color_index));
+    RGBA dark_color(get_color(color_index));
+    RGBA light_color(get_color(color_index, true));
 
-    color2.set_alpha(0.5);
-
-    cc->set_source_rgb(1.0, 1.0, 1.0);
-    cc->rectangle(x, y, side, side);
-    cc->fill();
-
-    set_source_rgba(cc, color2);
+    set_source_rgba(cc, light_color);
     cc->rectangle(x, y, side, side);
     cc->fill();
 
@@ -227,7 +224,7 @@ void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
         x1 = x + (side - cell_size) / 2;
         y1 = y + (side - cell_size) / 2;
     }
-    set_source_rgba(cc, color1);
+    set_source_rgba(cc, dark_color);
     cc->rectangle(x1, y, cell_size, side);
     cc->rectangle(x, y1, side, cell_size);
     cc->fill();
