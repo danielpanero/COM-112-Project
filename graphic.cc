@@ -15,7 +15,7 @@ using Gdk::Cairo::set_source_rgba;
 constexpr double g_max(128);
 constexpr double cell_size(1);
 constexpr double surface_size((g_max + 2) * cell_size);
-constexpr unsigned int scale_factor(10);
+constexpr double scale_factor(10);
 constexpr double grid_linewidth(0.2);
 constexpr double thick_border_linewidth(0.3);
 
@@ -124,7 +124,7 @@ void draw_diamond(unsigned int &x, unsigned int &y)
     set_source_rgba(cc, diamond_color);
     cc->move_to(x + cell_size / 2, y);
     cc->line_to(x + cell_size, y + cell_size / 2);
-    cc->line_to(x + cell_size / 1, y + cell_size);
+    cc->line_to(x + cell_size / 2, y + cell_size);
     cc->line_to(x, y + cell_size / 2);
     cc->fill();
 
@@ -192,6 +192,8 @@ void draw_diagonal_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
 {
     auto cc = create_default_cc(model_surface);
 
+    /* Instead of creating each square independently, we create a square of 2x2, with
+     * the diagonal pattern and use this as filling pattern */
     auto diagonal_pattern = create_diagonal_pattern(color_index);
 
     cc->set_source(diagonal_pattern);
@@ -213,20 +215,12 @@ void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
     cc->rectangle(x, y, side, side);
     cc->fill();
 
-    double x1(0), y1(0);
-    if ((side % 2) == 0)
-    {
-        x1 = x + static_cast<double>(side) / 2 - (cell_size / 2);
-        y1 = y + static_cast<double>(side) / 2 - (cell_size / 2);
-    }
-    else
-    {
-        x1 = x + (side - cell_size) / 2;
-        y1 = y + (side - cell_size) / 2;
-    }
+    double x_center = x + (side - cell_size) / 2;
+    double y_center = y + (side - cell_size) / 2;
+
     set_source_rgba(cc, dark_color);
-    cc->rectangle(x1, y, cell_size, side);
-    cc->rectangle(x, y1, side, cell_size);
+    cc->rectangle(x_center, y, cell_size, side);
+    cc->rectangle(x, y_center, side, cell_size);
     cc->fill();
 
     model_surface->flush();
