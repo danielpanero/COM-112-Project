@@ -18,14 +18,16 @@ constexpr unsigned int scale_factor(10);
 constexpr double grid_linewidth(0.2);
 constexpr double thick_border_linewidth(0.3);
 
-const std::vector<typename Gdk::RGBA>
-    colors({RGBA("red"), RGBA("green"), RGBA("blue"),
-            RGBA("yellow"), RGBA("magenta"), RGBA("cyan")});
+const std::vector<typename Gdk::RGBA> colors({RGBA("red"), RGBA("green"), RGBA("blue"),
+                                              RGBA("yellow"), RGBA("magenta"),
+                                              RGBA("cyan")});
 
 const RGBA grid_lines_color("grey");
 const RGBA background_color("black");
 
-static Cairo::RefPtr<Cairo::Context> cc(nullptr);
+// TODO(@danielpanero) create here or in the function below
+const auto model_surface = Cairo::ImageSurface::create(
+    Cairo::FORMAT_ARGB32, g_max *scale_factor, g_max *scale_factor);
 
 Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 {
@@ -33,7 +35,6 @@ Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
         Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, surface_size * scale_factor,
                                     surface_size * scale_factor);
     auto cc = Cairo::Context::create(surface);
-
     cc->scale(scale_factor, scale_factor);
     cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
 
@@ -66,20 +67,18 @@ Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
     return surface;
 }
 
-Cairo::RefPtr<Cairo::ImageSurface> create_model_surface()
-{
-    auto surface = Cairo::ImageSurface::create(
-        Cairo::FORMAT_ARGB32, g_max * scale_factor, g_max * scale_factor);
-    cc = Cairo::Context::create(surface);
-
-    surface->flush();
-    return surface;
-}
+Cairo::RefPtr<Cairo::ImageSurface> create_model_surface() { return model_surface; }
 
 Cairo::Matrix get_scaling_matrix(Cairo::Matrix ctm, int width, int height)
 {
-    ctm.scale(width / ((g_max + 2) * scale_factor),
-              height / ((g_max + 2) * scale_factor));
+    ctm.scale(width / (surface_size * scale_factor),
+              height / (surface_size * scale_factor));
+    return ctm;
+}
+
+Cairo::Matrix get_translating_matrix(Cairo::Matrix ctm)
+{
+    ctm.translate(scale_factor, scale_factor);
     return ctm;
 }
 
@@ -90,15 +89,25 @@ RGBA get_color(unsigned int &color_index)
 
 void clear_model_surface()
 {
+    auto cc = Cairo::Context::create(model_surface);
+    cc->scale(scale_factor, scale_factor);
+    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+
     cc->save();
     cc->set_source_rgba(0, 0, 0, 0);
     cc->set_operator(Cairo::Operator::OPERATOR_CLEAR);
     cc->paint();
     cc->restore();
+
+    model_surface->flush();
 }
 
 void draw_diamond(unsigned int &x, unsigned int &y)
 {
+    auto cc = Cairo::Context::create(model_surface);
+    cc->scale(scale_factor, scale_factor);
+    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+
     // TODO(@danielpanero) replace color with rgba and rectangle plus rotation is a
     // better solution
     cc->set_source_rgb(1.0, 1.0, 1.0);
@@ -107,25 +116,39 @@ void draw_diamond(unsigned int &x, unsigned int &y)
     cc->line_to(x + 0.5, y + 1);
     cc->line_to(x, y + 0.5);
     cc->fill();
+
+    model_surface->flush();
 }
 
 void draw_thick_border_square(unsigned int &x, unsigned int &y, unsigned int &side,
                               unsigned int &color_index)
 {
+    auto cc = Cairo::Context::create(model_surface);
+    cc->scale(scale_factor, scale_factor);
+    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+
     set_source_rgba(cc, get_color(color_index));
     cc->set_line_width(thick_border_linewidth);
 
     cc->rectangle(x + 0.5, y + 0.5, side - 1, side - 1);
     cc->stroke();
+
+    model_surface->flush();
 }
 
 void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
                         unsigned int &color_index)
 {
+    auto cc = Cairo::Context::create(model_surface);
+    cc->scale(scale_factor, scale_factor);
+    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+
     set_source_rgba(cc, get_color(color_index));
 
     cc->rectangle(x, y, side, side);
     cc->fill();
+
+    model_surface->flush();
 }
 
 Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color_index)
@@ -163,16 +186,26 @@ Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color
 void draw_diagonal_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
                            unsigned int &color_index)
 {
+    auto cc = Cairo::Context::create(model_surface);
+    cc->scale(scale_factor, scale_factor);
+    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+
     auto diagonal_pattern = create_diagonal_pattern(color_index);
 
     cc->set_source(diagonal_pattern);
     cc->rectangle(x, y, side, side);
     cc->fill();
+
+    model_surface->flush();
 }
 
 void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
                        unsigned int &color_index)
 {
+    auto cc = Cairo::Context::create(model_surface);
+    cc->scale(scale_factor, scale_factor);
+    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+
     RGBA color1(get_color(color_index));
     RGBA color2(get_color(color_index));
 
@@ -201,4 +234,6 @@ void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
     cc->rectangle(x1, y, 1, side);
     cc->rectangle(x, y1, side, 1);
     cc->fill();
+
+    model_surface->flush();
 }

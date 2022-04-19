@@ -362,8 +362,10 @@ bool MainWindow::on_draw_request(const Cairo::RefPtr<Cairo::Context> &cc)
     const int width = allocation.get_width();
     const int height = allocation.get_height();
 
-    Cairo::Matrix ctm = cc->get_matrix();
-    cc->set_matrix(get_scaling_matrix(ctm, width, height));
+    Cairo::Matrix ctm1(get_scaling_matrix(cc->get_matrix(), width, height));
+    Cairo::Matrix ctm2(get_translating_matrix(ctm1));
+
+    cc->set_matrix(ctm1);
 
     if (background_grid_surface)
     {
@@ -371,9 +373,11 @@ bool MainWindow::on_draw_request(const Cairo::RefPtr<Cairo::Context> &cc)
         cc->paint();
     }
 
+    cc->set_matrix(ctm2);
+
     if (model_surface)
     {
-        cc->set_source(model_surface, 1, 1);
+        cc->set_source(model_surface, 0, 0);
         cc->paint();
     }
 
