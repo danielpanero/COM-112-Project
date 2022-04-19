@@ -15,9 +15,12 @@ using Gdk::Cairo::set_source_rgba;
 constexpr double g_max(128);
 constexpr double cell_size(1);
 constexpr double surface_size((g_max + 2) * cell_size);
-constexpr double scale_factor(10);
-constexpr double grid_linewidth(0.2);
-constexpr double thick_border_linewidth(0.3);
+
+/* The scale factor controls "image quality / resolution". As we increase it, the
+ * quality improves, but rendering will be slower */
+constexpr double scale_factor(5);
+constexpr double grid_linewidth(1 / scale_factor);
+constexpr double thick_border_linewidth(2 * 1 / scale_factor);
 
 const RGBA grid_lines_color("grey");
 const RGBA background_color("white");
@@ -187,8 +190,8 @@ Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color
     return pattern;
 }
 
-void draw_diagonal_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
-                           unsigned int &color_index)
+void draw_diagonal_pattern_square(unsigned int &x, unsigned int &y, unsigned int &side,
+                                  unsigned int &color_index)
 {
     auto cc = create_default_cc(model_surface);
 
@@ -203,8 +206,8 @@ void draw_diagonal_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
     model_surface->flush();
 }
 
-void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
-                       unsigned int &color_index)
+void draw_plus_pattern_square(unsigned int &x, unsigned int &y, unsigned int &side,
+                              unsigned int &color_index)
 {
     auto cc = create_default_cc(model_surface);
 
