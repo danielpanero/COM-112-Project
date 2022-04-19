@@ -69,14 +69,14 @@ Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 
 Cairo::RefPtr<Cairo::ImageSurface> create_model_surface() { return model_surface; }
 
-Cairo::Matrix get_scaling_matrix(Cairo::Matrix ctm, int width, int height)
+Cairo::Matrix scale_to_allocation_size(Cairo::Matrix ctm, int width, int height)
 {
     ctm.scale(width / (surface_size * scale_factor),
               height / (surface_size * scale_factor));
     return ctm;
 }
 
-Cairo::Matrix get_translating_matrix(Cairo::Matrix ctm)
+Cairo::Matrix shift_from_border(Cairo::Matrix ctm)
 {
     ctm.translate(scale_factor, scale_factor);
     return ctm;
