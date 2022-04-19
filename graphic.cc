@@ -21,7 +21,6 @@ constexpr double thick_border_linewidth(0.3);
 const std::vector<typename Gdk::RGBA> colors({RGBA("red"), RGBA("green"), RGBA("blue"),
                                               RGBA("yellow"), RGBA("magenta"),
                                               RGBA("cyan")});
-
 const RGBA grid_lines_color("grey");
 const RGBA background_color("black");
 
@@ -29,14 +28,22 @@ const RGBA background_color("black");
 const auto model_surface = Cairo::ImageSurface::create(
     Cairo::FORMAT_ARGB32, g_max *scale_factor, g_max *scale_factor);
 
+Cairo::RefPtr<Cairo::Context>
+create_default_cc(Cairo::RefPtr<Cairo::ImageSurface> surface)
+{
+    auto cc = Cairo::Context::create(surface);
+    cc->scale(scale_factor, scale_factor);
+    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+
+    return cc;
+}
+
 Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 {
     auto surface =
         Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, surface_size * scale_factor,
                                     surface_size * scale_factor);
-    auto cc = Cairo::Context::create(surface);
-    cc->scale(scale_factor, scale_factor);
-    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+    auto cc = create_default_cc(surface);
 
     // White background
     cc->set_source_rgb(1.0, 1.0, 1.0);
@@ -89,9 +96,7 @@ RGBA get_color(unsigned int &color_index)
 
 void clear_model_surface()
 {
-    auto cc = Cairo::Context::create(model_surface);
-    cc->scale(scale_factor, scale_factor);
-    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+    auto cc = create_default_cc(model_surface);
 
     cc->save();
     cc->set_source_rgba(0, 0, 0, 0);
@@ -104,9 +109,7 @@ void clear_model_surface()
 
 void draw_diamond(unsigned int &x, unsigned int &y)
 {
-    auto cc = Cairo::Context::create(model_surface);
-    cc->scale(scale_factor, scale_factor);
-    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+    auto cc = create_default_cc(model_surface);
 
     // TODO(@danielpanero) replace color with rgba and rectangle plus rotation is a
     // better solution
@@ -123,9 +126,7 @@ void draw_diamond(unsigned int &x, unsigned int &y)
 void draw_thick_border_square(unsigned int &x, unsigned int &y, unsigned int &side,
                               unsigned int &color_index)
 {
-    auto cc = Cairo::Context::create(model_surface);
-    cc->scale(scale_factor, scale_factor);
-    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+    auto cc = create_default_cc(model_surface);
 
     set_source_rgba(cc, get_color(color_index));
     cc->set_line_width(thick_border_linewidth);
@@ -139,9 +140,7 @@ void draw_thick_border_square(unsigned int &x, unsigned int &y, unsigned int &si
 void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
                         unsigned int &color_index)
 {
-    auto cc = Cairo::Context::create(model_surface);
-    cc->scale(scale_factor, scale_factor);
-    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+    auto cc = create_default_cc(model_surface);
 
     set_source_rgba(cc, get_color(color_index));
 
@@ -186,9 +185,7 @@ Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color
 void draw_diagonal_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
                            unsigned int &color_index)
 {
-    auto cc = Cairo::Context::create(model_surface);
-    cc->scale(scale_factor, scale_factor);
-    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+    auto cc = create_default_cc(model_surface);
 
     auto diagonal_pattern = create_diagonal_pattern(color_index);
 
@@ -202,9 +199,7 @@ void draw_diagonal_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
 void draw_plus_pattern(unsigned int &x, unsigned int &y, unsigned int &side,
                        unsigned int &color_index)
 {
-    auto cc = Cairo::Context::create(model_surface);
-    cc->scale(scale_factor, scale_factor);
-    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+    auto cc = create_default_cc(model_surface);
 
     RGBA color1(get_color(color_index));
     RGBA color2(get_color(color_index));
