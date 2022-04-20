@@ -39,6 +39,13 @@ const std::vector<typename Gdk::RGBA>
 const auto model_surface = Cairo::ImageSurface::create(
     Cairo::FORMAT_ARGB32, g_max *scale_factor, g_max *scale_factor);
 
+/**
+ * @brief This is a convenience function for creating the cairo context, applying the
+ * scale_factor and disabling any type of aliasing
+ *
+ * @param surface
+ * @return Cairo::RefPtr<Cairo::Context>
+ */
 Cairo::RefPtr<Cairo::Context>
 create_default_cc(const Cairo::RefPtr<Cairo::ImageSurface> &surface)
 {
@@ -99,6 +106,13 @@ Cairo::Matrix shift_from_border(Cairo::Matrix ctm)
     return ctm;
 }
 
+/**
+ * @brief Retrieves the right color from either dark_colors or their lighter version
+ *
+ * @param color_index
+ * @param light
+ * @return RGBA
+ */
 RGBA get_color(unsigned int &color_index, bool light = false)
 {
     if (light)
@@ -166,6 +180,13 @@ void Graphic::draw_filled_square(unsigned int &x, unsigned int &y, unsigned int 
     model_surface->flush();
 }
 
+/**
+ * @brief Creates the diagonal pattern: one square 2x2 |X O||X O| where X has color @p
+ * color_index and O a lighter version of @p color_index
+ *
+ * @param color_index
+ * @return Cairo::RefPtr<Cairo::SurfacePattern>
+ */
 Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color_index)
 {
     RGBA dark_color(get_color(color_index));

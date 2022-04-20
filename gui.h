@@ -24,6 +24,11 @@ class MainWindow : public Gtk::Window
 {
 
 public:
+    /**
+     * @brief Construct a new Main Window instance
+     *
+     * @param simulation pointer to the current simulation
+     */
     explicit MainWindow(Simulation *simulation);
     ~MainWindow() = default;
 
@@ -43,14 +48,50 @@ private:
     void on_prev();
     void on_next();
 
-    bool on_key_release_reduced(GdkEventKey *event);
+    /**
+     * @brief Signal handler for the keyboard shortcuts:
+     * @b s start/stop the simulation,
+     * @b 1 one step in the simulation,
+     * @b p retrieves the information of the prev anthill
+     * @b n retrieves the information of the next anthill
+     *
+     * @param event
+     */
     bool on_key_release_complete(GdkEventKey *event);
 
+    /**
+     * @brief Signal handler for the keyboard shortcuts when the simulation is running:
+     * @b s start/stop the simulation
+     *
+     * @param event
+     */
+    bool on_key_release_reduced(GdkEventKey *event);
+
+    /**
+     * @brief Signal handler for drawing_area: applies the right ctms and draws
+     * background_grid_surface and model_surface
+     *
+     * @param cc
+     */
     bool on_draw_request(const Cairo::RefPtr<Cairo::Context> &cc);
 
+    /**
+     * @brief Pointer to background_grid_surface define in the graphic module
+     *
+     */
     Cairo::RefPtr<Cairo::ImageSurface> background_grid_surface;
+
+    /**
+     * @brief Pointer to model_surface defined in the graphic module
+     *
+     */
     Cairo::RefPtr<Cairo::ImageSurface> model_surface;
 
+    /**
+     * keyboard_shortcuts_reduced and complete are needed for connecting/disconnecting
+     * the signal handlers when needed, i.e: while empty disconnecting both, while
+     * running only reduced
+     */
     sigc::connection keyboard_shortcuts_reduced;
     sigc::connection keyboard_shortcuts_complete;
 
