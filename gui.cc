@@ -1,3 +1,13 @@
+/**
+ * @file gui.cc
+ * @author Daniel Panero, Layane Wazen, Andrea Diez
+ * @version 0.1
+ * @date 2022-04-20
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #include "iostream"
 
 #include "gtkmm/aspectframe.h"

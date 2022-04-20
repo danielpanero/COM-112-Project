@@ -1,3 +1,13 @@
+/**
+ * @file gui.h
+ * @author Daniel Panero, Layane Wazen, Andrea Diez
+ * @version 0.1
+ * @date 2022-04-20
+ *
+ * @copyright Copyright (c) 2022
+ *
+ */
+
 #ifndef GUI_H
 #define GUI_H
 
