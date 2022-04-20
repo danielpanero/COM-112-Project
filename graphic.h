@@ -1,6 +1,7 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
+// TODO(@danielpanero): transform in namespace ?
 void clear_model_surface();
 void draw_diamond(unsigned int &x, unsigned int &y);
 void draw_thick_border_square(unsigned int &x, unsigned int &y, unsigned int &side,

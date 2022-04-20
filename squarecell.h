@@ -86,4 +86,10 @@ bool test_if_superposed_two_square(Square &square1, Square &square2);
  */
 bool test_if_completely_confined(Square &square1, Square &square2);
 
+void draw_as_diamond(Square &square);
+void draw_only_border(Square &square, unsigned int &color_index);
+void draw_filled_square(Square &square, unsigned int &color_index);
+void draw_diagonal_pattern(Square &square, unsigned &color_index);
+void draw_plus_pattern(Square &square, unsigned &color_index);
+
 #endif
