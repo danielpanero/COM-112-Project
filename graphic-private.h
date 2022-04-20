@@ -4,6 +4,7 @@
 #include "cairomm/matrix.h"
 #include "cairomm/surface.h"
 
+// TODO(@danielpanero): transform also this in namespace?
 Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface();
 Cairo::RefPtr<Cairo::ImageSurface> create_model_surface();
 

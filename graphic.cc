@@ -108,7 +108,7 @@ RGBA get_color(unsigned int &color_index, bool light = false)
     return dark_colors[color_index % dark_colors.size()];
 }
 
-void clear_model_surface()
+void Graphic::clear_model_surface()
 {
     auto cc = create_default_cc(model_surface);
 
@@ -121,7 +121,7 @@ void clear_model_surface()
     model_surface->flush();
 }
 
-void draw_diamond(unsigned int &x, unsigned int &y)
+void Graphic::draw_diamond(unsigned int &x, unsigned int &y)
 {
     auto cc = create_default_cc(model_surface);
 
@@ -135,8 +135,8 @@ void draw_diamond(unsigned int &x, unsigned int &y)
     model_surface->flush();
 }
 
-void draw_thick_border_square(unsigned int &x, unsigned int &y, unsigned int &side,
-                              unsigned int &color_index)
+void Graphic::draw_thick_border_square(unsigned int &x, unsigned int &y,
+                                       unsigned int &side, unsigned int &color_index)
 {
     auto cc = create_default_cc(model_surface);
 
@@ -151,8 +151,8 @@ void draw_thick_border_square(unsigned int &x, unsigned int &y, unsigned int &si
     model_surface->flush();
 }
 
-void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
-                        unsigned int &color_index)
+void Graphic::draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
+                                 unsigned int &color_index)
 {
     auto cc = create_default_cc(model_surface);
 
@@ -191,8 +191,9 @@ Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color
     return pattern;
 }
 
-void draw_diagonal_pattern_square(unsigned int &x, unsigned int &y, unsigned int &side,
-                                  unsigned int &color_index)
+void Graphic::draw_diagonal_pattern_square(unsigned int &x, unsigned int &y,
+                                           unsigned int &side,
+                                           unsigned int &color_index)
 {
     auto cc = create_default_cc(model_surface);
 
@@ -207,8 +208,8 @@ void draw_diagonal_pattern_square(unsigned int &x, unsigned int &y, unsigned int
     model_surface->flush();
 }
 
-void draw_plus_pattern_square(unsigned int &x, unsigned int &y, unsigned int &side,
-                              unsigned int &color_index)
+void Graphic::draw_plus_pattern_square(unsigned int &x, unsigned int &y,
+                                       unsigned int &side, unsigned int &color_index)
 {
     auto cc = create_default_cc(model_surface);
 
