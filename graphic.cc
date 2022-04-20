@@ -121,6 +121,8 @@ void Graphic::clear_model_surface()
     model_surface->flush();
 }
 
+void clear_model_surface() { Graphic::clear_model_surface(); }
+
 void Graphic::draw_diamond(unsigned int &x, unsigned int &y)
 {
     auto cc = create_default_cc(model_surface);
