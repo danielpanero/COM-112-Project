@@ -5,3 +5,4 @@ BreakBeforeBraces: Allman
 IndentWidth: 4
 AccessModifierOffset: -4
 SortIncludes: CaseInsensitive
+NamespaceIndentation: All
