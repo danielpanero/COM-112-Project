@@ -18,9 +18,9 @@
 class Ant : protected Square
 {
 public:
-    Ant(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &age);
-    virtual void Ant::export_to_string();
-    virtual Square Ant::add_grid();
+    Ant(unsigned int &x, unsigned int &y, unsigned int &age);
+    virtual Ant *parse_line(std::string &line);
+    virtual Square Ant::add_to_grid() = 0;
 
 protected:
     Square Ant::get_as_square();
@@ -72,7 +72,7 @@ public:
      */
     Defensor(unsigned int &x, unsigned int &y);
 
-    static Defensor *parse_line(std::string &line);
+   // static Defensor *parse_line(std::string &line);
 
     void add_to_grid();
 
@@ -90,7 +90,7 @@ public:
      */
     Predator(unsigned int &x, unsigned int &y);
 
-    static Predator *parse_line(std::string &line);
+    //static Predator *parse_line(std::string &line);
 
     void add_to_grid();
 };

@@ -21,12 +21,28 @@ using std::cout;
 using std::istringstream;
 using std::string;
 
-Ant::Ant(unsigned int &x, unsigned int &y,unsigned int &side, unsigned int &age)
+Ant::Ant(unsigned int &x, unsigned int &y, unsigned int &age)
     :Square({x, y, side}), age(age)
 {
+    test_square(*this);
+    add_to_grid();
 }
 
-Generator::Generator(unsigned int &x, unsigned int &y) : Square({x, y, sizeG, true})
+Ant *Ant::parse_line(string &line)
+{
+    unsigned int x(0);
+    unsigned int y(0);
+    unsigned int age(0);
+
+    istringstream stream(line);
+    stream >> x;
+    stream >> y;
+    stream >> age;
+
+    return new Ant(x, y, age);  
+}
+
+Generator::Generator(unsigned int &x, unsigned int &y)
 {
     test_square(*this);
     add_to_grid();
@@ -48,7 +64,7 @@ void Generator::add_to_grid()
 
 Square Generator::get_as_square() { return {*this}; }
 
-Collector::Collector(unsigned int &x, unsigned int &y) : Square({x, y, sizeC, true})
+Collector::Collector(unsigned int &x, unsigned int &y) 
 {
     test_square(*this);
     add_to_grid();
@@ -58,10 +74,14 @@ Collector *Collector::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
+   /* unsigned int age(0);
+    unsigned int food(0);*/
 
     istringstream stream(line);
     stream >> x;
     stream >> y;
+   /* stream >> age;
+    stream >> food;*/
 
     return new Collector(x, y);
 }
@@ -80,12 +100,12 @@ void Collector::add_to_grid()
     add_square(*this);
 }
 
-Defensor::Defensor(unsigned int &x, unsigned int &y) : Square({x, y, sizeD, true})
+Defensor::Defensor(unsigned int &x, unsigned int &y)
 {
     test_square(*this);
     add_to_grid();
 }
-
+/*
 Defensor *Defensor::parse_line(string &line)
 {
     unsigned int x(0);
@@ -96,7 +116,7 @@ Defensor *Defensor::parse_line(string &line)
     stream >> y;
 
     return new Defensor(x, y);
-}
+}*/
 
 void Defensor::add_to_grid()
 {
@@ -114,12 +134,12 @@ void Defensor::add_to_grid()
 
 Square Defensor::get_as_square() { return {*this}; }
 
-Predator::Predator(unsigned int &x, unsigned int &y) : Square({x, y, sizeP, true})
+Predator::Predator(unsigned int &x, unsigned int &y)
 {
     test_square(*this);
     add_to_grid();
 }
-
+/*
 Predator *Predator::parse_line(string &line)
 {
     unsigned int x(0);
@@ -130,7 +150,7 @@ Predator *Predator::parse_line(string &line)
     stream >> y;
 
     return new Predator(x, y);
-}
+} */
 
 void Predator::add_to_grid()
 {
