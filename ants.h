@@ -23,7 +23,7 @@ public:
     virtual Square Ant::add_to_grid() = 0;
 
 protected:
-    Square Ant::get_as_square();
+    Square Ant get_as_square();
 
 private:
     unsigned int age;
