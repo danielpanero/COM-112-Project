@@ -24,10 +24,10 @@ private:
     unsigned int n_defensors;
     unsigned int n_predators;
 
-    Generator *generator;
-    std::vector<Collector *> collectors;
-    std::vector<Defensor *> defensors;
-    std::vector<Predator *> predators;
+    std::unique_ptr<Generator>(*generator);
+    std::unique_ptr<Collector>(*collectors);
+    std::unique_ptr<Defensor>(*defensors);
+    std::unique_ptr<Predator>(*predators);
 
 public:
     /**

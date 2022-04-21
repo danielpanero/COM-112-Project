@@ -21,6 +21,11 @@ using std::cout;
 using std::istringstream;
 using std::string;
 
+Ant::Ant(unsigned int &x, unsigned int &y,unsigned int &side, unsigned int &age)
+    :Square({x, y, side}), age(age)
+{
+}
+
 Generator::Generator(unsigned int &x, unsigned int &y) : Square({x, y, sizeG, true})
 {
     test_square(*this);

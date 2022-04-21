@@ -15,7 +15,21 @@
 
 #include "squarecell.h"
 
-class Generator : protected Square
+class Ant : protected Square
+{
+public:
+    Ant(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &age);
+    virtual void Ant::export_to_string();
+    virtual Square Ant::add_grid();
+
+protected:
+    Square Ant::get_as_square();
+
+private:
+    unsigned int age;
+};
+
+class Generator : public Ant
 {
 public:
     /**
@@ -27,11 +41,11 @@ public:
     Generator(unsigned int &x, unsigned int &y);
 
     void add_to_grid();
-    
+
     Square get_as_square();
 };
 
-class Collector : protected Square
+class Collector : public Ant
 {
 public:
     /**
@@ -47,7 +61,7 @@ public:
     void add_to_grid();
 };
 
-class Defensor : Square
+class Defensor : public Ant
 {
 public:
     /**
@@ -65,7 +79,7 @@ public:
     Square get_as_square();
 };
 
-class Predator : protected Square
+class Predator : public Ant
 {
 public:
     /**
