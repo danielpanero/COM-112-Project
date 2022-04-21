@@ -9,6 +9,7 @@
  */
 
 #include "iostream"
+#include "memory"
 #include "sstream"
 
 #include "constantes.h"
@@ -21,28 +22,13 @@ using std::cout;
 using std::istringstream;
 using std::string;
 
-Ant::Ant(unsigned int &x, unsigned int &y, unsigned int &age)
-    :Square({x, y, side}), age(age)
+Ant::Ant(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &age)
+    : Square({x, y, side, false}), age(age)
 {
-    test_square(*this);
-    add_to_grid();
 }
 
-Ant *Ant::parse_line(string &line)
-{
-    unsigned int x(0);
-    unsigned int y(0);
-    unsigned int age(0);
-
-    istringstream stream(line);
-    stream >> x;
-    stream >> y;
-    stream >> age;
-
-    return new Ant(x, y, age);  
-}
-
-Generator::Generator(unsigned int &x, unsigned int &y)
+Generator::Generator(unsigned int &x, unsigned int &y, unsigned int &age)
+    : Ant({x, y, sizeG, age})
 {
     test_square(*this);
     add_to_grid();
@@ -62,9 +48,7 @@ void Generator::add_to_grid()
     add_square(*this);
 }
 
-Square Generator::get_as_square() { return {*this}; }
-
-Collector::Collector(unsigned int &x, unsigned int &y) 
+Collector::Collector(unsigned int &x, unsigned int &y)
 {
     test_square(*this);
     add_to_grid();
@@ -74,14 +58,12 @@ Collector *Collector::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
-   /* unsigned int age(0);
-    unsigned int food(0);*/
+    unsigned int age(0);
 
     istringstream stream(line);
     stream >> x;
     stream >> y;
-   /* stream >> age;
-    stream >> food;*/
+    stream >> age;
 
     return new Collector(x, y);
 }

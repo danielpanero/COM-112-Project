@@ -11,6 +11,7 @@
 #ifndef ENTITIES_ANTHILL_H
 #define ENTITIES_ANTHILL_H
 
+#include "memory"
 #include "vector"
 
 #include "ants.h"
@@ -24,10 +25,10 @@ private:
     unsigned int n_defensors;
     unsigned int n_predators;
 
-    std::unique_ptr<Generator>(*generator);
-    std::unique_ptr<Collector>(*collectors);
-    std::unique_ptr<Defensor>(*defensors);
-    std::unique_ptr<Predator>(*predators);
+    std::unique_ptr<Generator> generator;
+    vector<std::unique_ptr<Collector>> collectors;
+    vector<std::unique_ptr<Defensor>> defensors;
+    vector<std::unique_ptr<Predator>> predators;
 
 public:
     /**

@@ -11,19 +11,25 @@
 #ifndef ENTITIES_ANTS_H
 #define ENTITIES_ANTS_H
 
-#include "constantes.h"
+#include "memory"
 
+#include "constantes.h"
 #include "squarecell.h"
 
 class Ant : protected Square
 {
 public:
-    Ant(unsigned int &x, unsigned int &y, unsigned int &age);
-    virtual Ant *parse_line(std::string &line);
-    virtual Square Ant::add_to_grid() = 0;
+    Ant(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &age);
+
+    virtual void add_to_grid() = 0;
+    virtual std::string export_to_line() = 0;
 
 protected:
+<<<<<<< HEAD
     Square Ant get_as_square();
+=======
+    Square get_as_square();
+>>>>>>> 89f499b60e79cf59c2e4ccda38e27c4a0cd1ac51
 
 private:
     unsigned int age;
@@ -38,11 +44,10 @@ public:
      * @param x position of generator in the x-axis
      * @param y position of generator in the y-axis
      */
-    Generator(unsigned int &x, unsigned int &y);
+    Generator(unsigned int &x, unsigned int &y, unsigned int &age);
 
-    void add_to_grid();
-
-    Square get_as_square();
+    void add_to_grid() override;
+        // FIXME(@andreadiez): implement export_line
 };
 
 class Collector : public Ant
@@ -55,8 +60,8 @@ public:
      * @param y position of collector in the y-axis
      */
     Collector(unsigned int &x, unsigned int &y);
-
-    static Collector *parse_line(std::string &line);
+    
+    static std::unique_ptr<Collector> parse_line(std::string &line);
 
     void add_to_grid();
 };
@@ -72,11 +77,9 @@ public:
      */
     Defensor(unsigned int &x, unsigned int &y);
 
-   // static Defensor *parse_line(std::string &line);
+    // static Defensor *parse_line(std::string &line);
 
-    void add_to_grid();
-
-    Square get_as_square();
+    void add_to_grid() override;
 };
 
 class Predator : public Ant
@@ -90,7 +93,7 @@ public:
      */
     Predator(unsigned int &x, unsigned int &y);
 
-    //static Predator *parse_line(std::string &line);
+    // static Predator *parse_line(std::string &line);
 
     void add_to_grid();
 };
