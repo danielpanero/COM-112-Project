@@ -26,6 +26,8 @@ public:
 
     static Food *parse_line(std::string &line);
 
+    virtual std::string get_as_string() = 0;
+
     void add_to_grid();
 };
 

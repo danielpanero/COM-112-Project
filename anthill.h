@@ -50,6 +50,8 @@ public:
 
     static Anthill *parse_line(std::string &line);
 
+    virtual std::string get_as_string() = 0;
+
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of
      * the anthill

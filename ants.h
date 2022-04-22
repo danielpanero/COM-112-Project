@@ -22,14 +22,10 @@ public:
     Ant(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &age);
 
     virtual void add_to_grid() = 0;
-    virtual std::string export_to_line() = 0;
+    virtual std::string get_as_string() = 0;
 
 protected:
-<<<<<<< HEAD
-    Square Ant get_as_square();
-=======
     Square get_as_square();
->>>>>>> 89f499b60e79cf59c2e4ccda38e27c4a0cd1ac51
 
 private:
     unsigned int age;
@@ -47,7 +43,7 @@ public:
     Generator(unsigned int &x, unsigned int &y, unsigned int &age);
 
     void add_to_grid() override;
-        // FIXME(@andreadiez): implement export_line
+    std:: string get_as_string() override;
 };
 
 class Collector : public Ant
@@ -59,11 +55,16 @@ public:
      * @param x position of collector in the x-axis
      * @param y position of collector in the y-axis
      */
-    Collector(unsigned int &x, unsigned int &y);
+    Collector(unsigned int &x, unsigned int &y, unsigned int &age,double &food);
     
     static std::unique_ptr<Collector> parse_line(std::string &line);
 
-    void add_to_grid();
+    std:: string get_as_string() override;
+
+    void add_to_grid() override;
+
+    private:
+    double food;
 };
 
 class Defensor : public Ant
@@ -75,9 +76,11 @@ public:
      * @param x position of defensor in the x-axis
      * @param y position of defensor in the y-axis
      */
-    Defensor(unsigned int &x, unsigned int &y);
+    Defensor(unsigned int &x, unsigned int &y, unsigned int &age);
 
-    // static Defensor *parse_line(std::string &line);
+    static std::unique_ptr<Defensor> parse_line(std::string &line);
+
+    std:: string get_as_string() override;
 
     void add_to_grid() override;
 };
@@ -91,11 +94,13 @@ public:
      * @param x position of predator in the x-axis
      * @param y position of predator in the y-axis
      */
-    Predator(unsigned int &x, unsigned int &y);
+    Predator(unsigned int &x, unsigned int &y, unsigned int &age);
 
-    // static Predator *parse_line(std::string &line);
+    static std::unique_ptr<Predator> parse_line(std::string &line);
 
-    void add_to_grid();
+    std:: string get_as_string() override;
+
+    void add_to_grid()override;
 };
 
 #endif
