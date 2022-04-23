@@ -29,13 +29,13 @@ public:
      * @param side side of anthill
      * @param xg  position of generator in the x-axis
      * @param yg  position of generator in the y-axis
-     * @param total_food total number of food
+     * @param n_food total number of food
      * @param n_collectors number of collectors
      * @param n_defensors number of defensors
      * @param n_predators number of predators
      */
     Anthill(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &xg,
-            unsigned int &yg, unsigned int total_food, unsigned int &n_collectors,
+            unsigned int &yg, unsigned int n_food, unsigned int &n_collectors,
             unsigned int &n_defensors, unsigned int &n_predators);
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of
@@ -52,6 +52,7 @@ public:
     unsigned int get_number_of_collectors() const;
     unsigned int get_number_of_defensors() const;
     unsigned int get_number_of_predators() const;
+    unsigned int get_number_of_food() const;
 
     std::string get_as_string() override;
     void draw(unsigned int &color_index) override;
@@ -65,7 +66,7 @@ public:
     static std::unique_ptr<Anthill> parse_line(std::string &line);
 
 private:
-    unsigned int total_food;
+    unsigned int n_food;
     unsigned int n_collectors;
     unsigned int n_defensors;
     unsigned int n_predators;

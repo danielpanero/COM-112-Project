@@ -26,10 +26,10 @@ using std::unique_ptr;
 using std::vector;
 
 Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side,
-                 unsigned int &xg, unsigned int &yg, unsigned int total_food,
+                 unsigned int &xg, unsigned int &yg, unsigned int n_food,
                  unsigned int &n_collectors, unsigned int &n_defensors,
                  unsigned int &n_predators)
-    : Element{x, y, side, false}, total_food(total_food), n_collectors(n_collectors),
+    : Element{x, y, side, false}, n_food(n_food), n_collectors(n_collectors),
       n_defensors(n_defensors), n_predators(n_predators)
 {
     unsigned int generator_age(0);
@@ -74,13 +74,14 @@ void Anthill::set_predators(vector<unique_ptr<Predator>> &predators)
 unsigned int Anthill::get_number_of_collectors() const { return n_collectors; };
 unsigned int Anthill::get_number_of_defensors() const { return n_defensors; };
 unsigned int Anthill::get_number_of_predators() const { return n_predators; };
+unsigned int Anthill::get_number_of_food() const { return n_food; }
 
 string Anthill::get_as_string()
 {
     using std::to_string;
 
     return to_string(x) + " " + to_string(y) + " " + to_string(side) + " " +
-           generator->get_as_string() + " " + to_string(total_food) + " " +
+           generator->get_as_string() + " " + to_string(n_food) + " " +
            to_string(n_collectors) + " " + to_string(n_defensors) + " " +
            to_string(n_predators);
 }
@@ -94,7 +95,8 @@ unique_ptr<Anthill> Anthill::parse_line(string &line)
     unsigned int side(0);
     unsigned int xg(0);
     unsigned int yg(0);
-    unsigned int total_food(0);
+
+    unsigned int n_food(0);
     unsigned int n_collectors(0);
     unsigned int n_defensors(0);
     unsigned int n_predators(0);
@@ -106,11 +108,11 @@ unique_ptr<Anthill> Anthill::parse_line(string &line)
     stream >> side;
     stream >> xg;
     stream >> yg;
-    stream >> total_food;
+    stream >> n_food;
     stream >> n_collectors;
     stream >> n_defensors;
     stream >> n_predators;
 
-    return unique_ptr<Anthill>(new Anthill(x, y, side, xg, yg, total_food,
-                                           n_collectors, n_defensors, n_predators));
+    return unique_ptr<Anthill>(new Anthill(x, y, side, xg, yg, n_food, n_collectors,
+                                           n_defensors, n_predators));
 }
