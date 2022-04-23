@@ -13,6 +13,7 @@
 #include "sstream"
 #include "vector"
 
+#include "entities.h"
 #include "message.h"
 #include "squarecell.h"
 
@@ -27,7 +28,7 @@ Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side,
                  unsigned int &xg, unsigned int &yg, unsigned int total_food,
                  unsigned int &n_collectors, unsigned int &n_defensors,
                  unsigned int &n_predators)
-    : Square{x, y, side}, total_food(total_food), n_collectors(n_collectors),
+    : Entities{x, y, side, false}, total_food(total_food), n_collectors(n_collectors),
       n_defensors(n_defensors), n_predators(n_predators)
 {
     unsigned int generator_age(0);
@@ -86,6 +87,14 @@ void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
     }
 }
 
+string Anthill::get_as_string()
+{
+    return std::to_string(x) + " " + std::to_string(y) + " " + std::to_string(side) +
+           " " + generator->get_as_string() + " " + std::to_string(total_food) + " " +
+           std::to_string(n_collectors) + " " + std::to_string(n_defensors) + " " +
+           std::to_string(n_predators);
+}
+
 void Anthill::set_collectors(vector<std::unique_ptr<Collector>> &collectors)
 {
     this->collectors = std::move(collectors);
@@ -102,5 +111,3 @@ void Anthill::set_predators(vector<std::unique_ptr<Predator>> &predators)
 unsigned int Anthill::get_number_of_collectors() const { return n_collectors; };
 unsigned int Anthill::get_number_of_defensors() const { return n_defensors; };
 unsigned int Anthill::get_number_of_predators() const { return n_predators; };
-
-Square Anthill::get_as_square() { return {*this}; }

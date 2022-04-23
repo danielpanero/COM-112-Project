@@ -13,6 +13,7 @@
 #include "sstream"
 
 #include "constantes.h"
+#include "entities.h"
 #include "message.h"
 #include "squarecell.h"
 
@@ -23,11 +24,9 @@ using std::istringstream;
 using std::string;
 
 Ant::Ant(unsigned int &x, unsigned int &y, unsigned int side, unsigned int &age)
-    : Square{x, y, side, true}, age(age)
+    : Entities{x, y, side, true}, age(age)
 {
 }
-
-Square Ant::get_as_square() { return {*this}; }
 
 string Ant::get_as_string()
 {

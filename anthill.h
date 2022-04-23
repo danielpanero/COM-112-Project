@@ -15,9 +15,10 @@
 #include "vector"
 
 #include "ants.h"
+#include "entities.h"
 #include "squarecell.h"
 
-class Anthill : protected Square
+class Anthill : public Entities
 {
 private:
     unsigned int total_food;
@@ -50,7 +51,7 @@ public:
 
     static std::unique_ptr<Anthill> parse_line(std::string &line);
 
-    std::string get_as_string();
+    std::string get_as_string() override;
 
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of
@@ -67,8 +68,6 @@ public:
     unsigned int get_number_of_collectors() const;
     unsigned int get_number_of_defensors() const;
     unsigned int get_number_of_predators() const;
-
-    Square get_as_square();
 };
 
 #endif

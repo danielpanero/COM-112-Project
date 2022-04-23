@@ -25,12 +25,12 @@ private:
     std::vector<std::unique_ptr<Anthill>> anthills;
     std::vector<std::unique_ptr<Food>> foods;
 
+    template <typename T>
+    std::vector<std::unique_ptr<T>> parse_ants(std::ifstream &file, unsigned int n);
+    
     void parse_foods(std::ifstream &file);
     void parse_anthills(std::ifstream &file);
 
-    void parse_collectors(std::ifstream &file, std::unique_ptr<Anthill> &anthill);
-    void parse_defensors(std::ifstream &file, std::unique_ptr<Anthill> &anthill);
-    void parse_predators(std::ifstream &file, std::unique_ptr<Anthill> &anthill);
 
     void check_overlapping_anthills();
     void check_generator_defensors_inside_anthills();

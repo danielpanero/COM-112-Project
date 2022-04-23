@@ -13,9 +13,10 @@
 
 #include "memory"
 
+#include "entities.h"
 #include "squarecell.h"
 
-class Food : protected Square
+class Food : public Entities
 {
 public:
     /**
@@ -28,7 +29,7 @@ public:
 
     static std::unique_ptr<Food> parse_line(std::string &line);
 
-    std::string get_as_string();
+    std::string get_as_string() override;
 
     void add_to_grid();
 };

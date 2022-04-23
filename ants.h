@@ -14,17 +14,17 @@
 #include "memory"
 
 #include "constantes.h"
+#include "entities.h"
 #include "squarecell.h"
 
-class Ant : protected Square
+class Ant : public Entities
 {
 public:
     Ant(unsigned int &x, unsigned int &y, unsigned int side, unsigned int &age);
 
-    Square get_as_square();
-
     virtual void add_to_grid() = 0;
-    virtual std::string get_as_string();
+    std::string get_as_string() override;
+
 private:
     unsigned int age;
 };
@@ -54,7 +54,7 @@ public:
      * @param y position of collector in the y-axis
      */
     Collector(unsigned int &x, unsigned int &y, unsigned int &age,
-                         StateCollector &state);
+              StateCollector &state);
 
     static std::unique_ptr<Collector> parse_line(std::string &line);
 
