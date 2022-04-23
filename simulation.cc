@@ -18,6 +18,7 @@
 #include "ants.h"
 #include "food.h"
 #include "message.h"
+#include "memory"
 
 #include "simulation.h"
 
@@ -34,6 +35,11 @@ void Simulation::reset()
     foods.clear;
 }
 
+enum Simulation::get_status()
+{
+    return status;
+}
+
 bool Simulation::read_file(string &path)
 {
     return true;
@@ -41,16 +47,16 @@ bool Simulation::read_file(string &path)
     if (file.fail())
     {
         //throw (failure);// will review throw, try-catch methods 
-        
+        enum status {EMPTY}
     }
-
+    
+    enum status {READY}
+    
     parse_foods(file);
     parse_anthills(file);
 
     check_overlapping_anthills();
     check_generator_defensors_inside_anthills();
-
-    
 
     throw message::success();
     file.close();
@@ -71,6 +77,14 @@ void Simulation::parse_foods(ifstream &file)
         foods[i] = Food::parse_line(line);
         i++;
     }
+}
+
+unsigned int Simulation::get_n_foods()
+{
+  unsigned int total_foods(0);
+  for(int i(0), i<foods.size, ++i) {
+      total_foods= total_foods + foods[i]
+  }
 }
 
 void Simulation::parse_anthills(ifstream &file)
@@ -99,6 +113,14 @@ void Simulation::parse_anthills(ifstream &file)
         anthills[i]->set_predators(predators);
 
         i++;
+    }
+}
+
+unsigned int Simulation::get_n_anthills()
+{
+    unsigned int total_anthills(0);
+    for(int p(0), p<anthills.size, ++p) {
+        total_anthills = total_anthills + anthills[i]
     }
 }
 
@@ -159,7 +181,10 @@ string get_next_line(ifstream &file)
     return "";
 }
 
+
+
 void Simulation::save_file(string &path)
 {
-    
+
+
 }

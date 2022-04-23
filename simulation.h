@@ -45,6 +45,29 @@ private:
 
     std::vector<std::unique_ptr<Anthill>> anthills(n_anthills,0);
     std::vector<std::unique_ptr<Food>> foods(n_foods,0);
+
+    unsigned int Simulation::get_n_foods;
+    unsigned int Simulation::get_n_anthills; 
+
+    bool Simulation::get_info_prev_anthill(unsigned int &index, unsigned int& n_collectors, 
+    unsigned int &n_defensors,unsigned int &n_predators, unsigned int &n_food);`
+
+    bool Simulation::get_info_next_anthill(unsigned int& index, unsigned int& n_collectors, unsigned int &n_defensors, 
+    unsigned int &n_predators, unsigned int & n_food);
+
+    
+    
+    void Simulation::reset();
+
+    void Simulation::save_file(string &path);
+
+    enum status
+    { READY
+      EMPTY
+    };
+
+    enum Simulation::get_status;
+
 };
 
 /**
@@ -54,5 +77,6 @@ private:
  * @return string
  */
 std::string get_next_line(std::ifstream &file);
+
 
 #endif
