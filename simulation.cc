@@ -84,12 +84,12 @@ void Simulation::parse_anthills(ifstream &file)
     }
 }
 
-void Simulation::parse_collectors(ifstream &file, Anthill *anthill)
+void Simulation::parse_collectors(ifstream &file, std::unique_ptr<Anthill> &anthill)
 {
     string line;
 
     unsigned int n_collectors = anthill->get_number_of_collectors();
-    vector<Collector *> collectors(n_collectors);
+    vector<std::unique_ptr<Collector>> collectors(n_collectors);
 
     unsigned int j(0);
     while (j < n_collectors)
@@ -101,12 +101,12 @@ void Simulation::parse_collectors(ifstream &file, Anthill *anthill)
     anthill->set_collectors(collectors);
 }
 
-void Simulation::parse_defensors(ifstream &file, Anthill *anthill)
+void Simulation::parse_defensors(ifstream &file, std::unique_ptr<Anthill> &anthill)
 {
     string line;
 
     unsigned int n_defensors = anthill->get_number_of_defensors();
-    vector<Defensor *> defensors(n_defensors);
+    vector<std::unique_ptr<Defensor>> defensors(n_defensors);
 
     unsigned int j(0);
     while (j < n_defensors)
@@ -118,12 +118,12 @@ void Simulation::parse_defensors(ifstream &file, Anthill *anthill)
     anthill->set_defensors(defensors);
 }
 
-void Simulation::parse_predators(ifstream &file, Anthill *anthill)
+void Simulation::parse_predators(ifstream &file, std::unique_ptr<Anthill> &anthill)
 {
     string line;
 
     unsigned int n_predators = anthill->get_number_of_predators();
-    vector<Predator *> predators(n_predators);
+    vector<std::unique_ptr<Predator>> predators(n_predators);
 
     unsigned int j(0);
     while (j < n_predators)

@@ -20,13 +20,13 @@ using std::cout;
 using std::istringstream;
 using std::string;
 
-Food::Food(unsigned int &x, unsigned int &y) : Square({x, y, 1, true})
+Food::Food(unsigned int &x, unsigned int &y) : Square{x, y, 1, true}
 {
     test_square(*this);
     add_to_grid();
 }
 
-Food *Food::parse_line(string &line)
+ std::unique_ptr<Food> Food::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);

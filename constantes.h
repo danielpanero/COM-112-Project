@@ -2,7 +2,7 @@
 #define CONSTANTES_H_INCLUDED
 
 enum Etat_fourmiliere{FREE, CONSTRAINED};
-enum Etat_collector{EMPTY, LOADED};
+enum StateCollector{EMPTY, LOADED};
 
 constexpr short unsigned maxF(25);
 constexpr short unsigned sizeG(5);

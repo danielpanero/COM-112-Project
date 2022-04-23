@@ -9,6 +9,7 @@
  */
 
 #include "iostream"
+#include "memory"
 #include "sstream"
 #include "vector"
 
@@ -26,14 +27,16 @@ Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side,
                  unsigned int &xg, unsigned int &yg, unsigned int total_food,
                  unsigned int &n_collectors, unsigned int &n_defensors,
                  unsigned int &n_predators)
-    : Square({x, y, side}), total_food(total_food), n_collectors(n_collectors),
-      n_defensors(n_defensors), n_predators(n_predators),
-      generator(new Generator(xg, yg))
+    : Square{x, y, side}, total_food(total_food), n_collectors(n_collectors),
+      n_defensors(n_defensors), n_predators(n_predators)
 {
+    unsigned int generator_age(0);
+    generator = std::unique_ptr<Generator>(new Generator(xg, yg, generator_age));
+
     test_square(*this);
 }
 
-Anthill *Anthill::parse_line(string &line)
+std::unique_ptr<Anthill> Anthill::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
@@ -71,7 +74,7 @@ void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
         exit(EXIT_FAILURE);
     }
 
-    for (auto defensor : defensors)
+    for (auto &defensor : defensors)
     {
         Square defensor_square = defensor->get_as_square();
         if (!test_if_completely_confined(defensor_square, *this))
@@ -83,17 +86,17 @@ void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
     }
 }
 
-void Anthill::set_collectors(vector<Collector *> &collectors)
+void Anthill::set_collectors(vector<std::unique_ptr<Collector>> &collectors)
 {
-    this->collectors = collectors;
+    this->collectors = std::move(collectors);
 }
-void Anthill::set_defensors(vector<Defensor *> &defensors)
+void Anthill::set_defensors(vector<std::unique_ptr<Defensor>> &defensors)
 {
-    this->defensors = defensors;
+    this->defensors = std::move(defensors);
 }
-void Anthill::set_predators(vector<Predator *> &predators)
+void Anthill::set_predators(vector<std::unique_ptr<Predator>> &predators)
 {
-    this->predators = predators;
+    this->predators = std::move(predators);
 }
 
 unsigned int Anthill::get_number_of_collectors() const { return n_collectors; };

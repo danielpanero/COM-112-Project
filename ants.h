@@ -19,14 +19,12 @@
 class Ant : protected Square
 {
 public:
-    Ant(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &age);
+    Ant(unsigned int &x, unsigned int &y, unsigned int side, unsigned int &age);
 
-    virtual void add_to_grid() = 0;
-    virtual std::string get_as_string() = 0;
-
-protected:
     Square get_as_square();
 
+    virtual void add_to_grid() = 0;
+    virtual std::string get_as_string();
 private:
     unsigned int age;
 };
@@ -56,7 +54,7 @@ public:
      * @param y position of collector in the y-axis
      */
     Collector(unsigned int &x, unsigned int &y, unsigned int &age,
-              enum &Etat_collector);
+                         StateCollector &state);
 
     static std::unique_ptr<Collector> parse_line(std::string &line);
 
@@ -65,7 +63,7 @@ public:
     void add_to_grid() override;
 
 private:
-    enum Etat_collector;
+    StateCollector state;
 };
 
 class Defensor : public Ant
@@ -80,8 +78,6 @@ public:
     Defensor(unsigned int &x, unsigned int &y, unsigned int &age);
 
     static std::unique_ptr<Defensor> parse_line(std::string &line);
-
-    std::string get_as_string() override;
 
     void add_to_grid() override;
 };
@@ -98,8 +94,6 @@ public:
     Predator(unsigned int &x, unsigned int &y, unsigned int &age);
 
     static std::unique_ptr<Predator> parse_line(std::string &line);
-
-    std::string get_as_string() override;
 
     void add_to_grid() override;
 };

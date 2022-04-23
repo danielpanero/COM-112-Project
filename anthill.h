@@ -26,9 +26,9 @@ private:
     unsigned int n_predators;
 
     std::unique_ptr<Generator> generator;
-    vector<std::unique_ptr<Collector>> collectors;
-    vector<std::unique_ptr<Defensor>> defensors;
-    vector<std::unique_ptr<Predator>> predators;
+    std::vector<std::unique_ptr<Collector>> collectors;
+    std::vector<std::unique_ptr<Defensor>> defensors;
+    std::vector<std::unique_ptr<Predator>> predators;
 
 public:
     /**
@@ -48,7 +48,6 @@ public:
             unsigned int &yg, unsigned int total_food, unsigned int &n_collectors,
             unsigned int &n_defensors, unsigned int &n_predators);
 
-    // static Anthill *parse_line(std::string &line);
     static std::unique_ptr<Anthill> parse_line(std::string &line);
 
     std::string get_as_string();
@@ -61,9 +60,9 @@ public:
      */
     void test_if_generator_defensors_perimeter(unsigned int index);
 
-    void set_collectors(std::vector<Collector *> &collectors);
-    void set_defensors(std::vector<Defensor *> &defensor);
-    void set_predators(std::vector<Predator *> &predators);
+    void set_collectors(std::vector<std::unique_ptr<Collector>> &collectors);
+    void set_defensors(std::vector<std::unique_ptr<Defensor>> &defensor);
+    void set_predators(std::vector<std::unique_ptr<Predator>> &predator);
 
     unsigned int get_number_of_collectors() const;
     unsigned int get_number_of_defensors() const;

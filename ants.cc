@@ -22,13 +22,20 @@ using std::cout;
 using std::istringstream;
 using std::string;
 
-Ant::Ant(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &age)
-    : Square({x, y, side, false}), age(age)
+Ant::Ant(unsigned int &x, unsigned int &y, unsigned int side, unsigned int &age)
+    : Square{x, y, side, true}, age(age)
 {
 }
 
+Square Ant::get_as_square() { return {*this}; }
+
+string Ant::get_as_string()
+{
+    return std::to_string(x) + " " + std::to_string(y) + " " + std::to_string(age);
+}
+
 Generator::Generator(unsigned int &x, unsigned int &y, unsigned int &age)
-    : Ant{x, y, side, age}
+    : Ant{x, y, sizeG, age}
 {
     test_square(*this);
     add_to_grid();
@@ -48,28 +55,34 @@ void Generator::add_to_grid()
     add_square(*this);
 }
 
+string Generator::get_as_string()
+{
+    return std::to_string(x) + " " + std::to_string(y);
+}
+
 Collector::Collector(unsigned int &x, unsigned int &y, unsigned int &age,
-                     enum &Etat_collector)
-    : Ant{x, y, side, age}, Etat_collector(Etat_collector)
+                     StateCollector &state)
+    : Ant{x, y, sizeC, age}, state(state)
 {
     test_square(*this);
     add_to_grid();
 }
 
-Collector unique_ptr<Collector>::parse_line(string &line)
+std::unique_ptr<Collector> Collector::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
     unsigned int age(0);
-    double food(0);
+    unsigned int tmp(0);
 
     istringstream stream(line);
     stream >> x;
     stream >> y;
     stream >> age;
-    stream >> food;
+    stream >> tmp;
 
-    return std::unique_ptr<Collector>(new Collector(x, y, age, food));
+    auto state = static_cast<StateCollector>(tmp);
+    return std::unique_ptr<Collector>(new Collector(x, y, age, state));
 }
 
 void Collector::add_to_grid()
@@ -86,14 +99,19 @@ void Collector::add_to_grid()
     add_square(*this);
 }
 
+string Collector::get_as_string()
+{
+    return Ant::get_as_string() + " " + std::to_string(state);
+}
+
 Defensor::Defensor(unsigned int &x, unsigned int &y, unsigned int &age)
-    : Ant{x, y, side, age}
+    : Ant{x, y, sizeD, age}
 {
     test_square(*this);
     add_to_grid();
 }
 
-Defensor *Defensor::parse_line(string &line)
+std::unique_ptr<Defensor> Defensor::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
@@ -122,13 +140,13 @@ void Defensor::add_to_grid()
 }
 
 Predator::Predator(unsigned int &x, unsigned int &y, unsigned int &age)
-    : Ant{x, y, side, age}
+    : Ant{x, y, sizeP, age}
 {
     test_square(*this);
     add_to_grid();
 }
 
-Predator *Predator::parse_line(string &line)
+std::unique_ptr<Predator> Predator::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
