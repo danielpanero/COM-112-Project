@@ -15,10 +15,10 @@
 #include "vector"
 
 #include "ants.h"
-#include "entities.h"
+#include "element.h"
 #include "squarecell.h"
 
-class Anthill : public Entities
+class Anthill : public Element
 {
 private:
     unsigned int total_food;

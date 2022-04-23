@@ -13,10 +13,10 @@
 
 #include "memory"
 
-#include "entities.h"
+#include "element.h"
 #include "squarecell.h"
 
-class Food : public Entities
+class Food : public Element
 {
 public:
     /**

@@ -11,7 +11,7 @@
 #include "iostream"
 #include "sstream"
 
-#include "entities.h"
+#include "element.h"
 #include "message.h"
 #include "squarecell.h"
 
@@ -21,7 +21,7 @@ using std::cout;
 using std::istringstream;
 using std::string;
 
-Food::Food(unsigned int &x, unsigned int &y) : Entities{x, y, 1, true}
+Food::Food(unsigned int &x, unsigned int &y) : Element{x, y, 1, true}
 {
     test_square(*this);
     add_to_grid();

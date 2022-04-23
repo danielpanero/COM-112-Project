@@ -13,7 +13,7 @@
 #include "sstream"
 #include "vector"
 
-#include "entities.h"
+#include "element.h"
 #include "message.h"
 #include "squarecell.h"
 
@@ -28,7 +28,7 @@ Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side,
                  unsigned int &xg, unsigned int &yg, unsigned int total_food,
                  unsigned int &n_collectors, unsigned int &n_defensors,
                  unsigned int &n_predators)
-    : Entities{x, y, side, false}, total_food(total_food), n_collectors(n_collectors),
+    : Element{x, y, side, false}, total_food(total_food), n_collectors(n_collectors),
       n_defensors(n_defensors), n_predators(n_predators)
 {
     unsigned int generator_age(0);

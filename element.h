@@ -6,10 +6,10 @@
 #include "constantes.h"
 #include "squarecell.h"
 
-class Entities: protected Square
+class Element: protected Square
 {
 public:
-    Entities(unsigned int &x, unsigned int &y, unsigned int side, bool centered);
+    Element(unsigned int &x, unsigned int &y, unsigned int side, bool centered);
 
     Square get_as_square();
 

@@ -14,10 +14,10 @@
 #include "memory"
 
 #include "constantes.h"
-#include "entities.h"
+#include "element.h"
 #include "squarecell.h"
 
-class Ant : public Entities
+class Ant : public Element
 {
 public:
     Ant(unsigned int &x, unsigned int &y, unsigned int side, unsigned int &age);

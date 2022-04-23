@@ -2,9 +2,9 @@
 CXX     = g++
 CXXFLAGS = -g -Wall -std=c++11 -I ./
 CXXFILES = projet.cc simulation.cc squarecell.cc error_squarecell.cc anthill.cc \
-ants.cc food.cc message.cc entities.cc
+ants.cc food.cc message.cc element.cc
 OFILES = projet.o simulation.o squarecell.o error_squarecell.o anthill.o ants.o \
-food.o message.o entities.o
+food.o message.o element.o
 
 all: $(OFILES)
 	$(CXX) ${CXXFLAGS} $(OFILES) -o projet

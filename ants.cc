@@ -13,7 +13,7 @@
 #include "sstream"
 
 #include "constantes.h"
-#include "entities.h"
+#include "element.h"
 #include "message.h"
 #include "squarecell.h"
 
@@ -24,7 +24,7 @@ using std::istringstream;
 using std::string;
 
 Ant::Ant(unsigned int &x, unsigned int &y, unsigned int side, unsigned int &age)
-    : Entities{x, y, side, true}, age(age)
+    : Element{x, y, side, true}, age(age)
 {
 }
 
