@@ -11,24 +11,15 @@
 #ifndef ENTITIES_ANTHILL_H
 #define ENTITIES_ANTHILL_H
 
+#include "memory"
 #include "vector"
 
 #include "ants.h"
+#include "element.h"
 #include "squarecell.h"
 
-class Anthill : protected Square
+class Anthill : public Element
 {
-private:
-    unsigned int total_food;
-    unsigned int n_collectors;
-    unsigned int n_defensors;
-    unsigned int n_predators;
-
-    Generator *generator;
-    std::vector<Collector *> collectors;
-    std::vector<Defensor *> defensors;
-    std::vector<Predator *> predators;
-
 public:
     /**
      * @brief Constructs a new Anthill instance
@@ -46,9 +37,6 @@ public:
     Anthill(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &xg,
             unsigned int &yg, unsigned int total_food, unsigned int &n_collectors,
             unsigned int &n_defensors, unsigned int &n_predators);
-
-    static Anthill *parse_line(std::string &line);
-
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of
      * the anthill
@@ -57,15 +45,34 @@ public:
      */
     void test_if_generator_defensors_perimeter(unsigned int index);
 
-    void set_collectors(std::vector<Collector *> &collectors);
-    void set_defensors(std::vector<Defensor *> &defensor);
-    void set_predators(std::vector<Predator *> &predators);
+    void set_collectors(std::vector<std::unique_ptr<Collector>> &collectors);
+    void set_defensors(std::vector<std::unique_ptr<Defensor>> &defensor);
+    void set_predators(std::vector<std::unique_ptr<Predator>> &predator);
 
     unsigned int get_number_of_collectors() const;
     unsigned int get_number_of_defensors() const;
     unsigned int get_number_of_predators() const;
 
-    Square get_as_square();
+    std::string get_as_string() override;
+
+    /**
+     * @brief Creates a new pointed instance Anthill from its string representation
+     *
+     * @param line
+     * @return std::unique_ptr<Anthill>
+     */
+    static std::unique_ptr<Anthill> parse_line(std::string &line);
+    
+private:
+    unsigned int total_food;
+    unsigned int n_collectors;
+    unsigned int n_defensors;
+    unsigned int n_predators;
+
+    std::unique_ptr<Generator> generator;
+    std::vector<std::unique_ptr<Collector>> collectors;
+    std::vector<std::unique_ptr<Defensor>> defensors;
+    std::vector<std::unique_ptr<Predator>> predators;
 };
 
 #endif

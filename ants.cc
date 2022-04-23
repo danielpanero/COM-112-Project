@@ -9,9 +9,11 @@
  */
 
 #include "iostream"
+#include "memory"
 #include "sstream"
 
 #include "constantes.h"
+#include "element.h"
 #include "message.h"
 #include "squarecell.h"
 
@@ -20,8 +22,21 @@
 using std::cout;
 using std::istringstream;
 using std::string;
+using std::unique_ptr;
 
-Generator::Generator(unsigned int &x, unsigned int &y) : Square({x, y, sizeG, true})
+Ant::Ant(unsigned int &x, unsigned int &y, unsigned int side, unsigned int &age)
+    : Element{x, y, side, true}, age(age)
+{
+}
+
+string Ant::get_as_string()
+{
+    using std::to_string;
+    return to_string(x) + " " + to_string(y) + " " + to_string(age);
+}
+
+Generator::Generator(unsigned int &x, unsigned int &y, unsigned int &age)
+    : Ant{x, y, sizeG, age}
 {
     test_square(*this);
     add_to_grid();
@@ -41,24 +56,17 @@ void Generator::add_to_grid()
     add_square(*this);
 }
 
-Square Generator::get_as_square() { return {*this}; }
+string Generator::get_as_string()
+{
+    return std::to_string(x) + " " + std::to_string(y);
+}
 
-Collector::Collector(unsigned int &x, unsigned int &y) : Square({x, y, sizeC, true})
+Collector::Collector(unsigned int &x, unsigned int &y, unsigned int &age,
+                     StateCollector &state)
+    : Ant{x, y, sizeC, age}, state(state)
 {
     test_square(*this);
     add_to_grid();
-}
-
-Collector *Collector::parse_line(string &line)
-{
-    unsigned int x(0);
-    unsigned int y(0);
-
-    istringstream stream(line);
-    stream >> x;
-    stream >> y;
-
-    return new Collector(x, y);
 }
 
 void Collector::add_to_grid()
@@ -75,22 +83,33 @@ void Collector::add_to_grid()
     add_square(*this);
 }
 
-Defensor::Defensor(unsigned int &x, unsigned int &y) : Square({x, y, sizeD, true})
+string Collector::get_as_string()
 {
-    test_square(*this);
-    add_to_grid();
+    return Ant::get_as_string() + " " + std::to_string(state);
 }
 
-Defensor *Defensor::parse_line(string &line)
+unique_ptr<Collector> Collector::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
+    unsigned int age(0);
+    unsigned int tmp(0);
 
     istringstream stream(line);
     stream >> x;
     stream >> y;
+    stream >> age;
+    stream >> tmp;
 
-    return new Defensor(x, y);
+    auto state = static_cast<StateCollector>(tmp);
+    return unique_ptr<Collector>(new Collector(x, y, age, state));
+}
+
+Defensor::Defensor(unsigned int &x, unsigned int &y, unsigned int &age)
+    : Ant{x, y, sizeD, age}
+{
+    test_square(*this);
+    add_to_grid();
 }
 
 void Defensor::add_to_grid()
@@ -107,24 +126,25 @@ void Defensor::add_to_grid()
     add_square(*this);
 }
 
-Square Defensor::get_as_square() { return {*this}; }
-
-Predator::Predator(unsigned int &x, unsigned int &y) : Square({x, y, sizeP, true})
-{
-    test_square(*this);
-    add_to_grid();
-}
-
-Predator *Predator::parse_line(string &line)
+unique_ptr<Defensor> Defensor::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
+    unsigned int age(0);
 
     istringstream stream(line);
     stream >> x;
     stream >> y;
+    stream >> age;
 
-    return new Predator(x, y);
+    return unique_ptr<Defensor>(new Defensor(x, y, age));
+}
+
+Predator::Predator(unsigned int &x, unsigned int &y, unsigned int &age)
+    : Ant{x, y, sizeP, age}
+{
+    test_square(*this);
+    add_to_grid();
 }
 
 void Predator::add_to_grid()
@@ -136,4 +156,18 @@ void Predator::add_to_grid()
     }
 
     add_square(*this);
+}
+
+unique_ptr<Predator> Predator::parse_line(string &line)
+{
+    unsigned int x(0);
+    unsigned int y(0);
+    unsigned int age(0);
+
+    istringstream stream(line);
+    stream >> x;
+    stream >> y;
+    stream >> age;
+
+    return unique_ptr<Predator>(new Predator(x, y, age));
 }

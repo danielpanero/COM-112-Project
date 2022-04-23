@@ -11,11 +11,42 @@
 #ifndef ENTITIES_ANTS_H
 #define ENTITIES_ANTS_H
 
-#include "constantes.h"
+#include "memory"
 
+#include "constantes.h"
+#include "element.h"
 #include "squarecell.h"
 
-class Generator : protected Square
+/**
+ * @brief Abstract class Ant (Base class for: Collector, Defensor, Predator)
+ *
+ */
+class Ant : public Element
+{
+public:
+    /**
+     * @brief Construct a new Ant instance
+     *
+     * @param x position of generator in the x-axis
+     * @param y position of generator in the y-axis
+     * @param side size of element
+     * @param age
+     */
+    Ant(unsigned int &x, unsigned int &y, unsigned int side, unsigned int &age);
+
+    /**
+     * @brief Checks that position in the grid is empty and either throw an error or
+     * fills the grid
+     *
+     */
+    virtual void add_to_grid() = 0;
+    std::string get_as_string() override;
+
+private:
+    unsigned int age;
+};
+
+class Generator : public Ant
 {
 public:
     /**
@@ -23,15 +54,15 @@ public:
      *
      * @param x position of generator in the x-axis
      * @param y position of generator in the y-axis
+     * @param age
      */
-    Generator(unsigned int &x, unsigned int &y);
+    Generator(unsigned int &x, unsigned int &y, unsigned int &age);
 
-    void add_to_grid();
-    
-    Square get_as_square();
+    void add_to_grid() override;
+    std::string get_as_string() override;
 };
 
-class Collector : protected Square
+class Collector : public Ant
 {
 public:
     /**
@@ -39,15 +70,28 @@ public:
      *
      * @param x position of collector in the x-axis
      * @param y position of collector in the y-axis
+     * @param age
+     * @param state state of collector: EMPTY / LOADED
      */
-    Collector(unsigned int &x, unsigned int &y);
+    Collector(unsigned int &x, unsigned int &y, unsigned int &age,
+              StateCollector &state);
 
-    static Collector *parse_line(std::string &line);
+    std::string get_as_string() override;
+    void add_to_grid() override;
 
-    void add_to_grid();
+    /**
+     * @brief Creates a new pointed instance of Collector from its string representation
+     *
+     * @param line
+     * @return std::unique_ptr<Collector>
+     */
+    static std::unique_ptr<Collector> parse_line(std::string &line);
+
+private:
+    StateCollector state;
 };
 
-class Defensor : Square
+class Defensor : public Ant
 {
 public:
     /**
@@ -56,16 +100,20 @@ public:
      * @param x position of defensor in the x-axis
      * @param y position of defensor in the y-axis
      */
-    Defensor(unsigned int &x, unsigned int &y);
+    Defensor(unsigned int &x, unsigned int &y, unsigned int &age);
 
-    static Defensor *parse_line(std::string &line);
+    /**
+     * @brief Creates a new pointed instance of Defensor from its string representation
+     *
+     * @param line
+     * @return std::unique_ptr<Defensor>
+     */
+    static std::unique_ptr<Defensor> parse_line(std::string &line);
 
-    void add_to_grid();
-
-    Square get_as_square();
+    void add_to_grid() override;
 };
 
-class Predator : protected Square
+class Predator : public Ant
 {
 public:
     /**
@@ -74,11 +122,17 @@ public:
      * @param x position of predator in the x-axis
      * @param y position of predator in the y-axis
      */
-    Predator(unsigned int &x, unsigned int &y);
+    Predator(unsigned int &x, unsigned int &y, unsigned int &age);
 
-    static Predator *parse_line(std::string &line);
+    void add_to_grid() override;
 
-    void add_to_grid();
+    /**
+     * @brief Creates a new pointed instance of Predator from its string representation
+     *
+     * @param line
+     * @return std::unique_ptr<Predator>
+     */
+    static std::unique_ptr<Predator> parse_line(std::string &line);
 };
 
 #endif

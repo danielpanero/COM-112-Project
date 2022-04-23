@@ -3,7 +3,7 @@ CheckOptions:
     - key: readability-identifier-naming.MacroDefinitionCase
       value: UPPER_CASE
     - key: readability-identifier-naming.EnumCase
-      value: UPPER_CASE
+      value: CamelCase
     - key: readability-identifier-naming.ConstexprVariableCase
       value: lower_case
     - key: readability-identifier-naming.VariableCase

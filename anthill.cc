@@ -9,9 +9,11 @@
  */
 
 #include "iostream"
+#include "memory"
 #include "sstream"
 #include "vector"
 
+#include "element.h"
 #include "message.h"
 #include "squarecell.h"
 
@@ -20,20 +22,72 @@
 using std::cout;
 using std::istringstream;
 using std::string;
+using std::unique_ptr;
 using std::vector;
 
 Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side,
                  unsigned int &xg, unsigned int &yg, unsigned int total_food,
                  unsigned int &n_collectors, unsigned int &n_defensors,
                  unsigned int &n_predators)
-    : Square({x, y, side}), total_food(total_food), n_collectors(n_collectors),
-      n_defensors(n_defensors), n_predators(n_predators),
-      generator(new Generator(xg, yg))
+    : Element{x, y, side, false}, total_food(total_food), n_collectors(n_collectors),
+      n_defensors(n_defensors), n_predators(n_predators)
 {
+    unsigned int generator_age(0);
+    generator = unique_ptr<Generator>(new Generator(xg, yg, generator_age));
+
     test_square(*this);
 }
 
-Anthill *Anthill::parse_line(string &line)
+void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
+{
+    Square generator_square = generator->get_as_square();
+    if (!test_if_completely_confined(generator_square, *this))
+    {
+        cout << message::generator_not_within_home(generator_square.x,
+                                                   generator_square.y, index);
+        exit(EXIT_FAILURE);
+    }
+
+    for (auto &defensor : defensors)
+    {
+        Square defensor_square = defensor->get_as_square();
+        if (!test_if_completely_confined(defensor_square, *this))
+        {
+            cout << message::defensor_not_within_home(defensor_square.x,
+                                                      defensor_square.y, index);
+            exit(EXIT_FAILURE);
+        }
+    }
+}
+
+void Anthill::set_collectors(vector<unique_ptr<Collector>> &collectors)
+{
+    this->collectors = std::move(collectors);
+}
+void Anthill::set_defensors(vector<unique_ptr<Defensor>> &defensors)
+{
+    this->defensors = std::move(defensors);
+}
+void Anthill::set_predators(vector<unique_ptr<Predator>> &predators)
+{
+    this->predators = std::move(predators);
+}
+
+unsigned int Anthill::get_number_of_collectors() const { return n_collectors; };
+unsigned int Anthill::get_number_of_defensors() const { return n_defensors; };
+unsigned int Anthill::get_number_of_predators() const { return n_predators; };
+
+string Anthill::get_as_string()
+{
+    using std::to_string;
+
+    return to_string(x) + " " + to_string(y) + " " + to_string(side) + " " +
+           generator->get_as_string() + " " + to_string(total_food) + " " +
+           to_string(n_collectors) + " " + to_string(n_defensors) + " " +
+           to_string(n_predators);
+}
+
+unique_ptr<Anthill> Anthill::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
@@ -57,47 +111,6 @@ Anthill *Anthill::parse_line(string &line)
     stream >> n_defensors;
     stream >> n_predators;
 
-    return new Anthill(x, y, side, xg, yg, total_food, n_collectors, n_defensors,
-                       n_predators);
+    return unique_ptr<Anthill>(new Anthill(x, y, side, xg, yg, total_food,
+                                           n_collectors, n_defensors, n_predators));
 }
-
-void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
-{
-    Square generator_square = generator->get_as_square();
-    if (!test_if_completely_confined(generator_square, *this))
-    {
-        cout << message::generator_not_within_home(generator_square.x,
-                                                   generator_square.y, index);
-        exit(EXIT_FAILURE);
-    }
-
-    for (auto *defensor : defensors)
-    {
-        Square defensor_square = defensor->get_as_square();
-        if (!test_if_completely_confined(defensor_square, *this))
-        {
-            cout << message::defensor_not_within_home(defensor_square.x,
-                                                      defensor_square.y, index);
-            exit(EXIT_FAILURE);
-        }
-    }
-}
-
-void Anthill::set_collectors(vector<Collector *> &collectors)
-{
-    this->collectors = collectors;
-}
-void Anthill::set_defensors(vector<Defensor *> &defensors)
-{
-    this->defensors = defensors;
-}
-void Anthill::set_predators(vector<Predator *> &predators)
-{
-    this->predators = predators;
-}
-
-unsigned int Anthill::get_number_of_collectors() const { return n_collectors; };
-unsigned int Anthill::get_number_of_defensors() const { return n_defensors; };
-unsigned int Anthill::get_number_of_predators() const { return n_predators; };
-
-Square Anthill::get_as_square() { return {*this}; }

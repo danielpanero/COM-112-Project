@@ -10,14 +10,11 @@
 
 #include "iostream"
 
-#include "gtkmm/application.h"
-
-#include "gui.h"
 #include "simulation.h"
 
 using std::string;
 
-int main(int argc, char *argv[])
+int main(int argc, char const *argv[])
 {
     auto app = Gtk::Application::create(argc, argv, "org.com112.project");
 

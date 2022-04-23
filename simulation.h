@@ -11,52 +11,40 @@
 #ifndef SIMULATION_H
 #define SIMULATION_H
 
+#include "memory"
+
 #include "anthill.h"
 #include "food.h"
 
 class Simulation
 {
+public:
+    void read_file(std::string &path);
+
 private:
-    unsigned int n_foods;
-    unsigned int n_anthills;
-
-    std::vector<Anthill *> anthills;
-    std::vector<Food *> foods;
-
     void parse_foods(std::ifstream &file);
     void parse_anthills(std::ifstream &file);
 
-    void parse_collectors(std::ifstream &file, Anthill *anthill);
-    void parse_defensors(std::ifstream &file, Anthill *anthill);
-    void parse_predators(std::ifstream &file, Anthill *anthill);
+    /**
+     * @brief This is a convenience function for parsing either Ant::Collector,
+     * Ant::Defensor and Ant::Predator
+     *
+     * @tparam T Ant::Collector / Ant::Defensor / Ant::Predator
+     * @param file
+     * @param n number of ants
+     * @return vector<unique_ptr<T>>
+     */
+    template <typename T>
+    std::vector<std::unique_ptr<T>> parse_ants(std::ifstream &file, unsigned int n);
 
     void check_overlapping_anthills();
     void check_generator_defensors_inside_anthills();
 
-public:
-    bool read_file(std::string &path);
-    void save_file(std::string &path){};
-    void reset(){};
+    unsigned int n_foods;
+    unsigned int n_anthills;
 
-    unsigned int get_n_foods() { return 3; };
-
-    bool get_info_next_anthill(unsigned int &index, unsigned int &n_collectors,
-                               unsigned int &n_defensors, unsigned int &n_predators,
-                               unsigned int &n_foods)
-    {
-        index = 6;
-        n_collectors = 4;
-        n_predators = 7;
-        n_defensors = 6;
-        n_foods = 67;
-        return true;
-    };
-    bool get_info_prev_anthill(unsigned int &index, unsigned int &n_collectors,
-                               unsigned int &n_defensors, unsigned int &n_predators,
-                               unsigned int &n_foods)
-    {
-        return false;
-    };
+    std::vector<std::unique_ptr<Anthill>> anthills;
+    std::vector<std::unique_ptr<Food>> foods;
 };
 
 /**

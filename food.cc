@@ -11,6 +11,7 @@
 #include "iostream"
 #include "sstream"
 
+#include "element.h"
 #include "message.h"
 #include "squarecell.h"
 
@@ -19,23 +20,12 @@
 using std::cout;
 using std::istringstream;
 using std::string;
+using std::unique_ptr;
 
-Food::Food(unsigned int &x, unsigned int &y) : Square({x, y, 1, true})
+Food::Food(unsigned int &x, unsigned int &y) : Element{x, y, 1, true}
 {
     test_square(*this);
     add_to_grid();
-}
-
-Food *Food::parse_line(string &line)
-{
-    unsigned int x(0);
-    unsigned int y(0);
-
-    istringstream stream(line);
-    stream >> x;
-    stream >> y;
-
-    return new Food(x, y);
 }
 
 void Food::add_to_grid()
@@ -47,4 +37,18 @@ void Food::add_to_grid()
     }
 
     add_square(*this);
+}
+
+string Food::get_as_string() { return std::to_string(x) + " " + std::to_string(y); }
+
+unique_ptr<Food> Food::parse_line(string &line)
+{
+    unsigned int x(0);
+    unsigned int y(0);
+
+    istringstream stream(line);
+    stream >> x;
+    stream >> y;
+
+    return unique_ptr<Food>(new Food(x, y));
 }

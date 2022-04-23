@@ -11,9 +11,12 @@
 #ifndef ENTITIES_FOOD_H
 #define ENTITIES_FOOD_H
 
+#include "memory"
+
+#include "element.h"
 #include "squarecell.h"
 
-class Food : protected Square
+class Food : public Element
 {
 public:
     /**
@@ -24,9 +27,10 @@ public:
      */
     Food(unsigned int &x, unsigned int &y);
 
-    static Food *parse_line(std::string &line);
-
     void add_to_grid();
+    std::string get_as_string() override;
+
+    static std::unique_ptr<Food> parse_line(std::string &line);
 };
 
 #endif
