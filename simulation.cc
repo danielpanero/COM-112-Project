@@ -181,6 +181,13 @@ string get_next_line(ifstream &file)
     return "";
 }
 
+bool Simulation::get_info_prev_anthill(unsigned int &index, unsigned int& n_collectors, 
+    unsigned int &n_defensors,unsigned int &n_predators, unsigned int &n_food);
+
+    if (total_anthills == 0)
+    { 
+        return false
+    }
 
 
 void Simulation::save_file(string &path)
