@@ -54,6 +54,7 @@ public:
     unsigned int get_number_of_predators() const;
 
     std::string get_as_string() override;
+    void draw(unsigned int &color_index) override;
 
     /**
      * @brief Creates a new pointed instance Anthill from its string representation
@@ -62,7 +63,7 @@ public:
      * @return std::unique_ptr<Anthill>
      */
     static std::unique_ptr<Anthill> parse_line(std::string &line);
-    
+
 private:
     unsigned int total_food;
     unsigned int n_collectors;

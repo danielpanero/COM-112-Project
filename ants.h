@@ -60,6 +60,8 @@ public:
 
     void add_to_grid() override;
     std::string get_as_string() override;
+    void draw(unsigned int &color_index) override;
+    
 };
 
 class Collector : public Ant
@@ -78,9 +80,11 @@ public:
 
     std::string get_as_string() override;
     void add_to_grid() override;
+    void draw(unsigned int &color_index) override;
 
     /**
-     * @brief Creates a new pointed instance of Collector from its string representation
+     * @brief Creates a new pointed instance of Collector from its string
+     * representation
      *
      * @param line
      * @return std::unique_ptr<Collector>
@@ -111,6 +115,7 @@ public:
     static std::unique_ptr<Defensor> parse_line(std::string &line);
 
     void add_to_grid() override;
+    void draw(unsigned int &color_index) override;
 };
 
 class Predator : public Ant
@@ -133,6 +138,7 @@ public:
      * @return std::unique_ptr<Predator>
      */
     static std::unique_ptr<Predator> parse_line(std::string &line);
+    void draw(unsigned int &color_index) override;
 };
 
 #endif
