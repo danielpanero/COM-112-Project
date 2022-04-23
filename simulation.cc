@@ -40,7 +40,7 @@ bool Simulation::read_file(string &path)
     ifstream file(path);
     if (file.fail())
     {
-        exit(EXIT_FAILURE);
+        //throw (failure);// will review throw, try-catch methods 
     }
 
     parse_foods(file);
@@ -49,7 +49,7 @@ bool Simulation::read_file(string &path)
     check_overlapping_anthills();
     check_generator_defensors_inside_anthills();
 
-    cout << message::success();
+    throw message::success();
     file.close();
 }
 
