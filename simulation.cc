@@ -109,6 +109,15 @@ vector<std::unique_ptr<T>> Simulation::parse_ants(std::ifstream &file, unsigned 
     return ants;
 }
 
+void Simulation::reset()
+{
+    n_foods = 0;
+    n_anthills = 0;
+
+    anthills.clear();
+    foods.clear();
+}
+
 void Simulation::check_overlapping_anthills()
 {
     for (size_t i = 0; i < anthills.size(); i++)

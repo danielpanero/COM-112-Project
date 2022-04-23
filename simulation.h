@@ -37,6 +37,8 @@ private:
     template <typename T>
     std::vector<std::unique_ptr<T>> parse_ants(std::ifstream &file, unsigned int n);
 
+    void reset();
+
     void check_overlapping_anthills();
     void check_generator_defensors_inside_anthills();
 
