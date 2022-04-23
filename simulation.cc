@@ -29,6 +29,8 @@ using std::vector;
 
 bool Simulation::read_file(string &path)
 {
+    reset();
+
     try
     {
         ifstream file(path);
@@ -55,6 +57,29 @@ bool Simulation::read_file(string &path)
 
     reset();
     return false;
+}
+
+void Simulation::save_file(std::string &path)
+{
+    std::ofstream file(path);
+    if (file.fail())
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    file << n_foods << std::endl;
+    for (const auto &food : foods)
+    {
+        file << food->get_as_string() << std::endl;
+    }
+
+    file << n_anthills << std::endl;
+    for (const auto &anthill : anthills)
+    {
+        file << anthill->get_as_string() << std::endl;
+    }
+
+    file.close();
 }
 
 unsigned int Simulation::get_n_foods() { return n_foods; }

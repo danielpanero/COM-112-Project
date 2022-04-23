@@ -20,6 +20,7 @@ class Simulation
 {
 public:
     bool read_file(std::string &path);
+    void save_file(std::string &path);
 
     unsigned int get_n_foods();
     bool Simulation::get_info_prev_anthill(unsigned int &n_collectors,

@@ -80,10 +80,27 @@ string Anthill::get_as_string()
 {
     using std::to_string;
 
-    return to_string(x) + " " + to_string(y) + " " + to_string(side) + " " +
-           generator->get_as_string() + " " + to_string(n_food) + " " +
-           to_string(n_collectors) + " " + to_string(n_defensors) + " " +
-           to_string(n_predators);
+    string tmp = to_string(x) + " " + to_string(y) + " " + to_string(side) + " " +
+                 generator->get_as_string() + " " + to_string(n_food) + " " +
+                 to_string(n_collectors) + " " + to_string(n_defensors) + " " +
+                 to_string(n_predators);
+
+    for (auto const &collector : collectors)
+    {
+        tmp += collector->get_as_string() + "\n";
+    }
+
+    for (auto const &defensor : defensors)
+    {
+        tmp += defensor->get_as_string() + "\n";
+    }
+
+    for (auto const &predator : predators)
+    {
+        tmp += predator->get_as_string() + "\n";
+    }
+
+    return tmp;
 }
 
 void Anthill::draw(unsigned int &color_index) { draw_only_border(*this, color_index); }
