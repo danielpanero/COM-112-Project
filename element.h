@@ -1,5 +1,5 @@
-#ifndef ENTITIES_H
-#define ENTITIES_H
+#ifndef ELEMENT_H
+#define ELEMENT_H
 
 #include "memory"
 
