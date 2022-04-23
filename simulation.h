@@ -19,7 +19,7 @@
 class Simulation
 {
 public:
-    void read_file(std::string &path);
+    bool read_file(std::string &path);
 
 private:
     void parse_foods(std::ifstream &file);

@@ -11,6 +11,7 @@
 #include "iostream"
 #include "memory"
 #include "sstream"
+#include "stdexcept"
 #include "vector"
 
 #include "element.h"
@@ -19,7 +20,6 @@
 
 #include "anthill.h"
 
-using std::cout;
 using std::istringstream;
 using std::string;
 using std::unique_ptr;
@@ -43,9 +43,8 @@ void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
     Square generator_square = generator->get_as_square();
     if (!test_if_completely_confined(generator_square, *this))
     {
-        cout << message::generator_not_within_home(generator_square.x,
-                                                   generator_square.y, index);
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument(message::generator_not_within_home(
+            generator_square.x, generator_square.y, index));
     }
 
     for (auto &defensor : defensors)
@@ -53,9 +52,8 @@ void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
         Square defensor_square = defensor->get_as_square();
         if (!test_if_completely_confined(defensor_square, *this))
         {
-            cout << message::defensor_not_within_home(defensor_square.x,
-                                                      defensor_square.y, index);
-            exit(EXIT_FAILURE);
+            throw std::invalid_argument(message::defensor_not_within_home(
+                defensor_square.x, defensor_square.y, index));
         }
     }
 }

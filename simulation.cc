@@ -12,6 +12,7 @@
 #include "fstream"
 #include "iostream"
 #include "sstream"
+#include "stdexcept"
 #include "vector"
 
 #include "anthill.h"
@@ -21,7 +22,6 @@
 
 #include "simulation.h"
 
-using std::cout;
 using std::ifstream;
 using std::istringstream;
 using std::string;
@@ -29,21 +29,32 @@ using std::vector;
 
 bool Simulation::read_file(string &path)
 {
-    return true;
-    ifstream file(path);
-    if (file.fail())
+    try
     {
-        exit(EXIT_FAILURE);
+        ifstream file(path);
+        if (file.fail())
+        {
+            exit(EXIT_FAILURE);
+        }
+
+        parse_foods(file);
+        parse_anthills(file);
+
+        check_overlapping_anthills();
+        check_generator_defensors_inside_anthills();
+
+        std::cout << message::success();
+        file.close();
+
+        return true;
+    }
+    catch (std::invalid_argument &e)
+    {
+        std::cerr << e.what() << std::endl;
     }
 
-    parse_foods(file);
-    parse_anthills(file);
-
-    check_overlapping_anthills();
-    check_generator_defensors_inside_anthills();
-
-    cout << message::success();
-    file.close();
+    reset();
+    return false;
 }
 
 void Simulation::parse_foods(ifstream &file)
@@ -129,8 +140,7 @@ void Simulation::check_overlapping_anthills()
 
             if (test_if_superposed_two_square(square1, square2))
             {
-                cout << message::homes_overlap(i, j);
-                exit(EXIT_FAILURE);
+                throw std::invalid_argument(message::homes_overlap(i, j));
             }
         }
     }

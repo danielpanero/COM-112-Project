@@ -11,6 +11,7 @@
 #include "iostream"
 #include "memory"
 #include "sstream"
+#include "stdexcept"
 
 #include "constantes.h"
 #include "element.h"
@@ -19,7 +20,6 @@
 
 #include "ants.h"
 
-using std::cout;
 using std::istringstream;
 using std::string;
 using std::unique_ptr;
@@ -49,8 +49,8 @@ void Generator::add_to_grid()
 
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
-        cout << message::generator_overlap(x, y, superposed_x, superposed_y);
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument(
+            message::generator_overlap(x, y, superposed_x, superposed_y));
     }
 
     add_square(*this);
@@ -78,8 +78,8 @@ void Collector::add_to_grid()
 
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
-        cout << message::collector_overlap(x, y, superposed_x, superposed_y);
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument(
+            message::collector_overlap(x, y, superposed_x, superposed_y));
     }
 
     add_square(*this);
@@ -126,8 +126,8 @@ void Defensor::add_to_grid()
 
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
-        cout << message::defensor_overlap(x, y, superposed_x, superposed_y);
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument(
+            message::defensor_overlap(x, y, superposed_x, superposed_y));
     }
 
     add_square(*this);
@@ -163,8 +163,7 @@ void Predator::add_to_grid()
 {
     if (test_if_superposed_grid(*this))
     {
-        cout << message::predator_overlap(x, y);
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument(message::predator_overlap(x, y));
     }
 
     add_square(*this);
