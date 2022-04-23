@@ -20,17 +20,6 @@
 
 class Anthill : public Element
 {
-private:
-    unsigned int total_food;
-    unsigned int n_collectors;
-    unsigned int n_defensors;
-    unsigned int n_predators;
-
-    std::unique_ptr<Generator> generator;
-    std::vector<std::unique_ptr<Collector>> collectors;
-    std::vector<std::unique_ptr<Defensor>> defensors;
-    std::vector<std::unique_ptr<Predator>> predators;
-
 public:
     /**
      * @brief Constructs a new Anthill instance
@@ -48,11 +37,6 @@ public:
     Anthill(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &xg,
             unsigned int &yg, unsigned int total_food, unsigned int &n_collectors,
             unsigned int &n_defensors, unsigned int &n_predators);
-
-    static std::unique_ptr<Anthill> parse_line(std::string &line);
-
-    std::string get_as_string() override;
-
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of
      * the anthill
@@ -68,6 +52,27 @@ public:
     unsigned int get_number_of_collectors() const;
     unsigned int get_number_of_defensors() const;
     unsigned int get_number_of_predators() const;
+
+    std::string get_as_string() override;
+
+    /**
+     * @brief Creates a new pointed instance Anthill from its string representation
+     *
+     * @param line
+     * @return std::unique_ptr<Anthill>
+     */
+    static std::unique_ptr<Anthill> parse_line(std::string &line);
+    
+private:
+    unsigned int total_food;
+    unsigned int n_collectors;
+    unsigned int n_defensors;
+    unsigned int n_predators;
+
+    std::unique_ptr<Generator> generator;
+    std::vector<std::unique_ptr<Collector>> collectors;
+    std::vector<std::unique_ptr<Defensor>> defensors;
+    std::vector<std::unique_ptr<Predator>> predators;
 };
 
 #endif

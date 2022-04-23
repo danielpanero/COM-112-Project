@@ -22,6 +22,7 @@
 using std::cout;
 using std::istringstream;
 using std::string;
+using std::unique_ptr;
 using std::vector;
 
 Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side,
@@ -32,37 +33,9 @@ Anthill::Anthill(unsigned int &x, unsigned int &y, unsigned int &side,
       n_defensors(n_defensors), n_predators(n_predators)
 {
     unsigned int generator_age(0);
-    generator = std::unique_ptr<Generator>(new Generator(xg, yg, generator_age));
+    generator = unique_ptr<Generator>(new Generator(xg, yg, generator_age));
 
     test_square(*this);
-}
-
-std::unique_ptr<Anthill> Anthill::parse_line(string &line)
-{
-    unsigned int x(0);
-    unsigned int y(0);
-    unsigned int side(0);
-    unsigned int xg(0);
-    unsigned int yg(0);
-    unsigned int total_food(0);
-    unsigned int n_collectors(0);
-    unsigned int n_defensors(0);
-    unsigned int n_predators(0);
-
-    istringstream stream(line);
-
-    stream >> x;
-    stream >> y;
-    stream >> side;
-    stream >> xg;
-    stream >> yg;
-    stream >> total_food;
-    stream >> n_collectors;
-    stream >> n_defensors;
-    stream >> n_predators;
-
-    return std::unique_ptr<Anthill>(new Anthill(
-        x, y, side, xg, yg, total_food, n_collectors, n_defensors, n_predators));
 }
 
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
@@ -87,23 +60,15 @@ void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
     }
 }
 
-string Anthill::get_as_string()
-{
-    return std::to_string(x) + " " + std::to_string(y) + " " + std::to_string(side) +
-           " " + generator->get_as_string() + " " + std::to_string(total_food) + " " +
-           std::to_string(n_collectors) + " " + std::to_string(n_defensors) + " " +
-           std::to_string(n_predators);
-}
-
-void Anthill::set_collectors(vector<std::unique_ptr<Collector>> &collectors)
+void Anthill::set_collectors(vector<unique_ptr<Collector>> &collectors)
 {
     this->collectors = std::move(collectors);
 }
-void Anthill::set_defensors(vector<std::unique_ptr<Defensor>> &defensors)
+void Anthill::set_defensors(vector<unique_ptr<Defensor>> &defensors)
 {
     this->defensors = std::move(defensors);
 }
-void Anthill::set_predators(vector<std::unique_ptr<Predator>> &predators)
+void Anthill::set_predators(vector<unique_ptr<Predator>> &predators)
 {
     this->predators = std::move(predators);
 }
@@ -111,3 +76,41 @@ void Anthill::set_predators(vector<std::unique_ptr<Predator>> &predators)
 unsigned int Anthill::get_number_of_collectors() const { return n_collectors; };
 unsigned int Anthill::get_number_of_defensors() const { return n_defensors; };
 unsigned int Anthill::get_number_of_predators() const { return n_predators; };
+
+string Anthill::get_as_string()
+{
+    using std::to_string;
+
+    return to_string(x) + " " + to_string(y) + " " + to_string(side) + " " +
+           generator->get_as_string() + " " + to_string(total_food) + " " +
+           to_string(n_collectors) + " " + to_string(n_defensors) + " " +
+           to_string(n_predators);
+}
+
+unique_ptr<Anthill> Anthill::parse_line(string &line)
+{
+    unsigned int x(0);
+    unsigned int y(0);
+    unsigned int side(0);
+    unsigned int xg(0);
+    unsigned int yg(0);
+    unsigned int total_food(0);
+    unsigned int n_collectors(0);
+    unsigned int n_defensors(0);
+    unsigned int n_predators(0);
+
+    istringstream stream(line);
+
+    stream >> x;
+    stream >> y;
+    stream >> side;
+    stream >> xg;
+    stream >> yg;
+    stream >> total_food;
+    stream >> n_collectors;
+    stream >> n_defensors;
+    stream >> n_predators;
+
+    return unique_ptr<Anthill>(new Anthill(x, y, side, xg, yg, total_food,
+                                           n_collectors, n_defensors, n_predators));
+}

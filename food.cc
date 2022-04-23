@@ -20,26 +20,13 @@
 using std::cout;
 using std::istringstream;
 using std::string;
+using std::unique_ptr;
 
 Food::Food(unsigned int &x, unsigned int &y) : Element{x, y, 1, true}
 {
     test_square(*this);
     add_to_grid();
 }
-
-std::unique_ptr<Food> Food::parse_line(string &line)
-{
-    unsigned int x(0);
-    unsigned int y(0);
-
-    istringstream stream(line);
-    stream >> x;
-    stream >> y;
-
-    return std::unique_ptr<Food>(new Food(x, y));
-}
-
-string Food::get_as_string() { return std::to_string(x) + " " + std::to_string(y); }
 
 void Food::add_to_grid()
 {
@@ -50,4 +37,18 @@ void Food::add_to_grid()
     }
 
     add_square(*this);
+}
+
+string Food::get_as_string() { return std::to_string(x) + " " + std::to_string(y); }
+
+unique_ptr<Food> Food::parse_line(string &line)
+{
+    unsigned int x(0);
+    unsigned int y(0);
+
+    istringstream stream(line);
+    stream >> x;
+    stream >> y;
+
+    return unique_ptr<Food>(new Food(x, y));
 }

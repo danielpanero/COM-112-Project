@@ -27,11 +27,10 @@ public:
      */
     Food(unsigned int &x, unsigned int &y);
 
-    static std::unique_ptr<Food> parse_line(std::string &line);
-
+    void add_to_grid();
     std::string get_as_string() override;
 
-    void add_to_grid();
+    static std::unique_ptr<Food> parse_line(std::string &line);
 };
 
 #endif

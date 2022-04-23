@@ -45,23 +45,6 @@ void Simulation::read_file(string &path)
     file.close();
 }
 
-template <typename T>
-vector<std::unique_ptr<T>> Simulation::parse_ants(std::ifstream &file, unsigned int n)
-{
-    string line;
-    vector<std::unique_ptr<T>> ants(n);
-
-    unsigned int j(0);
-    while (j < n)
-    {
-        line = get_next_line(file);
-        ants[j] = T::parse_line(line);
-        j++;
-    }
-
-    return ants;
-}
-
 void Simulation::parse_foods(ifstream &file)
 {
     string line(get_next_line(file));
@@ -106,6 +89,23 @@ void Simulation::parse_anthills(ifstream &file)
 
         i++;
     }
+}
+
+template <typename T>
+vector<std::unique_ptr<T>> Simulation::parse_ants(std::ifstream &file, unsigned int n)
+{
+    string line;
+    vector<std::unique_ptr<T>> ants(n);
+
+    unsigned int j(0);
+    while (j < n)
+    {
+        line = get_next_line(file);
+        ants[j] = T::parse_line(line);
+        j++;
+    }
+
+    return ants;
 }
 
 void Simulation::check_overlapping_anthills()

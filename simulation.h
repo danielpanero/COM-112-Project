@@ -18,25 +18,33 @@
 
 class Simulation
 {
+public:
+    void read_file(std::string &path);
+
 private:
+    void parse_foods(std::ifstream &file);
+    void parse_anthills(std::ifstream &file);
+
+    /**
+     * @brief This is a convenience function for parsing either Ant::Collector,
+     * Ant::Defensor and Ant::Predator
+     *
+     * @tparam T Ant::Collector / Ant::Defensor / Ant::Predator
+     * @param file
+     * @param n number of ants
+     * @return vector<unique_ptr<T>>
+     */
+    template <typename T>
+    std::vector<std::unique_ptr<T>> parse_ants(std::ifstream &file, unsigned int n);
+
+    void check_overlapping_anthills();
+    void check_generator_defensors_inside_anthills();
+
     unsigned int n_foods;
     unsigned int n_anthills;
 
     std::vector<std::unique_ptr<Anthill>> anthills;
     std::vector<std::unique_ptr<Food>> foods;
-
-    template <typename T>
-    std::vector<std::unique_ptr<T>> parse_ants(std::ifstream &file, unsigned int n);
-    
-    void parse_foods(std::ifstream &file);
-    void parse_anthills(std::ifstream &file);
-
-
-    void check_overlapping_anthills();
-    void check_generator_defensors_inside_anthills();
-
-public:
-    void read_file(std::string &path);
 };
 
 /**
