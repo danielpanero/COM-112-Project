@@ -61,6 +61,8 @@ string Generator::get_as_string()
     return std::to_string(x) + " " + std::to_string(y);
 }
 
+void Generator::draw(unsigned int &color_index) { draw_filled(*this, color_index); }
+
 Collector::Collector(unsigned int &x, unsigned int &y, unsigned int &age,
                      StateCollector &state)
     : Ant{x, y, sizeC, age}, state(state)
@@ -86,6 +88,11 @@ void Collector::add_to_grid()
 string Collector::get_as_string()
 {
     return Ant::get_as_string() + " " + std::to_string(state);
+}
+
+void Collector::draw(unsigned int &color_index)
+{
+    draw_diagonal_pattern(*this, color_index);
 }
 
 unique_ptr<Collector> Collector::parse_line(string &line)
@@ -126,6 +133,11 @@ void Defensor::add_to_grid()
     add_square(*this);
 }
 
+void Defensor::draw(unsigned int &color_index)
+{
+    draw_plus_pattern(*this, color_index);
+}
+
 unique_ptr<Defensor> Defensor::parse_line(string &line)
 {
     unsigned int x(0);
@@ -157,6 +169,8 @@ void Predator::add_to_grid()
 
     add_square(*this);
 }
+
+void Predator::draw(unsigned int &color_index) { draw_filled(*this, color_index); }
 
 unique_ptr<Predator> Predator::parse_line(string &line)
 {

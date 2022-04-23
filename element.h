@@ -41,6 +41,8 @@ public:
      * @return std::string
      */
     virtual std::string get_as_string() = 0;
+
+    virtual void draw(unsigned int &color_index) = 0;
 };
 
 #endif

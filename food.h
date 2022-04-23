@@ -29,6 +29,8 @@ public:
 
     void add_to_grid();
     std::string get_as_string() override;
+    
+    void draw(unsigned int &color_index) override;
 
     static std::unique_ptr<Food> parse_line(std::string &line);
 };
