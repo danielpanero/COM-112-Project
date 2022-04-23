@@ -40,11 +40,11 @@ private:
     void check_overlapping_anthills();
     void check_generator_defensors_inside_anthills();
 
-    unsigned int n_foods;
-    unsigned int n_anthills;
+    unsigned int n_foods(0);
+    unsigned int n_anthills(0);
 
-    std::vector<std::unique_ptr<Anthill>> anthills;
-    std::vector<std::unique_ptr<Food>> foods;
+    std::vector<std::unique_ptr<Anthill>> anthills(n_anthills,0);
+    std::vector<std::unique_ptr<Food>> foods(n_foods,0);
 };
 
 /**
