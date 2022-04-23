@@ -57,6 +57,66 @@ bool Simulation::read_file(string &path)
     return false;
 }
 
+unsigned int Simulation::get_n_foods() { return n_foods; }
+
+bool Simulation::get_info_prev_anthill(unsigned int &n_collectors,
+                                       unsigned int &n_defensors,
+                                       unsigned int &n_predators, unsigned int &n_food)
+{
+    /** This expression prevents the index from exiting the boundaries [0,
+     * anthills.size() - 1]
+     *
+     */
+    index_anthill = (index_anthill - 1) % anthills.size();
+
+    /** Since the index of anthill must be invariant during the simulation, the
+     * Anthills who were killed are removed and replaced by a nullptr. Therefore we
+     * continue to reduce index till we find an non-nullptr element. After one cycle we
+     * exit and return that there are no Anthill left
+     */
+    int tmp = index_anthill;
+    while (anthills.at(tmp) == nullptr)
+    {
+        tmp = (tmp - 1) % anthills.size();
+        if (tmp == index_anthill)
+            return false;
+    }
+
+    n_collectors = anthills[tmp]->get_number_of_collectors();
+    n_defensors = anthills[tmp]->get_number_of_defensors();
+    n_predators = anthills[tmp]->get_number_of_predators();
+    n_foods = anthills[tmp]->get_number_of_food();
+
+    return true;
+}
+
+bool Simulation::get_info_next_anthill(unsigned int &n_collectors,
+                                       unsigned int &n_defensors,
+                                       unsigned int &n_predators, unsigned int &n_food)
+{
+    index_anthill = (index_anthill + 1) % anthills.size();
+
+    /** Since the index of anthill must be invariant during the simulation, the
+     * Anthills who were killed are removed and replaced by a nullptr. Therefore we
+     * continue to increase index till we find an non-nullptr element. After one cycle
+     * we exit and return that there are no Anthill left
+     */
+    int tmp = index_anthill;
+    while (anthills.at(tmp) == nullptr)
+    {
+        tmp = (tmp + 1) % anthills.size();
+        if (tmp == index_anthill)
+            return false;
+    }
+
+    n_collectors = anthills[tmp]->get_number_of_collectors();
+    n_defensors = anthills[tmp]->get_number_of_defensors();
+    n_predators = anthills[tmp]->get_number_of_predators();
+    n_foods = anthills[tmp]->get_number_of_food();
+
+    return true;
+}
+
 void Simulation::parse_foods(ifstream &file)
 {
     string line(get_next_line(file));

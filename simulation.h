@@ -21,6 +21,17 @@ class Simulation
 public:
     bool read_file(std::string &path);
 
+    unsigned int get_n_foods();
+    bool Simulation::get_info_prev_anthill(unsigned int &n_collectors,
+                                           unsigned int &n_defensors,
+                                           unsigned int &n_predators,
+                                           unsigned int &n_food);
+
+    bool Simulation::get_info_next_anthill(unsigned int &n_collectors,
+                                           unsigned int &n_defensors,
+                                           unsigned int &n_predators,
+                                           unsigned int &n_food);
+
 private:
     void parse_foods(std::ifstream &file);
     void parse_anthills(std::ifstream &file);
@@ -47,6 +58,8 @@ private:
 
     std::vector<std::unique_ptr<Anthill>> anthills;
     std::vector<std::unique_ptr<Food>> foods;
+
+    static int index_anthill;
 };
 
 /**
