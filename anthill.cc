@@ -57,8 +57,8 @@ Anthill *Anthill::parse_line(string &line)
     stream >> n_defensors;
     stream >> n_predators;
 
-    return new Anthill(x, y, side, xg, yg, total_food, n_collectors, n_defensors,
-                       n_predators);
+    return std::unique_ptr<Anthill>(new Anthill(
+        x, y, side, xg, yg, total_food, n_collectors, n_defensors, n_predators));
 }
 
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
@@ -71,7 +71,7 @@ void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
         exit(EXIT_FAILURE);
     }
 
-    for (auto *defensor : defensors)
+    for (auto defensor : defensors)
     {
         Square defensor_square = defensor->get_as_square();
         if (!test_if_completely_confined(defensor_square, *this))

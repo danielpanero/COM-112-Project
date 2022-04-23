@@ -35,7 +35,7 @@ Food *Food::parse_line(string &line)
     stream >> x;
     stream >> y;
 
-    return new Food(x, y);
+    return std::unique_ptr<Food>(new Food(x, y));
 }
 
 void Food::add_to_grid()

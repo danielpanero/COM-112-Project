@@ -48,9 +48,10 @@ public:
             unsigned int &yg, unsigned int total_food, unsigned int &n_collectors,
             unsigned int &n_defensors, unsigned int &n_predators);
 
-    static Anthill *parse_line(std::string &line);
+    // static Anthill *parse_line(std::string &line);
+    static std::unique_ptr<Anthill> parse_line(std::string &line);
 
-    virtual std::string get_as_string() = 0;
+    std::string get_as_string();
 
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of

@@ -24,9 +24,10 @@ public:
      */
     Food(unsigned int &x, unsigned int &y);
 
-    static Food *parse_line(std::string &line);
+    // static Food *parse_line(std::string &line);
+    static std::unique_ptr<Food> parse_line(std::string &line);
 
-    virtual std::string get_as_string() = 0;
+    std::string get_as_string();
 
     void add_to_grid();
 };

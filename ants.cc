@@ -24,10 +24,11 @@ using std::string;
 
 Ant::Ant(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &age)
     : Square({x, y, side, false}), age(age)
-{}
+{
+}
 
 Generator::Generator(unsigned int &x, unsigned int &y, unsigned int &age)
-    :Ant(x,y,side,age)
+    : Ant{x, y, side, age}
 {
     test_square(*this);
     add_to_grid();
@@ -47,8 +48,9 @@ void Generator::add_to_grid()
     add_square(*this);
 }
 
-Collector::Collector(unsigned int &x, unsigned int &y, unsigned int &age,double &food)
-    :Ant(x,y,side,age), food (food)
+Collector::Collector(unsigned int &x, unsigned int &y, unsigned int &age,
+                     enum &Etat_collector)
+    : Ant{x, y, side, age}, Etat_collector(Etat_collector)
 {
     test_square(*this);
     add_to_grid();
@@ -67,7 +69,7 @@ Collector unique_ptr<Collector>::parse_line(string &line)
     stream >> age;
     stream >> food;
 
-    return std::unique_ptr<Collector>(new Collector(x,y,age,food));
+    return std::unique_ptr<Collector>(new Collector(x, y, age, food));
 }
 
 void Collector::add_to_grid()
@@ -85,7 +87,7 @@ void Collector::add_to_grid()
 }
 
 Defensor::Defensor(unsigned int &x, unsigned int &y, unsigned int &age)
-    :Ant(x,y,side,age)
+    : Ant{x, y, side, age}
 {
     test_square(*this);
     add_to_grid();
@@ -102,7 +104,7 @@ Defensor *Defensor::parse_line(string &line)
     stream >> y;
     stream >> age;
 
-    return std::unique_ptr<Defensor>(new Defensor (x,y,age));
+    return std::unique_ptr<Defensor>(new Defensor(x, y, age));
 }
 
 void Defensor::add_to_grid()
@@ -120,7 +122,7 @@ void Defensor::add_to_grid()
 }
 
 Predator::Predator(unsigned int &x, unsigned int &y, unsigned int &age)
-    :Ant(x,y,side,age)
+    : Ant{x, y, side, age}
 {
     test_square(*this);
     add_to_grid();
@@ -130,15 +132,15 @@ Predator *Predator::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
-    unsigned int age (0);
+    unsigned int age(0);
 
     istringstream stream(line);
     stream >> x;
     stream >> y;
     stream >> age;
 
-    return std::unique_ptr<Predator>(new Predator(x,y,age));
-} 
+    return std::unique_ptr<Predator>(new Predator(x, y, age));
+}
 
 void Predator::add_to_grid()
 {

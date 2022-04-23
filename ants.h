@@ -43,7 +43,7 @@ public:
     Generator(unsigned int &x, unsigned int &y, unsigned int &age);
 
     void add_to_grid() override;
-    std:: string get_as_string() override;
+    std::string get_as_string() override;
 };
 
 class Collector : public Ant
@@ -55,16 +55,17 @@ public:
      * @param x position of collector in the x-axis
      * @param y position of collector in the y-axis
      */
-    Collector(unsigned int &x, unsigned int &y, unsigned int &age,double &food);
-    
+    Collector(unsigned int &x, unsigned int &y, unsigned int &age,
+              enum &Etat_collector);
+
     static std::unique_ptr<Collector> parse_line(std::string &line);
 
-    std:: string get_as_string() override;
+    std::string get_as_string() override;
 
     void add_to_grid() override;
 
-    private:
-    double food;
+private:
+    enum Etat_collector;
 };
 
 class Defensor : public Ant
@@ -80,7 +81,7 @@ public:
 
     static std::unique_ptr<Defensor> parse_line(std::string &line);
 
-    std:: string get_as_string() override;
+    std::string get_as_string() override;
 
     void add_to_grid() override;
 };
@@ -98,9 +99,9 @@ public:
 
     static std::unique_ptr<Predator> parse_line(std::string &line);
 
-    std:: string get_as_string() override;
+    std::string get_as_string() override;
 
-    void add_to_grid()override;
+    void add_to_grid() override;
 };
 
 #endif
