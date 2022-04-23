@@ -53,7 +53,4 @@ unique_ptr<Food> Food::parse_line(string &line)
     return unique_ptr<Food>(new Food(x, y));
 }
 
-void Food::draw(unsigned int &color_index)
-{
-    draw_as_diamond(*this);
-}
+void Food::draw(unsigned int &color_index) { draw_as_diamond(*this); }

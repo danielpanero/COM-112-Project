@@ -87,10 +87,7 @@ string Anthill::get_as_string()
            to_string(n_predators);
 }
 
-void Anthill::draw(unsigned int &color_index)
-{
-    draw_only_border(*this, color_index);
-}
+void Anthill::draw(unsigned int &color_index) { draw_only_border(*this, color_index); }
 
 unique_ptr<Anthill> Anthill::parse_line(string &line)
 {

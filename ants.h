@@ -61,7 +61,6 @@ public:
     void add_to_grid() override;
     std::string get_as_string() override;
     void draw(unsigned int &color_index) override;
-    
 };
 
 class Collector : public Ant
