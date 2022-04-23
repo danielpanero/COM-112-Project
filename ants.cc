@@ -90,6 +90,12 @@ string Collector::get_as_string()
     return Ant::get_as_string() + " " + std::to_string(state);
 }
 
+void Collector::draw(unsigned int &color_index)
+{
+    draw_filled(*this, color_index);
+    draw_diagonal_pattern(*this, color_index);
+}
+
 unique_ptr<Collector> Collector::parse_line(string &line)
 {
     unsigned int x(0);
@@ -105,12 +111,6 @@ unique_ptr<Collector> Collector::parse_line(string &line)
 
     auto state = static_cast<StateCollector>(tmp);
     return unique_ptr<Collector>(new Collector(x, y, age, state));
-}
-
-void Collector::draw(unsigned int &color_index)
-{
-    draw_filled(*this, color_index);
-    draw_diagonal_pattern(*this, color_index);
 }
 
 Defensor::Defensor(unsigned int &x, unsigned int &y, unsigned int &age)
@@ -134,6 +134,11 @@ void Defensor::add_to_grid()
     add_square(*this);
 }
 
+void Defensor::draw(unsigned int &color_index)
+{
+    draw_plus_pattern(*this, color_index);
+}
+
 unique_ptr<Defensor> Defensor::parse_line(string &line)
 {
     unsigned int x(0);
@@ -146,12 +151,6 @@ unique_ptr<Defensor> Defensor::parse_line(string &line)
     stream >> age;
 
     return unique_ptr<Defensor>(new Defensor(x, y, age));
-}
-
-void Defensor::draw(unsigned int &color_index)
-{
-    draw_filled(*this, color_index);
-    draw_plus_pattern(*this, color_index);
 }
 
 Predator::Predator(unsigned int &x, unsigned int &y, unsigned int &age)
@@ -172,6 +171,8 @@ void Predator::add_to_grid()
     add_square(*this);
 }
 
+void Predator::draw(unsigned int &color_index) { draw_filled(*this, color_index); }
+
 unique_ptr<Predator> Predator::parse_line(string &line)
 {
     unsigned int x(0);
@@ -185,5 +186,3 @@ unique_ptr<Predator> Predator::parse_line(string &line)
 
     return unique_ptr<Predator>(new Predator(x, y, age));
 }
-
-void Predator::draw(unsigned int &color_index) { draw_filled(*this, color_index); }

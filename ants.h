@@ -129,6 +129,7 @@ public:
     Predator(unsigned int &x, unsigned int &y, unsigned int &age);
 
     void add_to_grid() override;
+    void draw(unsigned int &color_index) override;
 
     /**
      * @brief Creates a new pointed instance of Predator from its string representation
@@ -137,7 +138,6 @@ public:
      * @return std::unique_ptr<Predator>
      */
     static std::unique_ptr<Predator> parse_line(std::string &line);
-    void draw(unsigned int &color_index) override;
 };
 
 #endif
