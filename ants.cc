@@ -92,7 +92,6 @@ string Collector::get_as_string()
 
 void Collector::draw(unsigned int &color_index)
 {
-    draw_filled(*this, color_index);
     draw_diagonal_pattern(*this, color_index);
 }
 
