@@ -22,16 +22,14 @@ public:
     bool read_file(std::string &path);
     void save_file(std::string &path);
 
-    unsigned int get_n_foods();
-    bool Simulation::get_info_prev_anthill(unsigned int &n_collectors,
-                                           unsigned int &n_defensors,
-                                           unsigned int &n_predators,
-                                           unsigned int &n_food);
+    unsigned int get_n_foods() const;
+    bool get_info_prev_anthill(unsigned int &index, unsigned int &n_collectors,
+                               unsigned int &n_defensors, unsigned int &n_predators,
+                               unsigned int &n_food);
 
-    bool Simulation::get_info_next_anthill(unsigned int &n_collectors,
-                                           unsigned int &n_defensors,
-                                           unsigned int &n_predators,
-                                           unsigned int &n_food);
+    bool get_info_next_anthill(unsigned int &index, unsigned int &n_collectors,
+                               unsigned int &n_defensors, unsigned int &n_predators,
+                               unsigned int &n_food);
 
 private:
     void parse_foods(std::ifstream &file);
@@ -56,11 +54,10 @@ private:
 
     unsigned int n_foods;
     unsigned int n_anthills;
+    int index_anthill;
 
     std::vector<std::unique_ptr<Anthill>> anthills;
     std::vector<std::unique_ptr<Food>> foods;
-
-    static int index_anthill;
 };
 
 /**

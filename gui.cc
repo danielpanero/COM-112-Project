@@ -292,8 +292,8 @@ void MainWindow::on_prev()
     unsigned int n_predators(0);
     unsigned int n_foods(0);
 
-    if (simulation->get_info_prev_anthill(index, n_collectors, n_defensors,
-                                          n_predators, n_foods))
+    if (simulation->get_info_prev_anthill(index, n_collectors, n_defensors, n_predators,
+                                          n_foods))
     {
         anthill_info_label.set_markup(format_anthill_info_markup(
             index, n_collectors, n_defensors, n_predators, n_foods));

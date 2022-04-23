@@ -82,15 +82,14 @@ void Simulation::save_file(std::string &path)
     file.close();
 }
 
-unsigned int Simulation::get_n_foods() { return n_foods; }
+unsigned int Simulation::get_n_foods() const { return n_foods; }
 
-bool Simulation::get_info_prev_anthill(unsigned int &n_collectors,
+bool Simulation::get_info_prev_anthill(unsigned int &index, unsigned int &n_collectors,
                                        unsigned int &n_defensors,
                                        unsigned int &n_predators, unsigned int &n_food)
 {
     /** This expression prevents the index from exiting the boundaries [0,
      * anthills.size() - 1]
-     *
      */
     index_anthill = (index_anthill - 1) % anthills.size();
 
@@ -104,18 +103,21 @@ bool Simulation::get_info_prev_anthill(unsigned int &n_collectors,
     {
         tmp = (tmp - 1) % anthills.size();
         if (tmp == index_anthill)
+        {
             return false;
+        }
     }
 
+    index = tmp;
     n_collectors = anthills[tmp]->get_number_of_collectors();
     n_defensors = anthills[tmp]->get_number_of_defensors();
     n_predators = anthills[tmp]->get_number_of_predators();
-    n_foods = anthills[tmp]->get_number_of_food();
+    n_food = anthills[tmp]->get_number_of_food();
 
     return true;
 }
 
-bool Simulation::get_info_next_anthill(unsigned int &n_collectors,
+bool Simulation::get_info_next_anthill(unsigned int &index, unsigned int &n_collectors,
                                        unsigned int &n_defensors,
                                        unsigned int &n_predators, unsigned int &n_food)
 {
@@ -131,13 +133,16 @@ bool Simulation::get_info_next_anthill(unsigned int &n_collectors,
     {
         tmp = (tmp + 1) % anthills.size();
         if (tmp == index_anthill)
+        {
             return false;
+        }
     }
 
+    index = tmp;
     n_collectors = anthills[tmp]->get_number_of_collectors();
     n_defensors = anthills[tmp]->get_number_of_defensors();
     n_predators = anthills[tmp]->get_number_of_predators();
-    n_foods = anthills[tmp]->get_number_of_food();
+    n_food = anthills[tmp]->get_number_of_food();
 
     return true;
 }
