@@ -27,6 +27,13 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
+void Simulation::reset()
+{
+    n_foods= 0;
+    anthills.clear;
+    foods.clear;
+}
+
 bool Simulation::read_file(string &path)
 {
     return true;
