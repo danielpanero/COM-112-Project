@@ -18,6 +18,11 @@ files=(
     "t12.txt"
     "t13.txt"
     "t14.txt"
+    "t15.txt"
+    "t16.txt"
+    "t17.txt"
+    "t18.txt"
+    "t19.txt"
 )
 expected=(
     "defensor with coordinates 101 117 is not fully within its home: 0"
@@ -36,6 +41,11 @@ expected=(
     "home 0 overlaps with home 1"
     "coordinate 10000000 does not belong to [ 0, 127 ]"
     "combined coordinate 117 and square side 12 do not belong to [ 0, 127 ]"
+    "collector with coordinates 18 18 overlaps with another exclusive entity at least on 17 17"
+    "collector with coordinates 14 14 overlaps with another exclusive entity at least on 15 15"
+    "defensor with coordinates 102 118 is not fully within its home: 0"
+    "defensor with coordinates 117 101 is not fully within its home: 0"
+    "defensor with coordinates 117 118 is not fully within its home: 0"
 )
 
 total=0
@@ -43,7 +53,6 @@ failed=0
 
 echo Compiling projects files
 cd ../
-make clean
 make HEADLESS=true
 
 for i in "${!files[@]}"; do
