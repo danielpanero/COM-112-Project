@@ -111,14 +111,14 @@ private:
     void check_overlapping_anthills();
     void check_generator_defensors_inside_anthills();
 
-    unsigned int n_foods;
-    unsigned int n_anthills;
+    unsigned int n_foods = 0;
+    unsigned int n_anthills = 0;
 
     /**
      * @brief The current index used by get_info_prev_anthill and get_info_next_anthill
      *
      */
-    int index_anthill;
+    int index_anthill = 0;
 
     std::vector<std::unique_ptr<Anthill>> anthills;
     std::vector<std::unique_ptr<Food>> foods;
