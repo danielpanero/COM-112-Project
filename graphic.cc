@@ -1,3 +1,4 @@
+#include "cmath"
 #include "vector"
 
 #include "cairomm/matrix.h"
@@ -39,29 +40,15 @@ const std::vector<typename Gdk::RGBA>
 const auto model_surface = Cairo::ImageSurface::create(
     Cairo::FORMAT_ARGB32, g_max *scale_factor, g_max *scale_factor);
 
-/**
- * @brief This is a convenience function for creating the cairo context, applying the
- * scale_factor and disabling any type of aliasing
- *
- * @param surface
- * @return Cairo::RefPtr<Cairo::Context>
- */
-Cairo::RefPtr<Cairo::Context>
-create_default_cc(const Cairo::RefPtr<Cairo::ImageSurface> &surface)
-{
-    auto cc = Cairo::Context::create(surface);
-    cc->scale(scale_factor, scale_factor);
-    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
-
-    return cc;
-}
-
 Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 {
     auto surface =
         Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, surface_size * scale_factor,
                                     surface_size * scale_factor);
-    auto cc = create_default_cc(surface);
+    auto cc = Cairo::Context::create(surface);
+
+    cc->scale(scale_factor, scale_factor);
+    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
 
     set_source_rgba(cc, background_color);
     cc->paint();
@@ -92,6 +79,31 @@ Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 }
 
 Cairo::RefPtr<Cairo::ImageSurface> create_model_surface() { return model_surface; }
+
+/**
+ *
+ * @brief This is a convenience function for creating the cairo context, applying the
+ * scale_factor and disabling any type of aliasing
+ *
+ * @param surface
+ * @return Cairo::RefPtr<Cairo::Context>
+ */
+Cairo::RefPtr<Cairo::Context>
+create_default_cc(const Cairo::RefPtr<Cairo::ImageSurface> &surface)
+{
+    auto cc = Cairo::Context::create(surface);
+
+    /** This ctm (current trasformation matrix) scales the context by the scale_factor,
+     * flips the Y-axis and finally shift the Y-axis by g_max * scale_factor. At the
+     * end the origin (0,0) will be in the left-bottom corner
+     */
+    Cairo::Matrix ctm{scale_factor, 0, 0, -scale_factor, 0, g_max * scale_factor};
+
+    cc->set_matrix(ctm);
+    cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
+
+    return cc;
+}
 
 Cairo::Matrix scale_to_allocation_size(Cairo::Matrix ctm, int width, int height)
 {
