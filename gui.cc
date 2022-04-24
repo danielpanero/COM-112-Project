@@ -153,7 +153,6 @@ void MainWindow::build_layout_graphic()
     aspect_frame->set_vexpand();
 
     aspect_frame->unset_label();
-    aspect_frame->set_shadow_type(Gtk::SHADOW_NONE);
 
     drawing_area.set_size_request(drawing_area_size, drawing_area_size);
     aspect_frame->add(drawing_area);

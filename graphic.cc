@@ -61,7 +61,7 @@ Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
     // Grid lines
     set_source_rgba(cc, grid_lines_color);
     cc->set_line_width(grid_linewidth);
-    for (int i(0); i <= surface_size; i += cell_size)
+    for (int i(0); i < surface_size; i += cell_size)
     {
         // Horinzontal lines
         cc->move_to(0, i);
