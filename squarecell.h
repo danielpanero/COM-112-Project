@@ -35,6 +35,8 @@ unsigned int get_coordinate_x(Square &square);
  */
 unsigned int get_coordinate_y(Square &square);
 
+void clear_grid();
+
 /**
  * @brief Checks if the square respects the constraints.
  *

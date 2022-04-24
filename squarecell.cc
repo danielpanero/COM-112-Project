@@ -25,6 +25,13 @@ constexpr double g_max(128);
 
 static vector<vector<bool>> grid(g_max, vector<bool>(g_max)); // NOLINT
 
+void clear_grid()
+{
+    grid = vector<vector<bool>>(g_max, vector<bool>(g_max));
+
+    Graphic::clear_model_surface();
+}
+
 unsigned int get_coordinate_x(Square &square)
 {
     if (square.centered)

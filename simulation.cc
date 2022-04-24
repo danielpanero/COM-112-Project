@@ -217,6 +217,8 @@ void Simulation::reset()
 
     anthills.clear();
     foods.clear();
+
+    clear_grid();
 }
 
 void Simulation::check_overlapping_anthills()
