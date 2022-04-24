@@ -19,10 +19,29 @@ using std::string;
 
 int main(int argc, char *argv[])
 {
+
+#ifndef HEADLESS
+
     auto app = Gtk::Application::create(argc, argv, "org.com112.project");
 
     Simulation simulation;
     MainWindow main(&simulation);
 
     return app->run(main);
+
+#else
+
+    if (argc == 1)
+    {
+        exit(EXIT_FAILURE);
+    }
+
+    string path(argv[1]);
+
+    Simulation simulation;
+    simulation.read_file(path);
+
+    exit(0);
+
+#endif
 }

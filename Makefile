@@ -4,7 +4,13 @@ CXXFILES = projet.cc simulation.cc squarecell.cc error_squarecell.cc anthill.cc 
 ants.cc food.cc message.cc gui.cc graphic.cc element.cc
 OBJS = $(CXXFILES:.cc=.o)
 DEPDIR = .deps
-CXXFLAGS = `pkg-config --cflags gtkmm-3.0` -g -Wall -std=c++11
+
+ifeq ($(HEADLESS),)
+CXXFLAGS = `pkg-config --cflags gtkmm-3.0` -g -Wall -std=c++11 
+else
+CXXFLAGS = `pkg-config --cflags gtkmm-3.0` -g -Wall -std=c++11 -D HEADLESS=true
+endif
+
 LIBS = `pkg-config --libs gtkmm-3.0`
 
 all: $(PROGRAM)

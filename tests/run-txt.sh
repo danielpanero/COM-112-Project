@@ -43,7 +43,8 @@ failed=0
 
 echo Compiling projects files
 cd ../
-make
+make clean
+make HEADLESS=true
 
 for i in "${!files[@]}"; do
     echo -e "\e[1;37m""$i": "${files[$i]}""$(tput sgr0)"
