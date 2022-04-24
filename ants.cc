@@ -11,6 +11,7 @@
 #include "iostream"
 #include "memory"
 #include "sstream"
+#include "stdexcept"
 
 #include "constantes.h"
 #include "element.h"
@@ -19,7 +20,6 @@
 
 #include "ants.h"
 
-using std::cout;
 using std::istringstream;
 using std::string;
 using std::unique_ptr;
@@ -49,8 +49,8 @@ void Generator::add_to_grid()
 
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
-        cout << message::generator_overlap(x, y, superposed_x, superposed_y);
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument(
+            message::generator_overlap(x, y, superposed_x, superposed_y));
     }
 
     add_square(*this);
@@ -64,7 +64,7 @@ string Generator::get_as_string()
 void Generator::draw(unsigned int &color_index) { draw_filled(*this, color_index); }
 
 Collector::Collector(unsigned int &x, unsigned int &y, unsigned int &age,
-                     StateCollector &state)
+                     State_collector &state)
     : Ant{x, y, sizeC, age}, state(state)
 {
     test_square(*this);
@@ -78,21 +78,21 @@ void Collector::add_to_grid()
 
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
-        cout << message::collector_overlap(x, y, superposed_x, superposed_y);
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument(
+            message::collector_overlap(x, y, superposed_x, superposed_y));
     }
 
     add_square(*this);
 }
 
-string Collector::get_as_string()
-{
-    return Ant::get_as_string() + " " + std::to_string(state);
-}
-
 void Collector::draw(unsigned int &color_index)
 {
     draw_diagonal_pattern(*this, color_index);
+}
+
+string Collector::get_as_string()
+{
+    return Ant::get_as_string() + " " + std::to_string(state);
 }
 
 unique_ptr<Collector> Collector::parse_line(string &line)
@@ -108,7 +108,7 @@ unique_ptr<Collector> Collector::parse_line(string &line)
     stream >> age;
     stream >> tmp;
 
-    auto state = static_cast<StateCollector>(tmp);
+    auto state = static_cast<State_collector>(tmp);
     return unique_ptr<Collector>(new Collector(x, y, age, state));
 }
 
@@ -126,8 +126,8 @@ void Defensor::add_to_grid()
 
     if (test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
-        cout << message::defensor_overlap(x, y, superposed_x, superposed_y);
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument(
+            message::defensor_overlap(x, y, superposed_x, superposed_y));
     }
 
     add_square(*this);
@@ -163,8 +163,7 @@ void Predator::add_to_grid()
 {
     if (test_if_superposed_grid(*this))
     {
-        cout << message::predator_overlap(x, y);
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument(message::predator_overlap(x, y));
     }
 
     add_square(*this);

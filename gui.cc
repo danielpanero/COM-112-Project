@@ -182,6 +182,8 @@ void MainWindow::reset_layout()
     food_count_label.set_markup("<small><b>No simulation</b></small>");
     anthill_info_label.set_markup("<small><b>No simulation</b></small>");
 
+    // TODO(@danielpanero): check if we want to call this function even if it is
+    // already called in squarecell from the simulation
     clear_model_surface();
 }
 

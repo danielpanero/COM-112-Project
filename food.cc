@@ -10,6 +10,7 @@
 
 #include "iostream"
 #include "sstream"
+#include "stdexcept"
 
 #include "element.h"
 #include "message.h"
@@ -17,7 +18,6 @@
 
 #include "food.h"
 
-using std::cout;
 using std::istringstream;
 using std::string;
 using std::unique_ptr;
@@ -32,8 +32,7 @@ void Food::add_to_grid()
 {
     if (test_if_superposed_grid(*this))
     {
-        cout << message::food_overlap(x, y);
-        exit(EXIT_FAILURE);
+        throw std::invalid_argument(message::food_overlap(x, y));
     }
 
     add_square(*this);

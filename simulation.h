@@ -19,7 +19,78 @@
 class Simulation
 {
 public:
-    void read_file(std::string &path);
+    /**
+     * @brief Reads the file, prepares the simulation model and draws all the elements
+     * on the model_surface. In the case of an error in the configuration file, it
+     * safely discards all the elements of model and clears it self
+     *
+     * @param path
+     * @return true if there are no errors in the configuration file, false in the case
+     * a error was detected.
+     */
+    bool read_file(std::string &path);
+    void save_file(std::string &path);
+
+    /**
+     * @brief Resets and disallocates every aspect / object of the simulation: foods,
+     * anthills, collectors... Furthermore, it resets also the grid of the module
+     * Squarecell and clears the model_surface of Graphic
+     *
+     */
+    void reset();
+
+    unsigned int get_n_foods() const;
+
+    /**
+     * @brief Convenience function which cycles through all the anthills (descending
+     * order) and return the data from the first not-dead anthill that it has found. If
+     * there are no more anthill alive, it returns false. Under the hood, it calls
+     * \b Simulation::cycle_info_anthills()
+     *
+     * @param[out] index the index of the first non-dead anthill
+     * @param[out] n_collectors
+     * @param[out] n_defensors
+     * @param[out] n_predators
+     * @param[out] n_food
+     * @return true if there are anthills left and false if they are all dead
+     */
+    bool get_info_prev_anthill(unsigned int &index, unsigned int &n_collectors,
+                               unsigned int &n_defensors, unsigned int &n_predators,
+                               unsigned int &n_food);
+
+    /**
+     * @brief Convenience function which cycles through all the anthills (asceding
+     * order) and return the data from the first not-dead anthill that it has found. If
+     * there are no more anthill alive, it returns false. Under the hood, it calls
+     * \b Simulation::cycle_info_anthills()
+     *
+     * @param[out] index the index of the first non-dead anthill
+     * @param[out] n_collectors
+     * @param[out] n_defensors
+     * @param[out] n_predators
+     * @param[out] n_food
+     * @return true if there are anthills left and false if they are all dead
+     */
+    bool get_info_next_anthill(unsigned int &index, unsigned int &n_collectors,
+                               unsigned int &n_defensors, unsigned int &n_predators,
+                               unsigned int &n_food);
+
+    /**
+     * @brief Cycles through all the anthills (asceding / descending order) and return
+     * the data from the first not-dead anthill that it has found. If there are no more
+     * anthill alive, it returns false
+     *
+     * @param[out] index the index of the first non-dead anthill
+     * @param[out] n_collectors
+     * @param[out] n_defensors
+     * @param[out] n_predators
+     * @param[out] n_food
+     * @param[in] order true = ascending / false = descending
+     * @return true if there are anthills left and false if they are all dead
+     */
+    bool cycle_info_anthill(unsigned int &index, unsigned int &n_collectors,
+                            unsigned int &n_defensors, unsigned int &n_predators,
+                            unsigned int &n_food, bool order);
 
 private:
     void parse_foods(std::ifstream &file);
@@ -42,6 +113,12 @@ private:
 
     unsigned int n_foods;
     unsigned int n_anthills;
+
+    /**
+     * @brief The current index used by get_info_prev_anthill and get_info_next_anthill
+     *
+     */
+    int index_anthill;
 
     std::vector<std::unique_ptr<Anthill>> anthills;
     std::vector<std::unique_ptr<Food>> foods;

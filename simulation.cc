@@ -12,6 +12,7 @@
 #include "fstream"
 #include "iostream"
 #include "sstream"
+#include "stdexcept"
 #include "vector"
 
 #include "anthill.h"
@@ -21,7 +22,7 @@
 
 #include "simulation.h"
 
-using std::cout;
+using std::endl;
 using std::ifstream;
 using std::istringstream;
 using std::string;
@@ -29,21 +30,146 @@ using std::vector;
 
 bool Simulation::read_file(string &path)
 {
-    return true;
+    reset();
+
     ifstream file(path);
+    try
+    {
+        if (file.fail())
+        {
+            exit(EXIT_FAILURE);
+        }
+
+        parse_foods(file);
+        parse_anthills(file);
+
+        check_overlapping_anthills();
+        check_generator_defensors_inside_anthills();
+
+        file.close();
+        std::cout << message::success();
+
+        return true;
+    }
+    catch (std::invalid_argument &e)
+    {
+        std::cout << e.what() << endl;
+    }
+
+    file.close();
+
+    reset();
+    return false;
+}
+
+void Simulation::save_file(string &path)
+{
+    std::ofstream file(path);
     if (file.fail())
     {
+        // TODO(@danielpanero): check if we want really to exit the program
         exit(EXIT_FAILURE);
     }
 
-    parse_foods(file);
-    parse_anthills(file);
+    file << n_foods << endl;
+    for (const auto &food : foods)
+    {
+        file << food->get_as_string() << endl;
+    }
 
-    check_overlapping_anthills();
-    check_generator_defensors_inside_anthills();
+    file << n_anthills << endl;
+    for (const auto &anthill : anthills)
+    {
+        file << anthill->get_as_string() << endl;
+    }
 
-    cout << message::success();
     file.close();
+}
+
+void Simulation::reset()
+{
+    n_foods = 0;
+    n_anthills = 0;
+
+    // We safely disallocate anthills and foods as they are unique_ptr
+    anthills.clear();
+    foods.clear();
+
+    // We reset the squarecell grid and clear the model_surface
+    grid_clear();
+}
+
+unsigned int Simulation::get_n_foods() const { return n_foods; }
+
+bool Simulation::get_info_prev_anthill(unsigned int &index, unsigned int &n_collectors,
+                                       unsigned int &n_defensors,
+                                       unsigned int &n_predators, unsigned int &n_food)
+{
+    return cycle_info_anthill(index, n_collectors, n_defensors, n_predators, n_food,
+                              false);
+}
+
+bool Simulation::get_info_next_anthill(unsigned int &index, unsigned int &n_collectors,
+                                       unsigned int &n_defensors,
+                                       unsigned int &n_predators, unsigned int &n_food)
+{
+    return cycle_info_anthill(index, n_collectors, n_defensors, n_predators, n_food,
+                              true);
+}
+
+bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collectors,
+                                    unsigned int &n_defensors,
+                                    unsigned int &n_predators, unsigned int &n_food,
+                                    bool order)
+{
+    if (order)
+    {
+        index_anthill++;
+    }
+    else
+    {
+        index_anthill--;
+    }
+
+    /** This expression prevents the index from exiting the boundaries [0,
+     * anthills.size() - 1], e.g: for a vector of size 3:
+     * 0 --> 0, -1 --> 2, 2 --> 2, 1 --> 1 ... (descending order)
+     * 0 --> 0, 1 --> 1, 2 --> 2, 3 --> 0 ...  (ascending order)
+     */
+    index_anthill %= anthills.size();
+
+    /** Since the index of an anthill must be invariant during the simulation, the
+     * Anthills who were killed are removed and replaced by a nullptr. Therefore we
+     * continue to reduce index till we find an non-nullptr element. After one cycle we
+     * exit and return that there are no Anthill left
+     */
+    int tmp = index_anthill;
+    while (anthills.at(tmp) == nullptr)
+    {
+        if (order)
+        {
+            tmp++;
+        }
+        else
+        {
+            tmp--;
+        }
+        tmp %= anthills.size();
+
+        // After one cycle, we exit as there no anthills left
+        if (tmp == index_anthill)
+        {
+            return false;
+        }
+    }
+
+    index = tmp;
+    n_collectors = anthills[tmp]->get_number_of_collectors();
+    n_defensors = anthills[tmp]->get_number_of_defensors();
+    n_predators = anthills[tmp]->get_number_of_predators();
+    n_food = anthills[tmp]->get_number_of_food();
+
+    return true;
 }
 
 void Simulation::parse_foods(ifstream &file)
@@ -93,7 +219,7 @@ void Simulation::parse_anthills(ifstream &file)
 }
 
 template <typename T>
-vector<std::unique_ptr<T>> Simulation::parse_ants(std::ifstream &file, unsigned int n)
+vector<std::unique_ptr<T>> Simulation::parse_ants(ifstream &file, unsigned int n)
 {
     string line;
     vector<std::unique_ptr<T>> ants(n);
@@ -120,8 +246,7 @@ void Simulation::check_overlapping_anthills()
 
             if (test_if_superposed_two_square(square1, square2))
             {
-                cout << message::homes_overlap(i, j);
-                exit(EXIT_FAILURE);
+                throw std::invalid_argument(message::homes_overlap(i, j));
             }
         }
     }

@@ -11,6 +11,7 @@
 #include "algorithm"
 #include "cmath"
 #include "iostream"
+#include "stdexcept"
 #include "vector"
 
 #include "error_squarecell.h"
@@ -18,12 +19,19 @@
 
 #include "squarecell.h"
 
-using std::cout;
+using std::invalid_argument;
 using std::vector;
 
 constexpr double g_max(128);
 
 static vector<vector<bool>> grid(g_max, vector<bool>(g_max)); // NOLINT
+
+void grid_clear()
+{
+    grid = vector<vector<bool>>(g_max, vector<bool>(g_max));
+
+    Graphic::clear_model_surface();
+}
 
 unsigned int get_coordinate_x(Square &square)
 {
@@ -51,26 +59,24 @@ void test_square(Square &square)
 
     if ((x < 0 || x > g_max - 1))
     {
-        cout << error_squarecell::print_index(square.x, g_max - 1);
-        exit(EXIT_FAILURE);
+        throw invalid_argument(error_squarecell::print_index(square.x, g_max - 1));
     }
 
     if ((y < 0 || y > g_max - 1))
     {
-        cout << error_squarecell::print_index(square.y, g_max - 1);
-        exit(EXIT_FAILURE);
+        throw invalid_argument(error_squarecell::print_index(square.y, g_max - 1));
     }
 
     if ((x + square.side > g_max - 1))
     {
-        cout << error_squarecell::print_outside(square.x, square.side, g_max - 1);
-        exit(EXIT_FAILURE);
+        throw invalid_argument(
+            error_squarecell::print_outside(square.x, square.side, g_max - 1));
     }
 
     if ((y + square.side > g_max - 1))
     {
-        cout << error_squarecell::print_outside(square.y, square.side, g_max - 1);
-        exit(EXIT_FAILURE);
+        throw invalid_argument(
+            error_squarecell::print_outside(square.y, square.side, g_max - 1));
     }
 }
 

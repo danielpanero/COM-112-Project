@@ -20,6 +20,12 @@ struct Square
 };
 
 /**
+ * @brief Resets the grid and clears the model surface
+ *
+ */
+void grid_clear();
+
+/**
  * @brief Calculates the bottom left x-coordinate.
  *
  * @param square
