@@ -90,6 +90,7 @@ void Simulation::reset()
 {
     n_foods = 0;
     n_anthills = 0;
+    index_anthill = 0;
 
     // We safely disallocate anthills and foods as they are unique_ptr
     anthills.clear();
@@ -136,7 +137,7 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
      * 0 --> 0, -1 --> 2, 2 --> 2, 1 --> 1 ... (descending order)
      * 0 --> 0, 1 --> 1, 2 --> 2, 3 --> 0 ...  (ascending order)
      */
-    index_anthill %= anthills.size();
+    index_anthill = (index_anthill + anthills.size()) % anthills.size();
 
     /** Since the index of an anthill must be invariant during the simulation, the
      * Anthills who were killed are removed and replaced by a nullptr. Therefore we
@@ -154,7 +155,7 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
         {
             tmp--;
         }
-        tmp %= anthills.size();
+        tmp = (tmp + anthills.size()) % anthills.size();
 
         // After one cycle, we exit as there no anthills left
         if (tmp == index_anthill)
