@@ -64,7 +64,7 @@ string Generator::get_as_string()
 void Generator::draw(unsigned int &color_index) { draw_filled(*this, color_index); }
 
 Collector::Collector(unsigned int &x, unsigned int &y, unsigned int &age,
-                     StateCollector &state)
+                     State_collector &state)
     : Ant{x, y, sizeC, age}, state(state)
 {
     test_square(*this);
@@ -85,14 +85,14 @@ void Collector::add_to_grid()
     add_square(*this);
 }
 
-string Collector::get_as_string()
-{
-    return Ant::get_as_string() + " " + std::to_string(state);
-}
-
 void Collector::draw(unsigned int &color_index)
 {
     draw_diagonal_pattern(*this, color_index);
+}
+
+string Collector::get_as_string()
+{
+    return Ant::get_as_string() + " " + std::to_string(state);
 }
 
 unique_ptr<Collector> Collector::parse_line(string &line)
@@ -108,7 +108,7 @@ unique_ptr<Collector> Collector::parse_line(string &line)
     stream >> age;
     stream >> tmp;
 
-    auto state = static_cast<StateCollector>(tmp);
+    auto state = static_cast<State_collector>(tmp);
     return unique_ptr<Collector>(new Collector(x, y, age, state));
 }
 

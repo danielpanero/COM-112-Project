@@ -20,6 +20,12 @@ struct Square
 };
 
 /**
+ * @brief Resets the grid and clears the model surface
+ *
+ */
+void grid_clear();
+
+/**
  * @brief Calculates the bottom left x-coordinate.
  *
  * @param square
@@ -34,8 +40,6 @@ unsigned int get_coordinate_x(Square &square);
  * @return unsigned int
  */
 unsigned int get_coordinate_y(Square &square);
-
-void clear_grid();
 
 /**
  * @brief Checks if the square respects the constraints.

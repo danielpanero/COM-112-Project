@@ -19,13 +19,14 @@
 
 #include "squarecell.h"
 
+using std::invalid_argument;
 using std::vector;
 
 constexpr double g_max(128);
 
 static vector<vector<bool>> grid(g_max, vector<bool>(g_max)); // NOLINT
 
-void clear_grid()
+void grid_clear()
 {
     grid = vector<vector<bool>>(g_max, vector<bool>(g_max));
 
@@ -58,25 +59,23 @@ void test_square(Square &square)
 
     if ((x < 0 || x > g_max - 1))
     {
-        throw std::invalid_argument(
-            error_squarecell::print_index(square.x, g_max - 1));
+        throw invalid_argument(error_squarecell::print_index(square.x, g_max - 1));
     }
 
     if ((y < 0 || y > g_max - 1))
     {
-        throw std::invalid_argument(
-            error_squarecell::print_index(square.y, g_max - 1));
+        throw invalid_argument(error_squarecell::print_index(square.y, g_max - 1));
     }
 
     if ((x + square.side > g_max - 1))
     {
-        throw std::invalid_argument(
+        throw invalid_argument(
             error_squarecell::print_outside(square.x, square.side, g_max - 1));
     }
 
     if ((y + square.side > g_max - 1))
     {
-        throw std::invalid_argument(
+        throw invalid_argument(
             error_squarecell::print_outside(square.y, square.side, g_max - 1));
     }
 }

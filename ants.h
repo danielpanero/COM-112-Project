@@ -59,8 +59,9 @@ public:
     Generator(unsigned int &x, unsigned int &y, unsigned int &age);
 
     void add_to_grid() override;
-    std::string get_as_string() override;
     void draw(unsigned int &color_index) override;
+
+    std::string get_as_string() override;
 };
 
 class Collector : public Ant
@@ -75,11 +76,12 @@ public:
      * @param state state of collector: EMPTY / LOADED
      */
     Collector(unsigned int &x, unsigned int &y, unsigned int &age,
-              StateCollector &state);
+              State_collector &state);
 
-    std::string get_as_string() override;
     void add_to_grid() override;
     void draw(unsigned int &color_index) override;
+
+    std::string get_as_string() override;
 
     /**
      * @brief Creates a new pointed instance of Collector from its string
@@ -91,7 +93,7 @@ public:
     static std::unique_ptr<Collector> parse_line(std::string &line);
 
 private:
-    StateCollector state;
+    State_collector state;
 };
 
 class Defensor : public Ant
