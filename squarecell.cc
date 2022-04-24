@@ -152,32 +152,17 @@ bool test_if_superposed_two_square(Square &square1, Square &square2)
     unsigned int x2 = get_coordinate_x(square2);
     unsigned int y2 = get_coordinate_y(square2);
 
-    if (x1 == x2 || y1 == y2)
+    if (x1 >= x2 + square2.side || x2 >= x1 + square1.side)
     {
-        return true;
+        return false;
     }
 
-    if (x1 < x2 && x1 + square1.side >= x2)
+    if (y1 >= y2 + square2.side || y2 >= y1 + square1.side)
     {
-        return true;
+        return false;
     }
 
-    if (x1 > x2 && x2 + square2.side >= x1)
-    {
-        return true;
-    }
-
-    if (y1 < y2 && y1 + square1.side >= y2)
-    {
-        return true;
-    }
-
-    if (y1 > y2 && y2 + square2.side >= y1)
-    {
-        return true;
-    }
-
-    return false;
+    return true;
 }
 
 bool test_if_completely_confined(Square &square1, Square &square2)
