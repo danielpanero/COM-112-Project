@@ -32,7 +32,7 @@ public:
      * @param side size of element
      * @param age
      */
-    Ant(unsigned int &x, unsigned int &y, unsigned int side, unsigned int &age);
+    Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age);
 
     /**
      * @brief Checks that position in the grid is empty and either throw an error or
@@ -56,7 +56,7 @@ public:
      * @param y position of generator in the y-axis
      * @param age
      */
-    Generator(unsigned int &x, unsigned int &y, unsigned int &age);
+    Generator(unsigned int x, unsigned int y, unsigned int age);
 
     void add_to_grid() override;
     std::string get_as_string() override;
@@ -74,8 +74,8 @@ public:
      * @param age
      * @param state state of collector: EMPTY / LOADED
      */
-    Collector(unsigned int &x, unsigned int &y, unsigned int &age,
-              StateCollector &state);
+    Collector(unsigned int x, unsigned int y, unsigned int age,
+              StateCollector state);
 
     std::string get_as_string() override;
     void add_to_grid() override;
@@ -103,7 +103,7 @@ public:
      * @param x position of defensor in the x-axis
      * @param y position of defensor in the y-axis
      */
-    Defensor(unsigned int &x, unsigned int &y, unsigned int &age);
+    Defensor(unsigned int x, unsigned int y, unsigned int age);
 
     /**
      * @brief Creates a new pointed instance of Defensor from its string representation
@@ -126,7 +126,7 @@ public:
      * @param x position of predator in the x-axis
      * @param y position of predator in the y-axis
      */
-    Predator(unsigned int &x, unsigned int &y, unsigned int &age);
+    Predator(unsigned int x, unsigned int y, unsigned int age);
 
     void add_to_grid() override;
     void draw(unsigned int &color_index) override;

@@ -34,9 +34,9 @@ public:
      * @param n_defensors number of defensors
      * @param n_predators number of predators
      */
-    Anthill(unsigned int &x, unsigned int &y, unsigned int &side, unsigned int &xg,
-            unsigned int &yg, unsigned int total_food, unsigned int &n_collectors,
-            unsigned int &n_defensors, unsigned int &n_predators);
+    Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int xg,
+            unsigned int yg, unsigned int total_food, unsigned int n_collectors,
+            unsigned int n_defensors, unsigned int n_predators);
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of
      * the anthill

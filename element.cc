@@ -15,7 +15,7 @@
 
 #include "element.h"
 
-Element::Element(unsigned int &x, unsigned int &y, unsigned int side, bool centered)
+Element::Element(unsigned int x, unsigned int y, unsigned int side, bool centered)
     : Square{x, y, side, centered}
 {
 }
