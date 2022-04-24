@@ -215,7 +215,7 @@ void draw_filled(Square &square, unsigned int &color_index)
     Graphic::draw_filled_square(x, y, square.side, color_index);
 }
 
-void draw_diagonal_pattern(Square &square, unsigned &color_index)
+void draw_diagonal_pattern(Square &square, unsigned int &color_index)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -223,7 +223,7 @@ void draw_diagonal_pattern(Square &square, unsigned &color_index)
     Graphic::draw_diagonal_pattern_square(x, y, square.side, color_index);
 }
 
-void draw_plus_pattern(Square &square, unsigned &color_index)
+void draw_plus_pattern(Square &square, unsigned int &color_index)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);

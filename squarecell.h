@@ -122,7 +122,7 @@ void draw_filled(Square &square, unsigned int &color_index);
  * @param square
  * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
  */
-void draw_diagonal_pattern(Square &square, unsigned &color_index);
+void draw_diagonal_pattern(Square &square, unsigned int &color_index);
 
 /**
  * @brief Draws @p square filled with a lighter version of @p color_index and a plus
@@ -131,6 +131,6 @@ void draw_diagonal_pattern(Square &square, unsigned &color_index);
  * @param square
  * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
  */
-void draw_plus_pattern(Square &square, unsigned &color_index);
+void draw_plus_pattern(Square &square, unsigned int &color_index);
 
 #endif
