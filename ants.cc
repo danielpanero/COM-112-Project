@@ -24,6 +24,9 @@ using std::istringstream;
 using std::string;
 using std::unique_ptr;
 
+// ====================================================================================
+// Ant
+
 Ant::Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age)
     : Element{x, y, side, true}, age(age)
 {
@@ -34,6 +37,9 @@ string Ant::get_as_string()
     using std::to_string;
     return to_string(x) + " " + to_string(y) + " " + to_string(age);
 }
+
+// ====================================================================================
+// Generator
 
 Generator::Generator(unsigned int x, unsigned int y, unsigned int age)
     : Ant{x, y, sizeG, age}
@@ -62,6 +68,9 @@ string Generator::get_as_string()
 }
 
 void Generator::draw(unsigned int &color_index) { draw_filled(*this, color_index); }
+
+// ====================================================================================
+// Collector
 
 Collector::Collector(unsigned int x, unsigned int y, unsigned int age,
                      State_collector state)
@@ -112,6 +121,9 @@ unique_ptr<Collector> Collector::parse_line(string &line)
     return unique_ptr<Collector>(new Collector(x, y, age, state));
 }
 
+// ====================================================================================
+// Defensor
+
 Defensor::Defensor(unsigned int x, unsigned int y, unsigned int age)
     : Ant{x, y, sizeD, age}
 {
@@ -151,6 +163,9 @@ unique_ptr<Defensor> Defensor::parse_line(string &line)
 
     return unique_ptr<Defensor>(new Defensor(x, y, age));
 }
+
+// ====================================================================================
+// Predator
 
 Predator::Predator(unsigned int x, unsigned int y, unsigned int age)
     : Ant{x, y, sizeP, age}

@@ -26,6 +26,9 @@ constexpr double g_max(128);
 
 static vector<vector<bool>> grid(g_max, vector<bool>(g_max)); // NOLINT
 
+// ====================================================================================
+// Grid / Utils
+
 void grid_clear()
 {
     grid = vector<vector<bool>>(g_max, vector<bool>(g_max));
@@ -110,6 +113,9 @@ void remove_square(Square &square)
     }
 }
 
+// ====================================================================================
+// Tests
+
 bool test_if_superposed_grid(Square &square, unsigned int &superposed_x,
                              unsigned int &superposed_y)
 {
@@ -190,6 +196,9 @@ bool test_if_completely_confined(Square &square1, Square &square2)
 
     return true;
 }
+
+// ====================================================================================
+// Draw
 
 void draw_as_diamond(Square &square)
 {
