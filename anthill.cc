@@ -37,7 +37,7 @@ Anthill::Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int
 
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
 {
-    Square generator_square = generator->get_as_square();
+    auto generator_square = generator->get_as_square();
     if (!test_if_completely_confined(generator_square, *this))
     {
         throw std::invalid_argument(message::generator_not_within_home(
@@ -46,7 +46,7 @@ void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
 
     for (auto &defensor : defensors)
     {
-        Square defensor_square = defensor->get_as_square();
+        auto defensor_square = defensor->get_as_square();
         if (!test_if_completely_confined(defensor_square, *this))
         {
             throw std::invalid_argument(message::defensor_not_within_home(

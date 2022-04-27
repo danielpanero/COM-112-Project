@@ -242,8 +242,8 @@ void Simulation::check_overlapping_anthills()
     {
         for (size_t j = 0; j < i; j++)
         {
-            Square square1(anthills[i]->get_as_square());
-            Square square2(anthills[j]->get_as_square());
+            auto square1 = anthills[i]->get_as_square();
+            auto square2 = anthills[j]->get_as_square();
 
             if (test_if_superposed_two_square(square1, square2))
             {
