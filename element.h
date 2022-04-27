@@ -20,7 +20,7 @@
  * @brief Abstract class Element (Base class for all elements: Anthill, Food, Ants...)
  *
  */
-class Element : protected Square
+class Element : protected Squarecell::Square
 {
 public:
     /**
@@ -33,7 +33,7 @@ public:
      */
     Element(unsigned int x, unsigned int y, unsigned int side, bool centered);
 
-    Square get_as_square();
+    Squarecell::Square get_as_square();
 
     /**
      * @brief Converts the instance back to its string representation

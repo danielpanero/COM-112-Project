@@ -24,13 +24,13 @@ using std::unique_ptr;
 
 Food::Food(unsigned int x, unsigned int y) : Element{x, y, 1, true}
 {
-    test_square(*this);
+    Squarecell::test_square(*this);
     add_to_grid();
 }
 
 void Food::add_to_grid()
 {
-    if (test_if_superposed_grid(*this))
+    if (Squarecell::test_if_superposed_grid(*this))
     {
         throw std::invalid_argument(message::food_overlap(x, y));
     }
@@ -40,7 +40,7 @@ void Food::add_to_grid()
 
 string Food::get_as_string() { return std::to_string(x) + " " + std::to_string(y); }
 
-void Food::draw(unsigned int &color_index) { draw_as_diamond(*this); }
+void Food::draw(unsigned int &color_index) { Squarecell::draw_as_diamond(*this); }
 
 unique_ptr<Food> Food::parse_line(string &line)
 {
