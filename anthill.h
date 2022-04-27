@@ -36,8 +36,7 @@ public:
      */
     Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int xg,
             unsigned int yg, unsigned int n_food, unsigned int n_collectors,
-            unsigned int n_defensors, unsigned int n_predators,
-            unsigned int genrator_age);
+            unsigned int n_defensors, unsigned int n_predators);
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of
      * the anthill
