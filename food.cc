@@ -22,7 +22,7 @@ using std::istringstream;
 using std::string;
 using std::unique_ptr;
 
-Food::Food(unsigned int &x, unsigned int &y) : Element{x, y, 1, true}
+Food::Food(unsigned int x, unsigned int y) : Element{x, y, 1, true}
 {
     test_square(*this);
     add_to_grid();
