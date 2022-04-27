@@ -30,7 +30,7 @@ namespace Graphic
      * @param x bottom-left x coordinate
      * @param y bottom-left y coordinate
      */
-    void draw_diamond(unsigned int &x, unsigned int &y);
+    void draw_diamond(unsigned int x, unsigned int y);
 
     /**
      * @brief Draws a thick border in the center of the cells next to the border of a
@@ -41,8 +41,8 @@ namespace Graphic
      * @param side size of the square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
-    void draw_thick_border_square(unsigned int &x, unsigned int &y, unsigned int &side,
-                                  unsigned int &color_index);
+    void draw_thick_border_square(unsigned int x, unsigned int y, unsigned int side,
+                                  unsigned int color_index);
 
     /**
      * @brief Draws a filled square with size @p side at (@p x, @p y) and color @p
@@ -53,8 +53,8 @@ namespace Graphic
      * @param side size of the square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
-    void draw_filled_square(unsigned int &x, unsigned int &y, unsigned int &side,
-                            unsigned int &color_index);
+    void draw_filled_square(unsigned int x, unsigned int y, unsigned int side,
+                            unsigned int color_index);
 
     /**
      * @brief Draws a square with size @p side at (@p x, @p y) filled with |X O||X
@@ -66,8 +66,8 @@ namespace Graphic
      * @param side size of the square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
-    void draw_diagonal_pattern_square(unsigned int &x, unsigned int &y,
-                                      unsigned int &side, unsigned int &color_index);
+    void draw_diagonal_pattern_square(unsigned int x, unsigned int y,
+                                      unsigned int side, unsigned int color_index);
 
     /**
      * @brief Draws a square with size @p side at (@p x, @p y) filled with a lighter
@@ -79,8 +79,8 @@ namespace Graphic
      * @param side size of the square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
-    void draw_plus_pattern_square(unsigned int &x, unsigned int &y, unsigned int &side,
-                                  unsigned int &color_index);
+    void draw_plus_pattern_square(unsigned int x, unsigned int y, unsigned int side,
+                                  unsigned int color_index);
 } // namespace Graphic
 
 #endif

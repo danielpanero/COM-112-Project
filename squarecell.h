@@ -97,7 +97,7 @@ bool test_if_completely_confined(Square &square1, Square &square2);
  *
  * @param square
  */
-void draw_as_diamond(Square square);
+void draw_as_diamond(Square &square);
 
 /**
  * @brief Draws @p square as a thick border of color @p color_index on model_surface
@@ -105,7 +105,7 @@ void draw_as_diamond(Square square);
  * @param square
  * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
  */
-void draw_only_border(Square square, unsigned int color_index);
+void draw_only_border(Square &square, unsigned int color_index);
 
 /**
  * @brief Fills @p square with the color @p color_index on model_surface
@@ -113,7 +113,7 @@ void draw_only_border(Square square, unsigned int color_index);
  * @param square
  * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
  */
-void draw_filled(Square square, unsigned int color_index);
+void draw_filled(Square &square, unsigned int color_index);
 
 /**
  * @brief Draws @p square filled with |X O||X O|... pattern where X has color @p
@@ -122,7 +122,7 @@ void draw_filled(Square square, unsigned int color_index);
  * @param square
  * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
  */
-void draw_diagonal_pattern(Square square, unsigned int color_index);
+void draw_diagonal_pattern(Square &square, unsigned int color_index);
 
 /**
  * @brief Draws @p square filled with a lighter version of @p color_index and a plus
@@ -131,6 +131,6 @@ void draw_diagonal_pattern(Square square, unsigned int color_index);
  * @param square
  * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
  */
-void draw_plus_pattern(Square square, unsigned int color_index);
+void draw_plus_pattern(Square &square, unsigned int color_index);
 
 #endif

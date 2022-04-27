@@ -27,11 +27,11 @@ using std::vector;
 
 Anthill::Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int xg,
                  unsigned int yg, unsigned int n_food, unsigned int n_collectors,
-                 unsigned int n_defensors, unsigned int n_predators)
+                 unsigned int n_defensors, unsigned int n_predators,
+                 unsigned int generator_age)
     : Element{x, y, side, false}, n_food(n_food), n_collectors(n_collectors),
-      n_defensors(n_defensors), n_predators(n_predators)
+      n_defensors(n_defensors), n_predators(n_predators), generator_age(0)
 {
-    unsigned int generator_age(0);
     generator = unique_ptr<Generator>(new Generator(xg, yg, generator_age));
 
     test_square(*this);
