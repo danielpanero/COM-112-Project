@@ -164,11 +164,11 @@ void Graphic::draw_diamond(unsigned int x, unsigned int y)
 }
 
 void Graphic::draw_thick_border_square(unsigned int x, unsigned int y,
-                                       unsigned int side, unsigned int color_index)
+                                       unsigned int side)
 {
     auto cc = create_default_cc(model_surface);
 
-    set_source_rgba(cc, get_color(color_index));
+    set_source_rgba(cc, get_color_index());
     cc->set_line_width(thick_border_linewidth);
 
     // Margin of half cell_size from the border cells
@@ -179,12 +179,11 @@ void Graphic::draw_thick_border_square(unsigned int x, unsigned int y,
     model_surface->flush();
 }
 
-void Graphic::draw_filled_square(unsigned int x, unsigned int y, unsigned int side,
-                                 unsigned int color_index)
+void Graphic::draw_filled_square(unsigned int x, unsigned int y, unsigned int side)
 {
     auto cc = create_default_cc(model_surface);
 
-    set_source_rgba(cc, get_color(color_index));
+    set_source_rgba(cc, get_color_index());
 
     cc->rectangle(x, y, side, side);
     cc->fill();
@@ -227,7 +226,7 @@ Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color
 }
 
 void Graphic::draw_diagonal_pattern_square(unsigned int x, unsigned int y,
-                                           unsigned int side, unsigned int color_index)
+                                           unsigned int side)
 {
     auto cc = create_default_cc(model_surface);
 
@@ -243,11 +242,11 @@ void Graphic::draw_diagonal_pattern_square(unsigned int x, unsigned int y,
 }
 
 void Graphic::draw_plus_pattern_square(unsigned int x, unsigned int y,
-                                       unsigned int side, unsigned int color_index)
+                                       unsigned int side)
 {
     auto cc = create_default_cc(model_surface);
 
-    RGBA dark_color(get_color(color_index));
+    RGBA dark_color(get_color_index()));
     RGBA light_color(get_color(color_index, true));
 
     set_source_rgba(cc, light_color);
