@@ -25,7 +25,7 @@ public:
      * @param x position of food in the x-axis
      * @param y position of food in the y-axis
      */
-    Food(unsigned int x, unsigned int y);
+    Food(unsigned int x, unsigned int y, unsigned int color_index);
 
     void add_to_grid();
     std::string get_as_string() override;

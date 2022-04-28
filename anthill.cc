@@ -28,14 +28,15 @@ using std::vector;
 Anthill::Anthill(unsigned int x, unsigned int y, unsigned int side,
                  unsigned int xg, unsigned int yg, unsigned int total_food,
                  unsigned int n_collectors, unsigned int n_defensors,
-                 unsigned int n_predators)
-    : Element{x, y, side, false}, total_food(total_food), n_collectors(n_collectors),
+                 unsigned int n_predators, unsigned int color_index)
+    : Element{x, y, side, false, color_index}, total_food(total_food), n_collectors(n_collectors),
       n_defensors(n_defensors), n_predators(n_predators)
 {
     unsigned int generator_age(0);
     generator = unique_ptr<Generator>(new Generator(xg, yg, generator_age));
 
     test_square(*this);
+    
 }
 
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)

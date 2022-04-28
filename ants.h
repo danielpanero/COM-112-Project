@@ -32,7 +32,7 @@ public:
      * @param side size of element
      * @param age
      */
-    Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age);
+    Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age, unsigned int color_index);
 
     /**
      * @brief Checks that position in the grid is empty and either throw an error or
@@ -41,6 +41,7 @@ public:
      */
     virtual void add_to_grid() = 0;
     std::string get_as_string() override;
+    virtual void draw(unsigned int &color_index) override;
 
 private:
     unsigned int age;

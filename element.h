@@ -31,7 +31,7 @@ public:
      * @param side size of element
      * @param centered
      */
-    Element(unsigned int x, unsigned int y, unsigned int side, bool centered);
+    Element(unsigned int x, unsigned int y, unsigned int side, bool centered, unsigned int color_index);
 
     Square get_as_square();
 
@@ -43,6 +43,9 @@ public:
     virtual std::string get_as_string() = 0;
 
     virtual void draw(unsigned int &color_index) = 0;
+
+    private:
+    unsigned int color_index;
 };
 
 #endif
