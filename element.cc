@@ -15,9 +15,11 @@
 
 #include "element.h"
 
-Element::Element(unsigned int x, unsigned int y, unsigned int side, bool centered)
+Element::Element(unsigned int x, unsigned int y, unsigned int side, bool centered,
+                 unsigned int color_index)
     : Square{x, y, side, centered}
 {
 }
 
 Square Element::get_as_square() { return {*this}; }
+unsigned int Element::get_color_index() { return color_index; }
