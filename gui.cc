@@ -40,7 +40,7 @@ MainWindow::MainWindow(Simulation *simulation)
       next_anthill_button("Next"), prev_anthill_button("Prev")
 {
     // Layout
-    this->set_title("Main");
+    set_title("Main");
 
     grid.set_margin_top(md_margin);
     grid.set_margin_left(md_margin);
@@ -50,10 +50,10 @@ MainWindow::MainWindow(Simulation *simulation)
     grid.set_column_spacing(lg_margin);
     grid.set_row_spacing(lg_margin);
 
-    this->build_layout_general_box();
-    this->build_layout_food_box();
-    this->build_layout_anthill_box();
-    this->build_layout_graphic();
+    build_layout_general_box();
+    build_layout_food_box();
+    build_layout_anthill_box();
+    build_layout_graphic();
 
     // This frame is invisible and expandable, so the others controlls don't resize
     auto *resizable_frame = Gtk::make_managed<Gtk::Frame>();
@@ -63,8 +63,8 @@ MainWindow::MainWindow(Simulation *simulation)
 
     grid.attach(*resizable_frame, 0, 3);
 
-    this->add(grid);
-    this->show_all_children();
+    add(grid);
+    show_all_children();
 
     // We initialize the surface for DrawingImage
     background_grid_surface = create_background_grid_surface();
@@ -208,7 +208,7 @@ void MainWindow::on_open_button_click()
     int result = dialog.run();
 
     // TODO(@danielpanero) check what do when no files was choosen
-    this->reset_layout();
+    reset_layout();
 
     if (result == Gtk::RESPONSE_OK)
     {
@@ -227,9 +227,9 @@ void MainWindow::on_open_button_click()
             anthill_info_label.set_markup("<small><b>No selection</b></small>");
 
             // We connect the keyshorcuts only when the simulation is ready
-            keyboard_shortcuts_complete = this->signal_key_release_event().connect(
+            keyboard_shortcuts_complete = signal_key_release_event().connect(
                 sigc::mem_fun(*this, &MainWindow::on_key_release_complete));
-            keyboard_shortcuts_reduced = this->signal_key_release_event().connect(
+            keyboard_shortcuts_reduced = signal_key_release_event().connect(
                 sigc::mem_fun(*this, &MainWindow::on_key_release_reduced));
 
             return;
@@ -338,7 +338,7 @@ bool MainWindow::on_key_release_reduced(GdkEventKey *event)
     // TODO(@danielpanero): check if we want only to allow start and stop
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_s)
     {
-        this->on_start_stop();
+        on_start_stop();
         return true;
     }
 
@@ -349,7 +349,7 @@ bool MainWindow::on_key_release_complete(GdkEventKey *event)
 {
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_s)
     {
-        this->on_start_stop();
+        on_start_stop();
         return true;
     }
 
@@ -360,13 +360,13 @@ bool MainWindow::on_key_release_complete(GdkEventKey *event)
 
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_p)
     {
-        this->on_prev();
+        on_prev();
         return true;
     }
 
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_n)
     {
-        this->on_next();
+        on_next();
         return true;
     }
 
