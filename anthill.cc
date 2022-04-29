@@ -33,13 +33,13 @@ Anthill::Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int
       n_collectors(n_collectors), n_defensors(n_defensors), n_predators(n_predators),
       generator(new Generator(xg, yg, 0, color_index))
 {
-    test_square(*this);
+    Squarecell::test_square(*this);
 }
 
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
 {
     auto generator_square = generator->get_as_square();
-    if (!test_if_completely_confined(generator_square, *this))
+    if (!Squarecell::test_if_completely_confined(generator_square, *this))
     {
         throw std::invalid_argument(message::generator_not_within_home(
             generator_square.x, generator_square.y, index));
@@ -48,7 +48,7 @@ void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
     for (auto &defensor : defensors)
     {
         auto defensor_square = defensor->get_as_square();
-        if (!test_if_completely_confined(defensor_square, *this))
+        if (!Squarecell::test_if_completely_confined(defensor_square, *this))
         {
             throw std::invalid_argument(message::defensor_not_within_home(
                 defensor_square.x, defensor_square.y, index));
@@ -101,7 +101,7 @@ string Anthill::get_as_string()
     return tmp;
 }
 
-void Anthill::draw() { draw_only_border(*this, get_color_index()); }
+void Anthill::draw() { Squarecell::draw_only_border(*this, get_color_index()); }
 
 unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 {

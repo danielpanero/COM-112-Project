@@ -71,6 +71,9 @@ MainWindow::MainWindow(Simulation *simulation)
     model_surface = create_model_surface();
 }
 
+// ====================================================================================
+// Layout initialization / disposition
+
 void MainWindow::build_layout_general_box()
 {
     // Layout
@@ -185,6 +188,9 @@ void MainWindow::reset_layout()
     // already called in squarecell from the simulation
     clear_model_surface();
 }
+
+// ====================================================================================
+// Signal handlers
 
 void MainWindow::on_open_button_click()
 {
@@ -394,6 +400,9 @@ bool MainWindow::on_draw_request(const Cairo::RefPtr<Cairo::Context> &cc)
 
     return true;
 }
+
+// ====================================================================================
+// Misc
 
 string format_anthill_info_markup(unsigned int &index, unsigned int &n_collectors,
                                   unsigned int &n_defensors, unsigned int &n_predators,

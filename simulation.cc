@@ -97,7 +97,7 @@ void Simulation::reset()
     foods.clear();
 
     // We reset the squarecell grid and clear the model_surface
-    grid_clear();
+    Squarecell::grid_clear();
 }
 
 unsigned int Simulation::get_n_foods() const { return n_foods; }
@@ -246,7 +246,7 @@ void Simulation::check_overlapping_anthills()
             auto square1 = anthills[i]->get_as_square();
             auto square2 = anthills[j]->get_as_square();
 
-            if (test_if_superposed_two_square(square1, square2))
+            if (Squarecell::test_if_superposed_two_square(square1, square2))
             {
                 throw std::invalid_argument(message::homes_overlap(i, j));
             }
