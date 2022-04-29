@@ -42,7 +42,6 @@ const std::vector<typename Gdk::RGBA>
 // ====================================================================================
 // Surfaces definition
 
-// TODO(@danielpanero) create here or in the function below
 const auto model_surface = Cairo::ImageSurface::create(
     Cairo::FORMAT_ARGB32, g_max *scale_factor, g_max *scale_factor);
 

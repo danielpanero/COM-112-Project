@@ -185,7 +185,10 @@ void Simulation::parse_foods(ifstream &file)
     while (i < n_foods)
     {
         line = get_next_line(file);
+
         foods[i] = Food::parse_line(line);
+        foods[i]->draw();
+
         i++;
     }
 }
@@ -215,6 +218,8 @@ void Simulation::parse_anthills(ifstream &file)
         anthills[i]->set_defensors(defensors);
         anthills[i]->set_predators(predators);
 
+        anthills[i]->draw();
+
         i++;
     }
 }
@@ -230,7 +235,10 @@ vector<std::unique_ptr<T>> Simulation::parse_ants(ifstream &file, unsigned int n
     while (j < n)
     {
         line = get_next_line(file);
+
         ants[j] = T::parse_line(line, index_anthill);
+        ants[j]->draw();
+
         j++;
     }
 
