@@ -18,7 +18,7 @@ using Gdk::Cairo::set_source_rgba;
 // TODO(@danielpanero) check if is better add g_max in constant file
 constexpr double g_max(128);
 constexpr double cell_size(1);
-constexpr double surface_size((g_max + 2) * cell_size);
+constexpr double surface_size(((g_max - 1) + 2) * cell_size);
 
 /* The scale factor controls "image quality / resolution". As we increase it, the
  * quality improves, but rendering will be slower. 1/scale_factor correspondes to 1
@@ -43,7 +43,7 @@ const std::vector<typename Gdk::RGBA>
 // Surfaces definition
 
 const auto model_surface = Cairo::ImageSurface::create(
-    Cairo::FORMAT_ARGB32, g_max *scale_factor, g_max *scale_factor);
+    Cairo::FORMAT_ARGB32, (g_max - 1) * scale_factor, (g_max - 1) * scale_factor);
 
 Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 {
@@ -60,7 +60,7 @@ Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 
     set_source_rgba(cc, background_grid_color);
     // We are letting empty / white the cells next to the border
-    cc->rectangle(cell_size, cell_size, g_max, g_max);
+    cc->rectangle(cell_size, cell_size, (g_max - 1), (g_max - 1));
     cc->fill();
 
     // Grid lines
@@ -105,7 +105,8 @@ create_default_cc(const Cairo::RefPtr<Cairo::ImageSurface> &surface)
      * flips the Y-axis and finally shift the Y-axis by g_max * scale_factor. At the
      * end the origin (0,0) will be in the left-bottom corner
      */
-    Cairo::Matrix ctm{scale_factor, 0, 0, -scale_factor, 0, g_max * scale_factor};
+    Cairo::Matrix ctm{scale_factor,  0, 0,
+                      -scale_factor, 0, (g_max - 1) * scale_factor};
 
     cc->set_matrix(ctm);
     cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);
