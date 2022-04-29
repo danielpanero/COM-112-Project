@@ -61,7 +61,7 @@ public:
               unsigned int color_index);
 
     void add_to_grid() override;
-    void draw(unsigned int &color_index) override;
+    void draw() override;
 
     std::string get_as_string() override;
 };
@@ -81,7 +81,7 @@ public:
               unsigned int color_index);
 
     void add_to_grid() override;
-    void draw(unsigned int &color_index) override;
+    void draw() override;
 
     std::string get_as_string() override;
 
@@ -121,7 +121,7 @@ public:
                                                 unsigned int color_index);
 
     void add_to_grid() override;
-    void draw(unsigned int &color_index) override;
+    void draw() override;
 };
 
 class Predator : public Ant
@@ -137,7 +137,7 @@ public:
              unsigned int color_index);
 
     void add_to_grid() override;
-    void draw(unsigned int &color_index) override;
+    void draw() override;
 
     /**
      * @brief Creates a new pointed instance of Predator from its string representation

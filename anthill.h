@@ -56,7 +56,7 @@ public:
     unsigned int get_number_of_food() const;
 
     std::string get_as_string() override;
-    void draw(unsigned int &color_index) override;
+    void draw() override;
 
     /**
      * @brief Creates a new pointed instance Anthill from its string representation

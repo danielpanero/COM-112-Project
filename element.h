@@ -43,7 +43,7 @@ public:
      */
     virtual std::string get_as_string() = 0;
 
-    virtual void draw(unsigned int &color_index) = 0;
+    virtual void draw() = 0;
     unsigned int get_color_index();
 
 private:

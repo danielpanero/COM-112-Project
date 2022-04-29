@@ -101,7 +101,7 @@ string Anthill::get_as_string()
     return tmp;
 }
 
-void Anthill::draw(unsigned int &color_index) { draw_only_border(*this, color_index); }
+void Anthill::draw() { draw_only_border(*this, get_color_index()); }
 
 unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 {
