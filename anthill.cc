@@ -27,10 +27,11 @@ using std::vector;
 
 Anthill::Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int xg,
                  unsigned int yg, unsigned int n_food, unsigned int n_collectors,
-                 unsigned int n_defensors, unsigned int n_predators)
-    : Element{x, y, side, false}, n_food(n_food), n_collectors(n_collectors),
-      n_defensors(n_defensors), n_predators(n_predators),
-      generator(new Generator(xg, yg, 0))
+                 unsigned int n_defensors, unsigned int n_predators,
+                 unsigned int color_index)
+    : Element{x, y, side, false, color_index}, n_food(n_food),
+      n_collectors(n_collectors), n_defensors(n_defensors), n_predators(n_predators),
+      generator(new Generator(xg, yg, 0, color_index))
 {
     Squarecell::test_square(*this);
 }
@@ -100,12 +101,9 @@ string Anthill::get_as_string()
     return tmp;
 }
 
-void Anthill::draw(unsigned int &color_index)
-{
-    Squarecell::draw_only_border(*this, color_index);
-}
+void Anthill::draw() { Squarecell::draw_only_border(*this, get_color_index()); }
 
-unique_ptr<Anthill> Anthill::parse_line(string &line)
+unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 {
     unsigned int x(0);
     unsigned int y(0);
@@ -131,5 +129,5 @@ unique_ptr<Anthill> Anthill::parse_line(string &line)
     stream >> n_predators;
 
     return unique_ptr<Anthill>(new Anthill(x, y, side, xg, yg, n_food, n_collectors,
-                                           n_defensors, n_predators));
+                                           n_defensors, n_predators, color_index));
 }

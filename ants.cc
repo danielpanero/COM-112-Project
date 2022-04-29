@@ -26,9 +26,9 @@ using std::unique_ptr;
 
 // ====================================================================================
 // Ant
-
-Ant::Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age)
-    : Element{x, y, side, true}, age(age)
+Ant::Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age,
+         unsigned int color_index)
+    : Element{x, y, side, true, color_index}, age(age)
 {
 }
 
@@ -40,9 +40,9 @@ string Ant::get_as_string()
 
 // ====================================================================================
 // Generator
-
-Generator::Generator(unsigned int x, unsigned int y, unsigned int age)
-    : Ant{x, y, sizeG, age}
+Generator::Generator(unsigned int x, unsigned int y, unsigned int age,
+                     unsigned int color_index)
+    : Ant{x, y, sizeG, age, color_index}
 {
     Squarecell::test_square(*this);
     add_to_grid();
@@ -67,17 +67,14 @@ string Generator::get_as_string()
     return std::to_string(x) + " " + std::to_string(y);
 }
 
-void Generator::draw(unsigned int &color_index)
-{
-    Squarecell::draw_filled(*this, color_index);
-}
+void Generator::draw() { Squarecell::draw_filled(*this, get_color_index()); }
 
 // ====================================================================================
 // Collector
 
 Collector::Collector(unsigned int x, unsigned int y, unsigned int age,
-                     State_collector state)
-    : Ant{x, y, sizeC, age}, state(state)
+                     State_collector state, unsigned int color_index)
+    : Ant{x, y, sizeC, age, color_index}, state(state)
 {
     Squarecell::test_square(*this);
     add_to_grid();
@@ -97,17 +94,14 @@ void Collector::add_to_grid()
     Squarecell::add_square(*this);
 }
 
-void Collector::draw(unsigned int &color_index)
-{
-    Squarecell::draw_diagonal_pattern(*this, color_index);
-}
+void Collector::draw() { Squarecell::draw_diagonal_pattern(*this, get_color_index()); }
 
 string Collector::get_as_string()
 {
     return Ant::get_as_string() + " " + std::to_string(state);
 }
 
-unique_ptr<Collector> Collector::parse_line(string &line)
+unique_ptr<Collector> Collector::parse_line(string &line, unsigned int color_index)
 {
     unsigned int x(0);
     unsigned int y(0);
@@ -121,14 +115,15 @@ unique_ptr<Collector> Collector::parse_line(string &line)
     stream >> tmp;
 
     auto state = static_cast<State_collector>(tmp);
-    return unique_ptr<Collector>(new Collector(x, y, age, state));
+    return unique_ptr<Collector>(new Collector(x, y, age, state, color_index));
 }
 
 // ====================================================================================
 // Defensor
 
-Defensor::Defensor(unsigned int x, unsigned int y, unsigned int age)
-    : Ant{x, y, sizeD, age}
+Defensor::Defensor(unsigned int x, unsigned int y, unsigned int age,
+                   unsigned int color_index)
+    : Ant{x, y, sizeD, age, color_index}
 {
     Squarecell::test_square(*this);
     add_to_grid();
@@ -148,12 +143,9 @@ void Defensor::add_to_grid()
     Squarecell::add_square(*this);
 }
 
-void Defensor::draw(unsigned int &color_index)
-{
-    Squarecell::draw_plus_pattern(*this, color_index);
-}
+void Defensor::draw() { Squarecell::draw_plus_pattern(*this, get_color_index()); }
 
-unique_ptr<Defensor> Defensor::parse_line(string &line)
+unique_ptr<Defensor> Defensor::parse_line(string &line, unsigned int color_index)
 {
     unsigned int x(0);
     unsigned int y(0);
@@ -164,14 +156,15 @@ unique_ptr<Defensor> Defensor::parse_line(string &line)
     stream >> y;
     stream >> age;
 
-    return unique_ptr<Defensor>(new Defensor(x, y, age));
+    return unique_ptr<Defensor>(new Defensor(x, y, age, color_index));
 }
 
 // ====================================================================================
 // Predator
 
-Predator::Predator(unsigned int x, unsigned int y, unsigned int age)
-    : Ant{x, y, sizeP, age}
+Predator::Predator(unsigned int x, unsigned int y, unsigned int age,
+                   unsigned int color_index)
+    : Ant{x, y, sizeP, age, color_index}
 {
     Squarecell::test_square(*this);
     add_to_grid();
@@ -187,12 +180,9 @@ void Predator::add_to_grid()
     Squarecell::add_square(*this);
 }
 
-void Predator::draw(unsigned int &color_index)
-{
-    Squarecell::draw_filled(*this, color_index);
-}
+void Predator::draw() { Squarecell::draw_filled(*this, get_color_index()); }
 
-unique_ptr<Predator> Predator::parse_line(string &line)
+unique_ptr<Predator> Predator::parse_line(string &line, unsigned int color_index)
 {
     unsigned int x(0);
     unsigned int y(0);
@@ -203,5 +193,5 @@ unique_ptr<Predator> Predator::parse_line(string &line)
     stream >> y;
     stream >> age;
 
-    return unique_ptr<Predator>(new Predator(x, y, age));
+    return unique_ptr<Predator>(new Predator(x, y, age, color_index));
 }

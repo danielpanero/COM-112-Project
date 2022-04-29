@@ -106,7 +106,8 @@ private:
      * @return vector<unique_ptr<T>>
      */
     template <typename T>
-    std::vector<std::unique_ptr<T>> parse_ants(std::ifstream &file, unsigned int n);
+    std::vector<std::unique_ptr<T>> parse_ants(std::ifstream &file, unsigned int n,
+                                               unsigned int index_anthill);
 
     void check_overlapping_anthills();
     void check_generator_defensors_inside_anthills();

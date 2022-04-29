@@ -32,7 +32,8 @@ public:
      * @param side size of element
      * @param age
      */
-    Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age);
+    Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age,
+        unsigned int color_index);
 
     /**
      * @brief Checks that position in the grid is empty and either throw an error or
@@ -56,10 +57,11 @@ public:
      * @param y position of generator in the y-axis
      * @param age
      */
-    Generator(unsigned int x, unsigned int y, unsigned int age);
+    Generator(unsigned int x, unsigned int y, unsigned int age,
+              unsigned int color_index);
 
     void add_to_grid() override;
-    void draw(unsigned int &color_index) override;
+    void draw() override;
 
     std::string get_as_string() override;
 };
@@ -75,10 +77,11 @@ public:
      * @param age
      * @param state state of collector: EMPTY / LOADED
      */
-    Collector(unsigned int x, unsigned int y, unsigned int age, State_collector state);
+    Collector(unsigned int x, unsigned int y, unsigned int age, State_collector state,
+              unsigned int color_index);
 
     void add_to_grid() override;
-    void draw(unsigned int &color_index) override;
+    void draw() override;
 
     std::string get_as_string() override;
 
@@ -89,7 +92,8 @@ public:
      * @param line
      * @return std::unique_ptr<Collector>
      */
-    static std::unique_ptr<Collector> parse_line(std::string &line);
+    static std::unique_ptr<Collector> parse_line(std::string &line,
+                                                 unsigned int color_index);
 
 private:
     State_collector state;
@@ -104,7 +108,8 @@ public:
      * @param x position of defensor in the x-axis
      * @param y position of defensor in the y-axis
      */
-    Defensor(unsigned int x, unsigned int y, unsigned int age);
+    Defensor(unsigned int x, unsigned int y, unsigned int age,
+             unsigned int color_index);
 
     /**
      * @brief Creates a new pointed instance of Defensor from its string representation
@@ -112,10 +117,11 @@ public:
      * @param line
      * @return std::unique_ptr<Defensor>
      */
-    static std::unique_ptr<Defensor> parse_line(std::string &line);
+    static std::unique_ptr<Defensor> parse_line(std::string &line,
+                                                unsigned int color_index);
 
     void add_to_grid() override;
-    void draw(unsigned int &color_index) override;
+    void draw() override;
 };
 
 class Predator : public Ant
@@ -127,10 +133,11 @@ public:
      * @param x position of predator in the x-axis
      * @param y position of predator in the y-axis
      */
-    Predator(unsigned int x, unsigned int y, unsigned int age);
+    Predator(unsigned int x, unsigned int y, unsigned int age,
+             unsigned int color_index);
 
     void add_to_grid() override;
-    void draw(unsigned int &color_index) override;
+    void draw() override;
 
     /**
      * @brief Creates a new pointed instance of Predator from its string representation
@@ -138,7 +145,8 @@ public:
      * @param line
      * @return std::unique_ptr<Predator>
      */
-    static std::unique_ptr<Predator> parse_line(std::string &line);
+    static std::unique_ptr<Predator> parse_line(std::string &line,
+                                                unsigned int color_index);
 };
 
 #endif
