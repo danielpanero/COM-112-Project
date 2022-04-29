@@ -118,7 +118,6 @@ unique_ptr<Collector> Collector::parse_line(string &line, unsigned int color_ind
     return unique_ptr<Collector>(new Collector(x, y, age, state, color_index));
 }
 
-
 // ====================================================================================
 // Defensor
 
