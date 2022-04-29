@@ -22,8 +22,7 @@ using std::istringstream;
 using std::string;
 using std::unique_ptr;
 
-Food::Food(unsigned int x, unsigned int y, unsigned int color_index)
-    : Element{x, y, 1, true, color_index}
+Food::Food(unsigned int x, unsigned int y) : Element{x, y, 1, true, 0}
 {
     test_square(*this);
     add_to_grid();
@@ -43,7 +42,7 @@ string Food::get_as_string() { return std::to_string(x) + " " + std::to_string(y
 
 void Food::draw() { draw_as_diamond(*this); }
 
-unique_ptr<Food> Food::parse_line(string &line, unsigned int color_index)
+unique_ptr<Food> Food::parse_line(string &line)
 {
     unsigned int x(0);
     unsigned int y(0);
@@ -52,5 +51,5 @@ unique_ptr<Food> Food::parse_line(string &line, unsigned int color_index)
     stream >> x;
     stream >> y;
 
-    return unique_ptr<Food>(new Food(x, y, color_index));
+    return unique_ptr<Food>(new Food(x, y));
 }

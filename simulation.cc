@@ -202,14 +202,14 @@ void Simulation::parse_anthills(ifstream &file)
     while (i < n_anthills)
     {
         line = get_next_line(file);
-        anthills[i] = Anthill::parse_line(line);
+        anthills[i] = Anthill::parse_line(line, i);
 
         auto collectors =
-            parse_ants<Collector>(file, anthills[i]->get_number_of_collectors());
+            parse_ants<Collector>(file, anthills[i]->get_number_of_collectors(), i);
         auto defensors =
-            parse_ants<Defensor>(file, anthills[i]->get_number_of_defensors());
+            parse_ants<Defensor>(file, anthills[i]->get_number_of_defensors(), i);
         auto predators =
-            parse_ants<Predator>(file, anthills[i]->get_number_of_predators());
+            parse_ants<Predator>(file, anthills[i]->get_number_of_predators(), i);
 
         anthills[i]->set_collectors(collectors);
         anthills[i]->set_defensors(defensors);
@@ -220,7 +220,8 @@ void Simulation::parse_anthills(ifstream &file)
 }
 
 template <typename T>
-vector<std::unique_ptr<T>> Simulation::parse_ants(ifstream &file, unsigned int n)
+vector<std::unique_ptr<T>> Simulation::parse_ants(ifstream &file, unsigned int n,
+                                                  unsigned int index_anthill)
 {
     string line;
     vector<std::unique_ptr<T>> ants(n);
@@ -229,7 +230,7 @@ vector<std::unique_ptr<T>> Simulation::parse_ants(ifstream &file, unsigned int n
     while (j < n)
     {
         line = get_next_line(file);
-        ants[j] = T::parse_line(line);
+        ants[j] = T::parse_line(line, index_anthill);
         j++;
     }
 
