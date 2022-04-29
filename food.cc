@@ -35,7 +35,7 @@ void Food::add_to_grid()
         throw std::invalid_argument(message::food_overlap(x, y));
     }
 
-    add_square(*this);
+    Squarecell::add_square(*this);
 }
 
 string Food::get_as_string() { return std::to_string(x) + " " + std::to_string(y); }
