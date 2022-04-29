@@ -12,6 +12,9 @@
 using Gdk::RGBA;
 using Gdk::Cairo::set_source_rgba;
 
+// ====================================================================================
+// Constants
+
 // TODO(@danielpanero) check if is better add g_max in constant file
 constexpr double g_max(128);
 constexpr double cell_size(1);
@@ -35,6 +38,9 @@ const std::vector<typename Gdk::RGBA> dark_colors({RGBA("red"), RGBA("green"),
 const std::vector<typename Gdk::RGBA>
     light_colors({RGBA("tomato"), RGBA("sea green"), RGBA("SkyBlue"),
                   RGBA("LightYellow"), RGBA("plum"), RGBA("LightCyan")});
+
+// ====================================================================================
+// Surfaces definition
 
 // TODO(@danielpanero) create here or in the function below
 const auto model_surface = Cairo::ImageSurface::create(
@@ -79,6 +85,9 @@ Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface()
 }
 
 Cairo::RefPtr<Cairo::ImageSurface> create_model_surface() { return model_surface; }
+
+// ====================================================================================
+// Misc section
 
 /**
  *
@@ -133,6 +142,9 @@ RGBA get_color(unsigned int &color_index, bool light = false)
     }
     return dark_colors[color_index % dark_colors.size()];
 }
+
+// ====================================================================================
+// Draw functions
 
 void Graphic::clear_model_surface()
 {
