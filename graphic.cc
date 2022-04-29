@@ -43,12 +43,12 @@ const RGBA background_color("white");
 const RGBA background_grid_color("black");
 const RGBA diamond_color("white");
 
-const std::vector<typename Gdk::RGBA> dark_colors({RGBA("red"), RGBA("green"),
-                                                   RGBA("blue"), RGBA("yellow"),
-                                                   RGBA("magenta"), RGBA("cyan")});
+const std::vector<typename Gdk::RGBA> dark_colors({RGBA("Red"), RGBA("Green"),
+                                                   RGBA("Blue"), RGBA("Yellow"),
+                                                   RGBA("Magenta"), RGBA("Cyan")});
 const std::vector<typename Gdk::RGBA>
-    light_colors({RGBA("tomato"), RGBA("sea green"), RGBA("SkyBlue"),
-                  RGBA("LightYellow"), RGBA("plum"), RGBA("LightCyan")});
+    light_colors({RGBA("Tomato"), RGBA("SeaGreen"), RGBA("SkyBlue"),
+                  RGBA("LightYellow"), RGBA("Plum"), RGBA("LightCyan")});
 
 // ====================================================================================
 // Surfaces definition
