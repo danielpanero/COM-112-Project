@@ -38,6 +38,9 @@ public:
             unsigned int yg, unsigned int n_food, unsigned int n_collectors,
             unsigned int n_defensors, unsigned int n_predators,
             unsigned int color_index);
+
+    ~Anthill() override{};
+
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of
      * the anthill

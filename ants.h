@@ -35,6 +35,7 @@ public:
     Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age,
         unsigned int color_index);
 
+    ~Ant() override{};
     /**
      * @brief Checks that position in the grid is empty and either throw an error or
      * fills the grid

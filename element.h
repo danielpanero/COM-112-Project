@@ -34,6 +34,8 @@ public:
     Element(unsigned int x, unsigned int y, unsigned int side, bool centered,
             unsigned int color_index);
 
+    virtual ~Element() = 0;
+
     Squarecell::Square get_as_square();
 
     /**

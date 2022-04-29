@@ -27,6 +27,8 @@ public:
      */
     Food(unsigned int x, unsigned int y);
 
+    ~Food() override{};
+
     void add_to_grid();
     std::string get_as_string() override;
 
