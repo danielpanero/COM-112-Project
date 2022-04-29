@@ -16,8 +16,8 @@
 #include "element.h"
 
 Element::Element(unsigned int x, unsigned int y, unsigned int side, bool centered)
-    : Square{x, y, side, centered}
+    : Squarecell::Square{x, y, side, centered}
 {
 }
 
-Square Element::get_as_square() { return {*this}; }
+Squarecell::Square Element::get_as_square() { return {*this}; }

@@ -29,14 +29,14 @@ static vector<vector<bool>> grid(g_max, vector<bool>(g_max)); // NOLINT
 // ====================================================================================
 // Grid / Utils
 
-void grid_clear()
+void Squarecell::grid_clear()
 {
     grid = vector<vector<bool>>(g_max, vector<bool>(g_max));
 
     Graphic::clear_model_surface();
 }
 
-unsigned int get_coordinate_x(Square &square)
+unsigned int Squarecell::get_coordinate_x(Square &square)
 {
     if (square.centered)
     {
@@ -45,7 +45,7 @@ unsigned int get_coordinate_x(Square &square)
     return square.x;
 }
 
-unsigned int get_coordinate_y(Square &square)
+unsigned int Squarecell::get_coordinate_y(Square &square)
 {
     if (square.centered)
     {
@@ -55,7 +55,7 @@ unsigned int get_coordinate_y(Square &square)
     return square.y;
 }
 
-void test_square(Square &square)
+void Squarecell::test_square(Square &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -83,7 +83,7 @@ void test_square(Square &square)
     }
 }
 
-void add_square(Square &square)
+void Squarecell::add_square(Square &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -98,7 +98,7 @@ void add_square(Square &square)
     }
 }
 
-void remove_square(Square &square)
+void Squarecell::remove_square(Square &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -116,8 +116,8 @@ void remove_square(Square &square)
 // ====================================================================================
 // Tests
 
-bool test_if_superposed_grid(Square &square, unsigned int &superposed_x,
-                             unsigned int &superposed_y)
+bool Squarecell::test_if_superposed_grid(Square &square, unsigned int &superposed_x,
+                                         unsigned int &superposed_y)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -142,7 +142,7 @@ bool test_if_superposed_grid(Square &square, unsigned int &superposed_x,
     return false;
 }
 
-bool test_if_superposed_grid(Square &square)
+bool Squarecell::test_if_superposed_grid(Square &square)
 {
     unsigned int superposed_x(0);
     unsigned int superposed_y(0);
@@ -150,7 +150,7 @@ bool test_if_superposed_grid(Square &square)
     return test_if_superposed_grid(square, superposed_x, superposed_y);
 }
 
-bool test_if_superposed_two_square(Square &square1, Square &square2)
+bool Squarecell::test_if_superposed_two_square(Square &square1, Square &square2)
 {
     unsigned int x1 = get_coordinate_x(square1);
     unsigned int y1 = get_coordinate_y(square1);
@@ -171,7 +171,7 @@ bool test_if_superposed_two_square(Square &square1, Square &square2)
     return true;
 }
 
-bool test_if_completely_confined(Square &square1, Square &square2)
+bool Squarecell::test_if_completely_confined(Square &square1, Square &square2)
 {
     unsigned int x1 = get_coordinate_x(square1);
     unsigned int y1 = get_coordinate_y(square1);
@@ -200,7 +200,7 @@ bool test_if_completely_confined(Square &square1, Square &square2)
 // ====================================================================================
 // Draw
 
-void draw_as_diamond(Square &square)
+void Squarecell::draw_as_diamond(Square &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -208,7 +208,7 @@ void draw_as_diamond(Square &square)
     Graphic::draw_diamond(x, y);
 }
 
-void draw_only_border(Square &square, unsigned int color_index)
+void Squarecell::draw_only_border(Square &square, unsigned int color_index)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -216,7 +216,7 @@ void draw_only_border(Square &square, unsigned int color_index)
     Graphic::draw_thick_border_square(x, y, square.side, color_index);
 }
 
-void draw_filled(Square &square, unsigned int color_index)
+void Squarecell::draw_filled(Square &square, unsigned int color_index)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -224,7 +224,7 @@ void draw_filled(Square &square, unsigned int color_index)
     Graphic::draw_filled_square(x, y, square.side, color_index);
 }
 
-void draw_diagonal_pattern(Square &square, unsigned int color_index)
+void Squarecell::draw_diagonal_pattern(Square &square, unsigned int color_index)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -232,7 +232,7 @@ void draw_diagonal_pattern(Square &square, unsigned int color_index)
     Graphic::draw_diagonal_pattern_square(x, y, square.side, color_index);
 }
 
-void draw_plus_pattern(Square &square, unsigned int color_index)
+void Squarecell::draw_plus_pattern(Square &square, unsigned int color_index)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
