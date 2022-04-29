@@ -20,6 +20,7 @@ Element::Element(unsigned int x, unsigned int y, unsigned int side, bool centere
     : Squarecell::Square{x, y, side, centered}, color_index(color_index)
 {
 }
+
 Element::~Element() {}
 
 Squarecell::Square Element::get_as_square() { return {*this}; }

@@ -30,7 +30,7 @@ public:
      * @param simulation pointer to the current simulation
      */
     explicit MainWindow(Simulation *simulation);
-    ~MainWindow() = default;
+    ~MainWindow() override = default;
 
 private:
     Simulation *simulation;

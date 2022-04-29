@@ -14,8 +14,8 @@
 
 /**
  * @namespace Graphic
- * @brief Provides all the methods needed to draw on the model_surface of size (g_max,
- * g_max)
+ * @brief Provides all the methods needed to draw on the model_surface of size (g_max -
+ * 1, g_max - 1)
  */
 namespace Graphic
 {
@@ -57,8 +57,8 @@ namespace Graphic
                             unsigned int color_index);
 
     /**
-     * @brief Draws a square with size @p side at (@p x, @p y) filled with |X O||X
-     * O|... pattern where X has color @p color_index and O a lighter version of @p
+     * @brief Draws a square with size @p side at (@p x, @p y) filled with |X O||O
+     * X|... pattern where X has color @p color_index and O a lighter version of @p
      * color_index
      *
      * @param x bottom-left x coordinate

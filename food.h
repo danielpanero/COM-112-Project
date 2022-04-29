@@ -26,12 +26,11 @@ public:
      * @param y position of food in the y-axis
      */
     Food(unsigned int x, unsigned int y);
-
-    ~Food() override{};
+    virtual ~Food() = default;
 
     void add_to_grid();
-    std::string get_as_string() override;
 
+    std::string get_as_string() override;
     void draw() override;
 
     static std::unique_ptr<Food> parse_line(std::string &line);

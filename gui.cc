@@ -196,7 +196,6 @@ void MainWindow::on_open_button_click()
 {
     Gtk::FileChooserDialog dialog("Choose a file", Gtk::FILE_CHOOSER_ACTION_OPEN);
     dialog.set_transient_for(*this);
-
     dialog.add_button("_Cancel", Gtk::RESPONSE_CANCEL);
     dialog.add_button("_Open", Gtk::RESPONSE_OK);
 

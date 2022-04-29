@@ -25,21 +25,23 @@ public:
      * @brief Constructs a new Anthill instance
      *
      * @param x position of anthill in the x-axis
-     * @param y  position of anthill in the y-axis
+     * @param y position of anthill in the y-axis
      * @param side side of anthill
-     * @param xg  position of generator in the x-axis
-     * @param yg  position of generator in the y-axis
-     * @param n_food total number of food
+     * @param xg position of generator in the x-axis
+     * @param yg position of generator in the y-axis
+     * @param n_food total number of foods
      * @param n_collectors number of collectors
      * @param n_defensors number of defensors
      * @param n_predators number of predators
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan) same as
+     * graphic.h
      */
     Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int xg,
             unsigned int yg, unsigned int n_food, unsigned int n_collectors,
             unsigned int n_defensors, unsigned int n_predators,
             unsigned int color_index);
 
-    ~Anthill() override{};
+    virtual ~Anthill() override = default;
 
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of
@@ -65,6 +67,8 @@ public:
      * @brief Creates a new pointed instance Anthill from its string representation
      *
      * @param line
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan) same as
+     * graphic.h
      * @return std::unique_ptr<Anthill>
      */
     static std::unique_ptr<Anthill> parse_line(std::string &line,

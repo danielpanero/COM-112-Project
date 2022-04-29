@@ -37,6 +37,7 @@ bool Simulation::read_file(string &path)
     {
         if (file.fail())
         {
+            // TODO(@danielpanero): check if we want to exit
             exit(EXIT_FAILURE);
         }
 
@@ -123,14 +124,7 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
                                     unsigned int &n_predators, unsigned int &n_food,
                                     bool order)
 {
-    if (order)
-    {
-        index_anthill++;
-    }
-    else
-    {
-        index_anthill--;
-    }
+    index_anthill = order ? index_anthill++ : index_anthill--;
 
     /** This expression prevents the index from exiting the boundaries [0,
      * anthills.size() - 1], e.g: for a vector of size 3:
@@ -147,14 +141,7 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
     int tmp = index_anthill;
     while (anthills.at(tmp) == nullptr)
     {
-        if (order)
-        {
-            tmp++;
-        }
-        else
-        {
-            tmp--;
-        }
+        tmp = order ? tmp++ : tmp--;
         tmp = (tmp + anthills.size()) % anthills.size();
 
         // After one cycle, we exit as there no anthills left

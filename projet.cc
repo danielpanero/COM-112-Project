@@ -27,6 +27,7 @@ int main(int argc, char *argv[])
  */
 #ifndef HEADLESS
 
+    // TODO(@danielpanero): check if we need to parse the arguments in any case
     auto app = Gtk::Application::create(argc, argv, "org.com112.project");
 
     Simulation simulation;

@@ -31,11 +31,13 @@ public:
      * @param y position of generator in the y-axis
      * @param side size of element
      * @param age
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan) same as
+     * graphic.h
      */
     Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age,
         unsigned int color_index);
+    virtual ~Ant() override = default;
 
-    ~Ant() override{};
     /**
      * @brief Checks that position in the grid is empty and either throw an error or
      * fills the grid
@@ -57,6 +59,8 @@ public:
      * @param x position of generator in the x-axis
      * @param y position of generator in the y-axis
      * @param age
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan) same as
+     * graphic.h
      */
     Generator(unsigned int x, unsigned int y, unsigned int age,
               unsigned int color_index);
@@ -77,6 +81,8 @@ public:
      * @param y position of collector in the y-axis
      * @param age
      * @param state state of collector: EMPTY / LOADED
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan) same as
+     * graphic.h
      */
     Collector(unsigned int x, unsigned int y, unsigned int age, State_collector state,
               unsigned int color_index);
@@ -91,6 +97,8 @@ public:
      * representation
      *
      * @param line
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan) same as
+     * graphic.h
      * @return std::unique_ptr<Collector>
      */
     static std::unique_ptr<Collector> parse_line(std::string &line,
@@ -108,6 +116,9 @@ public:
      *
      * @param x position of defensor in the x-axis
      * @param y position of defensor in the y-axis
+     * @param age
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan) same as
+     * graphic.h
      */
     Defensor(unsigned int x, unsigned int y, unsigned int age,
              unsigned int color_index);
@@ -116,6 +127,8 @@ public:
      * @brief Creates a new pointed instance of Defensor from its string representation
      *
      * @param line
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan) same as
+     * graphic.h
      * @return std::unique_ptr<Defensor>
      */
     static std::unique_ptr<Defensor> parse_line(std::string &line,
@@ -133,6 +146,9 @@ public:
      *
      * @param x position of predator in the x-axis
      * @param y position of predator in the y-axis
+     * @param age
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan) same as
+     * graphic.h
      */
     Predator(unsigned int x, unsigned int y, unsigned int age,
              unsigned int color_index);
@@ -144,6 +160,7 @@ public:
      * @brief Creates a new pointed instance of Predator from its string representation
      *
      * @param line
+     * @param color_index
      * @return std::unique_ptr<Predator>
      */
     static std::unique_ptr<Predator> parse_line(std::string &line,
