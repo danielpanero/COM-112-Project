@@ -38,7 +38,7 @@ string Ant::get_as_string()
 Generator::Generator(unsigned int x, unsigned int y, unsigned int age)
     : Ant{x, y, sizeG, age}
 {
-    test_square(*this);
+    Squarecell::test_square(*this);
     add_to_grid();
 }
 
@@ -47,13 +47,13 @@ void Generator::add_to_grid()
     unsigned int superposed_x(0);
     unsigned int superposed_y(0);
 
-    if (test_if_superposed_grid(*this, superposed_x, superposed_y))
+    if (Squarecell::test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
         throw std::invalid_argument(
             message::generator_overlap(x, y, superposed_x, superposed_y));
     }
 
-    add_square(*this);
+    Squarecell::add_square(*this);
 }
 
 string Generator::get_as_string()
@@ -61,13 +61,16 @@ string Generator::get_as_string()
     return std::to_string(x) + " " + std::to_string(y);
 }
 
-void Generator::draw(unsigned int &color_index) { draw_filled(*this, color_index); }
+void Generator::draw(unsigned int &color_index)
+{
+    Squarecell::draw_filled(*this, color_index);
+}
 
 Collector::Collector(unsigned int x, unsigned int y, unsigned int age,
                      State_collector state)
     : Ant{x, y, sizeC, age}, state(state)
 {
-    test_square(*this);
+    Squarecell::test_square(*this);
     add_to_grid();
 }
 
@@ -76,18 +79,18 @@ void Collector::add_to_grid()
     unsigned int superposed_x(0);
     unsigned int superposed_y(0);
 
-    if (test_if_superposed_grid(*this, superposed_x, superposed_y))
+    if (Squarecell::test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
         throw std::invalid_argument(
             message::collector_overlap(x, y, superposed_x, superposed_y));
     }
 
-    add_square(*this);
+    Squarecell::add_square(*this);
 }
 
 void Collector::draw(unsigned int &color_index)
 {
-    draw_diagonal_pattern(*this, color_index);
+    Squarecell::draw_diagonal_pattern(*this, color_index);
 }
 
 string Collector::get_as_string()
@@ -115,7 +118,7 @@ unique_ptr<Collector> Collector::parse_line(string &line)
 Defensor::Defensor(unsigned int x, unsigned int y, unsigned int age)
     : Ant{x, y, sizeD, age}
 {
-    test_square(*this);
+    Squarecell::test_square(*this);
     add_to_grid();
 }
 
@@ -124,18 +127,18 @@ void Defensor::add_to_grid()
     unsigned int superposed_x(0);
     unsigned int superposed_y(0);
 
-    if (test_if_superposed_grid(*this, superposed_x, superposed_y))
+    if (Squarecell::test_if_superposed_grid(*this, superposed_x, superposed_y))
     {
         throw std::invalid_argument(
             message::defensor_overlap(x, y, superposed_x, superposed_y));
     }
 
-    add_square(*this);
+    Squarecell::add_square(*this);
 }
 
 void Defensor::draw(unsigned int &color_index)
 {
-    draw_plus_pattern(*this, color_index);
+    Squarecell::draw_plus_pattern(*this, color_index);
 }
 
 unique_ptr<Defensor> Defensor::parse_line(string &line)
@@ -155,21 +158,24 @@ unique_ptr<Defensor> Defensor::parse_line(string &line)
 Predator::Predator(unsigned int x, unsigned int y, unsigned int age)
     : Ant{x, y, sizeP, age}
 {
-    test_square(*this);
+    Squarecell::test_square(*this);
     add_to_grid();
 }
 
 void Predator::add_to_grid()
 {
-    if (test_if_superposed_grid(*this))
+    if (Squarecell::test_if_superposed_grid(*this))
     {
         throw std::invalid_argument(message::predator_overlap(x, y));
     }
 
-    add_square(*this);
+    Squarecell::add_square(*this);
 }
 
-void Predator::draw(unsigned int &color_index) { draw_filled(*this, color_index); }
+void Predator::draw(unsigned int &color_index)
+{
+    Squarecell::draw_filled(*this, color_index);
+}
 
 unique_ptr<Predator> Predator::parse_line(string &line)
 {
