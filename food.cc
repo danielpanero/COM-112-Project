@@ -1,6 +1,6 @@
 /**
  * @file food.cc
- * @author Daniel Panero [+46/-6], Layane Wazen [+10/-0], Andrea Diez [+30/-25]
+ * @author Daniel Panero [+46/-6], Layane Wazen [+10/-0], Andrea Diez [+77/-5]
  * @version 0.1
  * @date 2022-04-01
  *

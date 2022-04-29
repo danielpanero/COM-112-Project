@@ -1,6 +1,6 @@
 /**
  * @file graphic.h
- * @author Daniel Panero, Layane Wazen, Andrea Diez
+ * @author Daniel Panero [+127/-27], Andrea Diez [+9/-9]
  * @brief Public interface for drawing on model_surface
  * @version 0.1
  * @date 2022-04-20

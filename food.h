@@ -1,6 +1,6 @@
 /**
  * @file food.h
- * @author Daniel Panero [+17/-1], Layane Wazen [+16/-0], Andrea Diez [+8/-6]
+ * @author Daniel Panero [+17/-1], Layane Wazen [+16/-0], Andrea Diez [+47/-35]
  * @version 0.1
  * @date 2022-04-01
  *

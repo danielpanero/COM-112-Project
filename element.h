@@ -1,6 +1,6 @@
 /**
  * @file element.h
- * @author Daniel Panero, Layane Wazen, Andrea Diez
+ * @author Daniel Panero [¨+0/-0], Andrea Diez [+66/-11]
  * @version 0.1
  * @date 2022-04-23
  *

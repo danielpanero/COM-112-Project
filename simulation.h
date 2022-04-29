@@ -1,6 +1,6 @@
 /**
  * @file simulation.h
- * @author Daniel Panero [+39/-15], Layane Wazen [+11/-1], Andrea Diez [+0/-0]
+ * @author Daniel Panero [+155/-60], Layane Wazen [+11/-1], Andrea Diez [+0/-0]
  * @version 0.1
  * @date 2022-04-01
  *

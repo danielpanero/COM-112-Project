@@ -1,6 +1,6 @@
 /**
  * @file gui.h
- * @author Daniel Panero, Layane Wazen, Andrea Diez
+ * @author Daniel Panero [+145/-29], Andrea Diez [+0/-0]
  * @version 0.1
  * @date 2022-04-20
  *

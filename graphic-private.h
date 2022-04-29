@@ -3,7 +3,7 @@
  * @brief Private interface only for retrieving the background_grid_surface's,
  * model_surface's pointers and the relative transformation matrices
  *
- * @author Daniel Panero, Layane Wazen, Andrea Diez
+ * @author Daniel Panero [+66/-4], Andrea Diez [+0/-0]
  * @version 0.1
  * @date 2022-04-20
  *
