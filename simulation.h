@@ -32,7 +32,7 @@ public:
     void save_file(std::string &path);
 
     /**
-     * @brief Resets and disallocates every aspect / object of the simulation: foods,
+     * @brief Resets and deallocates every aspect / object of the simulation: foods,
      * anthills, collectors... Furthermore, it resets also the grid of the module
      * Squarecell and clears the model_surface of Graphic
      *

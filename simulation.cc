@@ -93,7 +93,7 @@ void Simulation::reset()
     n_anthills = 0;
     index_anthill = 0;
 
-    // We safely disallocate anthills and foods as they are unique_ptr
+    // We safely deallocate anthills and foods as they are unique_ptr
     anthills.clear();
     foods.clear();
 
