@@ -32,6 +32,14 @@ public:
     explicit MainWindow(Simulation *simulation);
     ~MainWindow() override = default;
 
+    /**
+     * @brief This function enables all the buttons, keyshortcuts... it is
+     * needed: 1. after reading successfully a file, 2. launching the GUI with an
+     * attached non-empty simulation
+     *
+     */
+    void enable_layout();
+
 private:
     Simulation *simulation;
 

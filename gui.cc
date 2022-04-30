@@ -88,6 +88,25 @@ MainWindow::MainWindow(Simulation *simulation)
 // ====================================================================================
 // Layout initialization / disposition
 
+void MainWindow::enable_layout()
+{
+    save_button.set_sensitive(true);
+    start_stop_button.set_sensitive(true);
+    step_button.set_sensitive(true);
+
+    food_frame.set_sensitive(true);
+    anthill_frame.set_sensitive(true);
+
+    food_count_label.set_markup("<b>" + std::to_string(simulation->get_n_foods()) +
+                                "</b>");
+    anthill_info_label.set_markup("<small><b>No selection</b></small>");
+
+    keyboard_shortcuts_complete = signal_key_release_event().connect(
+        sigc::mem_fun(*this, &MainWindow::on_key_release_complete));
+    keyboard_shortcuts_reduced = signal_key_release_event().connect(
+        sigc::mem_fun(*this, &MainWindow::on_key_release_reduced));
+}
+
 void MainWindow::build_layout_general_box()
 {
     // Layout
@@ -228,22 +247,7 @@ void MainWindow::on_open_button_click()
         string filename = dialog.get_filename();
         if (simulation->read_file(filename))
         {
-            save_button.set_sensitive(true);
-            start_stop_button.set_sensitive(true);
-            step_button.set_sensitive(true);
-
-            food_frame.set_sensitive(true);
-            anthill_frame.set_sensitive(true);
-
-            food_count_label.set_markup(
-                "<b>" + std::to_string(simulation->get_n_foods()) + "</b>");
-            anthill_info_label.set_markup("<small><b>No selection</b></small>");
-
-            // We connect the keyshorcuts only when the simulation is ready
-            keyboard_shortcuts_complete = signal_key_release_event().connect(
-                sigc::mem_fun(*this, &MainWindow::on_key_release_complete));
-            keyboard_shortcuts_reduced = signal_key_release_event().connect(
-                sigc::mem_fun(*this, &MainWindow::on_key_release_reduced));
+            enable_layout();
 
             return;
         }
