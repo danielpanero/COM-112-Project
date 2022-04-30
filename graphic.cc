@@ -34,9 +34,6 @@ constexpr double scale_factor(5);
 constexpr double grid_linewidth(1 / scale_factor);
 constexpr double thick_border_linewidth(2 * 1 / scale_factor);
 
-const RGBA grid_lines_color("grey");
-const RGBA diamond_color("white");
-
 const std::vector<typename Gdk::RGBA> dark_colors({RGBA("Red"), RGBA("Green"),
                                                    RGBA("Blue"), RGBA("Yellow"),
                                                    RGBA("Magenta"), RGBA("Cyan")});
@@ -127,11 +124,11 @@ void Graphic::clear_surface()
     surface->flush();
 }
 
-void Graphic::draw_grid_mesh()
+void Graphic::draw_grid_mesh(std::string grid_lines_color, int cell_size)
 {
     auto cc = create_default_cc();
 
-    set_source_rgba(cc, grid_lines_color);
+    set_source_rgba(cc, RGBA(grid_lines_color));
     cc->set_line_width(grid_linewidth);
 
     for (int i(0); i < surface->get_height() / scale_factor; i += cell_size)
@@ -150,15 +147,16 @@ void Graphic::draw_grid_mesh()
     surface->flush();
 }
 
-void Graphic::draw_diamond(unsigned int x, unsigned int y)
+void Graphic::draw_filled_diamond(unsigned int x, unsigned int y, unsigned int side,
+                                  std::string color)
 {
     auto cc = create_default_cc();
 
-    set_source_rgba(cc, diamond_color);
-    cc->move_to(x + cell_size / 2, y);
-    cc->line_to(x + cell_size, y + cell_size / 2);
-    cc->line_to(x + cell_size / 2, y + cell_size);
-    cc->line_to(x, y + cell_size / 2);
+    set_source_rgba(cc, RGBA(color));
+    cc->move_to(x + side / 2, y);
+    cc->line_to(x + side, y + side / 2);
+    cc->line_to(x + side / 2, y + side);
+    cc->line_to(x, y + side / 2);
     cc->fill();
 
     surface->flush();
@@ -194,11 +192,11 @@ void Graphic::draw_filled_square(unsigned int x, unsigned int y, unsigned int si
 }
 
 void Graphic::draw_filled_square(unsigned int x, unsigned int y, unsigned int side,
-                                 RGBA color)
+                                 std::string color)
 {
     auto cc = create_default_cc();
 
-    set_source_rgba(cc, color);
+    set_source_rgba(cc, Gdk::RGBA(color));
 
     cc->rectangle(x, y, side, side);
     cc->fill();

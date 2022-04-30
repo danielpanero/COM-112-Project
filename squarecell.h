@@ -95,11 +95,12 @@ namespace Squarecell
     bool test_if_completely_confined(Square &square1, Square &square2);
 
     /**
-     * @brief Draws @p square as a white diamond of size 1 using the module Graphic
+     * @brief Draws @p square as diamond using the module Graphic
      *
      * @param square
+     * @param color
      */
-    void draw_as_diamond(Square &square);
+    void draw_as_diamond(Square &square, std::string color);
 
     /**
      * @brief Draws @p square as a thick border of color @p color_index using the

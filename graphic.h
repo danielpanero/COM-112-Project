@@ -12,8 +12,6 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
-#include "gdkmm/rgba.h"
-
 /**
  * @namespace Graphic
  * @brief Provides all the methods needed to draw on the current surface
@@ -26,19 +24,25 @@ namespace Graphic
     void clear_surface();
 
     /**
-     * @brief Draws a transparent grid mesh with cell size 1 that spans all over the
+     * @brief Draws a transparent grid mesh with that spans all over the
      * surface
      *
+     * @param grid_lines_color X11 color
+     * @param cell_size
      */
-    void draw_grid_mesh();
+    void draw_grid_mesh(std::string grid_lines_color, int cell_size);
 
     /**
-     * @brief Draws a white diamond with size 1 at (@p x, @p y)
+     * @brief Draws a filled diamond with size @p side at (@p x, @p y) and color @p
+     * color
      *
      * @param x bottom-left x coordinate
      * @param y bottom-left y coordinate
+     * @param side size of the square
+     * @param color X11 color
      */
-    void draw_diamond(unsigned int x, unsigned int y);
+    void draw_filled_diamond(unsigned int x, unsigned int y, unsigned int side,
+                             std::string color);
 
     /**
      * @brief Draws a thick border in the center of the cells next to the border of a
@@ -70,10 +74,10 @@ namespace Graphic
      * @param x
      * @param y
      * @param side
-     * @param color RGBA color from the library Gdkmm
+     * @param color X11 color
      */
     void draw_filled_square(unsigned int x, unsigned int y, unsigned int side,
-                            Gdk::RGBA color);
+                            std::string color);
 
     /**
      * @brief Draws a square with size @p side at (@p x, @p y) filled with |X O||O

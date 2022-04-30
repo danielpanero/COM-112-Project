@@ -40,7 +40,7 @@ void Food::add_to_grid()
 
 string Food::get_as_string() { return std::to_string(x) + " " + std::to_string(y); }
 
-void Food::draw() { Squarecell::draw_as_diamond(*this); }
+void Food::draw() { Squarecell::draw_as_diamond(*this, "white"); }
 
 unique_ptr<Food> Food::parse_line(string &line)
 {

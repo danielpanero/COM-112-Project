@@ -200,12 +200,12 @@ bool Squarecell::test_if_completely_confined(Square &square1, Square &square2)
 // ====================================================================================
 // Draw
 
-void Squarecell::draw_as_diamond(Square &square)
+void Squarecell::draw_as_diamond(Square &square, std::string color)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    Graphic::draw_diamond(x, y);
+    Graphic::draw_filled_diamond(x, y, square.side, color);
 }
 
 void Squarecell::draw_only_border(Square &square, unsigned int color_index)
