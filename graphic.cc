@@ -20,6 +20,8 @@
 #include "graphic-private.h"
 #include "graphic.h"
 
+using std::string;
+
 using Gdk::RGBA;
 using Gdk::Cairo::set_source_rgba;
 
@@ -34,12 +36,10 @@ constexpr double scale_factor(5);
 constexpr double grid_linewidth(1 / scale_factor);
 constexpr double thick_border_linewidth(2 * 1 / scale_factor);
 
-const std::vector<typename Gdk::RGBA> dark_colors({RGBA("Red"), RGBA("Green"),
-                                                   RGBA("Blue"), RGBA("Yellow"),
-                                                   RGBA("Magenta"), RGBA("Cyan")});
-const std::vector<typename Gdk::RGBA>
-    light_colors({RGBA("Tomato"), RGBA("SeaGreen"), RGBA("SkyBlue"),
-                  RGBA("LightYellow"), RGBA("Plum"), RGBA("LightCyan")});
+const std::vector<string> dark_colors{"red",    "green",   "blue",
+                                      "yellow", "magenta", "cyan"};
+const std::vector<string> light_colors{"tomato",      "seaGreen", "skyBlue",
+                                       "lightYellow", "plum",     "lightCyan"};
 
 // ====================================================================================
 // Surface definition
@@ -99,7 +99,7 @@ Cairo::RefPtr<Cairo::Context> create_default_cc()
  * @param light
  * @return RGBA
  */
-RGBA get_color(unsigned int &color_index, bool light = false)
+string get_color(unsigned int color_index, bool light = false)
 {
     if (light)
     {
@@ -124,7 +124,7 @@ void Graphic::clear_surface()
     surface->flush();
 }
 
-void Graphic::draw_grid_mesh(std::string grid_lines_color, int cell_size)
+void Graphic::draw_grid_mesh(string grid_lines_color, int cell_size)
 {
     auto cc = create_default_cc();
 
@@ -148,7 +148,7 @@ void Graphic::draw_grid_mesh(std::string grid_lines_color, int cell_size)
 }
 
 void Graphic::draw_filled_diamond(unsigned int x, unsigned int y, unsigned int side,
-                                  std::string color)
+                                  string color)
 {
     auto cc = create_default_cc();
 
@@ -162,12 +162,18 @@ void Graphic::draw_filled_diamond(unsigned int x, unsigned int y, unsigned int s
     surface->flush();
 }
 
+void Graphic::draw_filled_diamond(unsigned int x, unsigned int y, unsigned int side,
+                                  unsigned int color_index)
+{
+    Graphic::draw_filled_diamond(x, y, side, get_color(color_index));
+}
+
 void Graphic::draw_thick_border_square(unsigned int x, unsigned int y,
-                                       unsigned int side, unsigned int color_index)
+                                       unsigned int side, string color)
 {
     auto cc = create_default_cc();
 
-    set_source_rgba(cc, get_color(color_index));
+    set_source_rgba(cc, RGBA(color));
     cc->set_line_width(thick_border_linewidth);
 
     // Margin of half cell_size from the border cells
@@ -178,12 +184,18 @@ void Graphic::draw_thick_border_square(unsigned int x, unsigned int y,
     surface->flush();
 }
 
+void Graphic::draw_thick_border_square(unsigned int x, unsigned int y,
+                                       unsigned int side, unsigned int color_index)
+{
+    Graphic::draw_thick_border_square(x, y, side, get_color(color_index));
+}
+
 void Graphic::draw_filled_square(unsigned int x, unsigned int y, unsigned int side,
-                                 unsigned int color_index)
+                                 string color)
 {
     auto cc = create_default_cc();
 
-    set_source_rgba(cc, get_color(color_index));
+    set_source_rgba(cc, RGBA(color));
 
     cc->rectangle(x, y, side, side);
     cc->fill();
@@ -192,16 +204,9 @@ void Graphic::draw_filled_square(unsigned int x, unsigned int y, unsigned int si
 }
 
 void Graphic::draw_filled_square(unsigned int x, unsigned int y, unsigned int side,
-                                 std::string color)
+                                 unsigned int color_index)
 {
-    auto cc = create_default_cc();
-
-    set_source_rgba(cc, Gdk::RGBA(color));
-
-    cc->rectangle(x, y, side, side);
-    cc->fill();
-
-    surface->flush();
+    Graphic::draw_filled_square(x, y, side, get_color(color_index));
 }
 
 /**
@@ -211,7 +216,7 @@ void Graphic::draw_filled_square(unsigned int x, unsigned int y, unsigned int si
  * @param color_index
  * @return Cairo::RefPtr<Cairo::SurfacePattern>
  */
-Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int &color_index)
+Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int color_index)
 {
     RGBA dark_color(get_color(color_index));
     RGBA light_color(get_color(color_index, true));

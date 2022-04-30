@@ -1,7 +1,9 @@
 /**
  * @file graphic.h
  * @author Daniel Panero [+127/-27], Andrea Diez [+9/-9]
- * @brief Public interface for drawing on the current surface
+ * @brief Public interface for drawing on the current surface using either the standard
+ * X11 color or the provided color (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5
+ * cyan)
  * @version 0.1
  * @date 2022-04-20
  *
@@ -43,6 +45,16 @@ namespace Graphic
      */
     void draw_filled_diamond(unsigned int x, unsigned int y, unsigned int side,
                              std::string color);
+    /**
+     * @brief Same as \b draw_filled_diamond
+     *
+     * @param x
+     * @param y
+     * @param side
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
+     */
+    void draw_filled_diamond(unsigned int x, unsigned int y, unsigned int side,
+                             unsigned int color_index);
 
     /**
      * @brief Draws a thick border in the center of the cells next to the border of a
@@ -51,6 +63,16 @@ namespace Graphic
      * @param x bottom-left x coordinate
      * @param y bottom-left y coordinate
      * @param side size of the square
+     * @param color X11 color
+     */
+    void draw_thick_border_square(unsigned int x, unsigned int y, unsigned int side,
+                                  std::string color);
+    /**
+     * @brief Same as \b draw_thick_border_square
+     *
+     * @param x
+     * @param y
+     * @param side
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
     void draw_thick_border_square(unsigned int x, unsigned int y, unsigned int side,
@@ -58,15 +80,15 @@ namespace Graphic
 
     /**
      * @brief Draws a filled square with size @p side at (@p x, @p y) and color @p
-     * color_index
+     * color
      *
      * @param x bottom-left x coordinate
      * @param y bottom-left y coordinate
      * @param side size of the square
-     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
+     * @param color X11 color
      */
     void draw_filled_square(unsigned int x, unsigned int y, unsigned int side,
-                            unsigned int color_index);
+                            std::string color);
 
     /**
      * @brief Same as \b draw_filled_square
@@ -74,10 +96,10 @@ namespace Graphic
      * @param x
      * @param y
      * @param side
-     * @param color X11 color
+     * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
     void draw_filled_square(unsigned int x, unsigned int y, unsigned int side,
-                            std::string color);
+                            unsigned int color_index);
 
     /**
      * @brief Draws a square with size @p side at (@p x, @p y) filled with |X O||O
