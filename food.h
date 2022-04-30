@@ -11,7 +11,7 @@
 #ifndef ENTITIES_FOOD_H
 #define ENTITIES_FOOD_H
 
-#include "memory"
+#include <memory>
 
 #include "element.h"
 #include "squarecell.h"

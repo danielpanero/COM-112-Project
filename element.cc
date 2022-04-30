@@ -8,8 +8,8 @@
  *
  */
 
-#include "iostream"
-#include "sstream"
+#include <iostream>
+#include <sstream>
 
 #include "squarecell.h"
 
