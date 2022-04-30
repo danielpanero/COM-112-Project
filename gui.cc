@@ -58,7 +58,7 @@ MainWindow::MainWindow(Simulation *simulation)
     build_layout_graphic();
 
     // This frame is invisible and expandable, so the others controlls don't resize
-    auto *resizable_frame = Gtk::make_managed<Gtk::Frame>();
+    auto *resizable_frame = Gtk::manage(new Gtk::Frame());
     resizable_frame->set_vexpand();
     resizable_frame->set_shadow_type(Gtk::SHADOW_NONE);
     resizable_frame->unset_label();
@@ -90,7 +90,7 @@ void MainWindow::build_layout_general_box()
 {
     // Layout
     auto *general_button_box =
-        Gtk::make_managed<Gtk::ButtonBox>(Gtk::ORIENTATION_VERTICAL);
+        Gtk::manage(new Gtk::ButtonBox(Gtk::ORIENTATION_VERTICAL));
     general_button_box->set_spacing(xs_margin);
     general_button_box->set_margin_left(sm_margin);
     general_button_box->set_margin_right(sm_margin);
@@ -140,7 +140,7 @@ void MainWindow::build_layout_food_box()
 
 void MainWindow::build_layout_anthill_box()
 {
-    auto *anthill_box = Gtk::make_managed<Gtk::Box>(Gtk::ORIENTATION_VERTICAL);
+    auto *anthill_box = manage(new Gtk::Box(Gtk::ORIENTATION_VERTICAL));
     anthill_box->set_spacing(xs_margin);
     anthill_box->set_margin_left(sm_margin);
     anthill_box->set_margin_right(sm_margin);
@@ -162,7 +162,7 @@ void MainWindow::build_layout_anthill_box()
 void MainWindow::build_layout_graphic()
 {
     // Layout
-    auto *aspect_frame = Gtk::make_managed<Gtk::AspectFrame>();
+    auto *aspect_frame = Gtk::manage(new Gtk::AspectFrame());
     aspect_frame->set(Gtk::ALIGN_START, Gtk::ALIGN_START, 1, false);
     aspect_frame->set_hexpand();
     aspect_frame->set_vexpand();
