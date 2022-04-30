@@ -37,8 +37,7 @@ bool Simulation::read_file(string &path)
     {
         if (file.fail())
         {
-            // TODO(@danielpanero): check if we want to exit
-            exit(EXIT_FAILURE);
+            return false;
         }
 
         parse_foods(file);
@@ -68,8 +67,7 @@ void Simulation::save_file(string &path)
     std::ofstream file(path);
     if (file.fail())
     {
-        // TODO(@danielpanero): check if we want really to exit the program
-        exit(EXIT_FAILURE);
+        return;
     }
 
     file << n_foods << endl;
