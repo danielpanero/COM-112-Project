@@ -91,6 +91,8 @@ void Simulation::reset()
     n_anthills = 0;
     index_anthill = 0;
 
+    first_execution = true;
+
     // We safely deallocate anthills and foods as they are unique_ptr
     anthills.clear();
     foods.clear();
@@ -122,7 +124,14 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
                                     unsigned int &n_predators, unsigned int &n_food,
                                     bool order)
 {
-    index_anthill = order ? index_anthill++ : index_anthill--;
+    if (first_execution)
+    {
+        first_execution = false;
+    }
+    else
+    {
+        index_anthill += order ? +1 : -1;
+    }
 
     /** This expression prevents the index from exiting the boundaries [0,
      * anthills.size() - 1], e.g: for a vector of size 3:
@@ -139,7 +148,7 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
     int tmp = index_anthill;
     while (anthills.at(tmp) == nullptr)
     {
-        tmp = order ? tmp++ : tmp--;
+        tmp += order ? +1 : -1;
         tmp = (tmp + anthills.size()) % anthills.size();
 
         // After one cycle, we exit as there no anthills left

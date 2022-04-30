@@ -121,6 +121,14 @@ private:
      */
     int index_anthill = 0;
 
+    /**
+     * @brief This variable checks if is the first time that we call \b
+     * Simulation::cycle_info_anthills() and it is needed in order to start everytime
+     * with the first anthill and not the second one
+     *
+     */
+    bool first_execution = true;
+
     std::vector<std::unique_ptr<Anthill>> anthills;
     std::vector<std::unique_ptr<Food>> foods;
 };
