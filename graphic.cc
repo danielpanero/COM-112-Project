@@ -55,8 +55,9 @@ auto surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, 0, 0);
 
 Cairo::RefPtr<Cairo::ImageSurface> create_surface(unsigned int size)
 {
-    return Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, size * scale_factor,
-                                       size * scale_factor);
+    surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, size * scale_factor,
+                                          size * scale_factor);
+    return surface;
 }
 
 Cairo::Matrix calculate_trasformation_matrix(Cairo::Matrix ctm, double width,
@@ -85,8 +86,8 @@ Cairo::RefPtr<Cairo::Context> create_default_cc()
      * flips the Y-axis and finally shift the Y-axis. At the
      * end the origin (0,0) will be in the left-bottom corner
      */
-    unsigned int height(surface->get_height());
-    Cairo::Matrix ctm{scale_factor, 0, 0, -scale_factor, 0, -height};
+    double height(surface->get_height());
+    Cairo::Matrix ctm{scale_factor, 0, 0, -scale_factor, 0, height};
 
     cc->set_matrix(ctm);
     cc->set_antialias(Cairo::Antialias::ANTIALIAS_NONE);

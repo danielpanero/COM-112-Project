@@ -69,8 +69,8 @@ MainWindow::MainWindow(Simulation *simulation)
     show_all_children();
 
     // We initialize the surface for DrawingImage
-    unsigned int g_max(128);
-    unsigned int cell_size(1);
+    unsigned int const g_max(128);
+    unsigned int const cell_size(1);
 
     background_grid_surface = create_surface(g_max);
 
