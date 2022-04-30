@@ -22,7 +22,7 @@ namespace Squarecell
     };
 
     /**
-     * @brief Resets the grid and clears the model surface
+     * @brief Resets the grid and clears the surface of Graphic
      *
      */
     void grid_clear();
@@ -95,15 +95,15 @@ namespace Squarecell
     bool test_if_completely_confined(Square &square1, Square &square2);
 
     /**
-     * @brief Draws @p square as a white diamond of size 1 on model_surface
+     * @brief Draws @p square as a white diamond of size 1 using the module Graphic
      *
      * @param square
      */
     void draw_as_diamond(Square &square);
 
     /**
-     * @brief Draws @p square as a thick border of color @p color_index on
-     * model_surface
+     * @brief Draws @p square as a thick border of color @p color_index using the
+     * module Graphic
      *
      * @param square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
@@ -111,7 +111,8 @@ namespace Squarecell
     void draw_only_border(Square &square, unsigned int color_index);
 
     /**
-     * @brief Fills @p square with the color @p color_index on model_surface
+     * @brief Fills @p square with the color @p color_index using the
+     * module Graphic
      *
      * @param square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
@@ -120,7 +121,8 @@ namespace Squarecell
 
     /**
      * @brief Draws @p square filled with |X O||X O|... pattern where X has color @p
-     * color_index and O a lighter version of @p color_index on model_surface
+     * color_index and O a lighter version of @p color_index using the
+     * module Graphic
      *
      * @param square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
@@ -129,7 +131,8 @@ namespace Squarecell
 
     /**
      * @brief Draws @p square filled with a lighter version of @p color_index and a
-     * plus sign in the center with color @p color_index
+     * plus sign in the center with color @p color_index using the
+     * module Graphic
      *
      * @param square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)

@@ -33,7 +33,7 @@ void Squarecell::grid_clear()
 {
     grid = vector<vector<bool>>(g_max, vector<bool>(g_max));
 
-    Graphic::clear_model_surface();
+    Graphic::clear_surface();
 }
 
 unsigned int Squarecell::get_coordinate_x(Square &square)
