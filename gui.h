@@ -11,12 +11,12 @@
 #ifndef GUI_H
 #define GUI_H
 
-#include "gtkmm/button.h"
-#include "gtkmm/drawingarea.h"
-#include "gtkmm/frame.h"
-#include "gtkmm/grid.h"
-#include "gtkmm/label.h"
-#include "gtkmm/window.h"
+#include <gtkmm/button.h>
+#include <gtkmm/drawingarea.h>
+#include <gtkmm/frame.h>
+#include <gtkmm/grid.h>
+#include <gtkmm/label.h>
+#include <gtkmm/window.h>
 
 #include "simulation.h"
 

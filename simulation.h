@@ -11,7 +11,7 @@
 #ifndef SIMULATION_H
 #define SIMULATION_H
 
-#include "memory"
+#include <memory>
 
 #include "anthill.h"
 #include "food.h"

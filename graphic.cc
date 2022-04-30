@@ -9,13 +9,13 @@
  *
  */
 
-#include "cmath"
-#include "vector"
+#include <cmath>
+#include <vector>
 
-#include "cairomm/matrix.h"
-#include "cairomm/surface.h"
-#include "gdkmm/general.h"
-#include "gdkmm/rgba.h"
+#include <cairomm/matrix.h>
+#include <cairomm/surface.h>
+#include <gdkmm/general.h>
+#include <gdkmm/rgba.h>
 
 #include "graphic-private.h"
 #include "graphic.h"
