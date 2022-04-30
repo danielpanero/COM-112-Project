@@ -47,6 +47,7 @@ private:
     void on_start_stop();
     void on_prev();
     void on_next();
+    void on_exit();
 
     bool on_iteration();
 

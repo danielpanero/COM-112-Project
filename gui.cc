@@ -72,7 +72,6 @@ MainWindow::MainWindow(Simulation *simulation)
     unsigned int const cell_size(1);
 
     background_grid_surface = create_surface(g_max);
-
     /** First we fill the surface with white, then with black and we let empty / white
      * the cells next to the border and finally we draw a grid mesh*/
     Graphic::draw_filled_square(0, 0, g_max, "white");
@@ -80,6 +79,10 @@ MainWindow::MainWindow(Simulation *simulation)
     Graphic::draw_grid_mesh("grey", cell_size);
 
     model_surface = create_surface(g_max);
+
+    // When we we close the application, we have to stop idle, otherwise it will not
+    // stop
+    signal_hide().connect(sigc::mem_fun(*this, &MainWindow::on_exit));
 }
 
 // ====================================================================================
@@ -112,7 +115,7 @@ void MainWindow::build_layout_general_box()
     step_button.set_sensitive(false);
 
     // Signals Binding
-    exit_button.signal_clicked().connect([]() { std::exit(0); });
+    exit_button.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_exit));
     open_button.signal_clicked().connect(
         sigc::mem_fun(*this, &MainWindow::on_open_button_click));
     save_button.signal_clicked().connect(
@@ -339,6 +342,13 @@ void MainWindow::on_next()
         anthill_frame.set_sensitive(false);
         anthill_info_label.set_markup("<small><b>No anthill left</b></small>");
     }
+}
+
+void MainWindow::on_exit()
+{
+    idle.disconnect();
+
+    std::exit(0);
 }
 
 bool MainWindow::on_iteration()
