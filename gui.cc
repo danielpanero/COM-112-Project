@@ -10,6 +10,7 @@
 
 #include "iostream"
 
+#include "glibmm.h"
 #include "gtkmm/aspectframe.h"
 #include "gtkmm/buttonbox.h"
 #include "gtkmm/drawingarea.h"
@@ -18,6 +19,7 @@
 #include "gtkmm/grid.h"
 
 #include "graphic-private.h"
+#include "graphic.h"
 
 #include "gui.h"
 
@@ -67,8 +69,18 @@ MainWindow::MainWindow(Simulation *simulation)
     show_all_children();
 
     // We initialize the surface for DrawingImage
-    background_grid_surface = create_background_grid_surface();
-    model_surface = create_model_surface();
+    unsigned int const g_max(128);
+    unsigned int const cell_size(1);
+
+    background_grid_surface = create_surface(g_max);
+
+    /** First we fill the surface with white, then with black and we let empty / white
+     * the cells next to the border and finally we draw a grid mesh*/
+    Graphic::draw_filled_square(0, 0, g_max, "white");
+    Graphic::draw_filled_square(cell_size, cell_size, g_max - 2 * cell_size, "black");
+    Graphic::draw_grid_mesh("grey", cell_size);
+
+    model_surface = create_surface(g_max);
 }
 
 // ====================================================================================
@@ -171,6 +183,7 @@ void MainWindow::reset_layout()
 {
     keyboard_shortcuts_complete.disconnect();
     keyboard_shortcuts_reduced.disconnect();
+    idle.disconnect();
 
     save_button.set_sensitive(false);
     start_stop_button.set_sensitive(false);
@@ -184,9 +197,9 @@ void MainWindow::reset_layout()
     food_count_label.set_markup("<small><b>No simulation</b></small>");
     anthill_info_label.set_markup("<small><b>No simulation</b></small>");
 
-    // TODO(@danielpanero): check if we want to call this function even if it is
-    // already called in squarecell from the simulation
-    clear_model_surface();
+    Graphic::clear_surface();
+
+    iteration = 0;
 }
 
 // ====================================================================================
@@ -206,7 +219,6 @@ void MainWindow::on_open_button_click()
 
     int result = dialog.run();
 
-    // TODO(@danielpanero) check what do when no files was choosen
     reset_layout();
 
     if (result == Gtk::RESPONSE_OK)
@@ -248,18 +260,16 @@ void MainWindow::on_save_button_click()
     if (result == Gtk::RESPONSE_OK)
     {
         string filename = dialog.get_filename();
-        // TODO(@danielpanero): after saving what we do disable? Clean simulation?...
+
         simulation->save_file(filename);
     }
 }
 
 void MainWindow::on_start_stop()
 {
-    static bool running(false);
-
-    if (running)
+    if (idle.connected())
     {
-        running = false;
+        idle.disconnect();
 
         anthill_frame.set_sensitive(true);
         open_button.set_sensitive(true);
@@ -274,9 +284,6 @@ void MainWindow::on_start_stop()
     }
     else
     {
-        running = true;
-
-        // TODO(@danielpanero) check if we want really to disable open file
         anthill_frame.set_sensitive(false);
         open_button.set_sensitive(false);
         save_button.set_sensitive(false);
@@ -287,6 +294,9 @@ void MainWindow::on_start_stop()
 
         keyboard_shortcuts_complete.block();
         keyboard_shortcuts_reduced.unblock();
+
+        idle = Glib::signal_idle().connect(
+            sigc::mem_fun(*this, &MainWindow::on_iteration), Glib::PRIORITY_LOW);
     }
 }
 
@@ -332,9 +342,17 @@ void MainWindow::on_next()
     }
 }
 
+bool MainWindow::on_iteration()
+{
+    iteration++;
+
+    std::cout << "Iteration: " << iteration << "\n";
+
+    return true;
+}
+
 bool MainWindow::on_key_release_reduced(GdkEventKey *event)
 {
-    // TODO(@danielpanero): check if we want only to allow start and stop
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_s)
     {
         on_start_stop();
@@ -354,6 +372,7 @@ bool MainWindow::on_key_release_complete(GdkEventKey *event)
 
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_1)
     {
+        on_iteration();
         return true;
     }
 
@@ -379,18 +398,15 @@ bool MainWindow::on_draw_request(const Cairo::RefPtr<Cairo::Context> &cc)
     const int height = allocation.get_height();
 
     // (CTM: current trasformation matrix)
-    Cairo::Matrix ctm0 = cc->get_matrix();
-    Cairo::Matrix ctm1 = scale_to_allocation_size(ctm0, width, height);
-    Cairo::Matrix ctm2 = shift_from_border(ctm1);
+    auto ctm = calculate_trasformation_matrix(cc->get_matrix(), width, height);
+    cc->set_matrix(ctm);
 
-    cc->set_matrix(ctm1);
     if (background_grid_surface)
     {
         cc->set_source(background_grid_surface, 0, 0);
         cc->paint();
     }
 
-    cc->set_matrix(ctm2);
     if (model_surface)
     {
         cc->set_source(model_surface, 0, 0);

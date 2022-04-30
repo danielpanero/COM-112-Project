@@ -48,6 +48,8 @@ private:
     void on_prev();
     void on_next();
 
+    bool on_iteration();
+
     /**
      * @brief Signal handler for the keyboard shortcuts:
      * @b s start/stop the simulation,
@@ -95,12 +97,16 @@ private:
     sigc::connection keyboard_shortcuts_reduced;
     sigc::connection keyboard_shortcuts_complete;
 
+    sigc::connection idle;
+
     Gtk::Grid grid;
     Gtk::Frame general_button_frame, food_frame, anthill_frame;
     Gtk::DrawingArea drawing_area;
     Gtk::Button exit_button, open_button, save_button, start_stop_button, step_button,
         next_anthill_button, prev_anthill_button;
     Gtk::Label food_count_label, anthill_info_label;
+
+    unsigned int iteration = 0;
 };
 
 #endif

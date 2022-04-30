@@ -1,7 +1,7 @@
 /**
  * @file graphic-private.h
- * @brief Private interface only for retrieving the background_grid_surface's,
- * model_surface's pointers and the relative transformation matrices
+ * @brief Private interface only for retrieving the current surface and the relative
+ * transformation matrice
  *
  * @author Daniel Panero [+66/-4], Andrea Diez [+0/-0]
  * @version 0.1
@@ -18,19 +18,13 @@
 #include "cairomm/surface.h"
 
 /**
- * @brief Creates the background grid surface, draws the grid and returns the pointer
- * to it
+ * @brief Creates a new Cairo surface, sets as the current surface and returns the
+ * pointer to it
  *
- * @return Cairo::RefPtr<Cairo::ImageSurface> background_grid_surface
+ * @param size size of the surface
+ * @return Cairo::RefPtr<Cairo::ImageSurface>
  */
-Cairo::RefPtr<Cairo::ImageSurface> create_background_grid_surface();
-
-/**
- * @brief Creates the model surface and returns the pointer to it
- *
- * @return Cairo::RefPtr<Cairo::ImageSurface> model_surface
- */
-Cairo::RefPtr<Cairo::ImageSurface> create_model_surface();
+Cairo::RefPtr<Cairo::ImageSurface> create_surface(unsigned int size);
 
 /**
  * @brief Returns the CTM scaled appropriately to fit in a square of size @p width / @p
@@ -41,22 +35,7 @@ Cairo::RefPtr<Cairo::ImageSurface> create_model_surface();
  * @param height of the allocation
  * @return Cairo::Matrix
  */
-Cairo::Matrix scale_to_allocation_size(Cairo::Matrix ctm, int width, int height);
-
-/**
- * @brief Return the CTM translated by one row / column, since the background surface
- * grid has a row / column of empty / white cells
- *
- * @param ctm current trasformation matrix
- * @return Cairo::Matrix
- */
-Cairo::Matrix shift_from_border(Cairo::Matrix ctm);
-
-/**
- * @brief This is a convenience function for erasing the model_surface, it calls
- * Graphic::clear_model_surface()
- *
- */
-void clear_model_surface();
+Cairo::Matrix calculate_trasformation_matrix(Cairo::Matrix ctm, double width,
+                                        double height);
 
 #endif
