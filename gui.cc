@@ -63,7 +63,7 @@ MainWindow::MainWindow(Simulation *simulation)
     resizable_frame->set_shadow_type(Gtk::SHADOW_NONE);
     resizable_frame->unset_label();
 
-    grid.attach(*resizable_frame, 0, 3);
+    grid.attach(*resizable_frame, 0, 3, 1, 1);
 
     add(grid);
     show_all_children();
@@ -105,7 +105,7 @@ void MainWindow::build_layout_general_box()
     general_button_frame.set_label("General:");
     general_button_frame.add(*general_button_box);
 
-    grid.attach(general_button_frame, 0, 0);
+    grid.attach(general_button_frame, 0, 0, 1, 1);
 
     // Disabling buttons at start
     save_button.set_sensitive(false);
@@ -135,7 +135,7 @@ void MainWindow::build_layout_food_box()
 
     food_frame.add(food_count_label);
 
-    grid.attach(food_frame, 0, 1);
+    grid.attach(food_frame, 0, 1, 1, 1);
 }
 
 void MainWindow::build_layout_anthill_box()
@@ -156,7 +156,7 @@ void MainWindow::build_layout_anthill_box()
     anthill_frame.add(*anthill_box);
     anthill_frame.set_sensitive(false); // We disable the frame at start
 
-    grid.attach(anthill_frame, 0, 2);
+    grid.attach(anthill_frame, 0, 2, 1, 1);
 }
 
 void MainWindow::build_layout_graphic()
