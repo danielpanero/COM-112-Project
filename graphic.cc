@@ -147,12 +147,13 @@ void Graphic::draw_grid_mesh(string grid_lines_color, int cell_size)
     surface->flush();
 }
 
-void Graphic::draw_filled_diamond(unsigned int x, unsigned int y, unsigned int side,
+void Graphic::draw_filled_diamond(unsigned int x, unsigned int y, double side,
                                   string color)
 {
     auto cc = create_default_cc();
 
     set_source_rgba(cc, RGBA(color));
+
     cc->move_to(x + side / 2, y);
     cc->line_to(x + side, y + side / 2);
     cc->line_to(x + side / 2, y + side);

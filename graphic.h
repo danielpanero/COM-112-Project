@@ -43,7 +43,7 @@ namespace Graphic
      * @param side size of the square
      * @param color X11 color
      */
-    void draw_filled_diamond(unsigned int x, unsigned int y, unsigned int side,
+    void draw_filled_diamond(unsigned int x, unsigned int y, double side,
                              std::string color);
     /**
      * @brief Same as \b draw_filled_diamond
