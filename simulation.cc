@@ -132,7 +132,6 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
     {
         index_anthill += order ? +1 : -1;
     }
-
     /** This expression prevents the index from exiting the boundaries [0,
      * anthills.size() - 1], e.g: for a vector of size 3:
      * 0 --> 0, -1 --> 2, 2 --> 2, 1 --> 1 ... (descending order)
@@ -163,7 +162,6 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
     n_defensors = anthills[tmp]->get_number_of_defensors();
     n_predators = anthills[tmp]->get_number_of_predators();
     n_food = anthills[tmp]->get_number_of_food();
-
     return true;
 }
 

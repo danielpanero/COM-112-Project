@@ -48,7 +48,6 @@ MainWindow::MainWindow(Simulation *simulation)
     grid.set_margin_left(md_margin);
     grid.set_margin_bottom(md_margin);
     grid.set_margin_right(md_margin);
-
     grid.set_column_spacing(lg_margin);
     grid.set_row_spacing(lg_margin);
 
