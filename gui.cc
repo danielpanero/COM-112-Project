@@ -10,6 +10,7 @@
 
 #include "iostream"
 
+#include "glibmm.h"
 #include "gtkmm/aspectframe.h"
 #include "gtkmm/buttonbox.h"
 #include "gtkmm/drawingarea.h"
@@ -182,6 +183,7 @@ void MainWindow::reset_layout()
 {
     keyboard_shortcuts_complete.disconnect();
     keyboard_shortcuts_reduced.disconnect();
+    idle.disconnect();
 
     save_button.set_sensitive(false);
     start_stop_button.set_sensitive(false);
@@ -196,6 +198,8 @@ void MainWindow::reset_layout()
     anthill_info_label.set_markup("<small><b>No simulation</b></small>");
 
     Graphic::clear_surface();
+
+    iteration = 0;
 }
 
 // ====================================================================================
@@ -263,11 +267,9 @@ void MainWindow::on_save_button_click()
 
 void MainWindow::on_start_stop()
 {
-    static bool running(false);
-
-    if (running)
+    if (idle.connected())
     {
-        running = false;
+        idle.disconnect();
 
         anthill_frame.set_sensitive(true);
         open_button.set_sensitive(true);
@@ -282,8 +284,6 @@ void MainWindow::on_start_stop()
     }
     else
     {
-        running = true;
-
         anthill_frame.set_sensitive(false);
         open_button.set_sensitive(false);
         save_button.set_sensitive(false);
@@ -294,6 +294,9 @@ void MainWindow::on_start_stop()
 
         keyboard_shortcuts_complete.block();
         keyboard_shortcuts_reduced.unblock();
+
+        idle = Glib::signal_idle().connect(
+            sigc::mem_fun(*this, &MainWindow::on_iteration), Glib::PRIORITY_LOW);
     }
 }
 
@@ -339,6 +342,15 @@ void MainWindow::on_next()
     }
 }
 
+bool MainWindow::on_iteration()
+{
+    iteration++;
+
+    std::cout << "Iteration: " << iteration << "\n";
+
+    return true;
+}
+
 bool MainWindow::on_key_release_reduced(GdkEventKey *event)
 {
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_s)
@@ -360,6 +372,7 @@ bool MainWindow::on_key_release_complete(GdkEventKey *event)
 
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_1)
     {
+        on_iteration();
         return true;
     }
 
