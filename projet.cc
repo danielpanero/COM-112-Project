@@ -8,8 +8,6 @@
  *
  */
 
-#include "iostream"
-
 #include "gtkmm/application.h"
 
 #include "gui.h"
