@@ -8,7 +8,7 @@
  *
  */
 
-#include <gtkmm/application.h>
+#include <gtkmm-3.0/gtkmm/application.h>
 
 #include "gui.h"
 #include "simulation.h"
