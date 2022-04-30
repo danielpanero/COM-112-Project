@@ -61,7 +61,6 @@ MainWindow::MainWindow(Simulation *simulation)
     resizable_frame->set_vexpand();
     resizable_frame->set_shadow_type(Gtk::SHADOW_NONE);
     resizable_frame->unset_label();
-
     grid.attach(*resizable_frame, 0, 3, 1, 1);
 
     add(grid);
@@ -77,11 +76,9 @@ MainWindow::MainWindow(Simulation *simulation)
     Graphic::draw_filled_square(0, 0, g_max, "white");
     Graphic::draw_filled_square(cell_size, cell_size, g_max - 2 * cell_size, "black");
     Graphic::draw_grid_mesh("grey", cell_size);
-
     model_surface = create_surface(g_max);
 
-    // When we we close the application, we have to stop idle, otherwise it will not
-    // stop
+    // When closing, we have to stop idle, otherwise it will not stop
     signal_hide().connect(sigc::mem_fun(*this, &MainWindow::on_exit));
 }
 
