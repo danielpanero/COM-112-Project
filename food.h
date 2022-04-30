@@ -26,7 +26,7 @@ public:
      * @param y position of food in the y-axis
      */
     Food(unsigned int x, unsigned int y);
-    virtual ~Food() = default;
+    ~Food() override = default;
 
     void add_to_grid();
 

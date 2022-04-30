@@ -21,7 +21,8 @@ Element::Element(unsigned int x, unsigned int y, unsigned int side, bool centere
 {
 }
 
-Element::~Element() {}
+Element::~Element() = default;
 
 Squarecell::Square Element::get_as_square() { return {*this}; }
+
 unsigned int Element::get_color_index() const { return color_index; }
