@@ -11,8 +11,8 @@
 #ifndef ENTITIES_ANTHILL_H
 #define ENTITIES_ANTHILL_H
 
-#include "memory"
-#include "vector"
+#include <memory>
+#include <vector>
 
 #include "ants.h"
 #include "element.h"

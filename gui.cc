@@ -8,15 +8,15 @@
  *
  */
 
-#include "iostream"
+#include <iostream>
 
-#include "glibmm.h"
-#include "gtkmm/aspectframe.h"
-#include "gtkmm/buttonbox.h"
-#include "gtkmm/drawingarea.h"
-#include "gtkmm/filechooserdialog.h"
-#include "gtkmm/frame.h"
-#include "gtkmm/grid.h"
+#include <glibmm.h>
+#include <gtkmm/aspectframe.h>
+#include <gtkmm/buttonbox.h>
+#include <gtkmm/drawingarea.h>
+#include <gtkmm/filechooserdialog.h>
+#include <gtkmm/frame.h>
+#include <gtkmm/grid.h>
 
 #include "graphic-private.h"
 #include "graphic.h"

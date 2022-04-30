@@ -8,12 +8,12 @@
  *
  */
 
-#include "algorithm"
-#include "fstream"
-#include "iostream"
-#include "sstream"
-#include "stdexcept"
-#include "vector"
+#include <algorithm>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
+#include <vector>
 
 #include "anthill.h"
 #include "ants.h"

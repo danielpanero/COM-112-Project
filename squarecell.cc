@@ -8,11 +8,11 @@
  *
  */
 
-#include "algorithm"
-#include "cmath"
-#include "iostream"
-#include "stdexcept"
-#include "vector"
+#include <algorithm>
+#include <cmath>
+#include <iostream>
+#include <stdexcept>
+#include <vector>
 
 #include "error_squarecell.h"
 #include "graphic.h"
