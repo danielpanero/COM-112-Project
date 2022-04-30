@@ -19,6 +19,16 @@ using std::string;
 
 int main(int argc, char *argv[])
 {
+    auto app = Gtk::Application::create("org.com112.project");
+
+    Simulation simulation;
+    MainWindow main(&simulation);
+
+    if (argc == 2)
+    {
+        string path(argv[1]);
+        simulation.read_file(path);
+    }
 
 /** When the preprocessor directive HEADLESS is present, the program will be compiled
  * and ran without the GUI, as such it is used mainly for automatic testing (any error
@@ -27,27 +37,11 @@ int main(int argc, char *argv[])
  */
 #ifndef HEADLESS
 
-    // TODO(@danielpanero): check if we need to parse the arguments in any case
-    auto app = Gtk::Application::create(argc, argv, "org.com112.project");
-
-    Simulation simulation;
-    MainWindow main(&simulation);
-
     return app->run(main);
 
 #else
 
-    if (argc == 1)
-    {
-        exit(EXIT_FAILURE);
-    }
-
-    string path(argv[1]);
-
-    Simulation simulation;
-    simulation.read_file(path);
-
-    exit(0);
+    return 0;
 
 #endif
 }
