@@ -36,6 +36,6 @@ Cairo::RefPtr<Cairo::ImageSurface> create_surface(unsigned int size);
  * @return Cairo::Matrix
  */
 Cairo::Matrix calculate_trasformation_matrix(Cairo::Matrix ctm, double width,
-                                        double height);
+                                             double height);
 
 #endif
