@@ -14,8 +14,8 @@
 #ifndef GRAPHICS_PRIVATE_H
 #define GRAPHICS_PRIVATE_H
 
-#include "cairomm/matrix.h"
-#include "cairomm/surface.h"
+#include <cairomm/matrix.h>
+#include <cairomm/surface.h>
 
 /**
  * @brief Creates a new Cairo surface, sets as the current surface and returns the
