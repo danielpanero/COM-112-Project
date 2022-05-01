@@ -102,8 +102,6 @@ void MainWindow::enable_layout()
         sigc::mem_fun(*this, &MainWindow::on_key_release_complete));
     keyboard_shortcuts_reduced = signal_key_release_event().connect(
         sigc::mem_fun(*this, &MainWindow::on_key_release_reduced));
-
-    drawing_area.queue_draw();
 }
 
 void MainWindow::build_layout_general_box()
@@ -218,6 +216,7 @@ void MainWindow::reset_layout()
     anthill_info_label.set_markup("<small><b>No simulation</b></small>");
 
     Graphic::clear_surface();
+    drawing_area.queue_draw();
 
     iteration = 0;
 }
