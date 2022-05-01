@@ -78,10 +78,10 @@ string Anthill::get_as_string()
 {
     using std::to_string;
 
-    string tmp = to_string(x) + " " + to_string(y) + " " + to_string(side) + " " +
-                 generator->get_as_string() + " " + to_string(n_food) + " " +
+    string tmp = "\n" + to_string(x) + " " + to_string(y) + " " + to_string(side) +
+                 " " + generator->get_as_string() + " " + to_string(n_food) + " " +
                  to_string(n_collectors) + " " + to_string(n_defensors) + " " +
-                 to_string(n_predators);
+                 to_string(n_predators) + "\n";
 
     for (auto const &collector : collectors)
     {
