@@ -98,7 +98,8 @@ void Collector::draw() { Squarecell::draw_diagonal_pattern(*this, get_color_inde
 
 string Collector::get_as_string()
 {
-    return Ant::get_as_string() + " " + std::to_string(state);
+    return Ant::get_as_string() + " " +
+           (state == State_collector::LOADED ? "true" : "false");
 }
 
 unique_ptr<Collector> Collector::parse_line(string &line, unsigned int color_index)
@@ -106,7 +107,7 @@ unique_ptr<Collector> Collector::parse_line(string &line, unsigned int color_ind
     unsigned int x(0);
     unsigned int y(0);
     unsigned int age(0);
-    unsigned int tmp(0);
+    string tmp("false");
 
     istringstream stream(line);
     stream >> x;
@@ -114,7 +115,11 @@ unique_ptr<Collector> Collector::parse_line(string &line, unsigned int color_ind
     stream >> age;
     stream >> tmp;
 
-    auto state = static_cast<State_collector>(tmp);
+    auto state(State_collector::EMPTY);
+    if (tmp == "true")
+    {
+        state = State_collector::LOADED;
+    }
     return unique_ptr<Collector>(new Collector(x, y, age, state, color_index));
 }
 
