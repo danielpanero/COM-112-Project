@@ -32,7 +32,7 @@ constexpr double cell_size(1);
 /* The scale factor controls "image quality / resolution". As we increase it, the
  * quality improves, but rendering will be slower. 1/scale_factor correspondes to 1
  * pixel in the surface */
-constexpr double scale_factor(5);
+constexpr double scale_factor(7);
 constexpr double grid_linewidth(1 / scale_factor);
 constexpr double thick_border_linewidth(2 * 1 / scale_factor);
 
