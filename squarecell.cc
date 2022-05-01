@@ -70,13 +70,13 @@ void Squarecell::test_square(Square &square)
         throw invalid_argument(error_squarecell::print_index(square.y, g_max - 1));
     }
 
-    if ((x + square.side > g_max - 1))
+    if ((x + square.side > g_max))
     {
         throw invalid_argument(
             error_squarecell::print_outside(square.x, square.side, g_max - 1));
     }
 
-    if ((y + square.side > g_max - 1))
+    if ((y + square.side > g_max))
     {
         throw invalid_argument(
             error_squarecell::print_outside(square.y, square.side, g_max - 1));
@@ -88,12 +88,12 @@ void Squarecell::add_square(Square &square)
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    size_t start(g_max - 1 - y);
-    size_t end(g_max - 1 - (y + square.side));
+    size_t start(g_max - (y + square.side));
+    size_t end(g_max - 1 - y);
 
-    for (size_t i(start); i > end; i--)
+    for (size_t i(start); i <= end; i++)
     {
-        auto &row = grid[i];
+        auto &row = grid.at(i);
         fill(row.begin() + x, row.begin() + x + square.side, true);
     }
 }
@@ -103,12 +103,12 @@ void Squarecell::remove_square(Square &square)
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    size_t start(g_max - 1 - y);
-    size_t end(g_max - 1 - (y + square.side));
+    size_t start(g_max - (y + square.side));
+    size_t end(g_max - 1 - y);
 
-    for (size_t i(start); i > end; i--)
+    for (size_t i(start); i <= end; i++)
     {
-        auto &row = grid[i];
+        auto &row = grid.at(i);
         fill(row.begin() + x, row.begin() + x + square.side, false);
     }
 }
@@ -122,12 +122,12 @@ bool Squarecell::test_if_superposed_grid(Square &square, unsigned int &superpose
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
 
-    size_t start(g_max - 1 - y);
-    size_t end(g_max - 1 - (y + square.side));
+    size_t start(g_max - (y + square.side));
+    size_t end(g_max - 1 - y);
 
-    for (size_t i(start); i > end; i--)
+    for (size_t i(start); i <= end; i++)
     {
-        auto &row = grid[i];
+        auto &row = grid.at(i);
         auto cell = find(row.begin() + x, row.begin() + x + square.side, true);
 
         /* We are comparing the iterator (cell) with the last element of the loop,
