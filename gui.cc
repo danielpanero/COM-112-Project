@@ -355,8 +355,13 @@ void MainWindow::on_exit()
 
 bool MainWindow::on_iteration()
 {
+    if (simulation->step())
+    {
+        // TODO(@danielpanero): what to do when simulation reaches the end
+        return false;
+    }
+    
     iteration++;
-
     std::cout << "Iteration: " << iteration << "\n";
 
     return true;

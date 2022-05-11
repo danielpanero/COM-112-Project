@@ -85,6 +85,10 @@ void Simulation::save_file(string &path)
     file.close();
 }
 
+bool Simulation::step(){
+    return false;
+}
+
 void Simulation::reset()
 {
     n_foods = 0;

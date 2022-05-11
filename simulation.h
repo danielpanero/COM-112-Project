@@ -32,6 +32,14 @@ public:
     void save_file(std::string &path);
 
     /**
+     * @brief This function advances each aspect of the simulation (Anthills, Foods..)
+     * by one step
+     * 
+     * @return true if the simulation has reached the end
+     */
+    bool step();
+
+    /**
      * @brief Resets and deallocates every aspect / object of the simulation: foods,
      * anthills, collectors... Furthermore, it resets also the grid of the module
      * Squarecell and clears the model_surface of Graphic
