@@ -95,6 +95,10 @@ public:
 
     void remove_from_grid();
     void undraw();
+    void step(Square anthill, std::vector<std::unique_ptr<Food>> &foods);
+
+    bool return_to_anthill(Square target);
+
     /**
      * @brief Moves the collector the nearest foods attainable, if there is no food
      * return false

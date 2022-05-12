@@ -109,6 +109,45 @@ string Collector::get_as_string()
 void Collector::remove_from_grid() { Squarecell::remove_square(*this); }
 void Collector::undraw() { Squarecell::undraw_square(*this); }
 
+void Collector::step(Square anthill, vector<unique_ptr<Food>> &foods)
+{
+    // TODO(@danielpanero): if false secondary goal (exit anthill, away from border)
+    if (state == EMPTY)
+    {
+        search_food(foods);
+    }
+    else
+    {
+        return_to_anthill(anthill);
+    }
+}
+
+bool Collector::return_to_anthill(Square target)
+{
+    auto origin = get_as_square();
+
+    remove_from_grid();
+    undraw();
+
+    auto generate_moves =
+        std::bind(&Collector::generate_diagonal_moves, this, std::placeholders::_1);
+    auto move = Squarecell::lee_algorithm(origin, target, generate_moves,
+                                          &Squarecell::test_if_border_touches);
+
+    x = move.x;
+    y = move.y;
+
+    if (Squarecell::test_if_border_touches(*this, target))
+    {
+        // TODO(@danielpanero): increments food anthill
+        state = EMPTY;
+    }
+
+    add_to_grid();
+    draw();
+
+    return true;
+}
 bool Collector::search_food(vector<unique_ptr<Food>> &foods)
 {
     // TODO(@danielpanero) check that foods > 0 and return false when there is no food
