@@ -282,3 +282,20 @@ void Graphic::draw_plus_pattern_square(unsigned int x, unsigned int y,
 
     surface->flush();
 }
+
+// ====================================================================================
+// Undraw functions
+
+void Graphic::undraw_square(unsigned int x, unsigned int y, unsigned int side)
+{
+    auto cc = create_default_cc();
+
+    cc->save();
+    cc->set_source_rgba(0, 0, 0, 0);
+    cc->set_operator(Cairo::Operator::OPERATOR_CLEAR);
+    cc->rectangle(x, y, side, side);
+    cc->fill();
+    cc->restore();
+
+    surface->flush();
+}

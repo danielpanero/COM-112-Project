@@ -162,6 +162,13 @@ namespace Squarecell
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
     void draw_plus_pattern(Square &square, unsigned int color_index);
+
+    /**
+     * @brief Erases everything drawn on the area of the square
+     *
+     * @param square
+     */
+    void undraw_square(Square &square);
 } // namespace Squarecell
 
 #endif

@@ -331,3 +331,14 @@ void Squarecell::draw_plus_pattern(Square &square, unsigned int color_index)
 
     Graphic::draw_plus_pattern_square(x, y, square.side, color_index);
 }
+
+// ====================================================================================
+// Undraw
+
+void Squarecell::undraw_square(Square &square)
+{
+    unsigned int x = get_coordinate_x(square);
+    unsigned int y = get_coordinate_y(square);
+
+    Graphic::undraw_square(x, y, square.side);
+}

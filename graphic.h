@@ -126,6 +126,16 @@ namespace Graphic
      */
     void draw_plus_pattern_square(unsigned int x, unsigned int y, unsigned int side,
                                   unsigned int color_index);
+
+    /**
+     * @brief Erases everything in the area of the square (x,y) with length \b side
+     * 
+     * @param x 
+     * @param y 
+     * @param side 
+     */
+    void undraw_square(unsigned int x, unsigned int y, unsigned int side);
+    
 } // namespace Graphic
 
 #endif
