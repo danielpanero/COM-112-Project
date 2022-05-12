@@ -8,6 +8,7 @@
  *
  */
 
+#include <cmath>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -24,6 +25,8 @@ using std::istringstream;
 using std::string;
 using std::unique_ptr;
 using std::vector;
+
+unsigned int const g_max(128);
 
 // ====================================================================================
 // Ant
@@ -106,9 +109,36 @@ string Collector::get_as_string()
 void Collector::remove_from_grid() { Squarecell::remove_square(*this); }
 void Collector::undraw() { Squarecell::undraw_square(*this); }
 
-std::vector<Squarecell::Square> Collector::generate_diagonal_moves(Square origin)
+size_t Collector::find_target_food(vector<unique_ptr<Food>> &foods)
 {
-    std::vector<Squarecell::Square> moves;
+    size_t target(0);
+    unsigned int best_distance(g_max - 1);
+
+    for (size_t i(0); i < foods.size(); i++)
+    {
+        Square food_square = foods[i]->get_as_square();
+
+        // TODO(@danielpanero): check if it is the right implementation
+        if ((food_square.x + food_square.y) % 2 == (x + y) % 2)
+        {
+            unsigned int distance =
+                std::max(food_square.x >= x ? food_square.x - x : x - food_square.x,
+                         food_square.y >= y ? food_square.y - y : y - food_square.y);
+
+            if (distance < best_distance)
+            {
+                target = i;
+                best_distance = distance;
+            }
+        }
+    }
+
+    return target;
+}
+
+vector<Squarecell::Square> Collector::generate_diagonal_moves(Square origin)
+{
+    vector<Squarecell::Square> moves;
 
     for (int i(1); i <= 2; i++)
     {
@@ -123,8 +153,8 @@ std::vector<Squarecell::Square> Collector::generate_diagonal_moves(Square origin
             unsigned int y = Squarecell::get_coordinate_y(move);
 
             // We check if the proposed new positions are inside the model
-            if (x >= 1 && y >= 1 && y <= 126 && x <= 126 && x + move.side <= 127 &&
-                y + move.side <= 127)
+            if (x >= 1 && y >= 1 && y <= g_max - 2 && x <= g_max - 2 &&
+                x + move.side <= g_max - 1 && y + move.side <= g_max - 1)
             {
                 moves.push_back(move);
             }

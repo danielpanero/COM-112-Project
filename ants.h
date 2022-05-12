@@ -15,6 +15,7 @@
 
 #include "constantes.h"
 #include "element.h"
+#include "food.h"
 #include "squarecell.h"
 
 /**
@@ -94,6 +95,15 @@ public:
 
     void remove_from_grid();
     void undraw();
+
+    /**
+     * @brief Finds the nearest attainable food and return the index to it
+     * 
+     * @param foods 
+     * @return size_t 
+     */
+    size_t find_target_food(std::vector<std::unique_ptr<Food>> &foods);
+
     /**
      * @brief Generates all the possible new positions / moves based on the origin
      *
