@@ -23,6 +23,7 @@
 using std::istringstream;
 using std::string;
 using std::unique_ptr;
+using std::vector;
 
 // ====================================================================================
 // Ant
@@ -122,7 +123,7 @@ std::vector<Squarecell::Square> Collector::generate_diagonal_moves(Square origin
             unsigned int y = Squarecell::get_coordinate_y(move);
 
             // We check if the proposed new positions are inside the model
-            if (x >= 0 && y >= 0 && y <= 127 && x <= 127 && x + move.side <= 127 &&
+            if (x >= 1 && y >= 1 && y <= 126 && x <= 126 && x + move.side <= 127 &&
                 y + move.side <= 127)
             {
                 moves.push_back(move);
