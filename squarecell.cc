@@ -10,7 +10,9 @@
 
 #include <algorithm>
 #include <cmath>
+#include <functional>
 #include <iostream>
+#include <queue>
 #include <stdexcept>
 #include <vector>
 
@@ -24,7 +26,7 @@ using std::vector;
 
 constexpr double g_max(128);
 
-static vector<vector<bool>> grid(g_max, vector<bool>(g_max)); // NOLINT
+static vector<vector<bool>> grid(g_max, vector<bool>(g_max));
 
 // ====================================================================================
 // Grid / Utils
@@ -195,6 +197,96 @@ bool Squarecell::test_if_completely_confined(Square &square1, Square &square2)
     }
 
     return true;
+}
+
+// ====================================================================================
+// Search algorithms
+
+struct BFSNode
+{
+    // The coordinate (x,y) of the parent, ie the first move
+    unsigned int x_i : 7;
+    unsigned int y_i : 7;
+
+    // The current coordinate (x,y) of the node
+    unsigned int x : 7;
+    unsigned int y : 7;
+};
+
+Squarecell::Square
+Squarecell::lee_algorithm(Square &origin, Square &target,
+                          const std::function<vector<Square>(Square)> &generate_moves,
+                          const std::function<bool(Square, Square)> &test)
+{
+    vector<vector<bool>> bfs_visited_nodes(g_max, vector<bool>(g_max));
+    std::queue<BFSNode> bfs_queue;
+
+    bfs_queue.push({.x_i = origin.x, .y_i = origin.y, .x = origin.x, .y = origin.y});
+
+    /** The first time that we run the lee_algorithm algorithm, we store all the
+     * valid moves / directions, so for next iterations depending on the path
+     * taken, we will always have the first moves / direction needed for taking the
+     * path
+     */
+    bool first_iteration = true;
+
+    while (!bfs_queue.empty())
+    {
+        auto bfs_current_node = bfs_queue.front();
+        bfs_queue.pop();
+
+        Squarecell::Square current_square(origin);
+        current_square.x = bfs_current_node.x;
+        current_square.y = bfs_current_node.y;
+
+        // We test if we have reached the target
+        if (test(current_square, target))
+        {
+            return {.x = bfs_current_node.x_i,
+                    .y = bfs_current_node.y_i,
+                    .side = origin.side,
+                    .centered = origin.centered};
+        }
+
+        auto proposed_moves = generate_moves(current_square);
+        for (auto &move : proposed_moves)
+        {
+            // If the proposed position is valid and we have not already visited it, we
+            // push into the queue
+            if (!Squarecell::test_if_superposed_grid(move))
+            {
+
+                unsigned int x = get_coordinate_x(move);
+                unsigned int y = get_coordinate_y(move);
+
+                bool visited = bfs_visited_nodes.at(g_max - 1 - y).at(x);
+                if (!visited)
+                {
+                    if (first_iteration)
+                    {
+                        bfs_queue.push(
+                            {.x_i = move.x, .y_i = move.y, .x = move.x, .y = move.y});
+                    }
+                    else
+                    {
+                        bfs_queue.push({.x_i = bfs_current_node.x_i,
+                                        .y_i = bfs_current_node.y_i,
+                                        .x = move.x,
+                                        .y = move.y});
+                    }
+
+                    bfs_visited_nodes[g_max - 1 - y][x] = true;
+                }
+            }
+        }
+
+        if (first_iteration)
+        {
+            first_iteration = false;
+        }
+    }
+
+    return origin;
 }
 
 // ====================================================================================
