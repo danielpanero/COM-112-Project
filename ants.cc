@@ -148,6 +148,7 @@ bool Collector::return_to_anthill(Square target)
 
     return true;
 }
+
 bool Collector::search_food(vector<unique_ptr<Food>> &foods)
 {
     // TODO(@danielpanero) check that foods > 0 and return false when there is no food
