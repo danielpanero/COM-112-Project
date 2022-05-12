@@ -10,6 +10,8 @@ projet
 *.lo
 *.o
 *.obj
+*.gcda
+*.gcno
 
 # Precompiled Headers
 *.gch
