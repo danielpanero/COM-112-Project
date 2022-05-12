@@ -142,6 +142,7 @@ void MainWindow::build_layout_general_box()
         sigc::mem_fun(*this, &MainWindow::on_prev));
     next_anthill_button.signal_clicked().connect(
         sigc::mem_fun(*this, &MainWindow::on_next));
+    step_button.signal_clicked().connect(sigc::mem_fun(*this, &MainWindow::on_step));
 }
 
 void MainWindow::build_layout_food_box()
@@ -346,6 +347,8 @@ void MainWindow::on_next()
     }
 }
 
+void MainWindow::on_step() { on_iteration(); }
+
 void MainWindow::on_exit()
 {
     idle.disconnect();
@@ -358,11 +361,12 @@ bool MainWindow::on_iteration()
     if (simulation->step())
     {
         // TODO(@danielpanero): what to do when simulation reaches the end
-        return false;
     }
-    
+
     iteration++;
     std::cout << "Iteration: " << iteration << "\n";
+
+    drawing_area.queue_draw();
 
     return true;
 }
