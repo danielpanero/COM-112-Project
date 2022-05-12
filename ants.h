@@ -95,6 +95,14 @@ public:
     void remove_from_grid();
     void undraw();
     /**
+     * @brief Generates all the possible new positions / moves based on the origin
+     *
+     * @param origin
+     * @return std::vector<Square>
+     */
+    std::vector<Square> generate_diagonal_moves(Squarecell::Square origin);
+
+    /**
      * @brief Creates a new pointed instance of Collector from its string
      * representation
      *

@@ -105,6 +105,34 @@ string Collector::get_as_string()
 void Collector::remove_from_grid() { Squarecell::remove_square(*this); }
 void Collector::undraw() { Squarecell::undraw_square(*this); }
 
+std::vector<Squarecell::Square> Collector::generate_diagonal_moves(Square origin)
+{
+    std::vector<Squarecell::Square> moves;
+
+    for (int i(1); i <= 2; i++)
+    {
+        for (int j(1); j <= 2; j++)
+        {
+            Squarecell::Square move(origin);
+
+            move.x += i == 1 ? 1 : -1;
+            move.y += j == 1 ? 1 : -1;
+
+            unsigned int x = Squarecell::get_coordinate_x(move);
+            unsigned int y = Squarecell::get_coordinate_y(move);
+
+            // We check if the proposed new positions are inside the model
+            if (x >= 0 && y >= 0 && y <= 127 && x <= 127 && x + move.side <= 127 &&
+                y + move.side <= 127)
+            {
+                moves.push_back(move);
+            }
+        }
+    }
+
+    return moves;
+}
+
 unique_ptr<Collector> Collector::parse_line(string &line, unsigned int color_index)
 {
     unsigned int x(0);
