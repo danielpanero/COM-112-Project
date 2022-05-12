@@ -98,6 +98,16 @@ namespace Squarecell
     bool test_if_completely_confined(Square &square1, Square &square2);
 
     /**
+     * @brief Checks if the edge of the two squares are touching and return true if it
+     * is the case
+     *
+     * @param square1
+     * @param square2
+     * @return true if they are touching
+     */
+    bool test_if_border_touches(Square &square1, Square &square2);
+
+    /**
      * @brief Implementation of a lee algorithm, used for solving maze routing problems
      * based on breadth-first search. It always gives an optimal solution, if one
      * exists, but is slow and requires considerable memory. The algorithm search all

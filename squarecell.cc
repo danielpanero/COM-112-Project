@@ -199,6 +199,27 @@ bool Squarecell::test_if_completely_confined(Square &square1, Square &square2)
     return true;
 }
 
+bool Squarecell::test_if_border_touches(Square &square1, Square &square2)
+{
+    unsigned int x1 = get_coordinate_x(square1);
+    unsigned int y1 = get_coordinate_y(square1);
+
+    unsigned int x2 = get_coordinate_x(square2);
+    unsigned int y2 = get_coordinate_y(square2);
+
+    if (x1 > x2 + square2.side || x2 > x1 + square1.side)
+    {
+        return false;
+    }
+
+    if (y1 > y2 + square2.side || y2 > y1 + square1.side)
+    {
+        return false;
+    }
+
+    return true;
+}
+
 // ====================================================================================
 // Search algorithms
 
