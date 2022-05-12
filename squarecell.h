@@ -11,6 +11,9 @@
 #ifndef SQUARECELL_H
 #define SQUARECELL_H
 
+#include <functional>
+#include <vector>
+
 namespace Squarecell
 {
     struct Square
@@ -93,6 +96,26 @@ namespace Squarecell
      * @return false if square1 is not completly contained within square2
      */
     bool test_if_completely_confined(Square &square1, Square &square2);
+
+    /**
+     * @brief Implementation of a lee algorithm, used for solving maze routing problems
+     * based on breadth-first search. It always gives an optimal solution, if one
+     * exists, but is slow and requires considerable memory. The algorithm search all
+     * possible routes generates via the function \b generate_moves and when it has
+     * reached its goal ( \b test true), it returns the first move / position for
+     * taking the optmal path
+     *
+     * @param origin
+     * @param target
+     * @param generate_moves a function that returns all the possible moves based on
+     * the current position
+     * @param test a function which that if the algorithm has reached its goal
+     * @return Squarecell::Square
+     */
+    Squarecell::Square
+    lee_algorithm(Square &origin, Square &target,
+                  const std::function<std::vector<Square>(Square)> &generate_moves,
+                  const std::function<bool(Square, Square)> &test);
 
     /**
      * @brief Draws @p square as diamond using the module Graphic
