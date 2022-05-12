@@ -102,6 +102,9 @@ string Collector::get_as_string()
            (state == State_collector::LOADED ? "true" : "false");
 }
 
+void Collector::remove_from_grid() { Squarecell::remove_square(*this); }
+void Collector::undraw() { Squarecell::undraw_square(*this); }
+
 unique_ptr<Collector> Collector::parse_line(string &line, unsigned int color_index)
 {
     unsigned int x(0);

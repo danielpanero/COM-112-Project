@@ -92,6 +92,8 @@ public:
 
     std::string get_as_string() override;
 
+    void remove_from_grid();
+    void undraw();
     /**
      * @brief Creates a new pointed instance of Collector from its string
      * representation
