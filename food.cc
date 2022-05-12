@@ -38,6 +38,8 @@ void Food::add_to_grid()
     Squarecell::add_square(*this);
 }
 
+void Food::remove_from_grid() { Squarecell::remove_square(*this); }
+
 string Food::get_as_string() { return std::to_string(x) + " " + std::to_string(y); }
 
 void Food::draw() { Squarecell::draw_as_diamond(*this, "white"); }

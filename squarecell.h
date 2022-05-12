@@ -11,6 +11,9 @@
 #ifndef SQUARECELL_H
 #define SQUARECELL_H
 
+#include <functional>
+#include <vector>
+
 namespace Squarecell
 {
     struct Square
@@ -95,6 +98,36 @@ namespace Squarecell
     bool test_if_completely_confined(Square &square1, Square &square2);
 
     /**
+     * @brief Checks if the edge of the two squares are touching and return true if it
+     * is the case
+     *
+     * @param square1
+     * @param square2
+     * @return true if they are touching
+     */
+    bool test_if_border_touches(Square &square1, Square &square2);
+
+    /**
+     * @brief Implementation of a lee algorithm, used for solving maze routing problems
+     * based on breadth-first search. It always gives an optimal solution, if one
+     * exists, but is slow and requires considerable memory. The algorithm search all
+     * possible routes generates via the function \b generate_moves and when it has
+     * reached its goal ( \b test true), it returns the first move / position for
+     * taking the optmal path
+     *
+     * @param origin
+     * @param target
+     * @param generate_moves a function that returns all the possible moves based on
+     * the current position
+     * @param test a function which that if the algorithm has reached its goal
+     * @return Squarecell::Square
+     */
+    Squarecell::Square
+    lee_algorithm(Square &origin, Square &target,
+                  const std::function<std::vector<Square>(Square)> &generate_moves,
+                  const std::function<bool(Square &, Square &)> &test);
+
+    /**
      * @brief Draws @p square as diamond using the module Graphic
      *
      * @param square
@@ -139,6 +172,13 @@ namespace Squarecell
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
     void draw_plus_pattern(Square &square, unsigned int color_index);
+
+    /**
+     * @brief Erases everything drawn on the area of the square
+     *
+     * @param square
+     */
+    void undraw_square(Square &square);
 } // namespace Squarecell
 
 #endif

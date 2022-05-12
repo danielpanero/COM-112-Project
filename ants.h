@@ -15,6 +15,7 @@
 
 #include "constantes.h"
 #include "element.h"
+#include "food.h"
 #include "squarecell.h"
 
 /**
@@ -91,6 +92,36 @@ public:
     void draw() override;
 
     std::string get_as_string() override;
+
+    void remove_from_grid();
+    void undraw();
+    void step(Square anthill, std::vector<std::unique_ptr<Food>> &foods);
+
+    bool return_to_anthill(Square target);
+
+    /**
+     * @brief Moves the collector the nearest foods attainable, if there is no food
+     * return false
+     *
+     * @param foods
+     */
+    bool search_food(std::vector<std::unique_ptr<Food>> &foods);
+
+    /**
+     * @brief Finds the nearest attainable food and return the index to it
+     *
+     * @param foods
+     * @return size_t
+     */
+    size_t find_target_food(std::vector<std::unique_ptr<Food>> &foods);
+
+    /**
+     * @brief Generates all the possible new positions / moves based on the origin
+     *
+     * @param origin
+     * @return std::vector<Square>
+     */
+    std::vector<Square> generate_diagonal_moves(Squarecell::Square origin);
 
     /**
      * @brief Creates a new pointed instance of Collector from its string

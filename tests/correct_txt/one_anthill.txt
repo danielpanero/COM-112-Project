@@ -1,0 +1,17 @@
+# Simple test file without error
+#
+
+# nb food
+0
+
+# food
+
+1 # nb anthill
+	50 50 12 53 53 1000 1 0 0 # anthill #1
+	
+	# collectors:
+    70 70 3 true
+	
+	# defensors:
+	
+	# predators:
