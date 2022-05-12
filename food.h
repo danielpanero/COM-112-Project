@@ -29,6 +29,7 @@ public:
     ~Food() override = default;
 
     void add_to_grid();
+    void remove_from_grid();
 
     std::string get_as_string() override;
     void draw() override;

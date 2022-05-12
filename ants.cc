@@ -118,9 +118,12 @@ size_t Collector::find_target_food(vector<unique_ptr<Food>> &foods)
     {
         Square food_square = foods[i]->get_as_square();
 
-        // TODO(@danielpanero): check if it is the right implementation
+        // TODO(@danielpanero): check if it is the right implementation and what do
+        // when it didn't find any..
         if ((food_square.x + food_square.y) % 2 == (x + y) % 2)
         {
+            // TODO(@danielpanero): fix bug that sometimes it doesn't target the
+            // nearest one
             unsigned int distance =
                 std::max(food_square.x >= x ? food_square.x - x : x - food_square.x,
                          food_square.y >= y ? food_square.y - y : y - food_square.y);
