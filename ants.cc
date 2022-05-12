@@ -109,6 +109,47 @@ string Collector::get_as_string()
 void Collector::remove_from_grid() { Squarecell::remove_square(*this); }
 void Collector::undraw() { Squarecell::undraw_square(*this); }
 
+bool Collector::search_food(vector<unique_ptr<Food>> &foods)
+{
+    // TODO(@danielpanero) check that foods > 0 and return false when there is no food
+    // to search
+
+    size_t food_index = find_target_food(foods);
+
+    auto origin = get_as_square();
+    auto target = foods[food_index]->get_as_square();
+
+    remove_from_grid();
+    undraw();
+
+    foods.at(food_index)->remove_from_grid();
+
+    auto generate_moves =
+        std::bind(&Collector::generate_diagonal_moves, this, std::placeholders::_1);
+    auto move = Squarecell::lee_algorithm(origin, target, generate_moves,
+                                          &Squarecell::test_if_superposed_two_square);
+
+    x = move.x;
+    y = move.y;
+
+    if (Squarecell::test_if_superposed_two_square(*this, target))
+    {
+        std::swap(foods.at(food_index), foods.back());
+        foods.pop_back();
+
+        state = LOADED;
+    }
+    else
+    {
+        foods.at(food_index)->add_to_grid();
+    }
+
+    add_to_grid();
+    draw();
+
+    return true;
+}
+
 size_t Collector::find_target_food(vector<unique_ptr<Food>> &foods)
 {
     size_t target(0);

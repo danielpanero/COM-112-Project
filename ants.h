@@ -95,12 +95,19 @@ public:
 
     void remove_from_grid();
     void undraw();
+    /**
+     * @brief Moves the collector the nearest foods attainable, if there is no food
+     * return false
+     *
+     * @param foods
+     */
+    bool search_food(std::vector<std::unique_ptr<Food>> &foods);
 
     /**
      * @brief Finds the nearest attainable food and return the index to it
-     * 
-     * @param foods 
-     * @return size_t 
+     *
+     * @param foods
+     * @return size_t
      */
     size_t find_target_food(std::vector<std::unique_ptr<Food>> &foods);
 
