@@ -216,7 +216,7 @@ struct BFSNode
 Squarecell::Square
 Squarecell::lee_algorithm(Square &origin, Square &target,
                           const std::function<vector<Square>(Square)> &generate_moves,
-                          const std::function<bool(Square, Square)> &test)
+                          const std::function<bool(Square &, Square &)> &test)
 {
     vector<vector<bool>> bfs_visited_nodes(g_max, vector<bool>(g_max));
     std::queue<BFSNode> bfs_queue;

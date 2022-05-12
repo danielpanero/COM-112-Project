@@ -115,7 +115,7 @@ namespace Squarecell
     Squarecell::Square
     lee_algorithm(Square &origin, Square &target,
                   const std::function<std::vector<Square>(Square)> &generate_moves,
-                  const std::function<bool(Square, Square)> &test);
+                  const std::function<bool(Square &, Square &)> &test);
 
     /**
      * @brief Draws @p square as diamond using the module Graphic
