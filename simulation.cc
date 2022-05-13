@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <random>
 #include <sstream>
 #include <stdexcept>
 #include <vector>
@@ -27,6 +28,8 @@ using std::ifstream;
 using std::istringstream;
 using std::string;
 using std::vector;
+
+unsigned int const g_max(128);
 
 bool Simulation::read_file(string &path)
 {
@@ -85,7 +88,9 @@ void Simulation::save_file(string &path)
     file.close();
 }
 
-bool Simulation::step(){
+bool Simulation::step()
+{
+    new_food();
     return false;
 }
 
@@ -278,4 +283,33 @@ string get_next_line(ifstream &file)
         return line;
     }
     return "";
+}
+
+void Simulation::new_food()
+{
+    unsigned int i = 0;
+    static std::uniform_int_distribution<unsigned> u(0, g_max - 1);
+    static std::default_random_engine e;
+    static std::bernoulli_distribution b(food_rate);
+
+    while (i < max_food_trial)
+    {
+        unsigned int x = u(e);
+        unsigned int y = u(e);
+
+        try
+        {
+            // TODO(controllare cosa vuole)
+            if (b(e))
+            {
+                std::unique_ptr<Food> food(new Food(x, y));
+                food->draw();
+                foods.push_back(std::move(food));
+            }
+        }
+        catch (std::invalid_argument e)
+        {
+        }
+        i++;
+    }
 }

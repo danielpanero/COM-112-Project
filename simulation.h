@@ -139,6 +139,8 @@ private:
 
     std::vector<std::unique_ptr<Anthill>> anthills;
     std::vector<std::unique_ptr<Food>> foods;
+
+    void new_food();
 };
 
 /**
