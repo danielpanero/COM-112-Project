@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+#include <random>
 #include <sstream>
 #include <stdexcept>
 #include <vector>
@@ -27,6 +28,8 @@ using std::ifstream;
 using std::istringstream;
 using std::string;
 using std::vector;
+
+unsigned int const g_max(128);
 
 bool Simulation::read_file(string &path)
 {
@@ -85,7 +88,9 @@ void Simulation::save_file(string &path)
     file.close();
 }
 
-bool Simulation::step(){
+bool Simulation::step()
+{
+    generate_foods();
     return false;
 }
 
@@ -263,6 +268,44 @@ void Simulation::check_generator_defensors_inside_anthills()
     for (size_t i = 0; i != anthills.size(); ++i)
     {
         anthills[i]->test_if_generator_defensors_perimeter(i);
+    }
+}
+
+void Simulation::generate_foods()
+{
+
+    static std::uniform_int_distribution<unsigned> generate_coordinate(1, g_max - 2);
+    static std::bernoulli_distribution b_distribution(food_rate);
+    static std::default_random_engine random_num;
+
+    unsigned int x = 0;
+    unsigned int y = 0;
+
+    unsigned int i = 0;
+    bool found = false;
+
+    while (i < max_food_trial && found == false)
+    {
+        x = generate_coordinate(random_num);
+        y = generate_coordinate(random_num);
+
+        Squarecell::Square square{x, y, 1, true};
+
+        // TODO(@danielpanero):check if not superposed with anthill
+        if (!Squarecell::test_if_superposed_grid(square))
+        {
+            found = true;
+        }
+
+        i++;
+    }
+
+    if (found && b_distribution(random_num))
+    {
+        std::unique_ptr<Food> food(new Food(x, y));
+        food->draw();
+
+        foods.push_back(std::move(food));
     }
 }
 
