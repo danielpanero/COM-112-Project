@@ -90,7 +90,7 @@ void Simulation::save_file(string &path)
 
 bool Simulation::step()
 {
-    new_food();
+    generate_foods();
     return false;
 }
 
@@ -271,6 +271,44 @@ void Simulation::check_generator_defensors_inside_anthills()
     }
 }
 
+void Simulation::generate_foods()
+{
+
+    static std::uniform_int_distribution<unsigned> generate_coordinate(1, g_max - 2);
+    static std::bernoulli_distribution b_distribution(food_rate);
+    static std::default_random_engine random_num;
+
+    unsigned int x = 0;
+    unsigned int y = 0;
+
+    unsigned int i = 0;
+    bool found = false;
+
+    while (i < max_food_trial && found == false)
+    {
+        x = generate_coordinate(random_num);
+        y = generate_coordinate(random_num);
+
+        Squarecell::Square square{x, y, 1, true};
+
+        // TODO(@danielpanero):check if not superposed with anthill
+        if (!Squarecell::test_if_superposed_grid(square))
+        {
+            found = true;
+        }
+
+        i++;
+    }
+
+    if (found && b_distribution(random_num))
+    {
+        std::unique_ptr<Food> food(new Food(x, y));
+        food->draw();
+
+        foods.push_back(std::move(food));
+    }
+}
+
 string get_next_line(ifstream &file)
 {
     string line;
@@ -283,33 +321,4 @@ string get_next_line(ifstream &file)
         return line;
     }
     return "";
-}
-
-void Simulation::new_food()
-{
-    unsigned int i = 0;
-    static std::uniform_int_distribution<unsigned> u(0, g_max - 1);
-    static std::default_random_engine e;
-    static std::bernoulli_distribution b(food_rate);
-
-    while (i < max_food_trial)
-    {
-        unsigned int x = u(e);
-        unsigned int y = u(e);
-
-        try
-        {
-            // TODO(controllare cosa vuole)
-            if (b(e))
-            {
-                std::unique_ptr<Food> food(new Food(x, y));
-                food->draw();
-                foods.push_back(std::move(food));
-            }
-        }
-        catch (std::invalid_argument e)
-        {
-        }
-        i++;
-    }
 }
