@@ -296,6 +296,72 @@ void Defensor::add_to_grid()
 
 void Defensor::draw() { Squarecell::draw_plus_pattern(*this, get_color_index()); }
 
+void Defensor::remove_from_grid() { Squarecell::remove_square(*this); }
+
+void Defensor::undraw() { Squarecell::undraw_square(*this); }
+
+void Defensor::step(Square anthill)
+{
+    auto origin = get_as_square();
+
+    remove_from_grid();
+    undraw();
+
+    auto generate_moves =
+        std::bind(&Defensor::generate_hv_moves, this, std::placeholders::_1);
+    auto test = std::bind(&Defensor::test_if_confined_and_near_border, this,
+                          std::placeholders::_1, std::placeholders::_2);
+
+    auto move = Squarecell::lee_algorithm(origin, anthill, generate_moves, test);
+
+    x = move.x;
+    y = move.y;
+
+    add_to_grid();
+    draw();
+}
+
+bool Defensor::test_if_confined_and_near_border(Square &origin, Square &anthill)
+{
+    return Squarecell::test_if_completely_confined(origin, anthill) &&
+           Squarecell::test_if_border_touches(origin, anthill);
+}
+
+vector<Squarecell::Square> Defensor::generate_hv_moves(Square origin)
+{
+    vector<Squarecell::Square> moves;
+
+    for (int i(1); i <= 2; i++)
+    {
+        for (int j(1); j <= 2; j++)
+        {
+            Squarecell::Square move(origin);
+
+            if (i == 1)
+            {
+                move.x += j == 1 ? 1 : -1;
+            }
+            else
+            {
+
+                move.y += j == 1 ? 1 : -1;
+            }
+
+            unsigned int x = Squarecell::get_coordinate_x(move);
+            unsigned int y = Squarecell::get_coordinate_y(move);
+
+            // We check if the proposed new positions are inside the model
+            if (x >= 1 && y >= 1 && y <= g_max - 2 && x <= g_max - 2 &&
+                x + move.side <= g_max - 1 && y + move.side <= g_max - 1)
+            {
+                moves.push_back(move);
+            }
+        }
+    }
+
+    return moves;
+}
+
 unique_ptr<Defensor> Defensor::parse_line(string &line, unsigned int color_index)
 {
     unsigned int x(0);
