@@ -167,6 +167,21 @@ public:
 
     void add_to_grid() override;
     void draw() override;
+
+    void remove_from_grid();
+    void undraw();
+    void step(Squarecell::Square anthill);
+
+    bool test_if_confined_and_near_border(Squarecell::Square &origin,
+                                          Squarecell::Square &anthill);
+
+    /**
+     * @brief Generates all the possible new positions / moves based on the origin
+     *
+     * @param origin
+     * @return std::vector<Square>
+     */
+    std::vector<Square> generate_hv_moves(Squarecell::Square origin);
 };
 
 class Predator : public Ant
