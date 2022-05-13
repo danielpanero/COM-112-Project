@@ -109,6 +109,7 @@ void Anthill::draw()
     Squarecell::draw_only_border(*this, get_color_index());
     generator->draw();
 }
+void Anthill::undraw() { Squarecell::undraw_thick_border_square(*this); }
 
 unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 {
@@ -139,33 +140,46 @@ unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
                                            n_defensors, n_predators, color_index));
 }
 
-bool Anthill::step(std::vector<std::unique_ptr<Food>> foods,
-                   std::vector<std::unique_ptr<Anthill>> anthills)
+bool Anthill::step(std::vector<std::unique_ptr<Food>> &foods,
+                   std::vector<std::unique_ptr<Anthill>> &anthills)
 {
-    
+    undraw();
+    if (try_test_corner_expansion(anthills))
+    {
+        state = FREE;
+    }
+    else
+    {
+        state = CONSTRAINED;
+    }
+    draw();
+    return true;
 }
 
-bool Anthill::try_test_corner_expansion(std::vector<std::unique_ptr<Anthill>> anthills)
+bool Anthill::try_test_corner_expansion(
+    std::vector<std::unique_ptr<Anthill>> &anthills)
 {
-    unsigned int sizeF =
-        sqrt(4 * (sizeG * sizeG + sizeC * sizeC * n_collectors +
-                  sizeD * sizeD * n_defensors + sizeP * sizeP * n_predators));
+    // unsigned int sizeF =
+    //     sqrt(4 * (sizeG * sizeG + sizeC * sizeC * n_collectors +
+    //               sizeD * sizeD * n_defensors + sizeP * sizeP * n_predators));
 
-    for (int k = 0; k <= 2; k++)
+    unsigned int sizeF = 4;
+
+    for (int k(1); k <= 2; k++)
     {
         Square anthill(*this);
         anthill.side = sizeF + 2;
 
-        for (int t = 0; t <= 2; t++)
+        for (int t(1); t <= 2; t++)
         {
             if (k == 1)
             {
-                anthill.x += t == 1 ? 1 : -1;
+                anthill.x += t == 1 ? 0 : -1;
             }
             else
             {
 
-                anthill.y += t == 1 ? 1 : -1;
+                anthill.y += t == 1 ? 0 : -1;
             }
             if (!test_corner_expansion(anthills, anthill))
             {
@@ -183,8 +197,8 @@ bool Anthill::try_test_corner_expansion(std::vector<std::unique_ptr<Anthill>> an
     return false;
 }
 
-bool Anthill::test_corner_expansion(std::vector<std::unique_ptr<Anthill>> anthills,
-                                    Square anthill)
+bool Anthill::test_corner_expansion(std::vector<std::unique_ptr<Anthill>> &anthills,
+                                    Square &anthill)
 {
     try
     {

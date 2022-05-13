@@ -179,6 +179,7 @@ namespace Squarecell
      * @param square
      */
     void undraw_square(Square &square);
+    void undraw_thick_border_square(Square &square);
 } // namespace Squarecell
 
 #endif

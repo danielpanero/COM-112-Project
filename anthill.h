@@ -61,9 +61,10 @@ public:
 
     std::string get_as_string() override;
     void draw() override;
-    bool step(std::vector<std::unique_ptr<Food>> foods,std::vector<std::unique_ptr<Anthill>> anthills);
-    bool try_test_corner_expansion(std::vector<std::unique_ptr<Anthill>> anthills);
-    bool test_corner_expansion(std::vector<std::unique_ptr<Anthill>> anthills, Square anthill);
+    void undraw();
+    bool step(std::vector<std::unique_ptr<Food>>& foods,std::vector<std::unique_ptr<Anthill>> &anthills);
+    bool try_test_corner_expansion(std::vector<std::unique_ptr<Anthill>>& anthills);
+    bool test_corner_expansion(std::vector<std::unique_ptr<Anthill>> &anthills, Square& anthill);
 
     /**
      * @brief Creates a new pointed instance Anthill from its string representation

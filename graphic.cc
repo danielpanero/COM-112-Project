@@ -299,3 +299,23 @@ void Graphic::undraw_square(unsigned int x, unsigned int y, unsigned int side)
 
     surface->flush();
 }
+
+void Graphic::undraw_thick_border_square(unsigned int x, unsigned int y,
+                                         unsigned int side)
+{
+    auto cc = create_default_cc();
+
+    cc->save();
+    cc->set_source_rgba(0, 0, 0, 0);
+    cc->set_operator(Cairo::Operator::OPERATOR_CLEAR);
+
+    cc->set_line_width(thick_border_linewidth);
+
+    cc->rectangle(x + cell_size / 2, y + cell_size / 2, side - cell_size,
+                  side - cell_size);
+    cc->stroke();
+
+    cc->restore();
+
+    surface->flush();
+}

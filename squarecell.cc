@@ -363,3 +363,11 @@ void Squarecell::undraw_square(Square &square)
 
     Graphic::undraw_square(x, y, square.side);
 }
+
+void Squarecell::undraw_thick_border_square(Square &square)
+{
+    unsigned int x = get_coordinate_x(square);
+    unsigned int y = get_coordinate_y(square);
+
+    Graphic::undraw_thick_border_square(x, y, square.side);
+}

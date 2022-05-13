@@ -86,6 +86,9 @@ void Simulation::save_file(string &path)
 }
 
 bool Simulation::step(){
+    for(auto & anthill: anthills){
+        anthill -> step(foods, anthills);
+    }
     return false;
 }
 
