@@ -39,6 +39,8 @@ public:
         unsigned int color_index);
     ~Ant() override = default;
 
+    // TODO(@danielpanero): remove_from_grid, undraw, attacked as virtual
+
     /**
      * @brief Checks that position in the grid is empty and either throw an error or
      * fills the grid
@@ -201,6 +203,24 @@ public:
 
     void add_to_grid() override;
     void draw() override;
+
+    void remove_from_grid();
+    void undraw();
+
+    void remain_inside(Squarecell::Square anthill);
+
+    // TODO(@danielpanero): multiple ants near + possible segfault maybe pass directly
+    // anthill with a function near ants? Predator vs Defensor -> nothing and Defensor
+    // + Defensor ... define function attacked for each ants...
+    void attack(std::unique_ptr<Ant> &ant);
+
+    /**
+     * @brief Generates all the possible new positions / moves based on the origin
+     *
+     * @param origin
+     * @return std::vector<Square>
+     */
+    std::vector<Square> generate_l_moves(Squarecell::Square origin);
 
     /**
      * @brief Creates a new pointed instance of Predator from its string representation
