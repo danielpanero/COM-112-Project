@@ -8,6 +8,7 @@
  *
  */
 
+#include <cmath>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -24,6 +25,8 @@ using std::istringstream;
 using std::string;
 using std::unique_ptr;
 using std::vector;
+
+constexpr double g_max(128);
 
 Anthill::Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int xg,
                  unsigned int yg, unsigned int n_food, unsigned int n_collectors,
@@ -134,4 +137,69 @@ unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 
     return unique_ptr<Anthill>(new Anthill(x, y, side, xg, yg, n_food, n_collectors,
                                            n_defensors, n_predators, color_index));
+}
+
+bool Anthill::step(std::vector<std::unique_ptr<Food>> foods,
+                   std::vector<std::unique_ptr<Anthill>> anthills)
+{
+    
+}
+
+bool Anthill::try_test_corner_expansion(std::vector<std::unique_ptr<Anthill>> anthills)
+{
+    unsigned int sizeF =
+        sqrt(4 * (sizeG * sizeG + sizeC * sizeC * n_collectors +
+                  sizeD * sizeD * n_defensors + sizeP * sizeP * n_predators));
+
+    for (int k = 0; k <= 2; k++)
+    {
+        Square anthill(*this);
+        anthill.side = sizeF + 2;
+
+        for (int t = 0; t <= 2; t++)
+        {
+            if (k == 1)
+            {
+                anthill.x += t == 1 ? 1 : -1;
+            }
+            else
+            {
+
+                anthill.y += t == 1 ? 1 : -1;
+            }
+            if (!test_corner_expansion(anthills, anthill))
+            {
+                continue;
+            }
+            else
+            {
+                side = sizeF + 2;
+                x = anthill.x;
+                y = anthill.y;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool Anthill::test_corner_expansion(std::vector<std::unique_ptr<Anthill>> anthills,
+                                    Square anthill)
+{
+    try
+    {
+        Squarecell::test_square(anthill);
+        for (size_t i = 0; i < anthills.size(); i++)
+        {
+            auto anthill2 = anthills[i]->get_as_square();
+            if (Squarecell::test_if_superposed_two_square(anthill, anthill2))
+            {
+                return false;
+            }
+        }
+    }
+    catch (const std::invalid_argument e)
+    {
+        return true;
+    }
 }

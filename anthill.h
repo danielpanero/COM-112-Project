@@ -61,6 +61,9 @@ public:
 
     std::string get_as_string() override;
     void draw() override;
+    bool step(std::vector<std::unique_ptr<Food>> foods,std::vector<std::unique_ptr<Anthill>> anthills);
+    bool try_test_corner_expansion(std::vector<std::unique_ptr<Anthill>> anthills);
+    bool test_corner_expansion(std::vector<std::unique_ptr<Anthill>> anthills, Square anthill);
 
     /**
      * @brief Creates a new pointed instance Anthill from its string representation
@@ -78,6 +81,7 @@ private:
     unsigned int n_collectors;
     unsigned int n_defensors;
     unsigned int n_predators;
+    Etat_fourmiliere state = FREE;
 
     std::unique_ptr<Generator> generator;
     std::vector<std::unique_ptr<Collector>> collectors;
