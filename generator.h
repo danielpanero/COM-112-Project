@@ -36,7 +36,34 @@ public:
 
     std::string get_as_string() override;
 
-    bool step();
+    /**
+     * @brief Advances one step the state of the generator: it tries to remain inside
+     * the anthill, when it fails to do so, it return false
+     *
+     * @param anthill
+     * @return false when outside the anthill / touches the border
+     */
+    bool step(Squarecell::Square anthill);
+
+    /**
+     * @brief Generates all the possible new positions / moves based on the origin
+     *
+     * @param origin
+     * @return std::vector<Square>
+     */
+    static std::vector<Squarecell::Square> generate_moves(Squarecell::Square origin);
+
+    /**
+     * @brief Returns true if origin is inside of square anthill and it doesn't touch
+     * any edge
+     *
+     * @param origin
+     * @param anthill
+     * @return true if origin is inside of square anthill and it doesn't touch
+     * any edge
+     */
+    static bool test_if_confined_and_not_near_border(Squarecell::Square &origin,
+                                                     Squarecell::Square &anthill);
 };
 
 #endif

@@ -17,9 +17,10 @@
 
 using std::istringstream;
 using std::string;
-using std::unique_ptr;
 using std::vector;
 
+// TODO(@danielpanero): check if we want to add check move in squarecell as they are
+// all pretty much the same
 unsigned int const g_max(128);
 
 Generator::Generator(unsigned int x, unsigned int y, unsigned int age,
@@ -55,9 +56,62 @@ string Generator::get_as_string()
     return std::to_string(x) + " " + std::to_string(y);
 }
 
-bool Generator::step()
+bool Generator::step(Square anthill)
 {
-    // TODO(@danielpanero): try to stay inside anthill (lee_algor), if superposed
-    // return dead = false
-    return true;
+    remove_from_grid();
+    undraw();
+
+    auto move =
+        Squarecell::lee_algorithm(*this, anthill, &Generator::generate_moves,
+                                  &Generator::test_if_confined_and_not_near_border);
+
+    x = move.x;
+    y = move.y;
+
+    add_to_grid();
+    draw();
+
+    return Generator::test_if_confined_and_not_near_border(*this, anthill);
+}
+
+vector<Squarecell::Square> Generator::generate_moves(Square origin)
+{
+    // All the possible shifts combination: RIGHT, LEFT, TOP, BOTTOM, TOP-RIGHT...
+    constexpr static int x_shift[8] = {1, -1, 0, 0, 1, 1, -1, -1};
+    constexpr static int y_shift[8] = {0, 0, 1, -1, 1, -1, 1, -1};
+
+    vector<Squarecell::Square> moves;
+
+    for (int i(0); i <= 8; i++)
+    {
+        Squarecell::Square move(origin);
+
+        move.x += x_shift[i];
+        move.y += y_shift[i];
+
+        unsigned int x = Squarecell::get_coordinate_x(move);
+        unsigned int y = Squarecell::get_coordinate_y(move);
+
+        // We check if the proposed new positions are inside the model
+        // TODO(@danielpanero): when replaced unsigned int with x, it will suffice to
+        // check that x >= 0 and we can group all this function in squarecell
+        if (move.x >= 2 && move.y >= 2 && x + move.side <= g_max - 1 &&
+            y + move.side <= g_max - 1)
+        {
+            moves.push_back(move);
+        }
+    }
+
+    return moves;
+}
+
+bool Generator::test_if_confined_and_not_near_border(Square &origin, Square &anthill)
+{
+    if (Squarecell::test_if_completely_confined(origin, anthill))
+    {
+        // TODO(@danielpanero): fix test_if_border_touches for internal usage
+        return !Squarecell::test_if_border_touches(origin, anthill);
+    }
+
+    return false;
 }
