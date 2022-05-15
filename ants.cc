@@ -102,16 +102,17 @@ void Collector::add_to_grid()
     Squarecell::add_square(*this);
 }
 
+void Collector::remove_from_grid() { Squarecell::remove_square(*this); }
+
 void Collector::draw() { Squarecell::draw_diagonal_pattern(*this, get_color_index()); }
+
+void Collector::undraw() { Squarecell::undraw_square(*this); }
 
 string Collector::get_as_string()
 {
     return Ant::get_as_string() + " " +
            (state == State_collector::LOADED ? "true" : "false");
 }
-
-void Collector::remove_from_grid() { Squarecell::remove_square(*this); }
-void Collector::undraw() { Squarecell::undraw_square(*this); }
 
 void Collector::step(Square anthill, vector<unique_ptr<Food>> &foods)
 {
@@ -133,10 +134,9 @@ bool Collector::return_to_anthill(Square target)
     remove_from_grid();
     undraw();
 
-    auto generate_moves =
-        std::bind(&Collector::generate_diagonal_moves, this, std::placeholders::_1);
-    auto move = Squarecell::lee_algorithm(origin, target, generate_moves,
-                                          &Squarecell::test_if_border_touches);
+    auto move =
+        Squarecell::lee_algorithm(origin, target, &Collector::generate_diagonal_moves,
+                                  &Squarecell::test_if_border_touches);
 
     x = move.x;
     y = move.y;
@@ -168,10 +168,9 @@ bool Collector::search_food(vector<unique_ptr<Food>> &foods)
 
     foods.at(food_index)->remove_from_grid();
 
-    auto generate_moves =
-        std::bind(&Collector::generate_diagonal_moves, this, std::placeholders::_1);
-    auto move = Squarecell::lee_algorithm(origin, target, generate_moves,
-                                          &Squarecell::test_if_superposed_two_square);
+    auto move =
+        Squarecell::lee_algorithm(origin, target, &Collector::generate_diagonal_moves,
+                                  &Squarecell::test_if_superposed_two_square);
 
     x = move.x;
     y = move.y;
@@ -298,9 +297,9 @@ void Defensor::add_to_grid()
     Squarecell::add_square(*this);
 }
 
-void Defensor::draw() { Squarecell::draw_plus_pattern(*this, get_color_index()); }
-
 void Defensor::remove_from_grid() { Squarecell::remove_square(*this); }
+
+void Defensor::draw() { Squarecell::draw_plus_pattern(*this, get_color_index()); }
 
 void Defensor::undraw() { Squarecell::undraw_square(*this); }
 
@@ -311,12 +310,9 @@ void Defensor::step(Square anthill)
     remove_from_grid();
     undraw();
 
-    auto generate_moves =
-        std::bind(&Defensor::generate_hv_moves, this, std::placeholders::_1);
-    auto test = std::bind(&Defensor::test_if_confined_and_near_border, this,
-                          std::placeholders::_1, std::placeholders::_2);
-
-    auto move = Squarecell::lee_algorithm(origin, anthill, generate_moves, test);
+    auto move =
+        Squarecell::lee_algorithm(origin, anthill, &Defensor::generate_hv_moves,
+                                  &Defensor::test_if_confined_and_near_border);
 
     x = move.x;
     y = move.y;
@@ -401,9 +397,9 @@ void Predator::add_to_grid()
     Squarecell::add_square(*this);
 }
 
-void Predator::draw() { Squarecell::draw_filled(*this, get_color_index()); }
-
 void Predator::remove_from_grid() { Squarecell::remove_square(*this); }
+
+void Predator::draw() { Squarecell::draw_filled(*this, get_color_index()); }
 
 void Predator::undraw() { Squarecell::undraw_square(*this); }
 
@@ -414,10 +410,8 @@ void Predator::remain_inside(Squarecell::Square anthill)
     remove_from_grid();
     undraw();
 
-    auto generate_moves =
-        std::bind(&Predator::generate_l_moves, this, std::placeholders::_1);
-    auto move = Squarecell::lee_algorithm(origin, anthill, generate_moves,
-                                          Squarecell::test_if_completely_confined);
+    auto move = Squarecell::lee_algorithm(origin, anthill, &Predator::generate_l_moves,
+                                          &Squarecell::test_if_completely_confined);
 
     x = move.x;
     y = move.y;

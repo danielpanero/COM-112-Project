@@ -129,7 +129,7 @@ public:
      * @param origin
      * @return std::vector<Square>
      */
-    std::vector<Square> generate_diagonal_moves(Squarecell::Square origin);
+    static std::vector<Square> generate_diagonal_moves(Squarecell::Square origin);
 
     /**
      * @brief Creates a new pointed instance of Collector from its string
@@ -162,6 +162,25 @@ public:
     Defensor(unsigned int x, unsigned int y, unsigned int age,
              unsigned int color_index);
 
+    void add_to_grid() override;
+    void remove_from_grid() override;
+
+    void draw() override;
+    void undraw() override;
+
+    void step(Squarecell::Square anthill);
+
+    static bool test_if_confined_and_near_border(Squarecell::Square &origin,
+                                                 Squarecell::Square &anthill);
+
+    /**
+     * @brief Generates all the possible new positions / moves based on the origin
+     *
+     * @param origin
+     * @return std::vector<Square>
+     */
+    static std::vector<Square> generate_hv_moves(Squarecell::Square origin);
+
     /**
      * @brief Creates a new pointed instance of Defensor from its string representation
      *
@@ -172,24 +191,6 @@ public:
      */
     static std::unique_ptr<Defensor> parse_line(std::string &line,
                                                 unsigned int color_index);
-
-    void add_to_grid() override;
-    void draw() override;
-
-    void remove_from_grid();
-    void undraw();
-    void step(Squarecell::Square anthill);
-
-    bool test_if_confined_and_near_border(Squarecell::Square &origin,
-                                          Squarecell::Square &anthill);
-
-    /**
-     * @brief Generates all the possible new positions / moves based on the origin
-     *
-     * @param origin
-     * @return std::vector<Square>
-     */
-    std::vector<Square> generate_hv_moves(Squarecell::Square origin);
 };
 
 class Predator : public Ant
@@ -226,7 +227,7 @@ public:
      * @param origin
      * @return std::vector<Square>
      */
-    std::vector<Square> generate_l_moves(Squarecell::Square origin);
+    static std::vector<Square> generate_l_moves(Squarecell::Square origin);
 
     /**
      * @brief Creates a new pointed instance of Predator from its string representation
