@@ -39,7 +39,7 @@ public:
         unsigned int color_index);
     ~Ant() override = default;
 
-    // TODO(@danielpanero): remove_from_grid, undraw, attacked as virtual
+    // TODO(@danielpanero): attacked as virtual
 
     /**
      * @brief Checks that position in the grid is empty and either throw an error or
@@ -47,6 +47,8 @@ public:
      *
      */
     virtual void add_to_grid() = 0;
+    virtual void remove_from_grid() = 0;
+
     std::string get_as_string() override;
 
 private:
@@ -69,7 +71,10 @@ public:
               unsigned int color_index);
 
     void add_to_grid() override;
+    void remove_from_grid() override;
+
     void draw() override;
+    void undraw() override;
 
     std::string get_as_string() override;
 };
@@ -91,12 +96,13 @@ public:
               unsigned int color_index);
 
     void add_to_grid() override;
+    void remove_from_grid() override;
+
     void draw() override;
+    void undraw() override;
 
     std::string get_as_string() override;
 
-    void remove_from_grid();
-    void undraw();
     void step(Square anthill, std::vector<std::unique_ptr<Food>> &foods);
 
     bool return_to_anthill(Square target);
@@ -202,10 +208,10 @@ public:
              unsigned int color_index);
 
     void add_to_grid() override;
-    void draw() override;
+    void remove_from_grid() override;
 
-    void remove_from_grid();
-    void undraw();
+    void draw() override;
+    void undraw() override;
 
     void remain_inside(Squarecell::Square anthill);
 

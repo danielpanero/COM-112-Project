@@ -31,8 +31,10 @@ public:
     void add_to_grid();
     void remove_from_grid();
 
-    std::string get_as_string() override;
     void draw() override;
+    void undraw() override;
+
+    std::string get_as_string() override;
 
     static std::unique_ptr<Food> parse_line(std::string &line);
 };

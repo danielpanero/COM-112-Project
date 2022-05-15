@@ -47,6 +47,7 @@ public:
      */
     virtual std::string get_as_string() = 0;
     virtual void draw() = 0;
+    virtual void undraw() = 0;
 
 private:
     /**

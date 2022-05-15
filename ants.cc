@@ -66,12 +66,16 @@ void Generator::add_to_grid()
     Squarecell::add_square(*this);
 }
 
+void Generator::remove_from_grid() { Squarecell::remove_square(*this); }
+
+void Generator::draw() { Squarecell::draw_filled(*this, get_color_index()); }
+
+void Generator::undraw() { Squarecell::undraw_square(*this); }
+
 string Generator::get_as_string()
 {
     return std::to_string(x) + " " + std::to_string(y);
 }
-
-void Generator::draw() { Squarecell::draw_filled(*this, get_color_index()); }
 
 // ====================================================================================
 // Collector

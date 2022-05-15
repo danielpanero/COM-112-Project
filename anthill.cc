@@ -74,6 +74,14 @@ unsigned int Anthill::get_number_of_defensors() const { return n_defensors; };
 unsigned int Anthill::get_number_of_predators() const { return n_predators; };
 unsigned int Anthill::get_number_of_food() const { return n_food; }
 
+void Anthill::draw()
+{
+    Squarecell::draw_only_border(*this, get_color_index());
+    generator->draw();
+}
+
+void Anthill::undraw() {}
+
 string Anthill::get_as_string()
 {
     using std::to_string;
@@ -99,12 +107,6 @@ string Anthill::get_as_string()
     }
 
     return tmp;
-}
-
-void Anthill::draw()
-{
-    Squarecell::draw_only_border(*this, get_color_index());
-    generator->draw();
 }
 
 unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)

@@ -59,8 +59,10 @@ public:
     unsigned int get_number_of_predators() const;
     unsigned int get_number_of_food() const;
 
-    std::string get_as_string() override;
     void draw() override;
+    void undraw() override;
+
+    std::string get_as_string() override;
 
     /**
      * @brief Creates a new pointed instance Anthill from its string representation
