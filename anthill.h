@@ -68,6 +68,8 @@ public:
 
     std::string get_as_string() override;
 
+    bool step(std::vector<std::unique_ptr<Food>> &foods);
+
     void update_collectors(std::vector<std::unique_ptr<Food>> &foods);
 
     /**

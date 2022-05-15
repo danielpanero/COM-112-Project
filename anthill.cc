@@ -115,6 +115,24 @@ string Anthill::get_as_string()
 // ====================================================================================
 // Simulation
 
+bool Anthill::step(vector<unique_ptr<Food>> &foods)
+{
+    undraw();
+
+    // TODO(@danielpanero): implement sizeF
+    // TODO(@danielpanero): implement food consuption food <= 0 --> return false
+
+    if (!generator->step(*this))
+    {
+        return false;
+    }
+
+    update_collectors(foods);
+
+    draw();
+
+    return true;
+}
 
 void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
 {
