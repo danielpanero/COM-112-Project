@@ -24,6 +24,8 @@
 using std::invalid_argument;
 using std::vector;
 
+//TODO(@danielpanero): set every parameter as coonst
+
 constexpr double g_max(128);
 
 static vector<vector<bool>> grid(g_max, vector<bool>(g_max));

@@ -25,6 +25,8 @@ using std::string;
 using Gdk::RGBA;
 using Gdk::Cairo::set_source_rgba;
 
+// TODO(@danielpanero): everything as const
+
 // ====================================================================================
 // Constants
 
