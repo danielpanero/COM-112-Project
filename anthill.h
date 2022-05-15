@@ -19,6 +19,7 @@
 #include "generator.h"
 #include "predator.h"
 
+#include "constantes.h"
 #include "element.h"
 #include "squarecell.h"
 
@@ -74,6 +75,8 @@ public:
 
     void update_defensors();
 
+    void update_predators();
+
     /**
      * @brief Creates a new pointed instance Anthill from its string representation
      *
@@ -95,6 +98,8 @@ private:
     std::vector<std::unique_ptr<Collector>> collectors;
     std::vector<std::unique_ptr<Defensor>> defensors;
     std::vector<std::unique_ptr<Predator>> predators;
+
+    State_anthill state = FREE;
 };
 
 #endif

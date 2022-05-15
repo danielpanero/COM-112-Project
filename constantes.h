@@ -1,7 +1,7 @@
 #ifndef CONSTANTES_H_INCLUDED
 #define CONSTANTES_H_INCLUDED
 
-enum Etat_fourmiliere{FREE, CONSTRAINED};
+enum State_anthill{FREE, CONSTRAINED};
 enum State_collector{EMPTY, LOADED};
 
 constexpr short unsigned maxF(25);

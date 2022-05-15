@@ -124,6 +124,7 @@ bool Anthill::step(vector<unique_ptr<Food>> &foods)
 
     if (!generator->step(*this))
     {
+        // TODO(@danielpanero): implement destroying all anthill
         return false;
     }
 
@@ -138,7 +139,11 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
 {
     for (auto const &collector : collectors)
     {
-        // TODO(@danielpanero): implement dying
+        if (!collector->step())
+        {
+
+            // TODO(@danielpanero): implement dying
+        }
         collector->step();
         if (collector->get_state() == EMPTY)
         {
@@ -170,9 +175,31 @@ void Anthill::update_defensors()
 {
     for (const auto &defensor : defensors)
     {
-        if (defensor->step(*this))
+        if (!defensor->step(*this))
         {
             // TODO(@danielpanero): implement dying
+        }
+    }
+}
+
+void Anthill::update_predators()
+{
+    for (const auto &predator : predators)
+    {
+        if (!predator->step())
+        {
+            // TODO(@danielpanero): implement dying
+        }
+
+        if (state == CONSTRAINED)
+        {
+            // TODO(@danielpanero): implement attacking nearest ant
+        }
+        else
+        {
+            // TODO(@danielpanero): implement checking if any ants from other anthills
+            // is inside
+            predator->remain_inside(*this);
         }
     }
 }

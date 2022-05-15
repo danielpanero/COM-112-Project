@@ -39,12 +39,7 @@ public:
 
     bool step();
 
-    void remain_inside(Squarecell::Square anthill);
-
-    // TODO(@danielpanero): multiple ants near + possible segfault maybe pass directly
-    // anthill with a function near ants? Predator vs Defensor -> nothing and Defensor
-    // + Defensor ... define function attacked for each ants...
-    void attack(std::unique_ptr<Ant> &ant);
+    void remain_inside(Squarecell::Square &anthill_square);
 
     /**
      * @brief Generates all the possible new positions / moves based on the origin

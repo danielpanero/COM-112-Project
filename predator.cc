@@ -24,6 +24,13 @@ using std::vector;
 
 unsigned int const g_max(128);
 
+// TODO(@danielpanero): multiple ants near + possible segfault maybe pass directly
+// anthill with a function near ants? Predator vs Defensor -> nothing and Defensor
+// + Defensor ... define function attacked for each ants...
+
+// ====================================================================================
+// Initialization - Misc
+
 Predator::Predator(unsigned int x, unsigned int y, unsigned int age,
                    unsigned int color_index)
     : Ant{x, y, sizeP, age, color_index}
@@ -48,25 +55,19 @@ void Predator::draw() { Squarecell::draw_filled(*this, get_color_index()); }
 
 void Predator::undraw() { Squarecell::undraw_square(*this); }
 
-bool Predator::step()
+// ====================================================================================
+// Simulation
+
+bool Predator::step() { return increase_age(); }
+
+void Predator::remain_inside(Squarecell::Square &anthill_square)
 {
-    if (!increase_age())
-    {
-        return false;
-    }
-
-    return true;
-}
-
-void Predator::remain_inside(Squarecell::Square anthill)
-{
-    auto origin = get_as_square();
-
     remove_from_grid();
     undraw();
 
-    auto move = Squarecell::lee_algorithm(origin, anthill, &Predator::generate_l_moves,
-                                          &Squarecell::test_if_completely_confined);
+    auto move =
+        Squarecell::lee_algorithm(*this, anthill_square, &Predator::generate_l_moves,
+                                  &Squarecell::test_if_completely_confined);
 
     x = move.x;
     y = move.y;
@@ -75,55 +76,31 @@ void Predator::remain_inside(Squarecell::Square anthill)
     draw();
 }
 
-void Predator::attack(unique_ptr<Ant> &ant) {}
-
 vector<Squarecell::Square> Predator::generate_l_moves(Square origin)
 {
+    // All the possible shifts combinations:
+    constexpr static int x_shift[8] = {1, 1, -1, -1, 3, 3, -3, -3};
+    constexpr static int y_shift[8] = {3, -3, 3, -3, 1, -1, 1, -1};
+
     vector<Squarecell::Square> moves;
 
-    // x: +-3, y: +- 1
-
-    for (int i(1); i <= 2; i++)
+    for (int i(0); i <= 8; i++)
     {
-        for (int j(1); j <= 2; j++)
+        Squarecell::Square move(origin);
+
+        move.x += x_shift[i];
+        move.y += y_shift[i];
+
+        unsigned int x = Squarecell::get_coordinate_x(move);
+        unsigned int y = Squarecell::get_coordinate_y(move);
+
+        // We check if the proposed new positions are inside the model
+        // TODO(@danielpanero): when replaced unsigned int with x, it will suffice to
+        // check that x >= 0 and we can group all this function in squarecell
+        if (move.x >= 0 && move.y >= 0 && x + move.side <= g_max - 1 &&
+            y + move.side <= g_max - 1)
         {
-            Squarecell::Square move(origin);
-
-            move.x += j == 1 ? 3 : -3;
-            move.y += i == 1 ? 1 : -1;
-
-            unsigned int x = Squarecell::get_coordinate_x(move);
-            unsigned int y = Squarecell::get_coordinate_y(move);
-
-            // We check if the proposed new positions are inside the model
-            if (x >= 0 && y >= 0 && y <= g_max - 1 && x <= g_max - 1 &&
-                x + move.side <= g_max && y + move.side <= g_max)
-            {
-                moves.push_back(move);
-            }
-        }
-    }
-
-    // x: +-1, y: +-2
-
-    for (int i(1); i <= 2; i++)
-    {
-        for (int j(1); j <= 2; j++)
-        {
-            Squarecell::Square move(origin);
-
-            move.x += j == 1 ? 1 : -1;
-            move.y += i == 1 ? 3 : -3;
-
-            unsigned int x = Squarecell::get_coordinate_x(move);
-            unsigned int y = Squarecell::get_coordinate_y(move);
-
-            // We check if the proposed new positions are inside the model
-            if (x >= 0 && y >= 0 && y <= g_max - 1 && x <= g_max - 1 &&
-                x + move.side <= g_max && y + move.side <= g_max)
-            {
-                moves.push_back(move);
-            }
+            moves.push_back(move);
         }
     }
 
