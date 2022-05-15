@@ -25,6 +25,9 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
+// ====================================================================================
+// Initialization - Misc
+
 Anthill::Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int xg,
                  unsigned int yg, unsigned int n_food, unsigned int n_collectors,
                  unsigned int n_defensors, unsigned int n_predators,
@@ -107,6 +110,42 @@ string Anthill::get_as_string()
     }
 
     return tmp;
+}
+
+// ====================================================================================
+// Simulation
+
+
+void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
+{
+    for (auto const &collector : collectors)
+    {
+        // TODO(@danielpanero): implement dying
+        collector->step();
+        if (collector->get_state() == EMPTY)
+        {
+            size_t target = 0;
+            if (collector->find_target_food(foods, target))
+            {
+                if (collector->search_food(foods.at(target)))
+                {
+                    std::swap(foods.at(target), foods.back());
+                    foods.pop_back();
+                };
+            }
+            else
+            {
+                // TODO(@danielpanero) implement secondary goal
+            }
+        }
+        else
+        {
+            if (collector->return_to_anthill(*this))
+            {
+                n_food++;
+            }
+        }
+    }
 }
 
 unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)

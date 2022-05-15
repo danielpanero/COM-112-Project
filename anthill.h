@@ -68,6 +68,8 @@ public:
 
     std::string get_as_string() override;
 
+    void update_collectors(std::vector<std::unique_ptr<Food>> &foods);
+
     /**
      * @brief Creates a new pointed instance Anthill from its string representation
      *

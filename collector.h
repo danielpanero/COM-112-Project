@@ -41,25 +41,36 @@ public:
 
     std::string get_as_string() override;
 
-    bool step(Square anthill, std::vector<std::unique_ptr<Food>> &foods);
+    State_collector get_state();
 
-    bool return_to_anthill(Square target);
-
-    /**
-     * @brief Moves the collector the nearest foods attainable, if there is no food
-     * return false
-     *
-     * @param foods
-     */
-    bool search_food(std::vector<std::unique_ptr<Food>> &foods);
+    bool step();
 
     /**
-     * @brief Finds the nearest attainable food and return the index to it
+     * @brief Moves the collector to \b anthill, if it reaches it border it returns
+     * true and the state change to EMPTY
+     *
+     * @param anthill_square
+     * @return true if it reaches the border of \b anthill
+     */
+    bool return_to_anthill(Squarecell::Square &anthill_square);
+
+    /**
+     * @brief Moves the collector to \b food, if superposes with the
+     * food returns true and the state changes to LOADED
+     *
+     * @param food
+     * @return true if it reaches the food
+     */
+    bool search_food(std::unique_ptr<Food> &food);
+
+    /**
+     * @brief Finds the nearest attainable food
      *
      * @param foods
-     * @return size_t
+     * @param[out] target
+     * @return true if it has found one
      */
-    size_t find_target_food(std::vector<std::unique_ptr<Food>> &foods);
+    bool find_target_food(std::vector<std::unique_ptr<Food>> &foods, size_t &target);
 
     /**
      * @brief Generates all the possible new positions / moves based on the origin

@@ -25,6 +25,12 @@ using std::vector;
 
 unsigned int const g_max(128);
 
+// TODO(@danielpanero): implement secondary goal
+// TODO(@danielpanero): implement dropping food when dying
+
+// ====================================================================================
+// Initialization - Misc
+
 Collector::Collector(unsigned int x, unsigned int y, unsigned int age,
                      State_collector state, unsigned int color_index)
     : Ant{x, y, sizeC, age, color_index}, state(state)
@@ -59,96 +65,72 @@ string Collector::get_as_string()
            (state == State_collector::LOADED ? "true" : "false");
 }
 
-bool Collector::step(Square anthill, vector<unique_ptr<Food>> &foods)
+State_collector Collector::get_state() { return state; }
+
+// ====================================================================================
+// Simulation
+
+bool Collector::step() { return increase_age(); }
+
+bool Collector::return_to_anthill(Squarecell::Square &anthill_square)
 {
-    if (!increase_age())
-    {
-        return false;
-    }
-
-    // TODO(@danielpanero): if false secondary goal (exit anthill, away from border)
-    if (state == EMPTY)
-    {
-        search_food(foods);
-    }
-    else
-    {
-        return_to_anthill(anthill);
-    }
-
-    return true;
-}
-
-bool Collector::return_to_anthill(Square target)
-{
-    auto origin = get_as_square();
-
     remove_from_grid();
     undraw();
 
     auto move =
-        Squarecell::lee_algorithm(origin, target, &Collector::generate_diagonal_moves,
+        Squarecell::lee_algorithm(*this, anthill_square, &Collector::generate_diagonal_moves,
                                   &Squarecell::test_if_border_touches);
 
     x = move.x;
     y = move.y;
 
-    if (Squarecell::test_if_border_touches(*this, target))
-    {
-        // TODO(@danielpanero): increments food anthill
-        state = EMPTY;
-    }
-
     add_to_grid();
     draw();
 
-    return true;
+    if (Squarecell::test_if_border_touches(*this, anthill_square))
+    {
+        state = EMPTY;
+        return true;
+    }
+
+    return false;
 }
 
-bool Collector::search_food(vector<unique_ptr<Food>> &foods)
+bool Collector::search_food(std::unique_ptr<Food> &food)
 {
-    // TODO(@danielpanero) check that foods > 0 and return false when there is no food
-    // to search
-
-    size_t food_index = find_target_food(foods);
-
-    auto origin = get_as_square();
-    auto target = foods[food_index]->get_as_square();
+    auto food_square = food->get_as_square();
 
     remove_from_grid();
     undraw();
 
-    foods.at(food_index)->remove_from_grid();
+    food->remove_from_grid();
 
-    auto move =
-        Squarecell::lee_algorithm(origin, target, &Collector::generate_diagonal_moves,
-                                  &Squarecell::test_if_superposed_two_square);
+    auto move = Squarecell::lee_algorithm(*this, food_square,
+                                          &Collector::generate_diagonal_moves,
+                                          &Squarecell::test_if_superposed_two_square);
 
     x = move.x;
     y = move.y;
 
-    if (Squarecell::test_if_superposed_two_square(*this, target))
-    {
-        std::swap(foods.at(food_index), foods.back());
-        foods.pop_back();
-
-        state = LOADED;
-    }
-    else
-    {
-        foods.at(food_index)->add_to_grid();
-    }
-
     add_to_grid();
     draw();
 
-    return true;
+    if (Squarecell::test_if_superposed_two_square(*this, food_square))
+    {
+        state = LOADED;
+        return true;
+    }
+
+    food->add_to_grid();
+
+    return false;
 }
 
-size_t Collector::find_target_food(vector<unique_ptr<Food>> &foods)
+bool Collector::find_target_food(vector<unique_ptr<Food>> &foods, size_t &target)
 {
-    size_t target(0);
-    unsigned int best_distance(g_max - 1);
+    // This is given by sqrt((g_max-1)^2 + (g_max - 1)^2), ie the diagonal
+    unsigned int best_distance = M_SQRT2 * g_max;
+    bool found = false;
 
     for (size_t i(0); i < foods.size(); i++)
     {
@@ -168,35 +150,39 @@ size_t Collector::find_target_food(vector<unique_ptr<Food>> &foods)
             {
                 target = i;
                 best_distance = distance;
+                found = true;
             }
         }
     }
 
-    return target;
+    return found;
 }
 
 vector<Squarecell::Square> Collector::generate_diagonal_moves(Square origin)
 {
+    // All the possible shifts combination: TOP-RIGHT,  BOTTOM-RIGHT...
+    constexpr static int x_shift[4] = {1, 1, -1, -1};
+    constexpr static int y_shift[4] = {1, -1, 1, -1};
+
     vector<Squarecell::Square> moves;
 
-    for (int i(1); i <= 2; i++)
+    for (int i(0); i <= 8; i++)
     {
-        for (int j(1); j <= 2; j++)
+        Squarecell::Square move(origin);
+
+        move.x += x_shift[i];
+        move.y += y_shift[i];
+
+        unsigned int x = Squarecell::get_coordinate_x(move);
+        unsigned int y = Squarecell::get_coordinate_y(move);
+
+        // We check if the proposed new positions are inside the model
+        // TODO(@danielpanero): when replaced unsigned int with x, it will suffice to
+        // check that x >= 0 and we can group all this function in squarecell
+        if (move.x >= 1 && move.y >= 1 && x + move.side <= g_max - 1 &&
+            y + move.side <= g_max - 1)
         {
-            Squarecell::Square move(origin);
-
-            move.x += i == 1 ? 1 : -1;
-            move.y += j == 1 ? 1 : -1;
-
-            unsigned int x = Squarecell::get_coordinate_x(move);
-            unsigned int y = Squarecell::get_coordinate_y(move);
-
-            // We check if the proposed new positions are inside the model
-            if (x >= 1 && y >= 1 && y <= g_max - 2 && x <= g_max - 2 &&
-                x + move.side <= g_max - 1 && y + move.side <= g_max - 1)
-            {
-                moves.push_back(move);
-            }
+            moves.push_back(move);
         }
     }
 
