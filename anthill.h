@@ -14,7 +14,11 @@
 #include <memory>
 #include <vector>
 
-#include "ants.h"
+#include "collector.h"
+#include "defensor.h"
+#include "generator.h"
+#include "predator.h"
+
 #include "element.h"
 #include "squarecell.h"
 

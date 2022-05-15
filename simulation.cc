@@ -17,9 +17,11 @@
 #include <vector>
 
 #include "anthill.h"
-#include "ants.h"
+#include "collector.h"
+#include "defensor.h"
 #include "food.h"
 #include "message.h"
+#include "predator.h"
 
 #include "simulation.h"
 

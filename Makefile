@@ -1,7 +1,9 @@
 CXX = g++
 PROGRAM = projet
 CXXFILES = projet.cc simulation.cc squarecell.cc error_squarecell.cc anthill.cc \
-ants.cc food.cc message.cc gui.cc graphic.cc element.cc
+ants.cc food.cc message.cc gui.cc graphic.cc element.cc collector.cc defensor.cc \
+generator.cc predator.cc
+
 OBJS = $(CXXFILES:.cc=.o)
 DEPDIR = .deps
 
