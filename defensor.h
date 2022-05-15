@@ -38,8 +38,22 @@ public:
     void draw() override;
     void undraw() override;
 
-    bool step(Squarecell::Square anthill);
+    /**
+     * @brief Advances one step the state of the defensor: it tries to remain inside
+     * the anthill and near the border, when it fails to do so, it return false
+     *
+     * @param anthill_square
+     * @return false when outside or it is touching the border
+     */
+    bool step(Squarecell::Square &anthill_square);
 
+    /**
+     * @brief It tests that the origin is completly confined and near the border
+     *
+     * @param origin
+     * @param anthill
+     * @return true if it is completly confined and near the border
+     */
     static bool test_if_confined_and_near_border(Squarecell::Square &origin,
                                                  Squarecell::Square &anthill);
 

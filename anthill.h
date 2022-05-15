@@ -72,6 +72,8 @@ public:
 
     void update_collectors(std::vector<std::unique_ptr<Food>> &foods);
 
+    void update_defensors();
+
     /**
      * @brief Creates a new pointed instance Anthill from its string representation
      *

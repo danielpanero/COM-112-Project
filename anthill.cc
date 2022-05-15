@@ -166,6 +166,17 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
     }
 }
 
+void Anthill::update_defensors()
+{
+    for (const auto &defensor : defensors)
+    {
+        if (defensor->step(*this))
+        {
+            // TODO(@danielpanero): implement dying
+        }
+    }
+}
+
 unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 {
     unsigned int x(0);

@@ -25,6 +25,11 @@ using std::vector;
 
 unsigned int const g_max(128);
 
+// TODO(@danielpanero): implement contact Defensor vs Collector from another anthill
+
+// ====================================================================================
+// Initialization - Misc
+
 Defensor::Defensor(unsigned int x, unsigned int y, unsigned int age,
                    unsigned int color_index)
     : Ant{x, y, sizeD, age, color_index}
@@ -53,24 +58,31 @@ void Defensor::draw() { Squarecell::draw_plus_pattern(*this, get_color_index());
 
 void Defensor::undraw() { Squarecell::undraw_square(*this); }
 
-bool Defensor::step(Square anthill)
+// ====================================================================================
+// Simulation
+
+bool Defensor::step(Square &anthill_square)
 {
     if (!increase_age())
     {
         return false;
     }
 
-    auto origin = get_as_square();
-
     remove_from_grid();
     undraw();
 
     auto move =
-        Squarecell::lee_algorithm(origin, anthill, &Defensor::generate_hv_moves,
+        Squarecell::lee_algorithm(*this, anthill_square, &Defensor::generate_hv_moves,
                                   &Defensor::test_if_confined_and_near_border);
 
     x = move.x;
     y = move.y;
+
+    if (!Squarecell::test_if_completely_confined(*this, anthill_square))
+    {
+        // TODO(@danielpanero): implement check superposition border
+        return false;
+    }
 
     add_to_grid();
     draw();
@@ -80,39 +92,36 @@ bool Defensor::step(Square anthill)
 
 bool Defensor::test_if_confined_and_near_border(Square &origin, Square &anthill)
 {
+    // TODO(@danielpanero): control border touches that it's not overlap
     return Squarecell::test_if_completely_confined(origin, anthill) &&
            Squarecell::test_if_border_touches(origin, anthill);
 }
 
 vector<Squarecell::Square> Defensor::generate_hv_moves(Square origin)
 {
+    // All the possible shifts combination: RIGHT, LEFT, TOP, BOTTOM
+    constexpr static int x_shift[4] = {1, -1, 0, 0};
+    constexpr static int y_shift[4] = {0, 0, 1, -1};
+
     vector<Squarecell::Square> moves;
 
-    for (int i(1); i <= 2; i++)
+    for (int i(0); i <= 4; i++)
     {
-        for (int j(1); j <= 2; j++)
+        Squarecell::Square move(origin);
+
+        move.x += x_shift[i];
+        move.y += y_shift[i];
+
+        unsigned int x = Squarecell::get_coordinate_x(move);
+        unsigned int y = Squarecell::get_coordinate_y(move);
+
+        // We check if the proposed new positions are inside the model
+        // TODO(@danielpanero): when replaced unsigned int with x, it will suffice to
+        // check that x >= 0 and we can group all this function in squarecell
+        if (move.x >= 1 && move.y >= 1 && x + move.side <= g_max - 1 &&
+            y + move.side <= g_max - 1)
         {
-            Squarecell::Square move(origin);
-
-            if (i == 1)
-            {
-                move.x += j == 1 ? 1 : -1;
-            }
-            else
-            {
-
-                move.y += j == 1 ? 1 : -1;
-            }
-
-            unsigned int x = Squarecell::get_coordinate_x(move);
-            unsigned int y = Squarecell::get_coordinate_y(move);
-
-            // We check if the proposed new positions are inside the model
-            if (x >= 1 && y >= 1 && y <= g_max - 2 && x <= g_max - 2 &&
-                x + move.side <= g_max - 1 && y + move.side <= g_max - 1)
-            {
-                moves.push_back(move);
-            }
+            moves.push_back(move);
         }
     }
 
