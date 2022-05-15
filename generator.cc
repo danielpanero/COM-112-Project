@@ -23,6 +23,9 @@ using std::vector;
 // all pretty much the same
 unsigned int const g_max(128);
 
+// ====================================================================================
+// Initialization - Misc
+
 Generator::Generator(unsigned int x, unsigned int y, unsigned int age,
                      unsigned int color_index)
     : Ant{x, y, sizeG, age, color_index}
@@ -55,6 +58,9 @@ string Generator::get_as_string()
 {
     return std::to_string(x) + " " + std::to_string(y);
 }
+
+// ====================================================================================
+// Simulation
 
 bool Generator::step(Square anthill)
 {
