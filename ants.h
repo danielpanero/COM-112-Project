@@ -51,7 +51,14 @@ public:
 
     std::string get_as_string() override;
 
-private:
+    /**
+     * @brief Increases age by one
+     * 
+     * @return false if age >= bug life and therefore the Ant should be dead
+     */
+    bool increase_age();
+
+protected:
     unsigned int age;
 };
 
@@ -77,6 +84,8 @@ public:
     void undraw() override;
 
     std::string get_as_string() override;
+
+    bool step();
 };
 
 class Collector : public Ant
@@ -103,7 +112,7 @@ public:
 
     std::string get_as_string() override;
 
-    void step(Square anthill, std::vector<std::unique_ptr<Food>> &foods);
+    bool step(Square anthill, std::vector<std::unique_ptr<Food>> &foods);
 
     bool return_to_anthill(Square target);
 
@@ -168,7 +177,7 @@ public:
     void draw() override;
     void undraw() override;
 
-    void step(Squarecell::Square anthill);
+    bool step(Squarecell::Square anthill);
 
     static bool test_if_confined_and_near_border(Squarecell::Square &origin,
                                                  Squarecell::Square &anthill);
@@ -213,6 +222,8 @@ public:
 
     void draw() override;
     void undraw() override;
+
+    bool step();
 
     void remain_inside(Squarecell::Square anthill);
 

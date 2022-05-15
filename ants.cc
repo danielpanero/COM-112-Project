@@ -42,6 +42,17 @@ string Ant::get_as_string()
     return to_string(x) + " " + to_string(y) + " " + to_string(age);
 }
 
+bool Ant::increase_age()
+{
+    age++;
+    if (age >= bug_life)
+    {
+        return false;
+    }
+
+    return true;
+}
+
 // ====================================================================================
 // Generator
 Generator::Generator(unsigned int x, unsigned int y, unsigned int age,
@@ -75,6 +86,13 @@ void Generator::undraw() { Squarecell::undraw_square(*this); }
 string Generator::get_as_string()
 {
     return std::to_string(x) + " " + std::to_string(y);
+}
+
+bool Generator::step()
+{
+    // TODO(@danielpanero): try to stay inside anthill (lee_algor), if superposed
+    // return dead = false
+    return true;
 }
 
 // ====================================================================================
@@ -114,8 +132,13 @@ string Collector::get_as_string()
            (state == State_collector::LOADED ? "true" : "false");
 }
 
-void Collector::step(Square anthill, vector<unique_ptr<Food>> &foods)
+bool Collector::step(Square anthill, vector<unique_ptr<Food>> &foods)
 {
+    if (!increase_age())
+    {
+        return false;
+    }
+
     // TODO(@danielpanero): if false secondary goal (exit anthill, away from border)
     if (state == EMPTY)
     {
@@ -125,6 +148,8 @@ void Collector::step(Square anthill, vector<unique_ptr<Food>> &foods)
     {
         return_to_anthill(anthill);
     }
+
+    return true;
 }
 
 bool Collector::return_to_anthill(Square target)
@@ -303,8 +328,13 @@ void Defensor::draw() { Squarecell::draw_plus_pattern(*this, get_color_index());
 
 void Defensor::undraw() { Squarecell::undraw_square(*this); }
 
-void Defensor::step(Square anthill)
+bool Defensor::step(Square anthill)
 {
+    if (!increase_age())
+    {
+        return false;
+    }
+
     auto origin = get_as_square();
 
     remove_from_grid();
@@ -319,6 +349,8 @@ void Defensor::step(Square anthill)
 
     add_to_grid();
     draw();
+
+    return true;
 }
 
 bool Defensor::test_if_confined_and_near_border(Square &origin, Square &anthill)
@@ -402,6 +434,16 @@ void Predator::remove_from_grid() { Squarecell::remove_square(*this); }
 void Predator::draw() { Squarecell::draw_filled(*this, get_color_index()); }
 
 void Predator::undraw() { Squarecell::undraw_square(*this); }
+
+bool Predator::step()
+{
+    if (!increase_age())
+    {
+        return false;
+    }
+
+    return true;
+}
 
 void Predator::remain_inside(Squarecell::Square anthill)
 {
