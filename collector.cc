@@ -166,7 +166,7 @@ vector<Squarecell::Square> Collector::generate_diagonal_moves(Square origin)
 
     vector<Squarecell::Square> moves;
 
-    for (int i(0); i <= 8; i++)
+    for (int i(0); i <= 4; i++)
     {
         Squarecell::Square move(origin);
 
