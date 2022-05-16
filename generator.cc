@@ -34,6 +34,12 @@ Generator::Generator(unsigned int x, unsigned int y, unsigned int age,
     add_to_grid();
 }
 
+Generator::~Generator()
+{
+    remove_from_grid();
+    undraw();
+}
+
 void Generator::add_to_grid()
 {
     unsigned int superposed_x(0);

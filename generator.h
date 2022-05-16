@@ -27,6 +27,7 @@ public:
      */
     Generator(unsigned int x, unsigned int y, unsigned int age,
               unsigned int color_index);
+    ~Generator() override;
 
     void add_to_grid() override;
     void remove_from_grid() override;
