@@ -366,6 +366,9 @@ bool MainWindow::on_iteration()
     iteration++;
     std::cout << "Iteration: " << iteration << "\n";
 
+    food_count_label.set_markup("<b>" + std::to_string(simulation->get_n_foods()) +
+                                "</b>");
+
     drawing_area.queue_draw();
 
     return true;
