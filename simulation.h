@@ -48,6 +48,7 @@ public:
     void reset();
 
     unsigned int get_n_foods() const;
+    unsigned int get_n_anthills() const;
 
     /**
      * @brief Convenience function which cycles through all the anthills (descending
@@ -122,7 +123,6 @@ private:
     
     void generate_foods();
 
-    unsigned int n_foods = 0;
     unsigned int n_anthills = 0;
 
     /**
@@ -140,6 +140,8 @@ private:
     bool first_execution = true;
 
     std::vector<std::unique_ptr<Anthill>> anthills;
+    std::vector<std::unique_ptr<Anthill>> dead_anthills;
+
     std::vector<std::unique_ptr<Food>> foods;
 
 };

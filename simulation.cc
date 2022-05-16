@@ -75,13 +75,13 @@ void Simulation::save_file(string &path)
         return;
     }
 
-    file << n_foods << endl;
+    file << get_n_foods() << endl;
     for (const auto &food : foods)
     {
         file << food->get_as_string() << endl;
     }
 
-    file << n_anthills << endl;
+    file << get_n_anthills() << endl;
     for (const auto &anthill : anthills)
     {
         file << anthill->get_as_string() << endl;
@@ -93,26 +93,45 @@ void Simulation::save_file(string &path)
 bool Simulation::step()
 {
     generate_foods();
+
+    for (auto &anthill : anthills)
+    {
+        if (!anthill->step(foods))
+        {
+            dead_anthills.push_back(std::move(anthill));
+        };
+    }
+
+    anthills.erase(std::remove(anthills.begin(), anthills.end(), nullptr),
+                   anthills.end());
+
+    for (auto const &anthill : anthills)
+    {
+        anthill->clear_dead_ants();
+    }
+
+    dead_anthills.clear();
+
+    // TODO(@danielpanero): return true / false if anthill.size=0
     return false;
 }
 
 void Simulation::reset()
 {
-    n_foods = 0;
-    n_anthills = 0;
     index_anthill = 0;
-
     first_execution = true;
 
     // We safely deallocate anthills and foods as they are unique_ptr
     anthills.clear();
+    dead_anthills.clear();
     foods.clear();
 
     // We reset the squarecell grid and clear the model_surface
     Squarecell::grid_clear();
 }
 
-unsigned int Simulation::get_n_foods() const { return n_foods; }
+unsigned int Simulation::get_n_foods() const { return foods.size(); }
+unsigned int Simulation::get_n_anthills() const { return anthills.size(); }
 
 bool Simulation::get_info_prev_anthill(unsigned int &index, unsigned int &n_collectors,
                                        unsigned int &n_defensors,
@@ -150,6 +169,9 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
      */
     index_anthill = (index_anthill + anthills.size()) % anthills.size();
 
+    // TODO(@danielpanero): refactor this function since at the end we auto clean all
+    // the arrays from any nullptr
+
     /** Since the index of an anthill must be invariant during the simulation, the
      * Anthills who were killed are removed and replaced by a nullptr. Therefore we
      * continue to reduce index till we find an non-nullptr element. After one cycle we
@@ -181,7 +203,9 @@ void Simulation::parse_foods(ifstream &file)
     string line(get_next_line(file));
     istringstream stream(line);
 
+    unsigned int n_foods(0);
     stream >> n_foods;
+
     foods.resize(n_foods);
 
     unsigned int i(0);
@@ -201,7 +225,9 @@ void Simulation::parse_anthills(ifstream &file)
     string line(get_next_line(file));
     istringstream stream(line);
 
+    unsigned int n_anthills(0);
     stream >> n_anthills;
+
     anthills.resize(n_anthills);
 
     unsigned int i(0);
