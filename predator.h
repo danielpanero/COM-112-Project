@@ -30,6 +30,7 @@ public:
      */
     Predator(unsigned int x, unsigned int y, unsigned int age,
              unsigned int color_index);
+    ~Predator() override;
 
     void add_to_grid() override;
     void remove_from_grid() override;
@@ -37,6 +38,11 @@ public:
     void draw() override;
     void undraw() override;
 
+    /**
+     * @brief It increases the age and return true if the predator died of old age
+     * 
+     * @return true if dead
+     */
     bool step();
 
     void remain_inside(Squarecell::Square &anthill_square);

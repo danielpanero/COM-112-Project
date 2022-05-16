@@ -38,6 +38,12 @@ Defensor::Defensor(unsigned int x, unsigned int y, unsigned int age,
     add_to_grid();
 }
 
+Defensor::~Defensor()
+{
+    remove_from_grid();
+    undraw();
+}
+
 void Defensor::add_to_grid()
 {
     unsigned int superposed_x(0);

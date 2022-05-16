@@ -32,6 +32,7 @@ public:
      */
     Collector(unsigned int x, unsigned int y, unsigned int age, State_collector state,
               unsigned int color_index);
+    ~Collector() override;
 
     void add_to_grid() override;
     void remove_from_grid() override;
@@ -43,6 +44,11 @@ public:
 
     State_collector get_state();
 
+    /**
+     * @brief It increases the age and return true if the predator died of old age
+     *
+     * @return true if dead
+     */
     bool step();
 
     /**

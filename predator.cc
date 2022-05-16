@@ -39,6 +39,12 @@ Predator::Predator(unsigned int x, unsigned int y, unsigned int age,
     add_to_grid();
 }
 
+Predator::~Predator()
+{
+    remove_from_grid();
+    undraw();
+}
+
 void Predator::add_to_grid()
 {
     if (Squarecell::test_if_superposed_grid(*this))

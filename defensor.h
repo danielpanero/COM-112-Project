@@ -31,6 +31,7 @@ public:
      */
     Defensor(unsigned int x, unsigned int y, unsigned int age,
              unsigned int color_index);
+    ~Defensor() override;
 
     void add_to_grid() override;
     void remove_from_grid() override;
@@ -43,7 +44,7 @@ public:
      * the anthill and near the border, when it fails to do so, it return false
      *
      * @param anthill_square
-     * @return false when outside or it is touching the border
+     * @return false when outside or it is touching the border or died of old age
      */
     bool step(Squarecell::Square &anthill_square);
 

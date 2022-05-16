@@ -14,13 +14,13 @@
 #include <memory>
 #include <vector>
 
+#include "ants.h"
 #include "collector.h"
+#include "constantes.h"
 #include "defensor.h"
+#include "element.h"
 #include "generator.h"
 #include "predator.h"
-
-#include "constantes.h"
-#include "element.h"
 #include "squarecell.h"
 
 class Anthill : public Element
@@ -72,10 +72,14 @@ public:
     bool step(std::vector<std::unique_ptr<Food>> &foods);
 
     void update_collectors(std::vector<std::unique_ptr<Food>> &foods);
-
     void update_defensors();
-
     void update_predators();
+
+    /**
+     * @brief Dumps all the dead ants, it clears the grid and the model
+     *
+     */
+    void clear_dead_ants();
 
     /**
      * @brief Creates a new pointed instance Anthill from its string representation
@@ -90,14 +94,13 @@ public:
 
 private:
     unsigned int n_food;
-    unsigned int n_collectors;
-    unsigned int n_defensors;
-    unsigned int n_predators;
 
     std::unique_ptr<Generator> generator;
     std::vector<std::unique_ptr<Collector>> collectors;
     std::vector<std::unique_ptr<Defensor>> defensors;
     std::vector<std::unique_ptr<Predator>> predators;
+
+    std::vector<std::unique_ptr<Ant>> dead_ants;
 
     State_anthill state = FREE;
 };

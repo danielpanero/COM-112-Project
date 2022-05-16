@@ -8,6 +8,7 @@
  *
  */
 
+#include <algorithm>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -33,10 +34,15 @@ Anthill::Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int
                  unsigned int n_defensors, unsigned int n_predators,
                  unsigned int color_index)
     : Element{x, y, side, false, color_index}, n_food(n_food),
-      n_collectors(n_collectors), n_defensors(n_defensors), n_predators(n_predators),
       generator(new Generator(xg, yg, 0, color_index))
 {
     Squarecell::test_square(*this);
+
+    // We preallocate the vectors, so when get_number_of... is called it return the
+    // right size
+    collectors.resize(n_collectors);
+    defensors.resize(n_defensors);
+    predators.resize(n_predators);
 }
 
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
@@ -72,9 +78,9 @@ void Anthill::set_predators(vector<unique_ptr<Predator>> &predators)
     this->predators = std::move(predators);
 }
 
-unsigned int Anthill::get_number_of_collectors() const { return n_collectors; };
-unsigned int Anthill::get_number_of_defensors() const { return n_defensors; };
-unsigned int Anthill::get_number_of_predators() const { return n_predators; };
+unsigned int Anthill::get_number_of_collectors() const { return collectors.size(); };
+unsigned int Anthill::get_number_of_defensors() const { return defensors.size(); };
+unsigned int Anthill::get_number_of_predators() const { return predators.size(); };
 unsigned int Anthill::get_number_of_food() const { return n_food; }
 
 void Anthill::draw()
@@ -91,8 +97,9 @@ string Anthill::get_as_string()
 
     string tmp = "\n" + to_string(x) + " " + to_string(y) + " " + to_string(side) +
                  " " + generator->get_as_string() + " " + to_string(n_food) + " " +
-                 to_string(n_collectors) + " " + to_string(n_defensors) + " " +
-                 to_string(n_predators) + "\n";
+                 to_string(get_number_of_collectors()) + " " +
+                 to_string(get_number_of_defensors()) + " " +
+                 to_string(get_number_of_predators()) + "\n";
 
     for (auto const &collector : collectors)
     {
@@ -129,6 +136,8 @@ bool Anthill::step(vector<unique_ptr<Food>> &foods)
     }
 
     update_collectors(foods);
+    update_defensors();
+    update_predators();
 
     draw();
 
@@ -137,14 +146,30 @@ bool Anthill::step(vector<unique_ptr<Food>> &foods)
 
 void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
 {
-    for (auto const &collector : collectors)
+    for (auto &collector : collectors)
     {
         if (!collector->step())
         {
+            if (collector->get_state() == LOADED)
+            {
+                // In order to add the new food we have first to empty the grid
+                auto collector_square = collector->get_as_square();
+                Squarecell::remove_square(collector_square);
 
-            // TODO(@danielpanero): implement dying
+                unique_ptr<Food> food(
+                    new Food{collector_square.x, collector_square.y});
+                foods.push_back(std::move(food));
+
+                /** We have to add back the square as the zone will be free only after
+                 * all the Anthills are updated */
+                Squarecell::add_square(collector_square);
+            }
+
+            dead_ants.push_back(std::move(collector));
+
+            continue;
         }
-        collector->step();
+
         if (collector->get_state() == EMPTY)
         {
             size_t target = 0;
@@ -169,26 +194,34 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
             }
         }
     }
+
+    collectors.erase(std::remove(collectors.begin(), collectors.end(), nullptr),
+                     collectors.end());
 }
 
 void Anthill::update_defensors()
 {
-    for (const auto &defensor : defensors)
+    for (auto &defensor : defensors)
     {
         if (!defensor->step(*this))
         {
-            // TODO(@danielpanero): implement dying
+            dead_ants.push_back(std::move(defensor));
+            continue;
         }
     }
+
+    defensors.erase(std::remove(defensors.begin(), defensors.end(), nullptr),
+                    defensors.end());
 }
 
 void Anthill::update_predators()
 {
-    for (const auto &predator : predators)
+    for (auto &predator : predators)
     {
         if (!predator->step())
         {
-            // TODO(@danielpanero): implement dying
+            dead_ants.push_back(std::move(predator));
+            continue;
         }
 
         if (state == CONSTRAINED)
@@ -202,6 +235,18 @@ void Anthill::update_predators()
             predator->remain_inside(*this);
         }
     }
+
+    predators.erase(std::remove(predators.begin(), predators.end(), nullptr),
+                    predators.end());
+}
+
+void Anthill::clear_dead_ants()
+{
+    undraw();
+
+    dead_ants.clear();
+
+    draw();
 }
 
 unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)

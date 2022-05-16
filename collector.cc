@@ -39,6 +39,27 @@ Collector::Collector(unsigned int x, unsigned int y, unsigned int age,
     add_to_grid();
 }
 
+Collector::~Collector()
+{
+    remove_from_grid();
+    undraw();
+
+    /**
+     * If it was carrying some food, we have to add it back to the simulation. This was
+     * automatically done by the anthill which has direct access to the food, but since
+     * we are clearing the grid and the surface, this would eliminate the food.
+     * Therefore we have to manually set the position as true and redraw it
+     *
+     */
+    if (state == LOADED)
+    {
+        Squarecell::Square food{x, y, 1, true};
+
+        Squarecell::add_square(food);
+        Squarecell::draw_as_diamond(food, "white");
+    }
+}
+
 void Collector::add_to_grid()
 {
     unsigned int superposed_x(0);
@@ -77,9 +98,9 @@ bool Collector::return_to_anthill(Squarecell::Square &anthill_square)
     remove_from_grid();
     undraw();
 
-    auto move =
-        Squarecell::lee_algorithm(*this, anthill_square, &Collector::generate_diagonal_moves,
-                                  &Squarecell::test_if_border_touches);
+    auto move = Squarecell::lee_algorithm(*this, anthill_square,
+                                          &Collector::generate_diagonal_moves,
+                                          &Squarecell::test_if_border_touches);
 
     x = move.x;
     y = move.y;
