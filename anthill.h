@@ -45,7 +45,7 @@ public:
             unsigned int yg, unsigned int n_food, unsigned int n_collectors,
             unsigned int n_defensors, unsigned int n_predators,
             unsigned int color_index);
-    ~Anthill() override = default;
+    ~Anthill() override;
 
     /**
      * @brief Checks if the defensors and generator are contained in the perimeter of
@@ -74,6 +74,15 @@ public:
     void update_collectors(std::vector<std::unique_ptr<Food>> &foods);
     void update_defensors();
     void update_predators();
+
+    /**
+     * @brief When the collector is carrying some food, it creates a new food
+     *
+     * @param foods
+     * @param collector
+     */
+    void drop_food_collector(std::vector<std::unique_ptr<Food>> &foods,
+                             std::unique_ptr<Collector> &collector);
 
     /**
      * @brief Dumps all the dead ants, it clears the grid and the model

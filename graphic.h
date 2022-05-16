@@ -129,13 +129,22 @@ namespace Graphic
 
     /**
      * @brief Erases everything in the area of the square (x,y) with length \b side
-     * 
-     * @param x 
-     * @param y 
-     * @param side 
+     *
+     * @param x
+     * @param y
+     * @param side
      */
     void undraw_square(unsigned int x, unsigned int y, unsigned int side);
-    
+
+    /**
+     * @brief Erases the border of the square (x,y) with length \b side
+     *
+     * @param x
+     * @param y
+     * @param side
+     */
+    void undraw_thick_border_square(unsigned int x, unsigned int y, unsigned int side);
+
 } // namespace Graphic
 
 #endif

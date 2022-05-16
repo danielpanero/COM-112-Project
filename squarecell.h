@@ -179,6 +179,13 @@ namespace Squarecell
      * @param square
      */
     void undraw_square(Square &square);
+
+    /**
+     * @brief Erases the thick border of the square
+     *
+     * @param square
+     */
+    void undraw_thick_border_square(Square &square);
 } // namespace Squarecell
 
 #endif

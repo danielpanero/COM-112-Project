@@ -45,6 +45,8 @@ Anthill::Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int
     predators.resize(n_predators);
 }
 
+Anthill::~Anthill() { undraw(); }
+
 void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
 {
     auto generator_square = generator->get_as_square();
@@ -89,7 +91,7 @@ void Anthill::draw()
     generator->draw();
 }
 
-void Anthill::undraw() {}
+void Anthill::undraw() { Squarecell::undraw_thick_border_square(*this); }
 
 string Anthill::get_as_string()
 {
@@ -131,7 +133,11 @@ bool Anthill::step(vector<unique_ptr<Food>> &foods)
 
     if (!generator->step(*this))
     {
-        // TODO(@danielpanero): implement destroying all anthill
+        for (auto &collector : collectors)
+        {
+            drop_food_collector(foods, collector);
+        }
+
         return false;
     }
 
@@ -150,23 +156,9 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
     {
         if (!collector->step())
         {
-            if (collector->get_state() == LOADED)
-            {
-                // In order to add the new food we have first to empty the grid
-                auto collector_square = collector->get_as_square();
-                Squarecell::remove_square(collector_square);
-
-                unique_ptr<Food> food(
-                    new Food{collector_square.x, collector_square.y});
-                foods.push_back(std::move(food));
-
-                /** We have to add back the square as the zone will be free only after
-                 * all the Anthills are updated */
-                Squarecell::add_square(collector_square);
-            }
+            drop_food_collector(foods, collector);
 
             dead_ants.push_back(std::move(collector));
-
             continue;
         }
 
@@ -238,6 +230,24 @@ void Anthill::update_predators()
 
     predators.erase(std::remove(predators.begin(), predators.end(), nullptr),
                     predators.end());
+}
+
+void Anthill::drop_food_collector(vector<unique_ptr<Food>> &foods,
+                                  unique_ptr<Collector> &collector)
+{
+    if (collector->get_state() == LOADED)
+    {
+        // In order to add the new food we have first to empty the grid
+        auto collector_square = collector->get_as_square();
+        Squarecell::remove_square(collector_square);
+
+        unique_ptr<Food> food(new Food{collector_square.x, collector_square.y});
+        foods.push_back(std::move(food));
+
+        /** We have to add back the square as the zone will be free only after
+         * all the Anthills are updated */
+        Squarecell::add_square(collector_square);
+    }
 }
 
 void Anthill::clear_dead_ants()
