@@ -96,7 +96,7 @@ bool Simulation::step()
 
     for (auto &anthill : anthills)
     {
-        if (!anthill->step(foods))
+        if (!anthill->step(foods, anthills))
         {
             dead_anthills.push_back(std::move(anthill));
         };

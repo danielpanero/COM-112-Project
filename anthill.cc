@@ -244,7 +244,7 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
         auto test = std::bind(&Squarecell::test_if_border_touches,
                               std::placeholders::_1, predator_square);
 
-        for (auto &const anthill : anthills)
+        for (auto const &anthill : anthills)
         {
             if (anthill.get() != this)
             {
