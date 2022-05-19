@@ -14,6 +14,7 @@
 #include <memory>
 
 #include "ants.h"
+#include "constantes.h"
 #include "squarecell.h"
 
 class Predator : public Ant
@@ -40,12 +41,28 @@ public:
 
     /**
      * @brief It increases the age and return true if the predator died of old age
-     * 
+     *
      * @return true if dead
      */
     bool step();
 
     void remain_inside(Squarecell::Square &anthill_square);
+
+    void move_toward_nearest_ant(std::vector<Squarecell::Square> &ants);
+
+    Squarecell::Square find_target_ant(std::vector<Squarecell::Square> &ants);
+
+    /**
+     * @brief Given the position of the ant and the state of the Anthill, it determines
+     * if ant is attackable or not
+     *
+     * @param state
+     * @param anthill
+     * @param ant
+     * @return true if attacckable
+     */
+    bool filter_ants(State_anthill state, Squarecell::Square &anthill,
+                     Squarecell::Square &ant);
 
     /**
      * @brief Generates all the possible new positions / moves based on the origin

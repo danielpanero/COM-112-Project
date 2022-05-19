@@ -74,7 +74,18 @@ public:
 
     void update_collectors(std::vector<std::unique_ptr<Food>> &foods);
     void update_defensors(std::vector<std::unique_ptr<Anthill>> &anthills);
-    void update_predators();
+    void update_predators(std::vector<std::unique_ptr<Anthill>> &anthills);
+
+    /**
+     * @brief Called by others Anthills in order to find the nearest attackable Ant
+     * (Collector / Predator) in this Anthill that complies with the constraint \b test
+     *
+     * @param test
+     * @param[out] targets
+     * @return true if it has found one
+     */
+    bool get_attackable_ants(const std::function<bool(Squarecell::Square &)> test,
+                             std::vector<Squarecell::Square> &targets);
 
     /**
      * @brief When the collector is carrying some food, it creates a new food
@@ -86,12 +97,6 @@ public:
                              std::unique_ptr<Collector> &collector);
 
     /**
-     * @brief Dumps all the dead ants, it clears the grid and the model
-     *
-     */
-    void clear_dead_ants();
-
-    /**
      * @brief Called by others Anthills in order to initiate an attack, return true if
      * at least one ant was killed
      *
@@ -100,6 +105,12 @@ public:
      */
     bool mark_collectors_as_dead(const std::function<bool(Squarecell::Square &)> test);
     bool mark_predators_as_dead(const std::function<bool(Squarecell::Square &)> test);
+
+    /**
+     * @brief Dumps all the dead ants, it clears the grid and the model
+     *
+     */
+    void clear_dead_ants();
 
     /**
      * @brief Creates a new pointed instance Anthill from its string representation

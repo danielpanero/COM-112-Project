@@ -8,6 +8,7 @@
  *
  */
 
+#include <cmath>
 #include <memory>
 #include <sstream>
 #include <stdexcept>
@@ -80,6 +81,58 @@ void Predator::remain_inside(Squarecell::Square &anthill_square)
 
     add_to_grid();
     draw();
+}
+
+void Predator::move_toward_nearest_ant(vector<Squarecell::Square> &ants)
+{
+    auto target = find_target_ant(ants);
+
+    remove_from_grid();
+    undraw();
+
+    Squarecell::remove_square(target);
+
+    auto move = Squarecell::lee_algorithm(*this, target, &Predator::generate_l_moves,
+                                          &Squarecell::test_if_border_touches);
+
+    x = move.x;
+    y = move.y;
+
+    Squarecell::add_square(target);
+
+    add_to_grid();
+    draw();
+}
+
+Squarecell::Square Predator::find_target_ant(vector<Squarecell::Square> &ants)
+{
+    auto target = ants.front();
+
+    unsigned int best_distance = std::pow(x - target.x, 2) + std::pow(y - target.y, 2);
+    for (auto &ant : ants)
+    {
+        unsigned int distance = std::pow(x - ant.x, 2) + std::pow(y - ant.y, 2);
+        if (distance < best_distance)
+        {
+            target = ant;
+            best_distance = distance;
+        }
+    }
+
+    return target;
+}
+
+bool Predator::filter_ants(State_anthill state, Squarecell::Square &anthill,
+                           Squarecell::Square &ant)
+{
+    if (state == CONSTRAINED)
+    {
+        return true;
+    }
+    else
+    {
+        return Squarecell::test_if_completely_confined(ant, anthill);
+    }
 }
 
 vector<Squarecell::Square> Predator::generate_l_moves(Square origin)

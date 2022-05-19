@@ -9,6 +9,7 @@
  */
 
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -27,6 +28,8 @@ using std::unique_ptr;
 using std::vector;
 
 // TODO: using Squarecell::Square and other std
+
+unsigned int const g_max(128);
 
 // ====================================================================================
 // Initialization - Misc
@@ -146,7 +149,7 @@ bool Anthill::step(vector<unique_ptr<Food>> &foods,
 
     update_collectors(foods);
     update_defensors(anthills);
-    update_predators();
+    update_predators(anthills);
 
     draw();
 
@@ -220,7 +223,7 @@ void Anthill::update_defensors(vector<unique_ptr<Anthill>> &anthills)
                     defensors.end());
 }
 
-void Anthill::update_predators()
+void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
 {
     for (auto &predator : predators)
     {
@@ -230,16 +233,38 @@ void Anthill::update_predators()
             continue;
         }
 
-        if (state == CONSTRAINED)
+        vector<Squarecell::Square> targets;
+
+        // TODO(@danielpanero): when everything is const these are not needed anymore
+        auto anthill_square = get_as_square();
+        auto predator_square = predator->get_as_square();
+
+        auto filter = std::bind(&Predator::filter_ants, *predator, state,
+                                anthill_square, std::placeholders::_1);
+        auto test = std::bind(&Squarecell::test_if_border_touches,
+                              std::placeholders::_1, predator_square);
+
+        for (auto &const anthill : anthills)
         {
-            // TODO(@danielpanero): implement attacking nearest ant
+            if (anthill.get() != this)
+            {
+                anthill->get_attackable_ants(filter, targets);
+
+                anthill->mark_collectors_as_dead(test);
+                if (anthill->mark_predators_as_dead(test))
+                {
+                    dead_ants.push_back(std::move(predator));
+                    continue;
+                }
+            }
         }
-        else
+
+        if (targets.size() == 0)
         {
-            // TODO(@danielpanero): implement checking if any ants from other anthills
-            // is inside
             predator->remain_inside(*this);
         }
+
+        predator->move_toward_nearest_ant(targets);
     }
 
     predators.erase(std::remove(predators.begin(), predators.end(), nullptr),
@@ -265,13 +290,28 @@ void Anthill::drop_food_collector(vector<unique_ptr<Food>> &foods,
     }
 }
 
-void Anthill::clear_dead_ants()
+bool Anthill::get_attackable_ants(const std::function<bool(Squarecell::Square &)> test,
+                                  vector<Squarecell::Square> &targets)
 {
-    undraw();
+    bool found = false;
 
-    dead_ants.clear();
+    for (auto const &collector : collectors)
+    {
+        if (test(*collector))
+        {
+            targets.push_back(*collector);
+        }
+    }
 
-    draw();
+    for (auto const &predator : predators)
+    {
+        if (test(*predator))
+        {
+            targets.push_back(*predator);
+        }
+    }
+
+    return found;
 }
 
 bool Anthill::mark_collectors_as_dead(
@@ -313,6 +353,16 @@ bool Anthill::mark_predators_as_dead(
 
     return found;
 }
+
+void Anthill::clear_dead_ants()
+{
+    undraw();
+
+    dead_ants.clear();
+
+    draw();
+}
+
 unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 {
     unsigned int x(0);
