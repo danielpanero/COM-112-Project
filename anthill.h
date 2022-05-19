@@ -69,10 +69,11 @@ public:
 
     std::string get_as_string() override;
 
-    bool step(std::vector<std::unique_ptr<Food>> &foods);
+    bool step(std::vector<std::unique_ptr<Food>> &foods,
+              std::vector<std::unique_ptr<Anthill>> &anthills);
 
     void update_collectors(std::vector<std::unique_ptr<Food>> &foods);
-    void update_defensors();
+    void update_defensors(std::vector<std::unique_ptr<Anthill>> &anthills);
     void update_predators();
 
     /**
@@ -89,6 +90,16 @@ public:
      *
      */
     void clear_dead_ants();
+
+    /**
+     * @brief Called by others Anthills in order to initiate an attack, return true if
+     * at least one ant was killed
+     *
+     * @param test function called for testing if the ant should be killed or not
+     * @return true if at least one ant was killed
+     */
+    bool mark_collectors_as_dead(const std::function<bool(Squarecell::Square &)> test);
+    bool mark_predators_as_dead(const std::function<bool(Squarecell::Square &)> test);
 
     /**
      * @brief Creates a new pointed instance Anthill from its string representation

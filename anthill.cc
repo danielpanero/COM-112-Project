@@ -26,6 +26,8 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
+// TODO: using Squarecell::Square and other std
+
 // ====================================================================================
 // Initialization - Misc
 
@@ -124,7 +126,8 @@ string Anthill::get_as_string()
 // ====================================================================================
 // Simulation
 
-bool Anthill::step(vector<unique_ptr<Food>> &foods)
+bool Anthill::step(vector<unique_ptr<Food>> &foods,
+                   vector<unique_ptr<Anthill>> &anthills)
 {
     undraw();
 
@@ -142,7 +145,7 @@ bool Anthill::step(vector<unique_ptr<Food>> &foods)
     }
 
     update_collectors(foods);
-    update_defensors();
+    update_defensors(anthills);
     update_predators();
 
     draw();
@@ -191,7 +194,7 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
                      collectors.end());
 }
 
-void Anthill::update_defensors()
+void Anthill::update_defensors(vector<unique_ptr<Anthill>> &anthills)
 {
     for (auto &defensor : defensors)
     {
@@ -199,6 +202,17 @@ void Anthill::update_defensors()
         {
             dead_ants.push_back(std::move(defensor));
             continue;
+        }
+
+        for (auto const &anthill : anthills)
+        {
+            if (anthill.get() != this)
+            {
+                auto test = std::bind(&Defensor::test_if_contact_collector, *defensor,
+                                      std::placeholders::_1);
+
+                anthill->mark_collectors_as_dead(test);
+            }
         }
     }
 
@@ -232,6 +246,7 @@ void Anthill::update_predators()
                     predators.end());
 }
 
+// TODO: move to collector
 void Anthill::drop_food_collector(vector<unique_ptr<Food>> &foods,
                                   unique_ptr<Collector> &collector)
 {
@@ -259,6 +274,45 @@ void Anthill::clear_dead_ants()
     draw();
 }
 
+bool Anthill::mark_collectors_as_dead(
+    const std::function<bool(Squarecell::Square &)> test)
+{
+    bool found = false;
+
+    for (auto &collector : collectors)
+    {
+        if (test(*collector))
+        {
+            dead_ants.push_back(std::move(collector));
+            found = true;
+        }
+    }
+
+    collectors.erase(std::remove(collectors.begin(), collectors.end(), nullptr),
+                     collectors.end());
+
+    return found;
+}
+
+bool Anthill::mark_predators_as_dead(
+    const std::function<bool(Squarecell::Square &)> test)
+{
+    bool found = false;
+
+    for (auto &predator : predators)
+    {
+        if (test(*predator))
+        {
+            dead_ants.push_back(std::move(predator));
+            found = true;
+        }
+    }
+
+    predators.erase(std::remove(predators.begin(), predators.end(), nullptr),
+                    predators.end());
+
+    return found;
+}
 unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 {
     unsigned int x(0);

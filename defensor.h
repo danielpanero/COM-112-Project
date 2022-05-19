@@ -49,7 +49,16 @@ public:
     bool step(Squarecell::Square &anthill_square);
 
     /**
-     * @brief It tests that the origin is completly confined and near the border
+     * @brief Tests if the collector is in contact with the defensor
+     *
+     * @param collector_square
+     * @return true
+     * @return false
+     */
+    bool test_if_contact_collector(Squarecell::Square &collector_square);
+
+    /**
+     * @brief Tests that the origin is completly confined and near the border
      *
      * @param origin
      * @param anthill
