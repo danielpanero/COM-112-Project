@@ -73,7 +73,7 @@ void Predator::remain_inside(Squarecell::Square &anthill_square)
     undraw();
 
     auto move =
-        Squarecell::lee_algorithm(*this, anthill_square, &Predator::generate_l_moves,
+        Squarecell::lee_algorithm(*this, anthill_square, &Predator::generate_moves,
                                   &Squarecell::test_if_completely_confined);
 
     x = move.x;
@@ -92,7 +92,7 @@ void Predator::move_toward_nearest_ant(vector<Squarecell::Square> &ants)
 
     Squarecell::remove_square(target);
 
-    auto move = Squarecell::lee_algorithm(*this, target, &Predator::generate_l_moves,
+    auto move = Squarecell::lee_algorithm(*this, target, &Predator::generate_moves,
                                           &Squarecell::test_if_border_touches);
 
     x = move.x;
@@ -135,35 +135,13 @@ bool Predator::filter_ants(State_anthill state, Squarecell::Square &anthill,
     }
 }
 
-vector<Squarecell::Square> Predator::generate_l_moves(Square origin)
+vector<Squarecell::Square> Predator::generate_moves(Square origin)
 {
     // All the possible shifts combinations:
-    constexpr static int x_shift[8] = {1, 1, -1, -1, 3, 3, -3, -3};
-    constexpr static int y_shift[8] = {3, -3, 3, -3, 1, -1, 1, -1};
+    vector<int> x_shift{1, 1, -1, -1, 3, 3, -3, -3};
+    vector<int> y_shift{3, -3, 3, -3, 1, -1, 1, -1};
 
-    vector<Squarecell::Square> moves;
-
-    for (int i(0); i <= 8; i++)
-    {
-        Squarecell::Square move(origin);
-
-        move.x += x_shift[i];
-        move.y += y_shift[i];
-
-        unsigned int x = Squarecell::get_coordinate_x(move);
-        unsigned int y = Squarecell::get_coordinate_y(move);
-
-        // We check if the proposed new positions are inside the model
-        // TODO(@danielpanero): when replaced unsigned int with x, it will suffice to
-        // check that x >= 0 and we can group all this function in squarecell
-        if (move.x >= 0 && move.y >= 0 && x + move.side <= g_max - 1 &&
-            y + move.side <= g_max - 1)
-        {
-            moves.push_back(move);
-        }
-    }
-
-    return moves;
+    return Ant::generate_moves(origin, x_shift, y_shift);
 }
 
 unique_ptr<Predator> Predator::parse_line(string &line, unsigned int color_index)

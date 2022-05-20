@@ -73,7 +73,7 @@ public:
      * @param origin
      * @return std::vector<Square>
      */
-    static std::vector<Square> generate_hv_moves(Squarecell::Square origin);
+    static std::vector<Square> generate_moves(Squarecell::Square origin);
 
     /**
      * @brief Creates a new pointed instance of Defensor from its string representation

@@ -19,10 +19,6 @@ using std::istringstream;
 using std::string;
 using std::vector;
 
-// TODO(@danielpanero): check if we want to add check move in squarecell as they are
-// all pretty much the same
-unsigned int const g_max(128);
-
 // ====================================================================================
 // Initialization - Misc
 
@@ -89,32 +85,10 @@ bool Generator::step(Square anthill)
 vector<Squarecell::Square> Generator::generate_moves(Square origin)
 {
     // All the possible shifts combination: RIGHT, LEFT, TOP, BOTTOM, TOP-RIGHT...
-    constexpr static int x_shift[8] = {1, -1, 0, 0, 1, 1, -1, -1};
-    constexpr static int y_shift[8] = {0, 0, 1, -1, 1, -1, 1, -1};
+    vector<int> x_shift{1, -1, 0, 0, 1, 1, -1, -1};
+    vector<int> y_shift{0, 0, 1, -1, 1, -1, 1, -1};
 
-    vector<Squarecell::Square> moves;
-
-    for (int i(0); i <= 8; i++)
-    {
-        Squarecell::Square move(origin);
-
-        move.x += x_shift[i];
-        move.y += y_shift[i];
-
-        unsigned int x = Squarecell::get_coordinate_x(move);
-        unsigned int y = Squarecell::get_coordinate_y(move);
-
-        // We check if the proposed new positions are inside the model
-        // TODO(@danielpanero): when replaced unsigned int with x, it will suffice to
-        // check that x >= 0 and we can group all this function in squarecell
-        if (move.x >= 2 && move.y >= 2 && x + move.side <= g_max - 1 &&
-            y + move.side <= g_max - 1)
-        {
-            moves.push_back(move);
-        }
-    }
-
-    return moves;
+    return Ant::generate_moves(origin, x_shift, y_shift);
 }
 
 bool Generator::test_if_confined_and_not_near_border(Square &origin, Square &anthill)

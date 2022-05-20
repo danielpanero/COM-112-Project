@@ -70,7 +70,7 @@ public:
      * @param origin
      * @return std::vector<Square>
      */
-    static std::vector<Square> generate_l_moves(Squarecell::Square origin);
+    static std::vector<Squarecell::Square> generate_moves(Squarecell::Square origin);
 
     /**
      * @brief Creates a new pointed instance of Predator from its string representation

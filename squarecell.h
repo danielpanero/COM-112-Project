@@ -52,6 +52,7 @@ namespace Squarecell
      * @param square
      */
     void test_square(Square &square);
+    bool test_square_without_message(Square &square);
 
     void add_square(Square &square);
     void remove_square(Square &square);
