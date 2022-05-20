@@ -134,7 +134,8 @@ bool Anthill::step(vector<unique_ptr<Food>> &foods,
 {
     undraw();
 
-    // TODO(@danielpanero): implement sizeF
+    try_to_expand(anthills);
+
     // TODO(@danielpanero): implement food consuption food <= 0 --> return false
 
     if (!generator->step(*this))
@@ -390,4 +391,58 @@ unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 
     return unique_ptr<Anthill>(new Anthill(x, y, side, xg, yg, n_food, n_collectors,
                                            n_defensors, n_predators, color_index));
+}
+
+void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
+{
+    vector<int> xshift{0, -1, 1, 1};
+    vector<int> yshift{0, 1, 1, -1};
+
+    Squarecell::Square successfull_square;
+    bool successfull = false;
+
+    for (size_t i = 0; i <= 4 && successfull == false; i++)
+    {
+        auto origin = get_as_square();
+
+        origin.side = calculate_side();
+
+        origin.x += xshift.at(i) * (origin.side - side);
+        origin.y += yshift.at(i) * (origin.side - side);
+
+        if (Squarecell::test_square_without_message(origin))
+        {
+            for (auto &const anthill : anthills)
+            {
+                if (anthill.get() != this &&
+                    !Squarecell::test_if_superposed_two_square(origin, *anthill))
+                {
+                    successfull = true;
+                    successfull_square = origin;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (successfull)
+    {
+        state = FREE;
+
+        x = successfull_square.x;
+        y = successfull_square.y;
+        side = successfull_square.side;
+    }
+    else
+    {
+        state = CONSTRAINED;
+    }
+}
+
+unsigned int Anthill::calculate_side()
+{
+    return sqrt(4 * (sizeG * sizeG + sizeC * sizeC * get_number_of_collectors() +
+                     sizeD * sizeD * get_number_of_defensors() +
+                     sizeP * sizeP * get_number_of_predators())) +
+           2;
 }

@@ -124,6 +124,9 @@ public:
                                                unsigned int color_index);
 
 private:
+    void try_to_expand(std::vector<std::unique_ptr<Anthill>> &anthill);
+    unsigned int calculate_side();
+
     unsigned int n_food;
 
     std::unique_ptr<Generator> generator;
