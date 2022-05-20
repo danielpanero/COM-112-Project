@@ -392,7 +392,7 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
 
         if (Squarecell::test_square_without_message(origin))
         {
-            for (auto &const anthill : anthills)
+            for (auto const &anthill : anthills)
             {
                 if (anthill.get() != this &&
                     !Squarecell::test_if_superposed_two_square(origin, *anthill))

@@ -78,7 +78,7 @@ public:
      */
     bool find_target_food(std::vector<std::unique_ptr<Food>> &foods, size_t &target);
 
-    void drop_food(vector<unique_ptr<Food>> &foods);
+    void drop_food(std::vector<std::unique_ptr<Food>> &foods);
 
     /**
      * @brief Generates all the possible new positions / moves based on the origin

@@ -47,7 +47,7 @@ vector<Squarecell::Square> Ant::generate_moves(Square origin, vector<int> x_shif
 
     vector<Squarecell::Square> moves;
 
-    for (int i(0); i <= x_shift.size(); i++)
+    for (size_t i(0); i <= x_shift.size(); i++)
     {
         Squarecell::Square move(origin);
 
@@ -60,3 +60,4 @@ vector<Squarecell::Square> Ant::generate_moves(Square origin, vector<int> x_shif
             moves.push_back(move);
         }
     }
+}
