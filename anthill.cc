@@ -263,9 +263,10 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
             }
         }
 
-        if (targets.size() == 0)
+        if (targets.empty())
         {
             predator->remain_inside(*this);
+            continue;
         }
 
         predator->move_toward_nearest_ant(targets);

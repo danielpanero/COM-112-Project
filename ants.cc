@@ -46,7 +46,6 @@ bool Ant::increase_age()
 vector<Square> Ant::generate_moves(Square origin, vector<int> x_shift,
                                    vector<int> y_shift)
 {
-
     vector<Square> moves;
 
     for (size_t i(0); i <= x_shift.size(); i++)
@@ -57,9 +56,11 @@ vector<Square> Ant::generate_moves(Square origin, vector<int> x_shift,
         move.y += y_shift[i];
 
         // We check if the proposed new positions are inside the model
-        if (Squarecell::test_square_without_message)
+        if (Squarecell::test_square_without_message(move))
         {
             moves.push_back(move);
         }
     }
+
+    return moves;
 }
