@@ -12,6 +12,7 @@
 #include <cmath>
 #include <iostream>
 #include <memory>
+#include <random>
 #include <sstream>
 #include <stdexcept>
 #include <vector>
@@ -143,6 +144,8 @@ bool Anthill::step(vector<unique_ptr<Food>> &foods,
 
         return false;
     }
+
+    generate_new_ants();
 
     update_collectors(foods);
     update_defensors(anthills);
@@ -435,6 +438,54 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
     }
 }
 
+void Anthill::generate_new_ants()
+{
+    static std::bernoulli_distribution b_distribution(
+        std::min(1.0, n_food * birth_rate));
+    static std::default_random_engine random_num;
+
+    if (!b_distribution(random_num))
+    {
+        return;
+    }
+
+    double n_ants = get_number_of_collectors() + get_number_of_defensors() +
+                    get_number_of_predators();
+
+    double current_prop_collectors = get_number_of_collectors() / n_ants;
+    double current_prop_defensors = get_number_of_defensors() / n_ants;
+
+    Squarecell::Square position;
+
+    if ((state == FREE && current_prop_collectors < prop_free_collector) ||
+        (state == CONSTRAINED && current_prop_collectors < prop_constrained_collector))
+    {
+        if (find_suitable_position_for_ant(sizeC, position))
+        {
+            collectors.push_back(unique_ptr<Collector>(
+                new Collector{position.x, position.y, 0, EMPTY, get_color_index()}));
+        }
+    }
+    else if ((state == FREE && current_prop_defensors < prop_free_defensor) ||
+             (state == CONSTRAINED &&
+              current_prop_defensors < prop_constrained_defensor))
+    {
+        if (find_suitable_position_for_ant(sizeD, position))
+        {
+            defensors.push_back(unique_ptr<Defensor>(
+                new Defensor{position.x, position.y, 0, get_color_index()}));
+        }
+    }
+    else
+    {
+        if (find_suitable_position_for_ant(sizeP, position))
+        {
+            predators.push_back(unique_ptr<Predator>(
+                new Predator{position.x, position.y, 0, get_color_index()}));
+        }
+    }
+}
+
 unsigned int Anthill::calculate_side()
 {
     return sqrt(4 * (sizeG * sizeG + sizeC * sizeC * get_number_of_collectors() +
@@ -454,4 +505,31 @@ bool Anthill::reduce_food()
     }
 
     return true;
+}
+
+bool Anthill::find_suitable_position_for_ant(unsigned int side_ant,
+                                             Squarecell::Square &position)
+{
+    for (unsigned int x_shift = 0; x_shift <= side - side_ant; x_shift++)
+    {
+        for (unsigned int y_shift = 0; y_shift <= side - side_ant; y_shift++)
+        {
+            Squarecell::Square square{.x = x + x_shift,
+                                      .y = y + y_shift,
+                                      .side = side_ant,
+                                      .centered = false};
+
+            if (!Squarecell::test_if_superposed_grid(square))
+            {
+                position = {.x = x + x_shift - (side_ant - 1) / 2,
+                            .y = y + y_shift - (side_ant - 1) / 2,
+                            .side = side_ant,
+                            .centered = true};
+
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
