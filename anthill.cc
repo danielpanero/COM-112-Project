@@ -390,11 +390,18 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
 
         origin.side = calculate_side();
 
-        origin.x += xshift.at(i) * (origin.side - side);
-        origin.y += yshift.at(i) * (origin.side - side);
+        origin.x += xshift.at(i) *
+                    (origin.side > side ? origin.side - side : side - origin.side);
+        origin.y += yshift.at(i) *
+                    (origin.side > side ? origin.side - side : side - origin.side);
 
         if (Squarecell::test_square_without_message(origin))
         {
+            if (anthills.size() == 1)
+            {
+                successfull = true;
+                successfull_square = origin;
+            }
             for (auto const &anthill : anthills)
             {
                 if (anthill.get() != this &&
