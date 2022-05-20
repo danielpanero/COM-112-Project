@@ -196,7 +196,7 @@ vector<Square> Collector::generate_moves(Square origin)
 {
     // All the possible shifts combination: TOP-RIGHT,  BOTTOM-RIGHT...
     vector<int> x_shift{1, 1, -1, -1};
-    vector<int> y_shift{1, 1, -1, -1};
+    vector<int> y_shift{1, -1, 1, -1};
 
     return Ant::generate_moves(origin, x_shift, y_shift);
 }
