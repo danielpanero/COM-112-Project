@@ -11,6 +11,7 @@
 #include <cmath>
 #include <memory>
 #include <sstream>
+#include <vector>
 
 #include "constantes.h"
 #include "message.h"
@@ -98,9 +99,9 @@ bool Collector::return_to_anthill(Squarecell::Square &anthill_square)
     remove_from_grid();
     undraw();
 
-    auto move = Squarecell::lee_algorithm(*this, anthill_square,
-                                          &Collector::generate_diagonal_moves,
-                                          &Squarecell::test_if_border_touches);
+    auto move =
+        Squarecell::lee_algorithm(*this, anthill_square, &Collector::generate_moves,
+                                  &Squarecell::test_if_border_touches);
 
     x = move.x;
     y = move.y;
@@ -126,9 +127,9 @@ bool Collector::search_food(std::unique_ptr<Food> &food)
 
     food->remove_from_grid();
 
-    auto move = Squarecell::lee_algorithm(*this, food_square,
-                                          &Collector::generate_diagonal_moves,
-                                          &Squarecell::test_if_superposed_two_square);
+    auto move =
+        Squarecell::lee_algorithm(*this, food_square, &Collector::generate_moves,
+                                  &Squarecell::test_if_superposed_two_square);
 
     x = move.x;
     y = move.y;
@@ -179,35 +180,13 @@ bool Collector::find_target_food(vector<unique_ptr<Food>> &foods, size_t &target
     return found;
 }
 
-vector<Squarecell::Square> Collector::generate_diagonal_moves(Square origin)
+vector<Squarecell::Square> Collector::generate_moves(Square origin)
 {
     // All the possible shifts combination: TOP-RIGHT,  BOTTOM-RIGHT...
-    constexpr static int x_shift[4] = {1, 1, -1, -1};
-    constexpr static int y_shift[4] = {1, -1, 1, -1};
+    vector<int> x_shift{1, 1, -1, -1};
+    vector<int> y_shift{1, 1, -1, -1};
 
-    vector<Squarecell::Square> moves;
-
-    for (int i(0); i <= 4; i++)
-    {
-        Squarecell::Square move(origin);
-
-        move.x += x_shift[i];
-        move.y += y_shift[i];
-
-        unsigned int x = Squarecell::get_coordinate_x(move);
-        unsigned int y = Squarecell::get_coordinate_y(move);
-
-        // We check if the proposed new positions are inside the model
-        // TODO(@danielpanero): when replaced unsigned int with x, it will suffice to
-        // check that x >= 0 and we can group all this function in squarecell
-        if (move.x >= 1 && move.y >= 1 && x + move.side <= g_max - 1 &&
-            y + move.side <= g_max - 1)
-        {
-            moves.push_back(move);
-        }
-    }
-
-    return moves;
+    return Ant::generate_moves(origin, x_shift, y_shift);
 }
 
 unique_ptr<Collector> Collector::parse_line(string &line, unsigned int color_index)

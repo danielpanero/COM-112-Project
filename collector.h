@@ -84,7 +84,7 @@ public:
      * @param origin
      * @return std::vector<Square>
      */
-    static std::vector<Square> generate_diagonal_moves(Squarecell::Square origin);
+    static std::vector<Square> generate_moves(Squarecell::Square origin);
 
     /**
      * @brief Creates a new pointed instance of Collector from its string
