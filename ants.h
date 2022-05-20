@@ -34,8 +34,6 @@ public:
         unsigned int color_index);
     ~Ant() override = default;
 
-    // TODO(@danielpanero): attacked as virtual
-
     /**
      * @brief Checks that position in the grid is empty and either throw an error or
      * fills the grid

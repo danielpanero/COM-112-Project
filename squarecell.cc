@@ -24,9 +24,6 @@
 using std::invalid_argument;
 using std::vector;
 
-// TODO(@danielpanero): set every parameter as coonst
-// TODO(@danielpanero): use int and not unsigned int
-
 constexpr double g_max(128);
 
 static vector<vector<bool>> grid(g_max, vector<bool>(g_max));
@@ -41,7 +38,7 @@ void Squarecell::grid_clear()
     Graphic::clear_surface();
 }
 
-unsigned int Squarecell::get_coordinate_x(Square &square)
+unsigned int Squarecell::get_coordinate_x(Square const &square)
 {
     if (square.centered)
     {
@@ -50,7 +47,7 @@ unsigned int Squarecell::get_coordinate_x(Square &square)
     return square.x;
 }
 
-unsigned int Squarecell::get_coordinate_y(Square &square)
+unsigned int Squarecell::get_coordinate_y(Square const &square)
 {
     if (square.centered)
     {
@@ -60,7 +57,7 @@ unsigned int Squarecell::get_coordinate_y(Square &square)
     return square.y;
 }
 
-void Squarecell::test_square(Square &square)
+void Squarecell::test_square(Square const &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -88,7 +85,7 @@ void Squarecell::test_square(Square &square)
     }
 }
 
-bool Squarecell::test_square_without_message(Square &square)
+bool Squarecell::test_square_without_message(Square const &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -124,7 +121,7 @@ bool Squarecell::test_square_without_message(Square &square)
     return true;
 }
 
-void Squarecell::add_square(Square &square)
+void Squarecell::add_square(Square const &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -139,7 +136,7 @@ void Squarecell::add_square(Square &square)
     }
 }
 
-void Squarecell::remove_square(Square &square)
+void Squarecell::remove_square(Square const &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -157,7 +154,8 @@ void Squarecell::remove_square(Square &square)
 // ====================================================================================
 // Tests
 
-bool Squarecell::test_if_superposed_grid(Square &square, unsigned int &superposed_x,
+bool Squarecell::test_if_superposed_grid(Square const &square,
+                                         unsigned int &superposed_x,
                                          unsigned int &superposed_y)
 {
     unsigned int x = get_coordinate_x(square);
@@ -183,7 +181,7 @@ bool Squarecell::test_if_superposed_grid(Square &square, unsigned int &superpose
     return false;
 }
 
-bool Squarecell::test_if_superposed_grid(Square &square)
+bool Squarecell::test_if_superposed_grid(Square const &square)
 {
     unsigned int superposed_x(0);
     unsigned int superposed_y(0);
@@ -191,7 +189,8 @@ bool Squarecell::test_if_superposed_grid(Square &square)
     return test_if_superposed_grid(square, superposed_x, superposed_y);
 }
 
-bool Squarecell::test_if_superposed_two_square(Square &square1, Square &square2)
+bool Squarecell::test_if_superposed_two_square(Square const &square1,
+                                               Square const &square2)
 {
     unsigned int x1 = get_coordinate_x(square1);
     unsigned int y1 = get_coordinate_y(square1);
@@ -212,7 +211,8 @@ bool Squarecell::test_if_superposed_two_square(Square &square1, Square &square2)
     return true;
 }
 
-bool Squarecell::test_if_completely_confined(Square &square1, Square &square2)
+bool Squarecell::test_if_completely_confined(Square const &square1,
+                                             Square const &square2)
 {
     unsigned int x1 = get_coordinate_x(square1);
     unsigned int y1 = get_coordinate_y(square1);
@@ -238,7 +238,7 @@ bool Squarecell::test_if_completely_confined(Square &square1, Square &square2)
     return true;
 }
 
-bool Squarecell::test_if_border_touches(Square &square1, Square &square2)
+bool Squarecell::test_if_border_touches(Square const &square1, Square const &square2)
 {
     unsigned int x1 = get_coordinate_x(square1);
     unsigned int y1 = get_coordinate_y(square1);
@@ -273,10 +273,10 @@ struct BFSNode
     unsigned int y : 7;
 };
 
-Squarecell::Square
-Squarecell::lee_algorithm(Square &origin, Square &target,
-                          const std::function<vector<Square>(Square)> &generate_moves,
-                          const std::function<bool(Square &, Square &)> &test)
+Squarecell::Square Squarecell::lee_algorithm(
+    Square const &origin, Square const &target,
+    const std::function<vector<Square>(const Square)> &generate_moves,
+    const std::function<bool(Square const &, Square const &)> &test)
 {
     vector<vector<bool>> bfs_visited_nodes(g_max, vector<bool>(g_max));
     std::queue<BFSNode> bfs_queue;
@@ -352,7 +352,7 @@ Squarecell::lee_algorithm(Square &origin, Square &target,
 // ====================================================================================
 // Draw
 
-void Squarecell::draw_as_diamond(Square &square, std::string color)
+void Squarecell::draw_as_diamond(Square const &square, std::string color)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -360,7 +360,7 @@ void Squarecell::draw_as_diamond(Square &square, std::string color)
     Graphic::draw_filled_diamond(x, y, square.side, color);
 }
 
-void Squarecell::draw_only_border(Square &square, unsigned int color_index)
+void Squarecell::draw_only_border(Square const &square, unsigned int color_index)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -368,7 +368,7 @@ void Squarecell::draw_only_border(Square &square, unsigned int color_index)
     Graphic::draw_thick_border_square(x, y, square.side, color_index);
 }
 
-void Squarecell::draw_filled(Square &square, unsigned int color_index)
+void Squarecell::draw_filled(Square const &square, unsigned int color_index)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -376,7 +376,7 @@ void Squarecell::draw_filled(Square &square, unsigned int color_index)
     Graphic::draw_filled_square(x, y, square.side, color_index);
 }
 
-void Squarecell::draw_diagonal_pattern(Square &square, unsigned int color_index)
+void Squarecell::draw_diagonal_pattern(Square const &square, unsigned int color_index)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -384,7 +384,7 @@ void Squarecell::draw_diagonal_pattern(Square &square, unsigned int color_index)
     Graphic::draw_diagonal_pattern_square(x, y, square.side, color_index);
 }
 
-void Squarecell::draw_plus_pattern(Square &square, unsigned int color_index)
+void Squarecell::draw_plus_pattern(Square const &square, unsigned int color_index)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -395,7 +395,7 @@ void Squarecell::draw_plus_pattern(Square &square, unsigned int color_index)
 // ====================================================================================
 // Undraw
 
-void Squarecell::undraw_square(Square &square)
+void Squarecell::undraw_square(Square const &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
@@ -403,7 +403,7 @@ void Squarecell::undraw_square(Square &square)
     Graphic::undraw_square(x, y, square.side);
 }
 
-void Squarecell::undraw_thick_border_square(Square &square)
+void Squarecell::undraw_thick_border_square(Square const &square)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);
