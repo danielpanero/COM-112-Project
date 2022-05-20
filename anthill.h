@@ -125,9 +125,17 @@ public:
 
 private:
     void try_to_expand(std::vector<std::unique_ptr<Anthill>> &anthill);
+
     unsigned int calculate_side();
 
-    unsigned int n_food;
+    /**
+     * @brief It reduce the total food counr based on the number of ants
+     * 
+     * @return false if the total food is not enough
+     */
+    bool reduce_food();
+
+    int n_food;
 
     std::unique_ptr<Generator> generator;
     std::vector<std::unique_ptr<Collector>> collectors;

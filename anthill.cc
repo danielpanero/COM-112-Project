@@ -29,8 +29,6 @@ using std::vector;
 
 // TODO: using Squarecell::Square and other std
 
-unsigned int const g_max(128);
-
 // ====================================================================================
 // Initialization - Misc
 
@@ -136,9 +134,7 @@ bool Anthill::step(vector<unique_ptr<Food>> &foods,
 
     try_to_expand(anthills);
 
-    // TODO(@danielpanero): implement food consuption food <= 0 --> return false
-
-    if (!generator->step(*this))
+    if (!(generator->step(*this) && reduce_food()))
     {
         for (auto &collector : collectors)
         {
@@ -445,4 +441,17 @@ unsigned int Anthill::calculate_side()
                      sizeD * sizeD * get_number_of_defensors() +
                      sizeP * sizeP * get_number_of_predators())) +
            2;
+}
+
+bool Anthill::reduce_food()
+{
+    n_food -= food_rate * (1 + get_number_of_collectors() + get_number_of_defensors() +
+                           get_number_of_predators());
+
+    if (n_food <= 0)
+    {
+        return false;
+    }
+
+    return true;
 }
