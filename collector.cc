@@ -27,6 +27,7 @@ using std::vector;
 using Squarecell::Square;
 
 unsigned int const g_max(128);
+unsigned int difference(unsigned int a, unsigned int b);
 
 // TODO(@danielpanero): implement secondary goal
 
@@ -157,13 +158,12 @@ bool Collector::find_target_food(vector<unique_ptr<Food>> &foods, size_t &target
 
     for (size_t i(0); i < foods.size(); i++)
     {
-        Square food_square = foods[i]->get_as_square();
-        if ((food_square.y - food_square.x) % 2 == (y - x) % 2)
+        auto food_square = foods[i]->get_as_square();
+
+        if (difference(food_square.y, food_square.x) % 2 == difference(y, x) % 2)
         {
             unsigned int distance =
-                std::max(food_square.x >= x ? food_square.x - x : x - food_square.x,
-                         food_square.y >= y ? food_square.y - y : y - food_square.y);
-
+                std::max(difference(x, food_square.x), difference(y, food_square.y));
             if (distance < best_distance)
             {
                 target = i;
@@ -220,4 +220,9 @@ unique_ptr<Collector> Collector::parse_line(string &line, unsigned int color_ind
         state = State_collector::LOADED;
     }
     return unique_ptr<Collector>(new Collector(x, y, age, state, color_index));
+}
+
+unsigned int difference(unsigned int a, unsigned int b)
+{
+    return a >= b ? a - b : b - a;
 }
