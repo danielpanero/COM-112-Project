@@ -26,6 +26,8 @@ using std::vector;
 
 using Squarecell::Square;
 
+unsigned int const g_max(128);
+
 // TODO(@danielpanero): implement secondary goal
 
 // ====================================================================================
@@ -149,7 +151,7 @@ bool Collector::search_food(std::unique_ptr<Food> &food)
 
 bool Collector::find_target_food(vector<unique_ptr<Food>> &foods, size_t &target)
 {
-    // This is given by sqrt((g_max-1)^2 + (g_max - 1)^2), ie the diagonal
+    // TODO(@danielpanero): best distance = front remove g_max above
     unsigned int best_distance = M_SQRT2 * g_max;
     bool found = false;
 

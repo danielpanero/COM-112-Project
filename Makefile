@@ -8,9 +8,9 @@ OBJS = $(CXXFILES:.cc=.o)
 DEPDIR = .deps
 
 ifeq ($(HEADLESS),)
-CXXFLAGS = `pkg-config --cflags gtkmm-3.0` -g -Wall -std=c++11 
+CXXFLAGS = `pkg-config --cflags gtkmm-3.0` -g -Wextra -Og -std=c++11
 else
-CXXFLAGS = `pkg-config --cflags gtkmm-3.0` -g -Wall -std=c++11 -D HEADLESS=true
+CXXFLAGS = `pkg-config --cflags gtkmm-3.0` -g -Wextra -Og -std=c++11 -D HEADLESS=true
 endif
 
 LIBS = `pkg-config --libs gtkmm-3.0`

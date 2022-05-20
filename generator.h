@@ -63,8 +63,8 @@ public:
      * @return true if origin is inside of square anthill and it doesn't touch
      * any edge
      */
-    static bool test_if_confined_and_not_near_border(Squarecell::Square &origin,
-                                                     Squarecell::Square &anthill);
+    static bool test_if_confined_and_not_near_border(Squarecell::Square const &origin,
+                                                     Squarecell::Square const &anthill);
 };
 
 #endif

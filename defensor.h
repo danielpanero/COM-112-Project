@@ -64,8 +64,8 @@ public:
      * @param anthill
      * @return true if it is completly confined and near the border
      */
-    static bool test_if_confined_and_near_border(Squarecell::Square &origin,
-                                                 Squarecell::Square &anthill);
+    static bool test_if_confined_and_near_border(Squarecell::Square const &origin,
+                                                 Squarecell::Square const &anthill);
 
     /**
      * @brief Generates all the possible new positions / moves based on the origin

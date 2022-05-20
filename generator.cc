@@ -91,7 +91,8 @@ vector<Squarecell::Square> Generator::generate_moves(Square origin)
     return Ant::generate_moves(origin, x_shift, y_shift);
 }
 
-bool Generator::test_if_confined_and_not_near_border(Square &origin, Square &anthill)
+bool Generator::test_if_confined_and_not_near_border(Square const &origin,
+                                                     Square const &anthill)
 {
     if (Squarecell::test_if_completely_confined(origin, anthill))
     {

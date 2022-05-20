@@ -97,7 +97,8 @@ bool Defensor::test_if_contact_collector(Squarecell::Square &collector_square)
     return Squarecell::test_if_border_touches(*this, collector_square);
 }
 
-bool Defensor::test_if_confined_and_near_border(Square &origin, Square &anthill)
+bool Defensor::test_if_confined_and_near_border(Square const &origin,
+                                                Square const &anthill)
 {
     // TODO(@danielpanero): control border touches that it's not overlap
     return Squarecell::test_if_completely_confined(origin, anthill) &&
