@@ -8,8 +8,8 @@
  *
  */
 
-#include <vector>
 #include <string>
+#include <vector>
 
 #include "element.h"
 #include "squarecell.h"
@@ -53,8 +53,8 @@ vector<Square> Ant::generate_moves(Square origin, vector<int> x_shift,
     {
         Square move(origin);
 
-        move.x += x_shift[i];
-        move.y += y_shift[i];
+        move.x += x_shift.at(i);
+        move.y += y_shift.at(i);
 
         // We check if the proposed new positions are inside the model
         if (Squarecell::test_square_without_message(move))
