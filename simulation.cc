@@ -319,10 +319,17 @@ void Simulation::generate_foods()
 
         Squarecell::Square square{x, y, 1, true};
 
-        // TODO(@danielpanero):check if not superposed with anthill
         if (!Squarecell::test_if_superposed_grid(square))
         {
             found = true;
+            for (auto const &anthill : anthills)
+            {
+                if (Squarecell::test_if_superposed_two_square(
+                        square, anthill->get_as_square()))
+                {
+                    found = false;
+                }
+            }
         }
 
         i++;
