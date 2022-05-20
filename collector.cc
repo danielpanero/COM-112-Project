@@ -24,6 +24,8 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
+using Squarecell::Square;
+
 unsigned int const g_max(128);
 
 // TODO(@danielpanero): implement secondary goal
@@ -53,7 +55,7 @@ Collector::~Collector()
      */
     if (state == LOADED)
     {
-        Squarecell::Square food{x, y, 1, true};
+        Square food{x, y, 1, true};
 
         Squarecell::add_square(food);
         Squarecell::draw_as_diamond(food, "white");
@@ -93,7 +95,7 @@ State_collector Collector::get_state() { return state; }
 
 bool Collector::step() { return increase_age(); }
 
-bool Collector::return_to_anthill(Squarecell::Square &anthill_square)
+bool Collector::return_to_anthill(Square &anthill_square)
 {
     remove_from_grid();
     undraw();
@@ -190,7 +192,7 @@ void Collector::drop_food(vector<unique_ptr<Food>> &foods)
     }
 }
 
-vector<Squarecell::Square> Collector::generate_moves(Square origin)
+vector<Square> Collector::generate_moves(Square origin)
 {
     // All the possible shifts combination: TOP-RIGHT,  BOTTOM-RIGHT...
     vector<int> x_shift{1, 1, -1, -1};
