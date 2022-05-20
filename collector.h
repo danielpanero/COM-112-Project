@@ -80,6 +80,9 @@ public:
 
     void drop_food(std::vector<std::unique_ptr<Food>> &foods);
 
+    static bool test_if_near_or_inside_anthill(Squarecell::Square const &origin,
+                                               Squarecell::Square const &anthill);
+
     /**
      * @brief Generates all the possible new positions / moves based on the origin
      *

@@ -103,7 +103,7 @@ bool Collector::return_to_anthill(Square &anthill_square)
 
     auto move =
         Squarecell::lee_algorithm(*this, anthill_square, &Collector::generate_moves,
-                                  &Squarecell::test_if_border_touches);
+                                  &Collector::test_if_near_or_inside_anthill);
 
     x = move.x;
     y = move.y;
@@ -111,7 +111,7 @@ bool Collector::return_to_anthill(Square &anthill_square)
     add_to_grid();
     draw();
 
-    if (Squarecell::test_if_border_touches(*this, anthill_square))
+    if (Collector::test_if_near_or_inside_anthill(*this, anthill_square))
     {
         state = EMPTY;
         return true;
@@ -190,6 +190,13 @@ void Collector::drop_food(vector<unique_ptr<Food>> &foods)
          * all the Anthills are updated */
         Squarecell::add_square(*this);
     }
+}
+
+bool Collector::test_if_near_or_inside_anthill(Squarecell::Square const &origin,
+                                               Squarecell::Square const &anthill)
+{
+    return Squarecell::test_if_border_touches(origin, anthill) ||
+           Squarecell::test_if_superposed_two_square(origin, anthill);
 }
 
 vector<Square> Collector::generate_moves(Square origin)

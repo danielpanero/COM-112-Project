@@ -49,7 +49,7 @@ vector<Square> Ant::generate_moves(Square origin, vector<int> x_shift,
 {
     vector<Square> moves;
 
-    for (size_t i(0); i <= x_shift.size(); i++)
+    for (size_t i(0); i < x_shift.size(); i++)
     {
         Square move(origin);
 
