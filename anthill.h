@@ -116,6 +116,7 @@ public:
 
 private:
     void try_to_expand(std::vector<std::unique_ptr<Anthill>> &anthill);
+    void generate_new_ants();
 
     unsigned int calculate_side();
 
@@ -125,6 +126,9 @@ private:
      * @return false if the total food is not enough
      */
     bool reduce_food();
+
+    bool find_suitable_position_for_ant(unsigned int side_ant,
+                                        Squarecell::Square &position);
 
     int n_food;
 
