@@ -18,6 +18,8 @@
 using std::string;
 using std::vector;
 
+using Squarecell::Square;
+
 Ant::Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age,
          unsigned int color_index)
     : Element{x, y, side, true, color_index}, age(age)
@@ -41,15 +43,15 @@ bool Ant::increase_age()
     return true;
 }
 
-vector<Squarecell::Square> Ant::generate_moves(Square origin, vector<int> x_shift,
-                                               vector<int> y_shift)
+vector<Square> Ant::generate_moves(Square origin, vector<int> x_shift,
+                                   vector<int> y_shift)
 {
 
-    vector<Squarecell::Square> moves;
+    vector<Square> moves;
 
     for (int i(0); i <= x_shift.size(); i++)
     {
-        Squarecell::Square move(origin);
+        Square move(origin);
 
         move.x += x_shift[i];
         move.y += y_shift[i];

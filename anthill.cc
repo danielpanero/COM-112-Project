@@ -23,14 +23,14 @@
 
 #include "anthill.h"
 
+using std::bind;
+using std::function;
 using std::istringstream;
+using std::move;
+using std::remove;
 using std::string;
 using std::unique_ptr;
 using std::vector;
-using std::move;
-using std::remove;
-using std::bind;
-using std::function;
 
 using Squarecell::Square;
 
@@ -216,7 +216,7 @@ void Anthill::update_defensors(vector<unique_ptr<Anthill>> &anthills)
             if (anthill.get() != this)
             {
                 auto test = bind(&Defensor::test_if_contact_collector, *defensor,
-                                      std::placeholders::_1);
+                                 std::placeholders::_1);
 
                 anthill->mark_collectors_as_dead(test);
             }
@@ -243,10 +243,10 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
         auto anthill_square = get_as_square();
         auto predator_square = predator->get_as_square();
 
-        auto filter = bind(&Predator::filter_ants, *predator, state,
-                                anthill_square, std::placeholders::_1);
-        auto test = bind(&Squarecell::test_if_border_touches,
-                              std::placeholders::_1, predator_square);
+        auto filter = bind(&Predator::filter_ants, *predator, state, anthill_square,
+                           std::placeholders::_1);
+        auto test = bind(&Squarecell::test_if_border_touches, std::placeholders::_1,
+                         predator_square);
 
         for (auto const &anthill : anthills)
         {
@@ -299,8 +299,7 @@ bool Anthill::get_attackable_ants(const function<bool(Square &)> test,
     return found;
 }
 
-bool Anthill::mark_collectors_as_dead(
-    const function<bool(Square &)> test)
+bool Anthill::mark_collectors_as_dead(const function<bool(Square &)> test)
 {
     bool found = false;
 
@@ -319,8 +318,7 @@ bool Anthill::mark_collectors_as_dead(
     return found;
 }
 
-bool Anthill::mark_predators_as_dead(
-    const function<bool(Square &)> test)
+bool Anthill::mark_predators_as_dead(const function<bool(Square &)> test)
 {
     bool found = false;
 
@@ -492,17 +490,16 @@ bool Anthill::reduce_food()
     return true;
 }
 
-bool Anthill::find_suitable_position_for_ant(unsigned int side_ant,
-                                             Square &position)
+bool Anthill::find_suitable_position_for_ant(unsigned int side_ant, Square &position)
 {
     for (unsigned int x_shift = 0; x_shift <= side - side_ant; x_shift++)
     {
         for (unsigned int y_shift = 0; y_shift <= side - side_ant; y_shift++)
         {
             Square square{.x = x + x_shift,
-                                      .y = y + y_shift,
-                                      .side = side_ant,
-                                      .centered = false};
+                          .y = y + y_shift,
+                          .side = side_ant,
+                          .centered = false};
 
             if (!Squarecell::test_if_superposed_grid(square))
             {
