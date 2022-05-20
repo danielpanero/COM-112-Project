@@ -36,7 +36,7 @@ namespace Squarecell
      * @param square
      * @return unsigned int
      */
-    unsigned int get_coordinate_x(Square &square);
+    unsigned int get_coordinate_x(Square const &square);
 
     /**
      * @brief Calculates the bottom left y-coordinate.
@@ -44,18 +44,18 @@ namespace Squarecell
      * @param square
      * @return unsigned int
      */
-    unsigned int get_coordinate_y(Square &square);
+    unsigned int get_coordinate_y(Square const &square);
 
     /**
      * @brief Checks if the square respects the constraints.
      *
      * @param square
      */
-    void test_square(Square &square);
-    bool test_square_without_message(Square &square);
+    void test_square(Square const &square);
+    bool test_square_without_message(Square const &square);
 
-    void add_square(Square &square);
-    void remove_square(Square &square);
+    void add_square(Square const &square);
+    void remove_square(Square const &square);
 
     /**
      * @brief Checks if the grid is already occupied
@@ -66,7 +66,7 @@ namespace Squarecell
      * @return true if grid is already occupied
      * @return false if the grid is free
      */
-    bool test_if_superposed_grid(Square &square);
+    bool test_if_superposed_grid(Square const &square);
 
     /**
      * @brief Checks if the grid is already occupied
@@ -75,7 +75,7 @@ namespace Squarecell
      * @return true if grid is already occupied
      * @return false if the grid is free
      */
-    bool test_if_superposed_grid(Square &square, unsigned int &superposed_x,
+    bool test_if_superposed_grid(Square const &square, unsigned int &superposed_x,
                                  unsigned int &superposed_y);
 
     /**
@@ -86,7 +86,7 @@ namespace Squarecell
      * @return true if squares are superposing
      * @return false if squares aren't superposing
      */
-    bool test_if_superposed_two_square(Square &square1, Square &square2);
+    bool test_if_superposed_two_square(Square const &square1, Square const &square2);
 
     /**
      * @brief Checks if the square1 is completly contained within square2
@@ -96,7 +96,7 @@ namespace Squarecell
      * @return true if square1 is completly contained within square2
      * @return false if square1 is not completly contained within square2
      */
-    bool test_if_completely_confined(Square &square1, Square &square2);
+    bool test_if_completely_confined(Square const &square1, Square const &square2);
 
     /**
      * @brief Checks if the edge of the two squares are touching and return true if it
@@ -106,7 +106,7 @@ namespace Squarecell
      * @param square2
      * @return true if they are touching
      */
-    bool test_if_border_touches(Square &square1, Square &square2);
+    bool test_if_border_touches(Square const &square1, Square const &square2);
 
     /**
      * @brief Implementation of a lee algorithm, used for solving maze routing problems
@@ -123,10 +123,10 @@ namespace Squarecell
      * @param test a function which that if the algorithm has reached its goal
      * @return Squarecell::Square
      */
-    Squarecell::Square
-    lee_algorithm(Square &origin, Square &target,
-                  const std::function<std::vector<Square>(Square)> &generate_moves,
-                  const std::function<bool(Square &, Square &)> &test);
+    Squarecell::Square lee_algorithm(
+        Square const &origin, Square const &target,
+        const std::function<std::vector<Square>(const Square)> &generate_moves,
+        const std::function<bool(Square const &, Square const &)> &test);
 
     /**
      * @brief Draws @p square as diamond using the module Graphic
@@ -134,7 +134,7 @@ namespace Squarecell
      * @param square
      * @param color
      */
-    void draw_as_diamond(Square &square, std::string color);
+    void draw_as_diamond(Square const &square, std::string color);
 
     /**
      * @brief Draws @p square as a thick border of color @p color_index using the
@@ -143,7 +143,7 @@ namespace Squarecell
      * @param square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
-    void draw_only_border(Square &square, unsigned int color_index);
+    void draw_only_border(Square const &square, unsigned int color_index);
 
     /**
      * @brief Fills @p square with the color @p color_index using the
@@ -152,7 +152,7 @@ namespace Squarecell
      * @param square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
-    void draw_filled(Square &square, unsigned int color_index);
+    void draw_filled(Square const &square, unsigned int color_index);
 
     /**
      * @brief Draws @p square filled with |X O||X O|... pattern where X has color @p
@@ -162,7 +162,7 @@ namespace Squarecell
      * @param square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
-    void draw_diagonal_pattern(Square &square, unsigned int color_index);
+    void draw_diagonal_pattern(Square const &square, unsigned int color_index);
 
     /**
      * @brief Draws @p square filled with a lighter version of @p color_index and a
@@ -172,21 +172,21 @@ namespace Squarecell
      * @param square
      * @param color_index (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5 cyan)
      */
-    void draw_plus_pattern(Square &square, unsigned int color_index);
+    void draw_plus_pattern(Square const &square, unsigned int color_index);
 
     /**
      * @brief Erases everything drawn on the area of the square
      *
      * @param square
      */
-    void undraw_square(Square &square);
+    void undraw_square(Square const &square);
 
     /**
      * @brief Erases the thick border of the square
      *
      * @param square
      */
-    void undraw_thick_border_square(Square &square);
+    void undraw_thick_border_square(Square const &square);
 } // namespace Squarecell
 
 #endif
