@@ -23,8 +23,6 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
-// TODO(@danielpanero): implement contact Defensor vs Collector from another anthill
-
 // ====================================================================================
 // Initialization - Misc
 

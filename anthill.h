@@ -88,15 +88,6 @@ public:
                              std::vector<Squarecell::Square> &targets);
 
     /**
-     * @brief When the collector is carrying some food, it creates a new food
-     *
-     * @param foods
-     * @param collector
-     */
-    void drop_food_collector(std::vector<std::unique_ptr<Food>> &foods,
-                             std::unique_ptr<Collector> &collector);
-
-    /**
      * @brief Called by others Anthills in order to initiate an attack, return true if
      * at least one ant was killed
      *
@@ -130,7 +121,7 @@ private:
 
     /**
      * @brief It reduce the total food counr based on the number of ants
-     * 
+     *
      * @return false if the total food is not enough
      */
     bool reduce_food();

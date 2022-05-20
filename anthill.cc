@@ -138,7 +138,7 @@ bool Anthill::step(vector<unique_ptr<Food>> &foods,
     {
         for (auto &collector : collectors)
         {
-            drop_food_collector(foods, collector);
+            collector->drop_food(foods);
         }
 
         return false;
@@ -159,7 +159,7 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
     {
         if (!collector->step())
         {
-            drop_food_collector(foods, collector);
+            collector->drop_food(foods);
 
             dead_ants.push_back(std::move(collector));
             continue;
@@ -266,25 +266,6 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
 
     predators.erase(std::remove(predators.begin(), predators.end(), nullptr),
                     predators.end());
-}
-
-// TODO: move to collector
-void Anthill::drop_food_collector(vector<unique_ptr<Food>> &foods,
-                                  unique_ptr<Collector> &collector)
-{
-    if (collector->get_state() == LOADED)
-    {
-        // In order to add the new food we have first to empty the grid
-        auto collector_square = collector->get_as_square();
-        Squarecell::remove_square(collector_square);
-
-        unique_ptr<Food> food(new Food{collector_square.x, collector_square.y});
-        foods.push_back(std::move(food));
-
-        /** We have to add back the square as the zone will be free only after
-         * all the Anthills are updated */
-        Squarecell::add_square(collector_square);
-    }
 }
 
 bool Anthill::get_attackable_ants(const std::function<bool(Squarecell::Square &)> test,

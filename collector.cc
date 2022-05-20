@@ -24,7 +24,6 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
-
 // TODO(@danielpanero): implement secondary goal
 
 // ====================================================================================
@@ -176,6 +175,22 @@ bool Collector::find_target_food(vector<unique_ptr<Food>> &foods, size_t &target
     }
 
     return found;
+}
+
+void Collector::drop_food(vector<unique_ptr<Food>> &foods)
+{
+    if (state == LOADED)
+    {
+        // In order to add the new food we have first to empty the grid
+        Squarecell::remove_square(*this);
+
+        unique_ptr<Food> food(new Food{x, y});
+        foods.push_back(std::move(food));
+
+        /** We have to add back the square as the zone will be free only after
+         * all the Anthills are updated */
+        Squarecell::add_square(*this);
+    }
 }
 
 vector<Squarecell::Square> Collector::generate_moves(Square origin)
