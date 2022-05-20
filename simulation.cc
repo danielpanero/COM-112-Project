@@ -169,32 +169,11 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
      */
     index_anthill = (index_anthill + anthills.size()) % anthills.size();
 
-    // TODO(@danielpanero): refactor this function since at the end we auto clean all
-    // the arrays from any nullptr
-
-    /** Since the index of an anthill must be invariant during the simulation, the
-     * Anthills who were killed are removed and replaced by a nullptr. Therefore we
-     * continue to reduce index till we find an non-nullptr element. After one cycle we
-     * exit and return that there are no Anthill left
-     */
-    int tmp = index_anthill;
-    while (anthills.at(tmp) == nullptr)
-    {
-        tmp += order ? +1 : -1;
-        tmp = (tmp + anthills.size()) % anthills.size();
-
-        // After one cycle, we exit as there no anthills left
-        if (tmp == index_anthill)
-        {
-            return false;
-        }
-    }
-
-    index = tmp;
-    n_collectors = anthills[tmp]->get_number_of_collectors();
-    n_defensors = anthills[tmp]->get_number_of_defensors();
-    n_predators = anthills[tmp]->get_number_of_predators();
-    n_food = anthills[tmp]->get_number_of_food();
+    index = index_anthill;
+    n_collectors = anthills[index_anthill]->get_number_of_collectors();
+    n_defensors = anthills[index_anthill]->get_number_of_defensors();
+    n_predators = anthills[index_anthill]->get_number_of_predators();
+    n_food = anthills[index_anthill]->get_number_of_food();
     return true;
 }
 
