@@ -381,7 +381,7 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
     Squarecell::Square successfull_square;
     bool successfull = false;
 
-    for (size_t i = 0; i <= 4 && successfull == false; i++)
+    for (size_t i = 0; i <= 3 && successfull == false; i++)
     {
         auto origin = get_as_square();
 
