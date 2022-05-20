@@ -215,15 +215,23 @@ void Graphic::draw_filled_square(unsigned int x, unsigned int y, unsigned int si
  * color_index and O a lighter version of @p color_index
  *
  * @param color_index
+ * @param parity
  * @return Cairo::RefPtr<Cairo::SurfacePattern>
  */
-Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int color_index)
+Cairo::RefPtr<Cairo::SurfacePattern> create_diagonal_pattern(unsigned int color_index,
+                                                             unsigned int parity)
 {
     RGBA dark_color(get_color(color_index));
     RGBA light_color(get_color(color_index, true));
 
     auto surface = Cairo::ImageSurface::create(Cairo::FORMAT_ARGB32, 2, 2);
     auto cc = Cairo::Context::create(surface);
+
+    if (parity == 1)
+    {
+        Cairo::Matrix ctm{1, 0, 0, -1, 0, 2};
+        cc->set_matrix(ctm);
+    }
 
     set_source_rgba(cc, dark_color);
     cc->rectangle(0, 0, cell_size, cell_size);
@@ -251,7 +259,7 @@ void Graphic::draw_diagonal_pattern_square(unsigned int x, unsigned int y,
 
     /* Instead of creating each square independently, we create a square of 2x2, with
      * the diagonal pattern and use this as filling pattern */
-    auto diagonal_pattern = create_diagonal_pattern(color_index);
+    auto diagonal_pattern = create_diagonal_pattern(color_index, (x - y) % 2);
 
     cc->set_source(diagonal_pattern);
     cc->rectangle(x, y, side, side);
@@ -305,7 +313,7 @@ void Graphic::undraw_thick_border_square(unsigned int x, unsigned int y,
 {
     auto cc = create_default_cc();
     cc->save();
-    
+
     cc->set_source_rgba(0, 0, 0, 0);
     cc->set_operator(Cairo::Operator::OPERATOR_CLEAR);
     cc->set_line_width(thick_border_linewidth);
