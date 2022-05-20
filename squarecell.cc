@@ -88,6 +88,42 @@ void Squarecell::test_square(Square &square)
     }
 }
 
+bool Squarecell::test_square_without_message(Square &square)
+{
+    unsigned int x = get_coordinate_x(square);
+    unsigned int y = get_coordinate_y(square);
+
+    if ((x < 0 || x > g_max - 1))
+    {
+        return false;
+    }
+
+    if ((y < 0 || y > g_max - 1))
+    {
+        return false;
+    }
+
+    if ((x + square.side > g_max))
+    {
+        return false;
+    }
+
+    if ((y + square.side > g_max))
+    {
+        return false;
+    }
+    if ((square.x < 0 || square.x > g_max - 1))
+    {
+        return false;
+    }
+
+    if ((square.y < 0 || square.y > g_max - 1))
+    {
+        return false;
+    }
+    return true;
+}
+
 void Squarecell::add_square(Square &square)
 {
     unsigned int x = get_coordinate_x(square);
