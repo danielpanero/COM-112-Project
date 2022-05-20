@@ -27,8 +27,12 @@ using std::istringstream;
 using std::string;
 using std::unique_ptr;
 using std::vector;
+using std::move;
+using std::remove;
+using std::bind;
+using std::function;
 
-// TODO: using Squarecell::Square and other std
+using Squarecell::Square;
 
 // ====================================================================================
 // Initialization - Misc
@@ -73,15 +77,15 @@ void Anthill::test_if_generator_defensors_perimeter(unsigned int index)
 
 void Anthill::set_collectors(vector<unique_ptr<Collector>> &collectors)
 {
-    this->collectors = std::move(collectors);
+    this->collectors = move(collectors);
 }
 void Anthill::set_defensors(vector<unique_ptr<Defensor>> &defensors)
 {
-    this->defensors = std::move(defensors);
+    this->defensors = move(defensors);
 }
 void Anthill::set_predators(vector<unique_ptr<Predator>> &predators)
 {
-    this->predators = std::move(predators);
+    this->predators = move(predators);
 }
 
 unsigned int Anthill::get_number_of_collectors() const { return collectors.size(); };
@@ -164,7 +168,7 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
         {
             collector->drop_food(foods);
 
-            dead_ants.push_back(std::move(collector));
+            dead_ants.push_back(move(collector));
             continue;
         }
 
@@ -193,7 +197,7 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
         }
     }
 
-    collectors.erase(std::remove(collectors.begin(), collectors.end(), nullptr),
+    collectors.erase(remove(collectors.begin(), collectors.end(), nullptr),
                      collectors.end());
 }
 
@@ -203,7 +207,7 @@ void Anthill::update_defensors(vector<unique_ptr<Anthill>> &anthills)
     {
         if (!defensor->step(*this))
         {
-            dead_ants.push_back(std::move(defensor));
+            dead_ants.push_back(move(defensor));
             continue;
         }
 
@@ -211,7 +215,7 @@ void Anthill::update_defensors(vector<unique_ptr<Anthill>> &anthills)
         {
             if (anthill.get() != this)
             {
-                auto test = std::bind(&Defensor::test_if_contact_collector, *defensor,
+                auto test = bind(&Defensor::test_if_contact_collector, *defensor,
                                       std::placeholders::_1);
 
                 anthill->mark_collectors_as_dead(test);
@@ -219,7 +223,7 @@ void Anthill::update_defensors(vector<unique_ptr<Anthill>> &anthills)
         }
     }
 
-    defensors.erase(std::remove(defensors.begin(), defensors.end(), nullptr),
+    defensors.erase(remove(defensors.begin(), defensors.end(), nullptr),
                     defensors.end());
 }
 
@@ -229,19 +233,19 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
     {
         if (!predator->step())
         {
-            dead_ants.push_back(std::move(predator));
+            dead_ants.push_back(move(predator));
             continue;
         }
 
-        vector<Squarecell::Square> targets;
+        vector<Square> targets;
 
         // TODO(@danielpanero): when everything is const these are not needed anymore
         auto anthill_square = get_as_square();
         auto predator_square = predator->get_as_square();
 
-        auto filter = std::bind(&Predator::filter_ants, *predator, state,
+        auto filter = bind(&Predator::filter_ants, *predator, state,
                                 anthill_square, std::placeholders::_1);
-        auto test = std::bind(&Squarecell::test_if_border_touches,
+        auto test = bind(&Squarecell::test_if_border_touches,
                               std::placeholders::_1, predator_square);
 
         for (auto const &anthill : anthills)
@@ -253,7 +257,7 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
                 anthill->mark_collectors_as_dead(test);
                 if (anthill->mark_predators_as_dead(test))
                 {
-                    dead_ants.push_back(std::move(predator));
+                    dead_ants.push_back(move(predator));
                     continue;
                 }
             }
@@ -267,12 +271,12 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
         predator->move_toward_nearest_ant(targets);
     }
 
-    predators.erase(std::remove(predators.begin(), predators.end(), nullptr),
+    predators.erase(remove(predators.begin(), predators.end(), nullptr),
                     predators.end());
 }
 
-bool Anthill::get_attackable_ants(const std::function<bool(Squarecell::Square &)> test,
-                                  vector<Squarecell::Square> &targets)
+bool Anthill::get_attackable_ants(const function<bool(Square &)> test,
+                                  vector<Square> &targets)
 {
     bool found = false;
 
@@ -296,7 +300,7 @@ bool Anthill::get_attackable_ants(const std::function<bool(Squarecell::Square &)
 }
 
 bool Anthill::mark_collectors_as_dead(
-    const std::function<bool(Squarecell::Square &)> test)
+    const function<bool(Square &)> test)
 {
     bool found = false;
 
@@ -304,19 +308,19 @@ bool Anthill::mark_collectors_as_dead(
     {
         if (test(*collector))
         {
-            dead_ants.push_back(std::move(collector));
+            dead_ants.push_back(move(collector));
             found = true;
         }
     }
 
-    collectors.erase(std::remove(collectors.begin(), collectors.end(), nullptr),
+    collectors.erase(remove(collectors.begin(), collectors.end(), nullptr),
                      collectors.end());
 
     return found;
 }
 
 bool Anthill::mark_predators_as_dead(
-    const std::function<bool(Squarecell::Square &)> test)
+    const function<bool(Square &)> test)
 {
     bool found = false;
 
@@ -324,12 +328,12 @@ bool Anthill::mark_predators_as_dead(
     {
         if (test(*predator))
         {
-            dead_ants.push_back(std::move(predator));
+            dead_ants.push_back(move(predator));
             found = true;
         }
     }
 
-    predators.erase(std::remove(predators.begin(), predators.end(), nullptr),
+    predators.erase(remove(predators.begin(), predators.end(), nullptr),
                     predators.end());
 
     return found;
@@ -378,7 +382,7 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
     vector<int> xshift{0, -1, 1, 1};
     vector<int> yshift{0, 1, 1, -1};
 
-    Squarecell::Square successfull_square;
+    Square successfull_square;
     bool successfull = false;
 
     for (size_t i = 0; i <= 4 && successfull == false; i++)
@@ -436,7 +440,7 @@ void Anthill::generate_new_ants()
     double current_prop_collectors = get_number_of_collectors() / n_ants;
     double current_prop_defensors = get_number_of_defensors() / n_ants;
 
-    Squarecell::Square position;
+    Square position;
 
     if ((state == FREE && current_prop_collectors < prop_free_collector) ||
         (state == CONSTRAINED && current_prop_collectors < prop_constrained_collector))
@@ -489,13 +493,13 @@ bool Anthill::reduce_food()
 }
 
 bool Anthill::find_suitable_position_for_ant(unsigned int side_ant,
-                                             Squarecell::Square &position)
+                                             Square &position)
 {
     for (unsigned int x_shift = 0; x_shift <= side - side_ant; x_shift++)
     {
         for (unsigned int y_shift = 0; y_shift <= side - side_ant; y_shift++)
         {
-            Squarecell::Square square{.x = x + x_shift,
+            Square square{.x = x + x_shift,
                                       .y = y + y_shift,
                                       .side = side_ant,
                                       .centered = false};
