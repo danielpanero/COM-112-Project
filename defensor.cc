@@ -78,7 +78,7 @@ bool Defensor::step(Square &anthill_square)
     undraw();
 
     auto move =
-        Squarecell::lee_algorithm(*this, anthill_square, &Defensor::generate_hv_moves,
+        Squarecell::lee_algorithm(*this, anthill_square, &Defensor::generate_moves,
                                   &Defensor::test_if_confined_and_near_border);
 
     x = move.x;
@@ -96,7 +96,8 @@ bool Defensor::step(Square &anthill_square)
     return true;
 }
 
-bool Defensor::test_if_contact_collector(Squarecell::Square & collector_square){
+bool Defensor::test_if_contact_collector(Squarecell::Square &collector_square)
+{
     return Squarecell::test_if_border_touches(*this, collector_square);
 }
 
@@ -107,35 +108,13 @@ bool Defensor::test_if_confined_and_near_border(Square &origin, Square &anthill)
            Squarecell::test_if_border_touches(origin, anthill);
 }
 
-vector<Squarecell::Square> Defensor::generate_hv_moves(Square origin)
+vector<Squarecell::Square> Defensor::generate_moves(Square origin)
 {
     // All the possible shifts combination: RIGHT, LEFT, TOP, BOTTOM
-    constexpr static int x_shift[4] = {1, -1, 0, 0};
-    constexpr static int y_shift[4] = {0, 0, 1, -1};
+    vector<int> x_shift{1, -1, 0, 0};
+    vector<int> y_shift{0, 0, 1, -1};
 
-    vector<Squarecell::Square> moves;
-
-    for (int i(0); i <= 4; i++)
-    {
-        Squarecell::Square move(origin);
-
-        move.x += x_shift[i];
-        move.y += y_shift[i];
-
-        unsigned int x = Squarecell::get_coordinate_x(move);
-        unsigned int y = Squarecell::get_coordinate_y(move);
-
-        // We check if the proposed new positions are inside the model
-        // TODO(@danielpanero): when replaced unsigned int with x, it will suffice to
-        // check that x >= 0 and we can group all this function in squarecell
-        if (move.x >= 1 && move.y >= 1 && x + move.side <= g_max - 1 &&
-            y + move.side <= g_max - 1)
-        {
-            moves.push_back(move);
-        }
-    }
-
-    return moves;
+    return Ant::generate_moves(origin, x_shift, y_shift);
 }
 
 unique_ptr<Defensor> Defensor::parse_line(string &line, unsigned int color_index)

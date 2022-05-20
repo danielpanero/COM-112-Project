@@ -8,11 +8,15 @@
  *
  */
 
+#include <vector>
+
 #include "element.h"
+#include "squarecell.h"
 
 #include "ants.h"
 
 using std::string;
+using std::vector;
 
 Ant::Ant(unsigned int x, unsigned int y, unsigned int side, unsigned int age,
          unsigned int color_index)
@@ -36,3 +40,23 @@ bool Ant::increase_age()
 
     return true;
 }
+
+vector<Squarecell::Square> Ant::generate_moves(Square origin, vector<int> x_shift,
+                                               vector<int> y_shift)
+{
+
+    vector<Squarecell::Square> moves;
+
+    for (int i(0); i <= x_shift.size(); i++)
+    {
+        Squarecell::Square move(origin);
+
+        move.x += x_shift[i];
+        move.y += y_shift[i];
+
+        // We check if the proposed new positions are inside the model
+        if (Squarecell::test_square_without_message)
+        {
+            moves.push_back(move);
+        }
+    }

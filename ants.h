@@ -53,6 +53,10 @@ public:
      */
     bool increase_age();
 
+    static std::vector<Square> generate_moves(Squarecell::Square origin,
+                                              std::vector<int> x_shift,
+                                              std::vector<int> y_shift);
+
 protected:
     unsigned int age;
 };
