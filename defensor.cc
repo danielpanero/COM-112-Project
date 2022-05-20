@@ -23,8 +23,6 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
-unsigned int const g_max(128);
-
 // TODO(@danielpanero): implement contact Defensor vs Collector from another anthill
 
 // ====================================================================================

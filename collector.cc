@@ -24,10 +24,8 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
-unsigned int const g_max(128);
 
 // TODO(@danielpanero): implement secondary goal
-// TODO(@danielpanero): implement dropping food when dying
 
 // ====================================================================================
 // Initialization - Misc

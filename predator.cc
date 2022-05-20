@@ -23,8 +23,6 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
-unsigned int const g_max(128);
-
 // TODO(@danielpanero): multiple ants near + possible segfault maybe pass directly
 // anthill with a function near ants? Predator vs Defensor -> nothing and Defensor
 // + Defensor ... define function attacked for each ants...
