@@ -61,8 +61,8 @@ public:
      * @param ant
      * @return true if attacckable
      */
-    bool filter_ants(State_anthill state, Squarecell::Square &anthill,
-                     Squarecell::Square &ant);
+    static bool filter_ants(State_anthill state, Squarecell::Square &anthill,
+                            Squarecell::Square &ant);
 
     /**
      * @brief Generates all the possible new positions / moves based on the origin

@@ -243,24 +243,31 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
         auto anthill_square = get_as_square();
         auto predator_square = predator->get_as_square();
 
-        auto filter = bind(&Predator::filter_ants, *predator, state, anthill_square,
-                           std::placeholders::_1);
+        auto filter =
+            bind(&Predator::filter_ants, state, anthill_square, std::placeholders::_1);
         auto test = bind(&Squarecell::test_if_border_touches, std::placeholders::_1,
                          predator_square);
 
+        bool dead = false;
         for (auto const &anthill : anthills)
         {
             if (anthill.get() != this)
             {
-                anthill->get_attackable_ants(filter, targets);
+                // anthill->get_attackable_ants(filter, targets);
 
                 anthill->mark_collectors_as_dead(test);
                 if (anthill->mark_predators_as_dead(test))
                 {
                     dead_ants.push_back(move(predator));
-                    continue;
+                    dead = true;
+                    break;
                 }
             }
+        }
+
+        if (dead)
+        {
+            continue;
         }
 
         if (targets.empty())
