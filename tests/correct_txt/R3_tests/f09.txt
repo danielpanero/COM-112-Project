@@ -1,0 +1,17 @@
+# f09.txt : to check Collector behavior: one food can be picked after reflexion
+#           on the boundary ; the other food is not from the same family
+#
+
+# nb food
+2
+
+# food
+23 122
+17 117
+
+
+1 # nb anthill
+	2 113 13 8 118 10 1 0 0 # anthill #1
+	
+	# collectors:
+	12 123 1 false

@@ -1,0 +1,21 @@
+# f03.txt : to check the end of the anthill due to lack of food
+# 
+#
+
+# nb food
+0
+
+# food
+
+
+1 # nb anthill
+	5 20 22 9 24 1 1 1 1 # anthill #1
+
+	# collectors:
+	16 31 1 false
+	
+	# defensors:
+	7 29 1
+	
+	# predators:
+	11 30 1

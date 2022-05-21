@@ -246,17 +246,15 @@ bool Squarecell::test_if_border_touches(Square const &square1, Square const &squ
     unsigned int x2 = get_coordinate_x(square2);
     unsigned int y2 = get_coordinate_y(square2);
 
-    if (x1 > x2 + square2.side || x2 > x1 + square1.side)
+    if(!test_if_completely_confined(square1,square2))
     {
         return false;
     }
 
-    if (y1 > y2 + square2.side || y2 > y1 + square1.side)
+    if(x1==x2 or y1==y2)
     {
-        return false;
+        return true;
     }
-
-    return true;
 }
 
 // ====================================================================================

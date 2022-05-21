@@ -1,0 +1,17 @@
+# f06.txt : to check Collector behavior: the closest food can be picked 
+#           not the second one
+#
+
+# nb food
+2
+
+# food
+20 115
+22 112
+
+
+1 # nb anthill
+	2 113 13 8 118 10 1 0 0 # anthill #1
+	
+	# collectors:
+	12 123 1 false

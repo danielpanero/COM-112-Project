@@ -1,0 +1,22 @@
+# f04.txt : to check ant end of life and creation in FREE mode
+# 
+#
+
+# nb food
+0
+
+# food
+
+
+1 # nb anthill
+	5 20 12 10 24 100000 1 1 1 # anthill #1
+	
+	# collectors:
+	18 33 299 false
+	
+	# defensors:
+	7 29 299
+	
+	# predators:
+	11 30 299
+

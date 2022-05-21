@@ -1,0 +1,15 @@
+# f05.txt : to check ant creation in CONSTRAINED mode
+# 
+#
+
+# nb food
+0
+
+# food
+
+
+2 # nb anthill
+	0 20 11 6 24 100000 0 0 0 # anthill #1
+
+	11 20 12 17 24 10 0 0 0 # anthill #2
+

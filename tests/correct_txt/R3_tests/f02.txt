@@ -1,0 +1,21 @@
+# f01.txt : to check Generator end of life due to size reduction of the anthill
+# 
+#
+
+# nb food
+0
+
+# food
+
+
+1 # nb anthill
+	5 20 22 9 24 100 1 1 1 # anthill #1
+
+	# collectors:
+	18 33 1 false
+	
+	# defensors:
+	20 29 1
+	
+	# predators:
+	11 30 1

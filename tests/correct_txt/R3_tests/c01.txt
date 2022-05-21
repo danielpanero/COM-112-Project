@@ -1,0 +1,7 @@
+# Empty simulation (correct file)
+#
+
+# nb food
+0
+
+0 # nb anthill

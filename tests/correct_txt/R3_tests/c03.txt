@@ -1,0 +1,22 @@
+# Simple test file without error
+# with one fourmi of each type
+#
+
+# nb food
+0
+
+# food
+
+
+1 # nb anthill
+	50 50 12 53 53 1000 1 1 1 # anthill #1
+	
+	# collectors:
+	63 63 1 false
+	
+	# defensors:
+	59 59 1
+	
+	# predators:
+	65 65 1
+

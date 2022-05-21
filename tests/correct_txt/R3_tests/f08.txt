@@ -1,0 +1,19 @@
+# f08.txt : to check Collector behavior: one food can be picked
+#           but the 2 paths are blocked. the least blocked is chosen
+#
+
+# nb food
+4
+
+# food
+18 115
+19 113
+21 113
+17 113
+
+
+1 # nb anthill
+	2 93 13 8 98 10 1 0 0 # anthill #1
+	
+	# collectors:
+	12 103 1 false

@@ -1,0 +1,16 @@
+# f07.txt : the collector moves towards one food element and back
+#         
+#
+
+# nb food
+1
+
+# food
+18 115
+
+
+1 # nb anthill
+	2 93 13 8 98 10 1 0 0 # anthill #1
+	
+	# collectors:
+	12 103 1 false
