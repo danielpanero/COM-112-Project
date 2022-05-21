@@ -453,8 +453,11 @@ void Anthill::generate_new_ants()
     {
         if (find_suitable_position_for_ant(sizeC, position))
         {
-            collectors.push_back(unique_ptr<Collector>(
-                new Collector{position.x, position.y, 0, EMPTY, get_color_index()}));
+            unique_ptr<Collector> collector(
+                new Collector{position.x, position.y, 0, EMPTY, get_color_index()});
+            collector->draw();
+
+            collectors.push_back(move(collector));
         }
     }
     else if ((state == FREE && current_prop_defensors < prop_free_defensor) ||
@@ -463,16 +466,22 @@ void Anthill::generate_new_ants()
     {
         if (find_suitable_position_for_ant(sizeD, position))
         {
-            defensors.push_back(unique_ptr<Defensor>(
-                new Defensor{position.x, position.y, 0, get_color_index()}));
+            unique_ptr<Defensor> defensor(
+                new Defensor{position.x, position.y, 0, get_color_index()});
+            defensor->draw();
+
+            defensors.push_back(move(defensor));
         }
     }
     else
     {
         if (find_suitable_position_for_ant(sizeP, position))
         {
-            predators.push_back(unique_ptr<Predator>(
-                new Predator{position.x, position.y, 0, get_color_index()}));
+            unique_ptr<Predator> predator(
+                new Predator{position.x, position.y, 0, get_color_index()});
+            predator->draw();
+
+            predators.push_back(move(predator));
         }
     }
 }
@@ -500,22 +509,21 @@ bool Anthill::reduce_food()
 
 bool Anthill::find_suitable_position_for_ant(unsigned int side_ant, Square &position)
 {
-    for (unsigned int x_shift = 0; x_shift <= side - side_ant; x_shift++)
+    for (unsigned int x_shift = (side_ant - 1) / 2 + 1;
+         x_shift < side - (side_ant - 1) / 2 - 1; x_shift++)
     {
-        for (unsigned int y_shift = 0; y_shift <= side - side_ant; y_shift++)
+        for (unsigned int y_shift = (side_ant - 1) / 2 + 1;
+             y_shift < side - (side_ant - 1) / 2 - 1; y_shift++)
         {
             Square square{.x = x + x_shift,
                           .y = y + y_shift,
                           .side = side_ant,
-                          .centered = false};
+                          .centered = true};
 
-            if (!Squarecell::test_if_superposed_grid(square))
+            if (Squarecell::test_square_without_message(square) &&
+                !Squarecell::test_if_superposed_grid(square))
             {
-                position = {.x = x + x_shift - (side_ant - 1) / 2,
-                            .y = y + y_shift - (side_ant - 1) / 2,
-                            .side = side_ant,
-                            .centered = true};
-
+                position = square;
                 return true;
             }
         }
