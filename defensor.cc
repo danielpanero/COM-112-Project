@@ -82,7 +82,6 @@ bool Defensor::step(Square &anthill_square)
 
     if (!Squarecell::test_if_completely_confined(*this, anthill_square))
     {
-        // TODO(@danielpanero): implement check superposition border
         return false;
     }
 
@@ -100,7 +99,6 @@ bool Defensor::test_if_contact_collector(Squarecell::Square &collector_square)
 bool Defensor::test_if_confined_and_near_border(Square const &origin,
                                                 Square const &anthill)
 {
-    // TODO(@danielpanero): control border touches that it's not overlap
     return Squarecell::test_if_completely_confined(origin, anthill) &&
            Squarecell::test_if_border_touches(origin, anthill);
 }

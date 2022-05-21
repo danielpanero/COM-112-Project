@@ -96,9 +96,6 @@ bool Generator::test_if_confined_and_not_near_border(Square const &origin,
 {
     if (Squarecell::test_if_completely_confined(origin, anthill))
     {
-        // TODO(@danielpanero): fix test_if_border_touches for internal usage
-        // return !Squarecell::test_if_border_touches(origin, anthill);
-
         return true;
     }
 
