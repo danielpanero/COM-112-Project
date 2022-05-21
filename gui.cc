@@ -451,6 +451,8 @@ string format_anthill_info_markup(unsigned int &index, unsigned int &n_collector
 {
     using std::to_string;
 
+    // TODO(@danielpanero): fix to many 0 n_foods
+
     return "<small><b>No. ID:</b>  <tt>" + to_string(index + 1) + "</tt>\r\r" +
            "<b>No. food:   </b>  <tt>" + to_string(n_foods) + "</tt>\r" +
            "<b>No. cols:   </b>  <tt>" + to_string(n_collectors) + "</tt>\r" +
