@@ -238,6 +238,33 @@ bool Squarecell::test_if_completely_confined(Square const &square1,
     return true;
 }
 
+bool Squarecell::test_if_completely_confined_without_border(Square const &square1,
+                                                Square const &square2)
+{
+    unsigned int x1 = get_coordinate_x(square1);
+    unsigned int y1 = get_coordinate_y(square1);
+
+    unsigned int x2 = get_coordinate_x(square2);
+    unsigned int y2 = get_coordinate_y(square2);
+
+    if (x1 < x2 || y1 < y2)
+    {
+        return false;
+    }
+
+    if (x1 + square1.side > x2 + square2.side)
+    {
+        return false;
+    }
+
+    if (y1 + square1.side > y2 + square2.side)
+    {
+        return false;
+    }
+
+    return true;
+}
+
 bool Squarecell::test_if_border_touches(Square const &square1, Square const &square2)
 {
     unsigned int x1 = get_coordinate_x(square1);
@@ -246,15 +273,33 @@ bool Squarecell::test_if_border_touches(Square const &square1, Square const &squ
     unsigned int x2 = get_coordinate_x(square2);
     unsigned int y2 = get_coordinate_y(square2);
 
-    if(!test_if_completely_confined(square1,square2))
+    if (test_if_completely_confined_without_border(square1, square2) ||
+        test_if_completely_confined_without_border(square2, square1))
     {
-        return false;
+        if (x1 == x2 || x1 + square1.side == x2 + square2.side)
+        {
+            return true;
+        }
+
+        if (y1 == y2 || y1 + square1.side == y2 + square2.side)
+        {
+            return true;
+        }
+    }
+    else
+    {
+        if (x1 > x2 + square2.side || x2 > x1 + square1.side)
+        {
+            return false;
+        }
+
+        if (y1 > y2 + square2.side || y2 > y1 + square1.side)
+        {
+            return false;
+        }
     }
 
-    if(x1==x2 or y1==y2)
-    {
-        return true;
-    }
+    return false;
 }
 
 // ====================================================================================
@@ -309,8 +354,8 @@ Squarecell::Square Squarecell::lee_algorithm(
         auto proposed_moves = generate_moves(current_square);
         for (auto &move : proposed_moves)
         {
-            // If the proposed position is valid and we have not already visited it, we
-            // push into the queue
+            // If the proposed position is valid and we have not already visited
+            // it, we push into the queue
             if (!Squarecell::test_if_superposed_grid(move))
             {
 
