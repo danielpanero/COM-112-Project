@@ -62,7 +62,7 @@ public:
     unsigned int get_number_of_collectors() const;
     unsigned int get_number_of_defensors() const;
     unsigned int get_number_of_predators() const;
-    unsigned int get_number_of_food() const;
+    double get_number_of_food() const;
 
     void draw() override;
     void undraw() override;
@@ -130,7 +130,7 @@ private:
     bool find_suitable_position_for_ant(unsigned int side_ant,
                                         Squarecell::Square &position);
 
-    int n_food;
+    double n_food;
 
     std::unique_ptr<Generator> generator;
     std::vector<std::unique_ptr<Collector>> collectors;

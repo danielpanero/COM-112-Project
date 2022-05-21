@@ -91,7 +91,7 @@ void Anthill::set_predators(vector<unique_ptr<Predator>> &predators)
 unsigned int Anthill::get_number_of_collectors() const { return collectors.size(); };
 unsigned int Anthill::get_number_of_defensors() const { return defensors.size(); };
 unsigned int Anthill::get_number_of_predators() const { return predators.size(); };
-unsigned int Anthill::get_number_of_food() const { return n_food; }
+double Anthill::get_number_of_food() const { return n_food; }
 
 void Anthill::draw()
 {

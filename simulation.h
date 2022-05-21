@@ -34,7 +34,7 @@ public:
     /**
      * @brief This function advances each aspect of the simulation (Anthills, Foods..)
      * by one step
-     * 
+     *
      * @return true if the simulation has reached the end
      */
     bool step();
@@ -65,7 +65,7 @@ public:
      */
     bool get_info_prev_anthill(unsigned int &index, unsigned int &n_collectors,
                                unsigned int &n_defensors, unsigned int &n_predators,
-                               unsigned int &n_food);
+                               double &n_food);
 
     /**
      * @brief Convenience function which cycles through all the anthills (asceding
@@ -82,7 +82,7 @@ public:
      */
     bool get_info_next_anthill(unsigned int &index, unsigned int &n_collectors,
                                unsigned int &n_defensors, unsigned int &n_predators,
-                               unsigned int &n_food);
+                               double &n_food);
 
     /**
      * @brief Cycles through all the anthills (asceding / descending order) and return
@@ -99,7 +99,7 @@ public:
      */
     bool cycle_info_anthill(unsigned int &index, unsigned int &n_collectors,
                             unsigned int &n_defensors, unsigned int &n_predators,
-                            unsigned int &n_food, bool order);
+                            double &n_food, bool order);
 
 private:
     void parse_foods(std::ifstream &file);
@@ -120,7 +120,7 @@ private:
 
     void check_overlapping_anthills();
     void check_generator_defensors_inside_anthills();
-    
+
     void generate_foods();
 
     unsigned int n_anthills = 0;
@@ -143,7 +143,6 @@ private:
     std::vector<std::unique_ptr<Anthill>> dead_anthills;
 
     std::vector<std::unique_ptr<Food>> foods;
-
 };
 
 /**
