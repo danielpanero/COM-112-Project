@@ -442,9 +442,14 @@ void Anthill::generate_new_ants()
 
     double n_ants = get_number_of_collectors() + get_number_of_defensors() +
                     get_number_of_predators();
+    double current_prop_collectors = 0;
+    double current_prop_defensors = 0;
 
-    double current_prop_collectors = get_number_of_collectors() / n_ants;
-    double current_prop_defensors = get_number_of_defensors() / n_ants;
+    if (n_ants != 0)
+    {
+        current_prop_collectors = get_number_of_collectors() / n_ants;
+        current_prop_defensors = get_number_of_defensors() / n_ants;
+    }
 
     Square position;
 
