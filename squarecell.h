@@ -97,8 +97,6 @@ namespace Squarecell
      * @return false if square1 is not completly contained within square2
      */
     bool test_if_completely_confined(Square const &square1, Square const &square2);
-    bool test_if_completely_confined_without_border(Square const &square1,
-                                                    Square const &square2);
 
     /**
      * @brief Checks if the edge of the two squares are touching and return true if it
