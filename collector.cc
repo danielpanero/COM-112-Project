@@ -152,8 +152,7 @@ bool Collector::search_food(std::unique_ptr<Food> &food)
 
 bool Collector::find_target_food(vector<unique_ptr<Food>> &foods, size_t &target)
 {
-    // TODO(@danielpanero): best distance = front remove g_max above
-    unsigned int best_distance = M_SQRT2 * g_max;
+    unsigned int best_distance = g_max;
     bool found = false;
 
     for (size_t i(0); i < foods.size(); i++)
