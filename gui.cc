@@ -34,7 +34,7 @@ using std::string;
 
 string format_anthill_info_markup(unsigned int &index, unsigned int &n_collectors,
                                   unsigned int &n_defensors, unsigned int &n_predators,
-                                  unsigned int &n_foods);
+                                  double &n_foods);
 
 MainWindow::MainWindow(Simulation *simulation)
     : simulation(simulation), exit_button("Exit"), open_button("Open"),
@@ -311,7 +311,7 @@ void MainWindow::on_prev()
     unsigned int n_collectors(0);
     unsigned int n_defensors(0);
     unsigned int n_predators(0);
-    unsigned int n_foods(0);
+    double n_foods(0);
 
     if (simulation->get_info_prev_anthill(index, n_collectors, n_defensors,
                                           n_predators, n_foods))
@@ -332,7 +332,7 @@ void MainWindow::on_next()
     unsigned int n_collectors(0);
     unsigned int n_defensors(0);
     unsigned int n_predators(0);
-    unsigned int n_foods(0);
+    double n_foods(0);
 
     if (simulation->get_info_next_anthill(index, n_collectors, n_defensors,
                                           n_predators, n_foods))
@@ -347,7 +347,10 @@ void MainWindow::on_next()
     }
 }
 
-void MainWindow::on_step() { on_iteration(); }
+void MainWindow::on_step()
+{ // TODO: change next prev text
+    on_iteration();
+}
 
 void MainWindow::on_exit()
 {
@@ -444,9 +447,11 @@ bool MainWindow::on_draw_request(const Cairo::RefPtr<Cairo::Context> &cc)
 
 string format_anthill_info_markup(unsigned int &index, unsigned int &n_collectors,
                                   unsigned int &n_defensors, unsigned int &n_predators,
-                                  unsigned int &n_foods)
+                                  double &n_foods)
 {
     using std::to_string;
+
+    // TODO(@danielpanero): fix to many 0 n_foods
 
     return "<small><b>No. ID:</b>  <tt>" + to_string(index + 1) + "</tt>\r\r" +
            "<b>No. food:   </b>  <tt>" + to_string(n_foods) + "</tt>\r" +

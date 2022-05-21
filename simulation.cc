@@ -135,7 +135,7 @@ unsigned int Simulation::get_n_anthills() const { return anthills.size(); }
 
 bool Simulation::get_info_prev_anthill(unsigned int &index, unsigned int &n_collectors,
                                        unsigned int &n_defensors,
-                                       unsigned int &n_predators, unsigned int &n_food)
+                                       unsigned int &n_predators, double &n_food)
 {
     return cycle_info_anthill(index, n_collectors, n_defensors, n_predators, n_food,
                               false);
@@ -143,7 +143,7 @@ bool Simulation::get_info_prev_anthill(unsigned int &index, unsigned int &n_coll
 
 bool Simulation::get_info_next_anthill(unsigned int &index, unsigned int &n_collectors,
                                        unsigned int &n_defensors,
-                                       unsigned int &n_predators, unsigned int &n_food)
+                                       unsigned int &n_predators, double &n_food)
 {
     return cycle_info_anthill(index, n_collectors, n_defensors, n_predators, n_food,
                               true);
@@ -151,9 +151,10 @@ bool Simulation::get_info_next_anthill(unsigned int &index, unsigned int &n_coll
 
 bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collectors,
                                     unsigned int &n_defensors,
-                                    unsigned int &n_predators, unsigned int &n_food,
+                                    unsigned int &n_predators, double &n_food,
                                     bool order)
 {
+    //TODO(@danielpanero) Check if there are anthill left
     if (first_execution)
     {
         first_execution = false;

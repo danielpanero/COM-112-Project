@@ -91,7 +91,7 @@ void Anthill::set_predators(vector<unique_ptr<Predator>> &predators)
 unsigned int Anthill::get_number_of_collectors() const { return collectors.size(); };
 unsigned int Anthill::get_number_of_defensors() const { return defensors.size(); };
 unsigned int Anthill::get_number_of_predators() const { return predators.size(); };
-unsigned int Anthill::get_number_of_food() const { return n_food; }
+double Anthill::get_number_of_food() const { return n_food; }
 
 void Anthill::draw()
 {
@@ -192,7 +192,7 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
         {
             if (collector->return_to_anthill(*this))
             {
-                n_food++;
+                n_food += val_food;
             }
         }
     }
@@ -442,9 +442,14 @@ void Anthill::generate_new_ants()
 
     double n_ants = get_number_of_collectors() + get_number_of_defensors() +
                     get_number_of_predators();
+    double current_prop_collectors = 0;
+    double current_prop_defensors = 0;
 
-    double current_prop_collectors = get_number_of_collectors() / n_ants;
-    double current_prop_defensors = get_number_of_defensors() / n_ants;
+    if (n_ants != 0)
+    {
+        current_prop_collectors = get_number_of_collectors() / n_ants;
+        current_prop_defensors = get_number_of_defensors() / n_ants;
+    }
 
     Square position;
 
