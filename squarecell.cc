@@ -247,7 +247,7 @@ bool Squarecell::test_if_border_touches(Square const &square1, Square const &squ
     unsigned int y2 = get_coordinate_y(square2);
 
     if (test_if_completely_confined(square1, square2) ||
-        test_if_completely_confined_without_border(square2, square1))
+        test_if_completely_confined(square2, square1))
     {
         if (x1 == x2 || x1 + square1.side == x2 + square2.side)
         {
