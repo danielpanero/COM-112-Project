@@ -192,7 +192,7 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
         {
             if (collector->return_to_anthill(*this))
             {
-                n_food++;
+                n_food += val_food;
             }
         }
     }
