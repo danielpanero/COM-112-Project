@@ -87,7 +87,7 @@ void Predator::move_toward_nearest_ant(vector<Squarecell::Square> &ants)
     Squarecell::remove_square(target);
 
     auto move = Squarecell::lee_algorithm(*this, target, &Predator::generate_moves,
-                                          &Squarecell::test_if_border_touches);
+                                          &Predator::test_if_reached_ant);
 
     x = move.x;
     y = move.y;
@@ -136,6 +136,13 @@ vector<Squarecell::Square> Predator::generate_moves(Square origin)
     vector<int> y_shift{3, -3, 3, -3, 1, -1, 1, -1};
 
     return Ant::generate_moves(origin, x_shift, y_shift);
+}
+
+bool Predator::test_if_reached_ant(Squarecell::Square const &origin,
+                                   Squarecell::Square const &anthill)
+{
+    return Squarecell::test_if_border_touches(origin, anthill) &&
+           !Squarecell::test_if_superposed_two_square(origin, anthill);
 }
 
 unique_ptr<Predator> Predator::parse_line(string &line, unsigned int color_index)

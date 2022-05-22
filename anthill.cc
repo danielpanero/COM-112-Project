@@ -253,7 +253,7 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
         {
             if (anthill.get() != this)
             {
-                // anthill->get_attackable_ants(filter, targets);
+                anthill->get_attackable_ants(filter, targets);
 
                 anthill->mark_collectors_as_dead(test);
                 if (anthill->mark_predators_as_dead(test))
