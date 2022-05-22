@@ -154,7 +154,11 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
                                     unsigned int &n_predators, double &n_food,
                                     bool order)
 {
-    //TODO(@danielpanero) Check if there are anthill left
+    if (anthills.empty())
+    {
+        return false;
+    }
+    
     if (first_execution)
     {
         first_execution = false;
