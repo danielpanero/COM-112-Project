@@ -283,7 +283,7 @@ bool Squarecell::test_if_border_touches(Square const &square1, Square const &squ
         }
     }
 
-    return false;
+    return true;
 }
 
 // ====================================================================================
