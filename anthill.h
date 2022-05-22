@@ -42,7 +42,7 @@ public:
      * graphic.h
      */
     Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int xg,
-            unsigned int yg, unsigned int n_food, unsigned int n_collectors,
+            unsigned int yg, double n_food, unsigned int n_collectors,
             unsigned int n_defensors, unsigned int n_predators,
             unsigned int color_index);
     ~Anthill() override;

@@ -38,7 +38,7 @@ using Squarecell::Square;
 // Initialization - Misc
 
 Anthill::Anthill(unsigned int x, unsigned int y, unsigned int side, unsigned int xg,
-                 unsigned int yg, unsigned int n_food, unsigned int n_collectors,
+                 unsigned int yg, double n_food, unsigned int n_collectors,
                  unsigned int n_defensors, unsigned int n_predators,
                  unsigned int color_index)
     : Element{x, y, side, false, color_index}, n_food(n_food),
@@ -362,7 +362,7 @@ unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
     unsigned int xg(0);
     unsigned int yg(0);
 
-    unsigned int n_food(0);
+    double n_food(0);
     unsigned int n_collectors(0);
     unsigned int n_defensors(0);
     unsigned int n_predators(0);
