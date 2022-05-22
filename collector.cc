@@ -110,7 +110,7 @@ bool Collector::return_to_anthill(Square &anthill_square)
     add_to_grid();
     draw();
 
-    if (Collector::test_if_inside_anthill_or_near_border_model(*this, anthill_square))
+    if (Collector::test_if_reached_anthill(*this, anthill_square))
     {
         state = EMPTY;
         return true;
