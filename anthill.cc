@@ -185,7 +185,7 @@ void Anthill::update_collectors(vector<unique_ptr<Food>> &foods)
             }
             else
             {
-                // TODO(@danielpanero) implement secondary goal
+                collector->go_outside(*this);
             }
         }
         else

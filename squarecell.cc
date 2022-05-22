@@ -308,6 +308,11 @@ Squarecell::Square Squarecell::lee_algorithm(
     vector<vector<bool>> bfs_visited_nodes(g_max, vector<bool>(g_max));
     std::queue<BFSNode> bfs_queue;
 
+    if (test(origin, target))
+    {
+        return origin;
+    }
+
     bfs_queue.push({.x_i = origin.x, .y_i = origin.y, .x = origin.x, .y = origin.y});
 
     /** The first time that we run the lee_algorithm algorithm, we store all the

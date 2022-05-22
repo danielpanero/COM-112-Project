@@ -27,9 +27,8 @@ using std::vector;
 using Squarecell::Square;
 
 unsigned int const g_max(128);
+unsigned int const distance_border(7);
 unsigned int difference(unsigned int a, unsigned int b);
-
-// TODO(@danielpanero): implement secondary goal
 
 // ====================================================================================
 // Initialization - Misc
@@ -103,7 +102,7 @@ bool Collector::return_to_anthill(Square &anthill_square)
 
     auto move =
         Squarecell::lee_algorithm(*this, anthill_square, &Collector::generate_moves,
-                                  &Collector::test_if_near_or_inside_anthill);
+                                  &Collector::test_if_reached_anthill);
 
     x = move.x;
     y = move.y;
@@ -111,11 +110,29 @@ bool Collector::return_to_anthill(Square &anthill_square)
     add_to_grid();
     draw();
 
-    if (Collector::test_if_near_or_inside_anthill(*this, anthill_square))
+    if (Collector::test_if_inside_anthill_or_near_border_model(*this, anthill_square))
     {
         state = EMPTY;
         return true;
     }
+
+    return false;
+}
+
+bool Collector::go_outside(Square &anthill_square)
+{
+    remove_from_grid();
+    undraw();
+
+    auto move = Squarecell::lee_algorithm(
+        *this, anthill_square, &Collector::generate_moves,
+        &Collector::test_if_inside_anthill_or_near_border_model);
+
+    x = move.x;
+    y = move.y;
+
+    add_to_grid();
+    draw();
 
     return false;
 }
@@ -191,8 +208,32 @@ void Collector::drop_food(vector<unique_ptr<Food>> &foods)
     }
 }
 
-bool Collector::test_if_near_or_inside_anthill(Squarecell::Square const &origin,
-                                               Squarecell::Square const &anthill)
+bool Collector::test_if_inside_anthill_or_near_border_model(
+    Squarecell::Square const &origin, Squarecell::Square const &anthill)
+{
+    unsigned int x = Squarecell::get_coordinate_x(origin);
+    unsigned int y = Squarecell::get_coordinate_y(origin);
+
+    if (!Squarecell::test_if_superposed_two_square(origin, anthill))
+    {
+        if (x < distance_border || y < distance_border)
+        {
+            return false;
+        }
+
+        if (x > g_max - distance_border || y > g_max - distance_border)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool Collector::test_if_reached_anthill(Squarecell::Square const &origin,
+                                        Squarecell::Square const &anthill)
 {
     return Squarecell::test_if_border_touches(origin, anthill) ||
            Squarecell::test_if_superposed_two_square(origin, anthill);

@@ -60,6 +60,8 @@ public:
      */
     bool return_to_anthill(Squarecell::Square &anthill_square);
 
+    bool go_outside(Squarecell::Square &anthill_square);
+
     /**
      * @brief Moves the collector to \b food, if superposes with the
      * food returns true and the state changes to LOADED
@@ -80,8 +82,11 @@ public:
 
     void drop_food(std::vector<std::unique_ptr<Food>> &foods);
 
-    static bool test_if_near_or_inside_anthill(Squarecell::Square const &origin,
-                                               Squarecell::Square const &anthill);
+    static bool
+    test_if_inside_anthill_or_near_border_model(Squarecell::Square const &origin,
+                                                Squarecell::Square const &anthill);
+    static bool test_if_reached_anthill(Squarecell::Square const &origin,
+                                        Squarecell::Square const &anthill);
 
     /**
      * @brief Generates all the possible new positions / moves based on the origin
