@@ -213,7 +213,7 @@ void Anthill::update_defensors(vector<unique_ptr<Anthill>> &anthills)
 
         for (auto const &anthill : anthills)
         {
-            if (anthill.get() != this)
+            if (anthill && anthill.get() != this)
             {
                 auto test = bind(&Defensor::test_if_contact_collector,
                                  std::ref(*defensor), std::placeholders::_1);
@@ -251,7 +251,7 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
         bool dead = false;
         for (auto const &anthill : anthills)
         {
-            if (anthill.get() != this)
+            if (anthill && anthill.get() != this)
             {
                 anthill->get_attackable_ants(filter, targets);
 
@@ -313,7 +313,7 @@ bool Anthill::mark_collectors_as_dead(const function<bool(Square &)> test)
 
     for (auto &collector : collectors)
     {
-        if (test(*collector))
+        if (collector && test(*collector))
         {
             dead_ants.push_back(move(collector));
             found = true;
@@ -332,7 +332,7 @@ bool Anthill::mark_predators_as_dead(const function<bool(Square &)> test)
 
     for (auto &predator : predators)
     {
-        if (test(*predator))
+        if (predator && test(*predator))
         {
             dead_ants.push_back(move(predator));
             found = true;
@@ -385,8 +385,8 @@ unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 
 void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
 {
-    vector<int> xshift{0, -1, 1, 1};
-    vector<int> yshift{0, 1, 1, -1};
+    vector<int> xshift{-1, -1, 0, 1};
+    vector<int> yshift{-1, 0, 0, 0};
 
     Square successfull_square;
     bool successfull = false;
@@ -408,14 +408,20 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
             {
                 successfull = true;
                 successfull_square = origin;
+                break;
             }
             for (auto const &anthill : anthills)
             {
-                if (anthill.get() != this &&
+                if (anthill && anthill.get() != this &&
                     !Squarecell::test_if_superposed_two_square(origin, *anthill))
                 {
                     successfull = true;
                     successfull_square = origin;
+                    break;
+                }
+                else
+                {
+                    successfull = false;
                     break;
                 }
             }
