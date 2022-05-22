@@ -348,7 +348,8 @@ void MainWindow::on_next()
 }
 
 void MainWindow::on_step()
-{ // TODO: change next prev text
+{
+    anthill_info_label.set_markup("<small><b>No selection</b></small>");
     on_iteration();
 }
 
