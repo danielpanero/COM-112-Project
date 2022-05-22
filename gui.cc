@@ -367,6 +367,8 @@ bool MainWindow::on_iteration()
         // TODO(@danielpanero): what to do when simulation reaches the end
     }
 
+    // TODO(@andreadiez): reset index anthill prv/nexte
+
     iteration++;
     std::cout << "Iteration: " << iteration << "\n";
 

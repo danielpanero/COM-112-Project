@@ -23,6 +23,8 @@ using std::string;
 using std::unique_ptr;
 using std::vector;
 
+// TODO(@danielpanero): predator near border
+
 // ====================================================================================
 // Initialization - Misc
 

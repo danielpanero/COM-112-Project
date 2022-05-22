@@ -215,8 +215,8 @@ void Anthill::update_defensors(vector<unique_ptr<Anthill>> &anthills)
         {
             if (anthill.get() != this)
             {
-                auto test = bind(&Defensor::test_if_contact_collector, *defensor,
-                                 std::placeholders::_1);
+                auto test = bind(&Defensor::test_if_contact_collector,
+                                 std::ref(*defensor), std::placeholders::_1);
 
                 anthill->mark_collectors_as_dead(test);
             }
