@@ -390,8 +390,8 @@ unique_ptr<Anthill> Anthill::parse_line(string &line, unsigned int color_index)
 
 void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
 {
-    vector<int> xshift{-1, -1, 0, 1};
-    vector<int> yshift{-1, 0, 0, 0};
+    vector<int> xshift{0, 0, -1, -1};
+    vector<int> yshift{0, -1, -1, 0};
 
     Square origin{};
     bool successfull = false;
@@ -434,26 +434,22 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
 bool Anthill::test_superposition_with_other_anthills(
     vector<unique_ptr<Anthill>> &anthills, const Square &square)
 {
-    bool successfull = false;
+    bool successfull = true;
     for (auto const &anthill : anthills)
     {
         if (anthill && anthill.get() != this &&
-            !Squarecell::test_if_superposed_two_square(square, *anthill))
+            Squarecell::test_if_superposed_two_square(square, *anthill))
         {
-            successfull = true;
+            successfull = false;
             break;
         }
-
-        successfull = false;
-        break;
     }
     return successfull;
 }
 
 void Anthill::generate_new_ants()
 {
-    std::bernoulli_distribution b_distribution(
-        std::min(1.0, n_food * birth_rate));
+    std::bernoulli_distribution b_distribution(std::min(1.0, n_food * birth_rate));
     static std::default_random_engine random_num;
 
     if (!b_distribution(random_num))
