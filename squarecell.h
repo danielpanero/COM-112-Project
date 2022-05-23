@@ -134,7 +134,7 @@ namespace Squarecell
      * @param square
      * @param color
      */
-    void draw_as_diamond(Square const &square, std::string color);
+    void draw_as_diamond(Square const &square, const std::string &color);
 
     /**
      * @brief Draws @p square as a thick border of color @p color_index using the

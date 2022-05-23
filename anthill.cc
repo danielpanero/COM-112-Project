@@ -283,7 +283,7 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
                     predators.end());
 }
 
-bool Anthill::get_attackable_ants(const function<bool(Square &)> test,
+bool Anthill::get_attackable_ants(const function<bool(Square &)> &test,
                                   vector<Square> &targets)
 {
     bool found = false;
@@ -307,7 +307,7 @@ bool Anthill::get_attackable_ants(const function<bool(Square &)> test,
     return found;
 }
 
-bool Anthill::mark_collectors_as_dead(const function<bool(Square &)> test)
+bool Anthill::mark_collectors_as_dead(const function<bool(Square &)> &test)
 {
     bool found = false;
 
@@ -326,7 +326,7 @@ bool Anthill::mark_collectors_as_dead(const function<bool(Square &)> test)
     return found;
 }
 
-bool Anthill::mark_predators_as_dead(const function<bool(Square &)> test)
+bool Anthill::mark_predators_as_dead(const function<bool(Square &)> &test)
 {
     bool found = false;
 
@@ -388,10 +388,10 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
     vector<int> xshift{-1, -1, 0, 1};
     vector<int> yshift{-1, 0, 0, 0};
 
-    Square successfull_square;
+    Square successfull_square{};
     bool successfull = false;
 
-    for (size_t i = 0; i <= 3 && successfull == false; i++)
+    for (size_t i = 0; i <= 3 && !successfull; i++)
     {
         auto origin = get_as_square();
 
@@ -419,11 +419,9 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
                     successfull_square = origin;
                     break;
                 }
-                else
-                {
-                    successfull = false;
-                    break;
-                }
+
+                successfull = false;
+                break;
             }
         }
     }
@@ -464,7 +462,7 @@ void Anthill::generate_new_ants()
         current_prop_defensors = get_number_of_defensors() / n_ants;
     }
 
-    Square position;
+    Square position{};
 
     if ((state == FREE && current_prop_collectors < prop_free_collector) ||
         (state == CONSTRAINED && current_prop_collectors < prop_constrained_collector))
@@ -517,12 +515,7 @@ bool Anthill::reduce_food()
     n_food -= food_rate * (1 + get_number_of_collectors() + get_number_of_defensors() +
                            get_number_of_predators());
 
-    if (n_food <= 0)
-    {
-        return false;
-    }
-
-    return true;
+    return n_food > 0;
 }
 
 bool Anthill::find_suitable_position_for_ant(unsigned int side_ant, Square &position)

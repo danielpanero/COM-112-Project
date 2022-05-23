@@ -64,7 +64,7 @@ string Generator::get_as_string()
 // ====================================================================================
 // Simulation
 
-bool Generator::step(Square anthill)
+bool Generator::step(const Square &anthill)
 {
     remove_from_grid();
     undraw();
@@ -94,10 +94,5 @@ vector<Squarecell::Square> Generator::generate_moves(Square origin)
 bool Generator::test_if_confined_and_not_near_border(Square const &origin,
                                                      Square const &anthill)
 {
-    if (Squarecell::test_if_completely_confined(origin, anthill))
-    {
-        return true;
-    }
-
-    return false;
+    return Squarecell::test_if_completely_confined(origin, anthill);
 }

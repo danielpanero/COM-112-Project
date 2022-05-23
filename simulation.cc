@@ -158,7 +158,7 @@ bool Simulation::cycle_info_anthill(unsigned int &index, unsigned int &n_collect
     {
         return false;
     }
-    
+
     if (first_execution)
     {
         first_execution = false;
@@ -292,11 +292,10 @@ void Simulation::generate_foods()
 
     unsigned int x = 0;
     unsigned int y = 0;
-
     unsigned int i = 0;
     bool found = false;
 
-    while (i < max_food_trial && found == false)
+    while (i < max_food_trial && !found)
     {
         x = generate_coordinate(random_num);
         y = generate_coordinate(random_num);
@@ -323,7 +322,6 @@ void Simulation::generate_foods()
     {
         std::unique_ptr<Food> food(new Food(x, y));
         food->draw();
-
         foods.push_back(std::move(food));
     }
 }

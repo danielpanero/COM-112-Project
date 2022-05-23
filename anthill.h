@@ -84,7 +84,7 @@ public:
      * @param[out] targets
      * @return true if it has found one
      */
-    bool get_attackable_ants(const std::function<bool(Squarecell::Square &)> test,
+    bool get_attackable_ants(const std::function<bool(Squarecell::Square &)> &test,
                              std::vector<Squarecell::Square> &targets);
 
     /**
@@ -94,8 +94,9 @@ public:
      * @param test function called for testing if the ant should be killed or not
      * @return true if at least one ant was killed
      */
-    bool mark_collectors_as_dead(const std::function<bool(Squarecell::Square &)> test);
-    bool mark_predators_as_dead(const std::function<bool(Squarecell::Square &)> test);
+    bool
+    mark_collectors_as_dead(const std::function<bool(Squarecell::Square &)> &test);
+    bool mark_predators_as_dead(const std::function<bool(Squarecell::Square &)> &test);
 
     /**
      * @brief Dumps all the dead ants, it clears the grid and the model

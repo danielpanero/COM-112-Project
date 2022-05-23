@@ -32,7 +32,7 @@ namespace Graphic
      * @param grid_lines_color X11 color
      * @param cell_size
      */
-    void draw_grid_mesh(std::string grid_lines_color, int cell_size);
+    void draw_grid_mesh(const std::string &grid_lines_color, int cell_size);
 
     /**
      * @brief Draws a filled diamond with size @p side at (@p x, @p y) and color @p
@@ -44,7 +44,7 @@ namespace Graphic
      * @param color X11 color
      */
     void draw_filled_diamond(unsigned int x, unsigned int y, double side,
-                             std::string color);
+                             const std::string &color);
     /**
      * @brief Same as \b draw_filled_diamond
      *
@@ -66,7 +66,7 @@ namespace Graphic
      * @param color X11 color
      */
     void draw_thick_border_square(unsigned int x, unsigned int y, unsigned int side,
-                                  std::string color);
+                                  const std::string &color);
     /**
      * @brief Same as \b draw_thick_border_square
      *
@@ -88,7 +88,7 @@ namespace Graphic
      * @param color X11 color
      */
     void draw_filled_square(unsigned int x, unsigned int y, unsigned int side,
-                            std::string color);
+                            const std::string &color);
 
     /**
      * @brief Same as \b draw_filled_square

@@ -124,7 +124,7 @@ void Graphic::clear_surface()
     surface->flush();
 }
 
-void Graphic::draw_grid_mesh(string grid_lines_color, int cell_size)
+void Graphic::draw_grid_mesh(const string &grid_lines_color, int cell_size)
 {
     auto cc = create_default_cc();
 
@@ -148,7 +148,7 @@ void Graphic::draw_grid_mesh(string grid_lines_color, int cell_size)
 }
 
 void Graphic::draw_filled_diamond(unsigned int x, unsigned int y, double side,
-                                  string color)
+                                  const string &color)
 {
     auto cc = create_default_cc();
 
@@ -170,7 +170,7 @@ void Graphic::draw_filled_diamond(unsigned int x, unsigned int y, unsigned int s
 }
 
 void Graphic::draw_thick_border_square(unsigned int x, unsigned int y,
-                                       unsigned int side, string color)
+                                       unsigned int side, const string &color)
 {
     auto cc = create_default_cc();
 
@@ -192,7 +192,7 @@ void Graphic::draw_thick_border_square(unsigned int x, unsigned int y,
 }
 
 void Graphic::draw_filled_square(unsigned int x, unsigned int y, unsigned int side,
-                                 string color)
+                                 const string &color)
 {
     auto cc = create_default_cc();
 

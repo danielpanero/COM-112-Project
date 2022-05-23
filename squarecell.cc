@@ -242,7 +242,6 @@ bool Squarecell::test_if_border_touches(Square const &square1, Square const &squ
 {
     unsigned int x1 = get_coordinate_x(square1);
     unsigned int y1 = get_coordinate_y(square1);
-
     unsigned int x2 = get_coordinate_x(square2);
     unsigned int y2 = get_coordinate_y(square2);
 
@@ -252,7 +251,6 @@ bool Squarecell::test_if_border_touches(Square const &square1, Square const &squ
         {
             return true;
         }
-
         if (y1 == y2 + 1 || y1 + square1.side == y2 + square2.side - 1)
         {
             return true;
@@ -264,7 +262,6 @@ bool Squarecell::test_if_border_touches(Square const &square1, Square const &squ
         {
             return true;
         }
-
         if (y1 + 1 == y2 || y1 + square1.side - 1 == y2 + square2.side)
         {
             return true;
@@ -276,13 +273,11 @@ bool Squarecell::test_if_border_touches(Square const &square1, Square const &squ
         {
             return false;
         }
-
         if (y1 > y2 + square2.side || y2 > y1 + square1.side)
         {
             return false;
         }
     }
-
     return true;
 }
 
@@ -384,7 +379,7 @@ Squarecell::Square Squarecell::lee_algorithm(
 // ====================================================================================
 // Draw
 
-void Squarecell::draw_as_diamond(Square const &square, std::string color)
+void Squarecell::draw_as_diamond(Square const &square, const std::string &color)
 {
     unsigned int x = get_coordinate_x(square);
     unsigned int y = get_coordinate_y(square);

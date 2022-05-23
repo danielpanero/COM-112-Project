@@ -44,7 +44,7 @@ public:
      * @param anthill
      * @return false when outside the anthill / touches the border
      */
-    bool step(Squarecell::Square anthill);
+    bool step(const Squarecell::Square &anthill);
 
     /**
      * @brief Generates all the possible new positions / moves based on the origin
@@ -63,8 +63,9 @@ public:
      * @return true if origin is inside of square anthill and it doesn't touch
      * any edge
      */
-    static bool test_if_confined_and_not_near_border(Squarecell::Square const &origin,
-                                                     Squarecell::Square const &anthill);
+    static bool
+    test_if_confined_and_not_near_border(Squarecell::Square const &origin,
+                                         Squarecell::Square const &anthill);
 };
 
 #endif

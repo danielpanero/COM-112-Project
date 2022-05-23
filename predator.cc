@@ -123,10 +123,8 @@ bool Predator::filter_ants(State_anthill state, Squarecell::Square &anthill,
     {
         return true;
     }
-    else
-    {
-        return Squarecell::test_if_completely_confined(ant, anthill);
-    }
+
+    return Squarecell::test_if_completely_confined(ant, anthill);
 }
 
 vector<Squarecell::Square> Predator::generate_moves(Square origin)

@@ -455,7 +455,7 @@ string format_anthill_info_markup(unsigned int &index, unsigned int &n_collector
     using std::to_string;
 
     std::string n_foods_trimmed =
-        to_string(n_foods).substr(0, to_string(n_foods).find(".") + 3);
+        to_string(n_foods).substr(0, to_string(n_foods).find('.') + 3);
 
     return "<small><b>No. ID:</b>  <tt>" + to_string(index + 1) + "</tt>\r\r" +
            "<b>No. food:   </b>  <tt>" + n_foods_trimmed + "</tt>\r" +

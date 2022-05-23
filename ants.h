@@ -55,7 +55,7 @@ public:
                                               std::vector<int> x_shift,
                                               std::vector<int> y_shift);
 
-protected:
+private:
     unsigned int age;
 };
 
