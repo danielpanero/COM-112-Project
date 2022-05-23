@@ -35,7 +35,7 @@ public:
      * @brief This function advances each aspect of the simulation (Anthills, Foods..)
      * by one step
      *
-     * @return true if the simulation has reached the end
+     * @return false if the simulation has reached the end
      */
     bool step();
 

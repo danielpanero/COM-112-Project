@@ -92,6 +92,9 @@ void Simulation::save_file(string &path)
 
 bool Simulation::step()
 {
+    index_anthill = 0;
+    first_execution = true;
+
     generate_foods();
 
     for (auto &anthill : anthills)
@@ -112,8 +115,12 @@ bool Simulation::step()
 
     dead_anthills.clear();
 
-    // TODO(@danielpanero): return true / false if anthill.size=0
-    return false;
+    if (anthills.empty())
+    {
+        return false;
+    }
+
+    return true;
 }
 
 void Simulation::reset()

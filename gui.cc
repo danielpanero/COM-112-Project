@@ -362,12 +362,10 @@ void MainWindow::on_exit()
 
 bool MainWindow::on_iteration()
 {
-    if (simulation->step())
+    if (!simulation->step())
     {
         // TODO(@danielpanero): what to do when simulation reaches the end
     }
-
-    // TODO(@andreadiez): reset index anthill prv/nexte
 
     iteration++;
     std::cout << "Iteration: " << iteration << "\n";

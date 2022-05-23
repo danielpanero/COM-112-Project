@@ -239,7 +239,6 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
 
         vector<Square> targets;
 
-        // TODO(@danielpanero): when everything is const these are not needed anymore
         auto anthill_square = get_as_square();
         auto predator_square = predator->get_as_square();
 
