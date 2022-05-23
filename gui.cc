@@ -364,7 +364,6 @@ bool MainWindow::on_iteration()
 {
     if (!simulation->step())
     {
-        // TODO(@danielpanero): what to do when simulation reaches the end
     }
 
     iteration++;
@@ -401,7 +400,7 @@ bool MainWindow::on_key_release_complete(GdkEventKey *event)
     {
         on_iteration();
         anthill_info_label.set_markup("<small><b>No selection</b></small>");
-        
+
         return true;
     }
 
