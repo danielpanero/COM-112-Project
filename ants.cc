@@ -36,12 +36,7 @@ string Ant::get_as_string()
 bool Ant::increase_age()
 {
     age++;
-    if (age >= bug_life)
-    {
-        return false;
-    }
-
-    return true;
+    return age < bug_life;
 }
 
 vector<Square> Ant::generate_moves(Square origin, vector<int> x_shift,
