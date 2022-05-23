@@ -92,7 +92,10 @@ void Predator::move_toward_nearest_ant(vector<Squarecell::Square> &ants)
     x = move.x;
     y = move.y;
 
-    Squarecell::add_square(target);
+    if (!test_if_reached_ant(*this, target))
+    {
+        Squarecell::add_square(target);
+    }
 
     add_to_grid();
     draw();
@@ -137,10 +140,10 @@ vector<Squarecell::Square> Predator::generate_moves(Square origin)
 }
 
 bool Predator::test_if_reached_ant(Squarecell::Square const &origin,
-                                   Squarecell::Square const &anthill)
+                                   Squarecell::Square const &ant)
 {
-    return Squarecell::test_if_border_touches(origin, anthill) &&
-           !Squarecell::test_if_superposed_two_square(origin, anthill);
+    return Squarecell::test_if_border_touches(origin, ant) ||
+           Squarecell::test_if_superposed_two_square(origin, ant);
 }
 
 unique_ptr<Predator> Predator::parse_line(string &line, unsigned int color_index)

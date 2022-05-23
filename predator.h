@@ -73,7 +73,7 @@ public:
     static std::vector<Squarecell::Square> generate_moves(Squarecell::Square origin);
 
     static bool test_if_reached_ant(Squarecell::Square const &origin,
-                                    Squarecell::Square const &anthill);
+                                    Squarecell::Square const &ant);
     /**
      * @brief Creates a new pointed instance of Predator from its string representation
      *

@@ -238,34 +238,9 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
         }
 
         vector<Square> targets;
-
-        auto anthill_square = get_as_square();
-        auto predator_square = predator->get_as_square();
-
-        auto filter =
-            bind(&Predator::filter_ants, state, anthill_square, std::placeholders::_1);
-        auto test = bind(&Squarecell::test_if_border_touches, std::placeholders::_1,
-                         predator_square);
-
-        bool dead = false;
-        for (auto const &anthill : anthills)
+        if (attack_near_ant_get_attackable_ants(anthills, targets, predator))
         {
-            if (anthill && anthill.get() != this)
-            {
-                anthill->get_attackable_ants(filter, targets);
-
-                anthill->mark_collectors_as_dead(test);
-                if (anthill->mark_predators_as_dead(test))
-                {
-                    dead_ants.push_back(move(predator));
-                    dead = true;
-                    break;
-                }
-            }
-        }
-
-        if (dead)
-        {
+            dead_ants.push_back(move(predator));
             continue;
         }
 
@@ -280,6 +255,37 @@ void Anthill::update_predators(vector<unique_ptr<Anthill>> &anthills)
 
     predators.erase(remove(predators.begin(), predators.end(), nullptr),
                     predators.end());
+}
+
+bool Anthill::attack_near_ant_get_attackable_ants(
+    vector<unique_ptr<Anthill>> &anthills, vector<Square> &targets,
+    unique_ptr<Predator> &predator)
+{
+    auto anthill_square = get_as_square();
+    auto predator_square = predator->get_as_square();
+
+    auto filter =
+        bind(&Predator::filter_ants, state, anthill_square, std::placeholders::_1);
+    auto test =
+        bind(&Predator::test_if_reached_ant, predator_square, std::placeholders::_1);
+
+    bool dead = false;
+    for (auto const &anthill : anthills)
+    {
+        if (anthill && anthill.get() != this)
+        {
+            anthill->get_attackable_ants(filter, targets);
+
+            anthill->mark_collectors_as_dead(test);
+            if (anthill->mark_predators_as_dead(test))
+            {
+                dead = true;
+                break;
+            }
+        }
+    }
+
+    return dead;
 }
 
 bool Anthill::get_attackable_ants(const function<bool(Square &)> &test,
@@ -387,51 +393,37 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
     vector<int> xshift{-1, -1, 0, 1};
     vector<int> yshift{-1, 0, 0, 0};
 
-    Square successfull_square{};
+    Square origin{};
     bool successfull = false;
-
     for (size_t i = 0; i <= 3 && !successfull; i++)
     {
-        auto origin = get_as_square();
-
+        origin = get_as_square();
         origin.side = calculate_side();
-
         origin.x += xshift.at(i) *
                     (origin.side > side ? origin.side - side : side - origin.side);
         origin.y += yshift.at(i) *
                     (origin.side > side ? origin.side - side : side - origin.side);
-
         if (Squarecell::test_square_without_message(origin))
         {
             if (anthills.size() == 1)
             {
                 successfull = true;
-                successfull_square = origin;
                 break;
             }
-            for (auto const &anthill : anthills)
-            {
-                if (anthill && anthill.get() != this &&
-                    !Squarecell::test_if_superposed_two_square(origin, *anthill))
-                {
-                    successfull = true;
-                    successfull_square = origin;
-                    break;
-                }
 
-                successfull = false;
+            if (test_superposition_with_other_anthills(anthills, origin))
+            {
+                successfull = true;
                 break;
             }
         }
     }
-
     if (successfull)
     {
         state = FREE;
-
-        x = successfull_square.x;
-        y = successfull_square.y;
-        side = successfull_square.side;
+        x = origin.x;
+        y = origin.y;
+        side = origin.side;
     }
     else
     {
@@ -439,9 +431,28 @@ void Anthill::try_to_expand(vector<unique_ptr<Anthill>> &anthills)
     }
 }
 
+bool Anthill::test_superposition_with_other_anthills(
+    vector<unique_ptr<Anthill>> &anthills, const Square &square)
+{
+    bool successfull = false;
+    for (auto const &anthill : anthills)
+    {
+        if (anthill && anthill.get() != this &&
+            !Squarecell::test_if_superposed_two_square(square, *anthill))
+        {
+            successfull = true;
+            break;
+        }
+
+        successfull = false;
+        break;
+    }
+    return successfull;
+}
+
 void Anthill::generate_new_ants()
 {
-    static std::bernoulli_distribution b_distribution(
+    std::bernoulli_distribution b_distribution(
         std::min(1.0, n_food * birth_rate));
     static std::default_random_engine random_num;
 
@@ -461,43 +472,59 @@ void Anthill::generate_new_ants()
         current_prop_defensors = get_number_of_defensors() / n_ants;
     }
 
-    Square position{};
-
     if ((state == FREE && current_prop_collectors < prop_free_collector) ||
         (state == CONSTRAINED && current_prop_collectors < prop_constrained_collector))
     {
-        if (find_suitable_position_for_ant(sizeC, position))
-        {
-            unique_ptr<Collector> collector(
-                new Collector{position.x, position.y, 0, EMPTY, get_color_index()});
-            collector->draw();
-
-            collectors.push_back(move(collector));
-        }
+        create_collector();
     }
     else if ((state == FREE && current_prop_defensors < prop_free_defensor) ||
              (state == CONSTRAINED &&
               current_prop_defensors < prop_constrained_defensor))
     {
-        if (find_suitable_position_for_ant(sizeD, position))
-        {
-            unique_ptr<Defensor> defensor(
-                new Defensor{position.x, position.y, 0, get_color_index()});
-            defensor->draw();
-
-            defensors.push_back(move(defensor));
-        }
+        create_defensor();
     }
     else
     {
-        if (find_suitable_position_for_ant(sizeP, position))
-        {
-            unique_ptr<Predator> predator(
-                new Predator{position.x, position.y, 0, get_color_index()});
-            predator->draw();
+        create_predator();
+    }
+}
 
-            predators.push_back(move(predator));
-        }
+void Anthill::create_collector()
+{
+    Square position{};
+    if (find_suitable_position_for_ant(sizeC, position))
+    {
+        unique_ptr<Collector> collector(
+            new Collector{position.x, position.y, 0, EMPTY, get_color_index()});
+        collector->draw();
+
+        collectors.push_back(move(collector));
+    }
+}
+
+void Anthill::create_defensor()
+{
+    Square position{};
+    if (find_suitable_position_for_ant(sizeD, position))
+    {
+        unique_ptr<Defensor> defensor(
+            new Defensor{position.x, position.y, 0, get_color_index()});
+        defensor->draw();
+
+        defensors.push_back(move(defensor));
+    }
+}
+
+void Anthill::create_predator()
+{
+    Square position{};
+    if (find_suitable_position_for_ant(sizeP, position))
+    {
+        unique_ptr<Predator> predator(
+            new Predator{position.x, position.y, 0, get_color_index()});
+        predator->draw();
+
+        predators.push_back(move(predator));
     }
 }
 

@@ -293,8 +293,8 @@ void Simulation::check_generator_defensors_inside_anthills()
 void Simulation::generate_foods()
 {
 
-    static std::uniform_int_distribution<unsigned> generate_coordinate(1, g_max - 2);
-    static std::bernoulli_distribution b_distribution(food_rate);
+    std::uniform_int_distribution<unsigned> generate_coordinate(1, g_max - 2);
+    std::bernoulli_distribution b_distribution(food_rate);
     static std::default_random_engine random_num;
 
     unsigned int x = 0;

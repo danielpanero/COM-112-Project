@@ -400,6 +400,8 @@ bool MainWindow::on_key_release_complete(GdkEventKey *event)
     if (event->type == GDK_KEY_RELEASE && event->keyval == GDK_KEY_1)
     {
         on_iteration();
+        anthill_info_label.set_markup("<small><b>No selection</b></small>");
+        
         return true;
     }
 

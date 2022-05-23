@@ -72,10 +72,6 @@ public:
     bool step(std::vector<std::unique_ptr<Food>> &foods,
               std::vector<std::unique_ptr<Anthill>> &anthills);
 
-    void update_collectors(std::vector<std::unique_ptr<Food>> &foods);
-    void update_defensors(std::vector<std::unique_ptr<Anthill>> &anthills);
-    void update_predators(std::vector<std::unique_ptr<Anthill>> &anthills);
-
     /**
      * @brief Called by others Anthills in order to find the nearest attackable Ant
      * (Collector / Predator) in this Anthill that complies with the constraint \b test
@@ -116,9 +112,10 @@ public:
                                                unsigned int color_index);
 
 private:
-    void try_to_expand(std::vector<std::unique_ptr<Anthill>> &anthill);
-    void generate_new_ants();
-
+    void try_to_expand(std::vector<std::unique_ptr<Anthill>> &anthills);
+    bool test_superposition_with_other_anthills(
+        std::vector<std::unique_ptr<Anthill>> &anthill,
+        const Squarecell::Square &square);
     unsigned int calculate_side();
 
     /**
@@ -128,8 +125,22 @@ private:
      */
     bool reduce_food();
 
+    void generate_new_ants();
+
+    void create_collector();
+    void create_defensor();
+    void create_predator();
+
     bool find_suitable_position_for_ant(unsigned int side_ant,
                                         Squarecell::Square &position);
+
+    void update_collectors(std::vector<std::unique_ptr<Food>> &foods);
+    void update_defensors(std::vector<std::unique_ptr<Anthill>> &anthills);
+    void update_predators(std::vector<std::unique_ptr<Anthill>> &anthills);
+
+    bool attack_near_ant_get_attackable_ants(
+        std::vector<std::unique_ptr<Anthill>> &anthills,
+        std::vector<Squarecell::Square> &targets, std::unique_ptr<Predator> &);
 
     double n_food;
 
