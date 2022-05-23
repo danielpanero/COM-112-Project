@@ -1,6 +1,6 @@
 /**
  * @file squarecell.cc
- * @author Daniel Panero [+373/-132], Layane Wazen [+0/-0], Andrea Diez [+80/-80]
+ * @author Daniel Panero 75%, Andrea Diez 25%
  * @version 0.1
  * @date 2022-04-01
  *

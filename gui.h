@@ -1,6 +1,6 @@
 /**
  * @file gui.h
- * @author Daniel Panero [+145/-29], Andrea Diez [+0/-0]
+ * @author Daniel Panero, Andrea Diez
  * @version 0.1
  * @date 2022-04-20
  *

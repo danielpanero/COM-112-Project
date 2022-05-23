@@ -1,6 +1,6 @@
 /**
  * @file defensor.h
- * @author Daniel Panero [+57/-7], Layane Wazen [+34/-0], Andrea Diez [+204/-110]
+ * @author Daniel Panero, Andrea Diez
  * @version 0.1
  * @date 2022-04-01
  *

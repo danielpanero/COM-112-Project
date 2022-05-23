@@ -1,6 +1,6 @@
 /**
  * @file generator.cc
- * @author Daniel Panero [+135/-10], Layane Wazen [+10/-0], Andrea Diez [+367/-204]
+ * @author Daniel Panero 45%, Andrea Diez 55%
  * @version 0.1
  * @date 2022-04-01
  *

@@ -3,7 +3,7 @@
  * @brief Private interface only for retrieving the current surface and the relative
  * transformation matrice
  *
- * @author Daniel Panero [+66/-4], Andrea Diez [+0/-0]
+ * @author Daniel Panero, Andrea Diez
  * @version 0.1
  * @date 2022-04-20
  *

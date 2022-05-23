@@ -1,6 +1,6 @@
 /**
  * @file gui.cc
- * @author Daniel Panero [+646/-209], Andrea Diez [+0/-0]
+ * @author Daniel Panero 97%, Andrea Diez 3%
  * @version 0.1
  * @date 2022-04-20
  *

@@ -1,6 +1,6 @@
 /**
  * @file graphic.h
- * @author Daniel Panero [+127/-27], Andrea Diez [+9/-9]
+ * @author Daniel Panero, Andrea Diez
  * @brief Public interface for drawing on the current surface using either the standard
  * X11 color or the provided color (0 red, 1 green, 2 blue, 3 yellow, 4 magenta, 5
  * cyan)

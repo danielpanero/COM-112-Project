@@ -1,6 +1,6 @@
 /**
  * @file anthill.cc
- * @author Daniel Panero [+90/-14], Layane Wazen [+10/-0], Andrea Diez [+193/-135]
+ * @author Daniel Panero 70%, Andrea Diez 30%
  * @version 0.1
  * @date 2022-04-01
  *

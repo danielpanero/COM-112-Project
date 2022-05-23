@@ -1,6 +1,6 @@
 /**
  * @file simulation.cc
- * @author Daniel Panero [+613/-290], Layane Wazen [+133/-96], Andrea Diez [+42/-42]
+ * @author Daniel Panero 85%, Andrea Diez 15%
  * @version 0.1
  * @date 2022-04-01
  *

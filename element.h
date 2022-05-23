@@ -1,6 +1,6 @@
 /**
  * @file element.h
- * @author Daniel Panero [¨+0/-0], Andrea Diez [+66/-11]
+ * @author Daniel Panero, Andrea Diez
  * @version 0.1
  * @date 2022-04-23
  *

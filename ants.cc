@@ -1,6 +1,6 @@
 /**
  * @file ants.cc
- * @author Daniel Panero [+135/-10], Layane Wazen [+10/-0], Andrea Diez [+367/-204]
+ * @author Daniel Panero 5%, Andrea Diez Leboffe 95%
  * @version 0.1
  * @date 2022-04-01
  *

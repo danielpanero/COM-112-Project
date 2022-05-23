@@ -1,6 +1,6 @@
 /**
  * @file graphic.cc
- * @author Daniel Panero [+498/-221], Andrea Diez [+9/-10]
+ * @author Daniel Panero 97%, Andrea Diez 3%
  * @brief Public interface for drawing on surface
  * @version 0.1
  * @date 2022-04-20

@@ -1,6 +1,6 @@
 /**
  * @file element.cc
- * @author Daniel Panero [+0/-0], Andrea Diez [+34/-9]
+ * @author Daniel Panero 10% Andrea Diez 90%
  * @version 0.1
  * @date 2022-04-23
  *
