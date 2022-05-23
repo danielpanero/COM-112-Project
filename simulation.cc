@@ -95,6 +95,13 @@ bool Simulation::step()
     index_anthill = 0;
     first_execution = true;
 
+    Squarecell::surface_clear();
+
+    for (const auto &food : foods)
+    {
+        food->draw();
+    }
+
     generate_foods();
 
     for (auto &anthill : anthills)

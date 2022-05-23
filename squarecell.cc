@@ -38,6 +38,8 @@ void Squarecell::grid_clear()
     Graphic::clear_surface();
 }
 
+void Squarecell::surface_clear() { Graphic::clear_surface(); }
+
 unsigned int Squarecell::get_coordinate_x(Square const &square)
 {
     if (square.centered)

@@ -30,6 +30,8 @@ namespace Squarecell
      */
     void grid_clear();
 
+    void surface_clear();
+
     /**
      * @brief Calculates the bottom left x-coordinate.
      *
